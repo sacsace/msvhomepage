@@ -1,0 +1,27 @@
+[
+  {
+    "id": "cdd541e6-a9ae-4f23-8ac5-97b2193bf778",
+    "name": "1111111",
+    "sector": "111",
+    "website": "www.msventures.in1",
+    "note": "1",
+    "sortOrder": 1,
+    "createdAt": "2026-04-26T01:54:19.651Z",
+    "updatedAt": "2026-04-26T01:54:19.651Z"
+  },
+  {
+    "id": "ac1d3780-8951-400c-8f82-2befa9f02a00",
+    "name": "22222222222222",
+    "sortOrder": 2,
+    "createdAt": "2026-04-27T15:14:51.271Z",
+    "updatedAt": "2026-04-27T15:14:51.271Z"
+  },
+  {
+    "id": "c5eb3722-ef5f-47a2-8cc3-f09f12514cc3",
+    "name": "22222222222222",
+    "sortOrder": 3,
+    "createdAt": "2026-04-27T15:14:52.164Z",
+    "updatedAt": "2026-04-27T15:14:52.375Z",
+    "logoSrc": "/uploads/clients/c5eb3722-ef5f-47a2-8cc3-f09f12514cc3-1777302892374.png"
+  }
+]

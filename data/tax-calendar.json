@@ -1,0 +1,920 @@
+[
+  {
+    "id": "seed-1-uv1sdi61",
+    "date": "2026-01-07",
+    "kind": "TDS",
+    "title": "월별 TDS 신고·납부",
+    "note": "매월 7일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2-bkol9i0t",
+    "date": "2026-01-07",
+    "kind": "ECB",
+    "title": "ECB-2 등(해당 시)",
+    "note": "전월 잔액이 있을 때 익월 7일까지(RBI FIRMS)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-3-kzs9z40d",
+    "date": "2026-01-11",
+    "kind": "GST",
+    "title": "GST-R1(매출)",
+    "note": "매월 11일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-4-ruvcix4m",
+    "date": "2026-01-15",
+    "kind": "ESI",
+    "title": "ESI·PF(연금)",
+    "note": "매월 15일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-5-yqz03yoa",
+    "date": "2026-01-20",
+    "kind": "GST",
+    "title": "GST-3B(매입)",
+    "note": "매월 20일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-6-wdnu1s6r",
+    "date": "2026-01-20",
+    "kind": "PT",
+    "title": "Professional Tax",
+    "note": "매월 20일까지(주별 상이)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-7-h5vcud53",
+    "date": "2026-02-07",
+    "kind": "TDS",
+    "title": "월별 TDS 신고·납부",
+    "note": "매월 7일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-8-a8rm7bpu",
+    "date": "2026-02-07",
+    "kind": "ECB",
+    "title": "ECB-2 등(해당 시)",
+    "note": "전월 잔액이 있을 때 익월 7일까지(RBI FIRMS)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-9-dq6mttf1",
+    "date": "2026-02-11",
+    "kind": "GST",
+    "title": "GST-R1(매출)",
+    "note": "매월 11일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-a-9wys2oz4",
+    "date": "2026-02-15",
+    "kind": "ESI",
+    "title": "ESI·PF(연금)",
+    "note": "매월 15일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-b-nk7prc6s",
+    "date": "2026-02-20",
+    "kind": "GST",
+    "title": "GST-3B(매입)",
+    "note": "매월 20일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-c-7v9x8n23",
+    "date": "2026-02-20",
+    "kind": "PT",
+    "title": "Professional Tax",
+    "note": "매월 20일까지(주별 상이)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-d-2uvv3cye",
+    "date": "2026-03-07",
+    "kind": "TDS",
+    "title": "월별 TDS 신고·납부",
+    "note": "매월 7일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-e-q3gjr6yr",
+    "date": "2026-03-07",
+    "kind": "ECB",
+    "title": "ECB-2 등(해당 시)",
+    "note": "전월 잔액이 있을 때 익월 7일까지(RBI FIRMS)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-f-dugsl21o",
+    "date": "2026-03-11",
+    "kind": "GST",
+    "title": "GST-R1(매출)",
+    "note": "매월 11일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-24-qtj2zj0w",
+    "date": "2026-03-15",
+    "kind": "ADVANCE_TAX",
+    "title": "Advance Tax",
+    "note": "100% — 3월 15일",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-g-o7uqi94w",
+    "date": "2026-03-15",
+    "kind": "ESI",
+    "title": "ESI·PF(연금)",
+    "note": "매월 15일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-h-z31dgmmm",
+    "date": "2026-03-20",
+    "kind": "GST",
+    "title": "GST-3B(매입)",
+    "note": "매월 20일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-i-vhoatzy4",
+    "date": "2026-03-20",
+    "kind": "PT",
+    "title": "Professional Tax",
+    "note": "매월 20일까지(주별 상이)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2i-ddr4lmjw",
+    "date": "2026-03-31",
+    "kind": "SHAREHOLDER_MEETING",
+    "title": "이사회 점검",
+    "note": "설립 후 30일 이내 첫 회의, 연 최소 4회, 회의 간격 120일 초과 불가 등",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-j-1fwehyhk",
+    "date": "2026-04-07",
+    "kind": "TDS",
+    "title": "월별 TDS 신고·납부",
+    "note": "매월 7일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-k-4wfbvogf",
+    "date": "2026-04-07",
+    "kind": "ECB",
+    "title": "ECB-2 등(해당 시)",
+    "note": "전월 잔액이 있을 때 익월 7일까지(RBI FIRMS)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-l-2xtf4ft1",
+    "date": "2026-04-11",
+    "kind": "GST",
+    "title": "GST-R1(매출)",
+    "note": "매월 11일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2a-73z81bq2",
+    "date": "2026-04-13",
+    "kind": "GST",
+    "title": "GST-R1(분기)",
+    "note": "전분기 종료 후 다음달 13일(해당 시)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-m-c19tls6n",
+    "date": "2026-04-15",
+    "kind": "ESI",
+    "title": "ESI·PF(연금)",
+    "note": "매월 15일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-n-x27uib3d",
+    "date": "2026-04-20",
+    "kind": "GST",
+    "title": "GST-3B(매입)",
+    "note": "매월 20일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-o-mpiqm8uw",
+    "date": "2026-04-20",
+    "kind": "PT",
+    "title": "Professional Tax",
+    "note": "매월 20일까지(주별 상이)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2b-56093pfg",
+    "date": "2026-04-22",
+    "kind": "GST",
+    "title": "GST-3B(분기)",
+    "note": "전분기 종료 후 다음달 22–24일(해당 시)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2m-ykimqnsp",
+    "date": "2026-04-30",
+    "kind": "PT",
+    "title": "Professional Tax 연간",
+    "note": "4월 1–30일 구간",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-p-hgyd03zt",
+    "date": "2026-05-07",
+    "kind": "TDS",
+    "title": "월별 TDS 신고·납부",
+    "note": "매월 7일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-q-sq8s73g9",
+    "date": "2026-05-07",
+    "kind": "ECB",
+    "title": "ECB-2 등(해당 시)",
+    "note": "전월 잔액이 있을 때 익월 7일까지(RBI FIRMS)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-r-zotm4ep1",
+    "date": "2026-05-11",
+    "kind": "GST",
+    "title": "GST-R1(매출)",
+    "note": "매월 11일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-s-9oy0cqyp",
+    "date": "2026-05-15",
+    "kind": "ESI",
+    "title": "ESI·PF(연금)",
+    "note": "매월 15일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-t-z8jgbbf5",
+    "date": "2026-05-20",
+    "kind": "GST",
+    "title": "GST-3B(매입)",
+    "note": "매월 20일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-u-65jrrf7n",
+    "date": "2026-05-20",
+    "kind": "PT",
+    "title": "Professional Tax",
+    "note": "매월 20일까지(주별 상이)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2n-21jo87yh",
+    "date": "2026-05-31",
+    "kind": "TDS",
+    "title": "SFT(금융거래 명세)",
+    "note": "5월 1–30일 구간",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-26-iv0d6hwu",
+    "date": "2026-05-31",
+    "kind": "TDS",
+    "title": "TDS 분기 확정(Q4)",
+    "note": "1–3월분 — 5월 31일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-v-w9emwgny",
+    "date": "2026-06-07",
+    "kind": "TDS",
+    "title": "월별 TDS 신고·납부",
+    "note": "매월 7일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-w-wtrtnu0v",
+    "date": "2026-06-07",
+    "kind": "ECB",
+    "title": "ECB-2 등(해당 시)",
+    "note": "전월 잔액이 있을 때 익월 7일까지(RBI FIRMS)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-x-74pphtwn",
+    "date": "2026-06-11",
+    "kind": "GST",
+    "title": "GST-R1(매출)",
+    "note": "매월 11일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-21-hcw3dx4e",
+    "date": "2026-06-15",
+    "kind": "ADVANCE_TAX",
+    "title": "Advance Tax",
+    "note": "15% — 6월 15일",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-y-oxmqdk5s",
+    "date": "2026-06-15",
+    "kind": "ESI",
+    "title": "ESI·PF(연금)",
+    "note": "매월 15일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-z-rs46cpiu",
+    "date": "2026-06-20",
+    "kind": "GST",
+    "title": "GST-3B(매입)",
+    "note": "매월 20일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-10-hx72plr5",
+    "date": "2026-06-20",
+    "kind": "PT",
+    "title": "Professional Tax",
+    "note": "매월 20일까지(주별 상이)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2j-estxvutw",
+    "date": "2026-06-30",
+    "kind": "SHAREHOLDER_MEETING",
+    "title": "이사회 점검",
+    "note": "분기별 일정 예시 — 실제 일정은 법정 간격에 맞게 조정",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-11-0jnxaeef",
+    "date": "2026-07-07",
+    "kind": "TDS",
+    "title": "월별 TDS 신고·납부",
+    "note": "매월 7일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-12-9ol1zak4",
+    "date": "2026-07-07",
+    "kind": "ECB",
+    "title": "ECB-2 등(해당 시)",
+    "note": "전월 잔액이 있을 때 익월 7일까지(RBI FIRMS)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-13-acxqcdst",
+    "date": "2026-07-11",
+    "kind": "GST",
+    "title": "GST-R1(매출)",
+    "note": "매월 11일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2c-xqb8e0yz",
+    "date": "2026-07-13",
+    "kind": "GST",
+    "title": "GST-R1(분기)",
+    "note": "",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-14-605q739h",
+    "date": "2026-07-15",
+    "kind": "ESI",
+    "title": "ESI·PF(연금)",
+    "note": "매월 15일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2o-gqebuphi",
+    "date": "2026-07-20",
+    "kind": "ECB",
+    "title": "FLA(대외부채·자산)",
+    "note": "7월 1–20일 구간",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-15-dy6unz4k",
+    "date": "2026-07-20",
+    "kind": "GST",
+    "title": "GST-3B(매입)",
+    "note": "매월 20일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-16-6g71a9gc",
+    "date": "2026-07-20",
+    "kind": "PT",
+    "title": "Professional Tax",
+    "note": "매월 20일까지(주별 상이)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2d-zjn64utd",
+    "date": "2026-07-22",
+    "kind": "GST",
+    "title": "GST-3B(분기)",
+    "note": "",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-27-f1yc3v3q",
+    "date": "2026-07-31",
+    "kind": "TDS",
+    "title": "TDS 분기 확정(Q1)",
+    "note": "4–6월분 — 7월 31일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-17-znjh4mi4",
+    "date": "2026-08-07",
+    "kind": "TDS",
+    "title": "월별 TDS 신고·납부",
+    "note": "매월 7일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-18-qj0f1wb0",
+    "date": "2026-08-07",
+    "kind": "ECB",
+    "title": "ECB-2 등(해당 시)",
+    "note": "전월 잔액이 있을 때 익월 7일까지(RBI FIRMS)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-19-53hhhgvi",
+    "date": "2026-08-11",
+    "kind": "GST",
+    "title": "GST-R1(매출)",
+    "note": "매월 11일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1a-uyqnau5l",
+    "date": "2026-08-15",
+    "kind": "ESI",
+    "title": "ESI·PF(연금)",
+    "note": "매월 15일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1b-6l0blzbk",
+    "date": "2026-08-20",
+    "kind": "GST",
+    "title": "GST-3B(매입)",
+    "note": "매월 20일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1c-86fcbt25",
+    "date": "2026-08-20",
+    "kind": "PT",
+    "title": "Professional Tax",
+    "note": "매월 20일까지(주별 상이)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1d-t0kj8ysc",
+    "date": "2026-09-07",
+    "kind": "TDS",
+    "title": "월별 TDS 신고·납부",
+    "note": "매월 7일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1e-hsprgl6j",
+    "date": "2026-09-07",
+    "kind": "ECB",
+    "title": "ECB-2 등(해당 시)",
+    "note": "전월 잔액이 있을 때 익월 7일까지(RBI FIRMS)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1f-oa6emscd",
+    "date": "2026-09-11",
+    "kind": "GST",
+    "title": "GST-R1(매출)",
+    "note": "매월 11일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-22-q78kif7l",
+    "date": "2026-09-15",
+    "kind": "ADVANCE_TAX",
+    "title": "Advance Tax",
+    "note": "45% — 9월 15일",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1g-cyl34rus",
+    "date": "2026-09-15",
+    "kind": "ESI",
+    "title": "ESI·PF(연금)",
+    "note": "매월 15일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1h-i5ud8ang",
+    "date": "2026-09-20",
+    "kind": "GST",
+    "title": "GST-3B(매입)",
+    "note": "매월 20일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1i-wbsl7194",
+    "date": "2026-09-20",
+    "kind": "PT",
+    "title": "Professional Tax",
+    "note": "매월 20일까지(주별 상이)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2k-f2q2dyzz",
+    "date": "2026-09-30",
+    "kind": "SHAREHOLDER_MEETING",
+    "title": "이사회 점검",
+    "note": "",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2q-ch6sasas",
+    "date": "2026-09-30",
+    "kind": "GST",
+    "title": "재무제표·감사",
+    "note": "9월 30일까지(해당 법인)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2p-n2a4f1i9",
+    "date": "2026-09-30",
+    "kind": "SHAREHOLDER_MEETING",
+    "title": "DIR-3 KYC",
+    "note": "이사 DIN — 9월 30일까지(미이행 시 비활성)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2r-k163n63r",
+    "date": "2026-09-30",
+    "kind": "TDS",
+    "title": "ITR(소득세 신고)",
+    "note": "9월 30일까지(해당 시)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1j-gzgazzzq",
+    "date": "2026-10-07",
+    "kind": "TDS",
+    "title": "월별 TDS 신고·납부",
+    "note": "매월 7일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1k-zm4xt7x8",
+    "date": "2026-10-07",
+    "kind": "ECB",
+    "title": "ECB-2 등(해당 시)",
+    "note": "전월 잔액이 있을 때 익월 7일까지(RBI FIRMS)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1l-laz7q7bh",
+    "date": "2026-10-11",
+    "kind": "GST",
+    "title": "GST-R1(매출)",
+    "note": "매월 11일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2e-iprhkr85",
+    "date": "2026-10-13",
+    "kind": "GST",
+    "title": "GST-R1(분기)",
+    "note": "",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1m-0rsyj2mn",
+    "date": "2026-10-15",
+    "kind": "ESI",
+    "title": "ESI·PF(연금)",
+    "note": "매월 15일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1n-gbb52fbt",
+    "date": "2026-10-20",
+    "kind": "GST",
+    "title": "GST-3B(매입)",
+    "note": "매월 20일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1o-1u1ettwy",
+    "date": "2026-10-20",
+    "kind": "PT",
+    "title": "Professional Tax",
+    "note": "매월 20일까지(주별 상이)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2f-nw01g84b",
+    "date": "2026-10-22",
+    "kind": "GST",
+    "title": "GST-3B(분기)",
+    "note": "",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2s-677yvuxk",
+    "date": "2026-10-30",
+    "kind": "SHAREHOLDER_MEETING",
+    "title": "ROC AOC-4 / MGT-7",
+    "note": "10월 30일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-28-hte8nt8l",
+    "date": "2026-10-31",
+    "kind": "TDS",
+    "title": "TDS 분기 확정(Q2)",
+    "note": "7–9월분 — 10월 31일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1p-05p00mrw",
+    "date": "2026-11-07",
+    "kind": "TDS",
+    "title": "월별 TDS 신고·납부",
+    "note": "매월 7일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1q-4eualjgh",
+    "date": "2026-11-07",
+    "kind": "ECB",
+    "title": "ECB-2 등(해당 시)",
+    "note": "전월 잔액이 있을 때 익월 7일까지(RBI FIRMS)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1r-03dccmyo",
+    "date": "2026-11-11",
+    "kind": "GST",
+    "title": "GST-R1(매출)",
+    "note": "매월 11일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1s-ypb74vn0",
+    "date": "2026-11-15",
+    "kind": "ESI",
+    "title": "ESI·PF(연금)",
+    "note": "매월 15일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1t-06g0heu6",
+    "date": "2026-11-20",
+    "kind": "GST",
+    "title": "GST-3B(매입)",
+    "note": "매월 20일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1u-trk510zt",
+    "date": "2026-11-20",
+    "kind": "PT",
+    "title": "Professional Tax",
+    "note": "매월 20일까지(주별 상이)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2t-2v2l7ed8",
+    "date": "2026-11-30",
+    "kind": "ADVANCE_TAX",
+    "title": "TP Audit Report",
+    "note": "이전가격 감사보고 — 11월 30일까지(해당 시)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1v-j158yper",
+    "date": "2026-12-07",
+    "kind": "TDS",
+    "title": "월별 TDS 신고·납부",
+    "note": "매월 7일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1w-j150nidm",
+    "date": "2026-12-07",
+    "kind": "ECB",
+    "title": "ECB-2 등(해당 시)",
+    "note": "전월 잔액이 있을 때 익월 7일까지(RBI FIRMS)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1x-uj6pojif",
+    "date": "2026-12-11",
+    "kind": "GST",
+    "title": "GST-R1(매출)",
+    "note": "매월 11일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-23-8hxrlgjt",
+    "date": "2026-12-15",
+    "kind": "ADVANCE_TAX",
+    "title": "Advance Tax",
+    "note": "75% — 12월 15일",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1y-djv96gdj",
+    "date": "2026-12-15",
+    "kind": "ESI",
+    "title": "ESI·PF(연금)",
+    "note": "매월 15일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-1z-oer0b6ch",
+    "date": "2026-12-20",
+    "kind": "GST",
+    "title": "GST-3B(매입)",
+    "note": "매월 20일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-20-0t6o0m6c",
+    "date": "2026-12-20",
+    "kind": "PT",
+    "title": "Professional Tax",
+    "note": "매월 20일까지(주별 상이)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2l-efkor7iw",
+    "date": "2026-12-31",
+    "kind": "SHAREHOLDER_MEETING",
+    "title": "이사회 점검",
+    "note": "",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2u-bwxhv4yc",
+    "date": "2026-12-31",
+    "kind": "GST",
+    "title": "GSTR-9 / GST Audit",
+    "note": "연간(매출 2 Crore 초과 시 GSTR-9 의무 등, GSTR-9C는 통지에 따름)",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2g-9xlge331",
+    "date": "2027-01-13",
+    "kind": "GST",
+    "title": "GST-R1(분기)",
+    "note": "",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2h-2r2z89ij",
+    "date": "2027-01-22",
+    "kind": "GST",
+    "title": "GST-3B(분기)",
+    "note": "",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-29-3fx3y48u",
+    "date": "2027-01-31",
+    "kind": "TDS",
+    "title": "TDS 분기 확정(Q3)",
+    "note": "10–12월분 — 익년 1월 31일까지",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  },
+  {
+    "id": "seed-25-h5plpxmx",
+    "date": "2027-03-15",
+    "kind": "ADVANCE_TAX",
+    "title": "Advance Tax",
+    "note": "100% — 익년 3월 15일",
+    "createdAt": "2026-04-27T12:00:00.000Z",
+    "updatedAt": "2026-04-27T12:00:00.000Z"
+  }
+]

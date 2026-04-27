@@ -1,26 +1,56 @@
 @import "tailwindcss";
 
+/* 피치덱 / 테크 기업형: 네이비 + 로열 블루 + 틸 + 모카 (참고 시안) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f4f6f9;
+  --foreground: #0f172a;
+  --msv-navy: #0f2744;
+  --msv-blue: #2d5bff;
+  --msv-blue-soft: #e8edff;
+  --msv-teal: #0d9488;
+  --msv-mocha: #9a8468;
+  --msv-card: #ffffff;
+  --msv-border: #e2e8f0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-msv-navy: var(--msv-navy);
+  --color-msv-blue: var(--msv-blue);
+  --color-msv-blue-soft: var(--msv-blue-soft);
+  --color-msv-teal: var(--msv-teal);
+  --color-msv-mocha: var(--msv-mocha);
+  --color-msv-card: var(--msv-card);
+  --font-sans: var(--font-noto), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 카드형 섹션 (피치덱 카드 느낌) */
+.msv-card {
+  border-radius: 0.5rem;
+  border: 1px solid var(--msv-border);
+  background: var(--msv-card);
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.04);
+}
+
+.msv-eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--msv-blue);
+}
+
+:focus-visible {
+  outline: 2px solid var(--msv-blue);
+  outline-offset: 2px;
 }

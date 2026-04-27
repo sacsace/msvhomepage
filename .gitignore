@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 관리자 업로드 직원 사진 (배포 시 볼륨 또는 별도 백업 권장)
+/public/uploads/
