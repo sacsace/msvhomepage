@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { staticPageSeo } from "@/lib/seo-metadata";
 import { ClientsSection } from "@/components/home/ClientsSection";
 import { ContentPreviews } from "@/components/home/ContentPreviews";
 import { AccountingOperationsSpotlight } from "@/components/home/AccountingOperationsSpotlight";
@@ -11,6 +13,12 @@ import {
 } from "@/lib/announcements-store";
 import { readTaxCalendar, sortTaxCalendarByDate } from "@/lib/tax-calendar-store";
 import { company, services, strengths, values } from "@/lib/site-content";
+
+export const metadata: Metadata = staticPageSeo("/", {
+  title: "홈",
+  absoluteTitle: `${company.shortName} | 인도 회계·세무·현장 실행`,
+  description: company.taglineKo,
+});
 
 export const dynamic = "force-dynamic";
 

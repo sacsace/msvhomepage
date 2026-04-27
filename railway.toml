@@ -1,0 +1,9 @@
+# Railway — https://docs.railway.com/reference/config-as-code
+# GitHub 연동 시 이 저장소 루트가 `web`이면 그대로, 상위에 모노레포가 있으면 대시보드 Root Directory를 `web`으로 설정하세요.
+
+[deploy]
+startCommand = "npm run start"
+healthcheckPath = "/"
+healthcheckTimeout = 300
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10

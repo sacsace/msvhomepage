@@ -10,6 +10,11 @@ type Props = {
   spacing?: "default" | "tight";
   /** `compact`: 눈썹·제목·부제 사이 세로 간격을 촘촘하게 */
   density?: "default" | "compact";
+  /**
+   * `narrow`(기본): max-w-3xl — 회사 소개 등 본문 폭.
+   * `full`: 상위 `max-w-6xl` 컨테이너와 같은 너비(함께하는 회사 상세 등).
+   */
+  contentWidth?: "narrow" | "full";
 };
 
 export function SectionTitle({
@@ -20,6 +25,7 @@ export function SectionTitle({
   id,
   spacing = "default",
   density = "default",
+  contentWidth = "narrow",
 }: Props) {
   const Tag = headingLevel === 1 ? "h1" : headingLevel === 3 ? "h3" : "h2";
   const size =
@@ -34,8 +40,10 @@ export function SectionTitle({
   const subMt = density === "compact" ? "mt-2" : "mt-3";
   const subLeading = density === "compact" ? "leading-snug" : "leading-relaxed";
 
+  const widthClass = contentWidth === "full" ? "max-w-none" : "max-w-3xl";
+
   return (
-    <div className={`${mb} max-w-3xl`}>
+    <div className={`${mb} ${widthClass}`}>
       {eyebrow ? <p className="msv-eyebrow">{eyebrow}</p> : null}
       <Tag id={id} className={`${titleMt} ${size}`}>
         {title}

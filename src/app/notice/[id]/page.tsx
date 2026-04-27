@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { readAnnouncements } from "@/lib/announcements-store";
-import { hasHtmlTag, sanitizeRichHtml } from "@/lib/richtext";
+import { staticPageSeo } from "@/lib/seo-metadata";
+import { hasHtmlTag, sanitizeRichHtml, textExcerpt } from "@/lib/richtext";
+import { company, siteUrl } from "@/lib/site-content";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +14,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const list = await readAnnouncements();
   const item = list.find((a) => a.id === id);
-  return { title: item?.title ?? "공지" };
+  if (!item) return { title: "공지" };
+  return staticPageSeo(`/notice/${id}`, {
+    title: item.title,
+    absoluteTitle: `${item.title} | 공지사항`,
+    description: textExcerpt(item.body),
+  });
 }
 
 export default async function NoticeDetailPage({ params }: Props) {
@@ -21,8 +28,25 @@ export default async function NoticeDetailPage({ params }: Props) {
   const item = list.find((a) => a.id === id);
   if (!item) notFound();
 
+  const pageUrl = `${siteUrl}/notice/${item.id}`;
+  const noticeJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: item.title,
+    description: textExcerpt(item.body),
+    datePublished: item.createdAt,
+    dateModified: item.updatedAt,
+    publisher: { "@type": "Organization", name: company.legalName },
+    mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
+    url: pageUrl,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(noticeJsonLd) }}
+      />
       <div className="border-b border-slate-200 bg-white">
         <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-10">
           <p className="text-sm text-slate-500">

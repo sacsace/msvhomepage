@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { staticPageSeo } from "@/lib/seo-metadata";
 import { AccountingServicesInfographic } from "@/components/services/AccountingServicesInfographic";
 import { ServiceCasesInfographic } from "@/components/services/ServiceCasesInfographic";
 import { ServicesInfographic } from "@/components/services/ServicesInfographic";
 import { accountingServiceBlocks, sampleProjects, services } from "@/lib/site-content";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticPageSeo("/services", {
   title: "서비스",
-};
+  description: "법인 컨설팅·회계·세무·컴플라이언스 등 인도 현지 직접 실행형 서비스 라인과 사례",
+});
 
 export default function ServicesPage() {
   return (

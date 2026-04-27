@@ -51,8 +51,13 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
-              <Link href="/msv-intro" className="text-slate-300 transition hover:text-white hover:underline">
-                MSV 소개
+              <Link href="/about" className="text-slate-300 transition hover:text-white hover:underline">
+                회사 소개
+              </Link>
+            </li>
+            <li>
+              <Link href="/mvs-intro" className="text-slate-300 transition hover:text-white hover:underline">
+                MV System 소개
               </Link>
             </li>
             <li>

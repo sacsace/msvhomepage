@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { staticPageSeo } from "@/lib/seo-metadata";
 import { SectionTitle } from "@/components/SectionTitle";
 import { LeadershipGrid } from "@/components/team/LeadershipGrid";
 import { getLeadershipForPublic } from "@/lib/leadership-resolve";
 import { clientSectors, company } from "@/lib/site-content";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticPageSeo("/team", {
   title: "리더십",
-};
+  description: `${company.shortName} 리더십·조직 소개`,
+});
 
 export const dynamic = "force-dynamic";
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { staticPageSeo } from "@/lib/seo-metadata";
 import { PageHeader } from "@/components/layout/PageHeader";
 import {
   readAnnouncements,
@@ -8,10 +9,10 @@ import {
 import { company } from "@/lib/site-content";
 import { textExcerpt } from "@/lib/richtext";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticPageSeo("/notice", {
   title: "공지사항",
-  description: `${company.shortName} 공지사항`,
-};
+  description: `${company.shortName} 공지사항 목록`,
+});
 
 export const dynamic = "force-dynamic";
 

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
+import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { company } from "@/lib/site-content";
+import { openGraphFor, twitterCard } from "@/lib/seo-metadata";
+import { company, siteUrl } from "@/lib/site-content";
 
 const noto = Noto_Sans_KR({
   subsets: ["latin"],
@@ -12,13 +14,30 @@ const noto = Noto_Sans_KR({
   display: "swap",
 });
 
+const defaultTitle = `${company.shortName} | 인도 회계·세무·현장 실행`;
+
 export const metadata: Metadata = {
   title: {
-    default: `${company.shortName} | 인도 회계·세무·현장 실행`,
+    default: defaultTitle,
     template: `%s | ${company.shortName}`,
   },
   description: company.taglineKo,
-  metadataBase: new URL("https://www.msventures.in"),
+  metadataBase: new URL(siteUrl),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
+  openGraph: {
+    ...openGraphFor("/"),
+    title: defaultTitle,
+    description: company.taglineKo,
+  },
+  twitter: {
+    ...twitterCard(),
+    title: defaultTitle,
+    description: company.taglineKo,
+  },
 };
 
 export default function RootLayout({
@@ -29,6 +48,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${noto.variable} h-full scroll-smooth`}>
       <body className="flex min-h-full flex-col bg-background font-sans text-slate-900 antialiased">
+        <OrganizationJsonLd />
         <a
           href="#main-content"
           className="absolute left-[-9999px] top-0 z-[100] overflow-hidden whitespace-nowrap bg-slate-900 px-4 py-2 text-sm font-medium text-white focus:left-4 focus:top-4 focus:overflow-visible focus:rounded-sm focus:shadow-md"

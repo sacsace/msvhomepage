@@ -17,6 +17,9 @@ export const company = {
   satisfaction: "97%",
 };
 
+/** 공개 사이트 절대 URL — sitemap·OG·JSON-LD·metadataBase와 동일하게 유지 */
+export const siteUrl = "https://www.msventures.in" as const;
+
 /** 홈 히어로 — 회계·세무 특화 메시지 */
 export const homeAccountingHero = {
   headline: "인도 법인 회계·세무, 기장부터 법정 신고까지 한 팀이 마감을 책임집니다.",
@@ -83,7 +86,7 @@ export const businessUnits = [
   {
     abbr: "WM",
     title: "Wilmat",
-    subtitle: "영업 · 마케팅",
+    subtitle: "입구 매트 · 매트팅",
     href: "https://www.wilmat.in",
     variant: "teal" as const,
   },
@@ -133,22 +136,46 @@ MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등�
     slug: "wilmat",
     menuLabel: "Wilmat",
     legalName: "Wilmat",
-    role: "영업 · 마케팅 브랜드",
-    highlights: ["통합 영업·마케팅", "wilmat.in"],
+    role: "프리미엄 입구 매트·매트팅 시스템",
+    highlights: [
+      "ANAB·IAF·TRA 및 KS Q ISO 9001:2015 품질경영",
+      "매립(Recessed)·노출(Surface)형 등 맞춤 입구 솔루션",
+      "먼지 유입 차단, 미끄럼·넘어짐 방지, 외관·청소 비용 절감",
+      "알루미늄 베이스·나일론 카펫·EPDM 등 내구·내후성",
+      "카세트형으로 부분 교체·롤업 청소 용이",
+      "인도 현지 공급 및 A/S",
+    ],
     website: "https://www.wilmat.in",
-    intro: `Wilmat은 영업·마케팅 실행을 담당하는 브랜드로, 인도 시장에서의 채널·프로모션·고객 접점을 설계·운영합니다.
+    intro: `Wilmat은 건물 입구용 프리미엄 매트팅(Entrance Matting) 시스템입니다. 한국 Ecosys의 연구·개발을 바탕으로 하며, 신발에 붙은 먼지를 걸러 실내를 깨끗이 유지하고 미끄럼·넘어짐 위험을 줄입니다. 대리석·타일 등 마감과 조화를 이루는 색·패턴을 선택할 수 있습니다.
 
-제품·서비스 론칭과 유지를 위한 현지 영업 리소스를 보강하고, MSV가 제공하는 컨설팅·운영 라인과 맞물려 고객의 시장 진입을 돕습니다.`,
+국제 인증(예: ANAB, ANSI National Accreditation Board)과 IAF·TRA, KS Q ISO 9001:2015에 맞는 품질경영을 갖추었습니다. 친환경 소재와 긴 수명으로 건물 운영의 지속가능성에도 도움이 됩니다.
+
+알루미늄 프로파일과 나일론 카펫·EPDM 등으로 내구·내후성을 확보했고, 재활용 가능한 구성 요소를 사용합니다. 카세트형이라 손상된 부분만 교체할 수 있으며, 매트를 말아 올리면 프레임 아래에 모인 먼지를 비우기 쉽습니다. 내·외부와 중간 출입 구간에 맞게 배치할 수 있고, 젖은 신발에도 물이 빠지도록 설계되어 외관과 사용감을 오래 유지합니다.
+
+쇼핑몰·호텔·병원·학교·조립 공장 등 통행량이 많은 출입구에 적합합니다. 인도에서 제품을 공급하며 A/S를 지원합니다.
+
+페이지 상단의 PDF 링크는 2022년 12월 기준 영문 제품 카탈로그입니다. 모델 사양·성능 검증·시공 절차·타사 비교·설치 사례가 수록되어 있습니다. 최신 사양은 wilmat.in 또는 담당자에게 문의해 주세요.`,
+    profilePdf: "/wilmat-catalog-20221219.pdf",
   },
   {
     slug: "jw-industrial-tech-service",
     menuLabel: "JW Industrial Tech Service",
     legalName: "JW Industrial Tech Service Private Limited",
     role: "도장·공장 설비 설치 및 엔지니어링",
-    highlights: ["도장 라인·산업 설비 설치", "공장 엔지니어링·시공", "현장 기술 지원"],
-    intro: `JW Industrial Tech Service Private Limited는 도장 라인·산업 설비 설치, 공장 엔지니어링·시공 및 현장 기술 지원을 제공합니다.
+    highlights: [
+      "자동차 생산 설비 기계·전기 설치·이전·개조·수리",
+      "도장·조립·프레스·바디 샵 라인",
+      "FCS·CPC 컨베이어 및 전극 도장·오븐·덕트 등 주요 설비",
+      "지그·고정구 설계·제작, 팔레트·트롤리·안전 가드·SS 탱크 등",
+      "차량 생산 설비 관련 한국산 산업 소모품 공급",
+      "현장 공정 개발·양산 대응, 엔지니어링 AMC",
+    ],
+    intro: `JWITS(JW Industrial Tech Service Private Limited)는 인도에서 자동차 생산 설비를 중심으로 한 기계·전기 설비의 설치, 이전, 개조, 수리를 수행합니다. 도장·조립·프레스·바디 샵과 FCS·CPC 컨베이어, 전극 도장 라인·워크스테이션·오븐·덕트 배관 등 주요 설비를 다룹니다.
 
-신규 공장·증설·라인 개조 등에서 설비 specification부터 시공·시운전에 이르는 실행 단계를 지원하며, 제조 거점 구축이 필요한 고객의 프로젝트를 함께 완성합니다.`,
+지그·고정구 설계·제작, 팔레트·트롤리·안전 가드·도어·그레이팅·스테인리스 탱크 제작, 차량 생산 설비용 한국산 산업 소모품 공급, 현장 공정 개발·양산 대응, 엔지니어링 AMC까지 제공합니다.
+
+페이지 상단의 PDF는 2025년 8월 기준 영문 비즈니스 소개 자료입니다. 실적·조직·거점·주요 고객사 등이 수록되어 있으니, 대외 공유 시에는 최신본과 맞춰 주세요.`,
+    profilePdf: "/jwits-business-intro-20250815.pdf",
   },
 ] satisfies readonly GroupCompany[];
 
@@ -191,7 +218,7 @@ export const milestones = [
     phase: "연계",
     title: "그룹·협력 네트워크 강화",
     description:
-      "Wilmat 브랜드 영업·마케팅, Lotus Korean Hotel, 수출입·엔지니어링(Neocle·Seda) 등 그룹·브랜드와 연계해, 컨설팅부터 물류·숙박까지 고객 요구에 맞춘 실행력을 보강했습니다.",
+      "Wilmat(프리미엄 입구 매트) 인도 현지 공급·A/S, Lotus Korean Hotel, 수출입·엔지니어링(Neocle·Seda) 등 그룹·브랜드와 연계해, 컨설팅부터 물류·숙박까지 고객 요구에 맞춘 실행력을 보강했습니다.",
   },
   {
     phase: "지금",
@@ -203,28 +230,39 @@ export const milestones = [
 
 export const overview = {
   title: "회사 개요",
-  /** 한 문단 본문(줄바꿈·문단 구분 없이 이어 씀). 수정 시 PDF·대외 문구와 맞출 것. */
-  body: `MSV는 인도 법인의 회계·세무·컴플라이언스를 축으로 하는 실행형 파트너입니다. 월·분기·연간 기장과 GST·TDS·법인세·FDI 신고, 감사·TP 대응까지 상근 CPA 체계로 방갈로르에서 직접 처리합니다. 이와 함께 법인 설립·인허가·HR·수출입·주재원 지원, Wilmat 영업·마케팅, Lotus Korean Hotel 등 확장 서비스를 한 조직 또는 그룹 브랜드와 연계해 제공하여, 회계 데이터와 운영 실무가 끊기지 않도록 설계합니다. ${company.address}에 본사를 둔 ${company.shortName}는 인도 내 법인 설립, 회계, 세무, 인허가, HR 등 핵심 경영 지원 업무를 하나의 조직에서 통합적으로 제공합니다. 회계·세무 서비스는 한국 공인회계사(CPA) 출신 부대표 하헌범과 인도 공인회계사(CA) 카슐 샤르마가 상근으로 직접 수행하며, IFRS 기준과 인도 현지 규제(GST, TDS 등)를 동시에 충족할 수 있도록 전문적으로 지원합니다.`,
+  /** 문단은 `\\n\\n`으로 구분. 수정 시 PDF·대외 문구와 맞출 것. */
+  body: `${company.shortName}는 인도 법인의 회계·세무·컴플라이언스를 축으로 하는 실행형 파트너입니다. 월·분기·연간 기장과 GST·TDS·법인세·FDI 신고, 감사·TP 대응까지 상근 CPA 체계로 방갈로르에서 직접 처리합니다.
+
+법인 설립·인허가·HR·수출입·주재원 지원과 Wilmat(입구 매트) 현지 공급·A/S, Lotus Korean Hotel 등 확장 서비스는 그룹 브랜드·협력 조직과 연계해 제공하며, 회계 데이터와 운영 실무가 끊기지 않도록 설계합니다.
+
+본사는 ${company.address}에 있으며, 인도 내 법인 설립·회계·세무·인허가·HR 등 핵심 경영 지원을 한 조직에서 통합적으로 돕습니다.
+
+회계·세무는 한국 공인회계사(CPA) 출신 하헌범 부대표와 인도 공인회계사(CA) 카슐 샤르마가 상근으로 직접 수행하며, IFRS와 인도 현지 규제(GST·TDS 등)를 동시에 맞출 수 있도록 전문적으로 지원합니다.`,
 } as const;
 
-/** MSV 요약 소개 (`/msv-intro`) — 상세는 회사 소개·서비스 페이지와 맞출 것 */
-export const msvIntro = {
-  heroLead: `${company.legalName}(${company.shortName})는 방갈로르를 기반으로 인도 법인의 회계·세무·컴플라이언스와 설립·운영 확장까지 한 팀에서 실행하는 비즈니스 파트너입니다.`,
+/** MV System(Minsub Ventus System) 소개 (`/mvs-intro`) — 법인·서비스 상세는 회사 소개·서비스 페이지와 맞출 것 */
+export const mvsIntro = {
+  /** PageHeader 한 줄 요약 */
+  headerSummary: `Minsub Ventus System을 사이트에서는 MV System으로 표기합니다. 의미·적용 범위·다음 단계를 아래에서 안내합니다.`,
+  /** 본문 상단 개요(`\\n\\n`으로 문단 구분) */
+  heroLead: `인도 현장에서 회계·세무·컴플라이언스 실행을 한 흐름으로 묶는 체계와 표준을 이 페이지에서 설명합니다.
+
+법인 ${company.shortName}(${company.legalName})의 조직·비전·연혁은 회사 소개 페이지에서 확인하실 수 있습니다.`,
   sections: [
     {
-      eyebrow: "Who we are",
-      title: "MSV가 하는 일",
-      body: "상근 CPA 체계로 기장·GST·TDS·법인세·FDI·감사·이전가격 등을 직접 수행하고, 법인 설립·인허가·HR·수출입 등 확장 과제를 그룹 브랜드와 연계해 끊김 없이 지원합니다.",
+      eyebrow: "Name",
+      title: "Minsub Ventus System",
+      body: "Ventus(라틴어 ‘바람’)에 담긴 실행·순환의 이미지를 바탕으로 합니다. 인도 법정 마감과 본사 보고 주기를 동시에 맞추기 위한 운영 원칙·체크리스트·역할 분담을 한데 정리한 시스템 브랜드입니다.",
     },
     {
-      eyebrow: "Where we work",
-      title: "거점",
-      body: `${company.address} 본사를 중심으로 인도 전역 고객의 현장 마감과 본사 보고 리듬을 함께 맞춥니다.`,
+      eyebrow: "Scope",
+      title: "다루는 범위",
+      body: "기장·GST·TDS·법인세·FDI·감사·이전가격 등 회계·세무 실행과, 자본 송금·증자·ECB 등 자본거래 신고가 맞물리는 구간을 중심으로 안내합니다.\n\n설립·HR·수출입 등 확장 실행은 그룹 브랜드와 연계됩니다.",
     },
     {
       eyebrow: "Next steps",
       title: "더 알아보기",
-      body: "비전·인사말·마일스톤은 회사 소개에서, 서비스 라인과 사례는 서비스 페이지에서 확인하실 수 있습니다.",
+      body: "비전·인사말·마일스톤은 회사 소개에서 확인하실 수 있습니다.\n\n서비스 라인과 사례는 서비스 페이지에서 확인하실 수 있습니다.",
     },
   ] as const,
   links: {

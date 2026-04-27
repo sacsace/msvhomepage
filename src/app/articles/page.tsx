@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { staticPageSeo } from "@/lib/seo-metadata";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { readArticles, sortArticlesByDate } from "@/lib/articles-store";
 import { textExcerpt } from "@/lib/richtext";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticPageSeo("/articles", {
   title: "관련 글",
-  description: "인도 진출·회계·세무 등 관련 글",
-};
+  description: "인도 진출·회계·세무 등 관련 글 목록",
+});
 
 export const dynamic = "force-dynamic";
 

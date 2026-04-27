@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { findArticleBySlug } from "@/lib/articles-store";
+import { staticPageSeo } from "@/lib/seo-metadata";
+import { textExcerpt } from "@/lib/richtext";
+import { company, siteUrl } from "@/lib/site-content";
 
 export const dynamic = "force-dynamic";
 
@@ -9,8 +12,16 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = await findArticleBySlug(decodeURIComponent(slug));
-  return { title: article?.title ?? "글" };
+  const decoded = decodeURIComponent(slug);
+  const article = await findArticleBySlug(decoded);
+  if (!article) return { title: "글" };
+  const description =
+    article.excerpt?.trim().length > 0 ? article.excerpt.trim() : textExcerpt(article.body);
+  return staticPageSeo(`/articles/${encodeURIComponent(article.slug)}`, {
+    title: article.title,
+    absoluteTitle: `${article.title} | 관련 글`,
+    description,
+  });
 }
 
 export default async function ArticleDetailPage({ params }: Props) {
@@ -18,8 +29,30 @@ export default async function ArticleDetailPage({ params }: Props) {
   const article = await findArticleBySlug(decodeURIComponent(slug));
   if (!article) notFound();
 
+  const articleUrl = `${siteUrl}/articles/${encodeURIComponent(article.slug)}`;
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: article.title,
+    description: article.excerpt || textExcerpt(article.body, 200),
+    datePublished: article.createdAt,
+    dateModified: article.updatedAt,
+    author: { "@type": "Organization", name: company.legalName },
+    publisher: {
+      "@type": "Organization",
+      name: company.legalName,
+      logo: { "@type": "ImageObject", url: `${siteUrl}/msv-logo.png` },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
+    url: articleUrl,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <div className="border-b border-slate-200 bg-white">
         <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-10">
           <p className="text-sm text-slate-500">

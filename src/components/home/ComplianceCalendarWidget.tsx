@@ -13,25 +13,12 @@ const KIND_LABEL: Record<TaxCalendarKind, string> = {
   SHAREHOLDER_MEETING: "주주회의",
 };
 
-const KIND_CHIP_DARK: Record<TaxCalendarKind, string> = {
-  TDS: "bg-amber-500/25 text-amber-100 border-amber-400/40",
-  GST: "bg-violet-500/25 text-violet-100 border-violet-400/40",
-  PT: "bg-slate-400/25 text-slate-100 border-slate-300/35",
-  ESI: "bg-teal-500/25 text-teal-100 border-teal-400/40",
-  ECB: "bg-sky-500/25 text-sky-100 border-sky-400/40",
-  ADVANCE_TAX: "bg-rose-500/25 text-rose-100 border-rose-400/40",
-  SHAREHOLDER_MEETING: "bg-orange-500/25 text-orange-100 border-orange-400/40",
-};
+/** 네이비 배경(주간) 위 이벤트 칩 — 빨간색 강조 */
+const EVENT_CHIP_DARK =
+  "border-red-400/55 bg-red-600/40 text-red-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]";
 
-const KIND_CHIP_LIGHT: Record<TaxCalendarKind, string> = {
-  TDS: "bg-amber-100 text-amber-900 border-amber-200",
-  GST: "bg-violet-100 text-violet-900 border-violet-200",
-  PT: "bg-slate-100 text-slate-800 border-slate-200",
-  ESI: "bg-teal-100 text-teal-900 border-teal-200",
-  ECB: "bg-sky-100 text-sky-900 border-sky-200",
-  ADVANCE_TAX: "bg-rose-100 text-rose-900 border-rose-200",
-  SHAREHOLDER_MEETING: "bg-orange-100 text-orange-900 border-orange-200",
-};
+/** 밝은 배경(월간·상세) 이벤트 칩 */
+const EVENT_CHIP_LIGHT = "border-red-300 bg-red-50 text-red-900";
 
 const KINDS: TaxCalendarKind[] = [
   "TDS",
@@ -172,7 +159,7 @@ export function ComplianceCalendarWidget({ events }: Props) {
                   <span
                     key={ev.id}
                     title={[KIND_LABEL[ev.kind], ev.title, ev.note].filter(Boolean).join(" — ")}
-                    className={`truncate rounded border px-0.5 py-px text-[9px] font-semibold leading-tight sm:text-[10px] ${KIND_CHIP_DARK[ev.kind]}`}
+                    className={`truncate rounded border px-0.5 py-px text-[9px] font-semibold leading-tight sm:text-[10px] ${EVENT_CHIP_DARK}`}
                   >
                     {KIND_LABEL[ev.kind]}
                   </span>
@@ -275,7 +262,7 @@ export function ComplianceCalendarWidget({ events }: Props) {
                       {list.slice(0, 3).map((ev) => (
                         <span
                           key={ev.id}
-                          className={`truncate rounded border px-0.5 py-px text-[9px] font-semibold leading-tight sm:text-[10px] ${KIND_CHIP_LIGHT[ev.kind]}`}
+                          className={`truncate rounded border px-0.5 py-px text-[9px] font-semibold leading-tight sm:text-[10px] ${EVENT_CHIP_LIGHT}`}
                         >
                           {KIND_LABEL[ev.kind]}
                         </span>
@@ -302,7 +289,7 @@ export function ComplianceCalendarWidget({ events }: Props) {
                         className="rounded-md border border-slate-200 bg-white p-3 text-sm shadow-sm"
                       >
                         <span
-                          className={`inline-block rounded border px-2 py-0.5 text-xs font-semibold ${KIND_CHIP_LIGHT[ev.kind]}`}
+                          className={`inline-block rounded border px-2 py-0.5 text-xs font-semibold ${EVENT_CHIP_LIGHT}`}
                         >
                           {KIND_LABEL[ev.kind]}
                         </span>
@@ -322,7 +309,7 @@ export function ComplianceCalendarWidget({ events }: Props) {
 
             <div className="mt-5 flex flex-wrap gap-2 border-t border-slate-100 pt-4 text-[10px] text-slate-600 sm:mt-6">
               {KINDS.map((k) => (
-                <span key={k} className={`rounded border px-1.5 py-0.5 font-semibold ${KIND_CHIP_LIGHT[k]}`}>
+                <span key={k} className={`rounded border px-1.5 py-0.5 font-semibold ${EVENT_CHIP_LIGHT}`}>
                   {KIND_LABEL[k]}
                 </span>
               ))}

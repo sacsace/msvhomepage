@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { staticPageSeo } from "@/lib/seo-metadata";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { SectionTitle } from "@/components/SectionTitle";
 import { company } from "@/lib/site-content";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticPageSeo("/contact", {
   title: "문의",
-};
+  description: `${company.legalName} 문의 양식·본사 위치·연락처`,
+});
 
 const mapEmbedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(company.address)}&z=14&output=embed`;
 

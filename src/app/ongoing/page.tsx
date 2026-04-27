@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { staticPageSeo } from "@/lib/seo-metadata";
 import { maskOngoingTaskTitle } from "@/lib/mask-public-title";
 import { readOngoingTasks, sortOngoingTasks } from "@/lib/ongoing-tasks-store";
 import { company } from "@/lib/site-content";
 import { textExcerpt } from "@/lib/richtext";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = staticPageSeo("/ongoing", {
   title: "진행중인 업무",
   description: `${company.shortName}에서 현재 진행 중인 업무를 안내합니다.`,
-};
+});
 
 export const dynamic = "force-dynamic";
 

@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 const items = [
-  { href: "/msv-intro", label: "MSV 소개" },
   { href: "/about", label: "회사 소개" },
+  { href: "/mvs-intro", label: "MV System 소개" },
   { href: "/group", label: "함께하는 회사" },
   { href: "/services", label: "서비스" },
   { href: "/notice", label: "공지" },

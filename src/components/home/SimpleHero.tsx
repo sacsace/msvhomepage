@@ -46,16 +46,16 @@ export function SimpleHero() {
               문의하기
             </Link>
             <Link
-              href="/msv-intro"
-              className="inline-flex items-center px-2 py-2.5 text-sm font-medium text-white/85 underline-offset-4 hover:text-white hover:underline"
-            >
-              MSV 소개
-            </Link>
-            <Link
               href="/about"
               className="inline-flex items-center px-2 py-2.5 text-sm font-medium text-white/85 underline-offset-4 hover:text-white hover:underline"
             >
               회사 소개
+            </Link>
+            <Link
+              href="/mvs-intro"
+              className="inline-flex items-center px-2 py-2.5 text-sm font-medium text-white/85 underline-offset-4 hover:text-white hover:underline"
+            >
+              MV System 소개
             </Link>
           </div>
           <p className="mt-10 text-xs font-medium tracking-wide text-white/45">

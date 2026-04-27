@@ -165,12 +165,6 @@ function IconChevronRight({ className, ...props }: IconProps) {
 
 const primary = [
   {
-    href: "/msv-intro",
-    label: "MSV 소개",
-    desc: "브랜드·역할 한눈에",
-    Icon: IconInfo,
-  },
-  {
     href: "/services",
     label: "회계·세무",
     desc: "기장·GST·TDS·감사·TP",
@@ -181,6 +175,12 @@ const primary = [
     label: "회사 소개",
     desc: "비전·CPA·리더십",
     Icon: IconBuilding,
+  },
+  {
+    href: "/mvs-intro",
+    label: "MV System 소개",
+    desc: "Minsub Ventus System",
+    Icon: IconInfo,
   },
   {
     href: "/group",
