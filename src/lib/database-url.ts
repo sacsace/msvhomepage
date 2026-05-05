@@ -63,6 +63,13 @@ export function resolveDatabaseUrl(): string {
     u = partsUrl ?? "";
   }
   if (!u) {
+    // `npm run build` 시 `MSV_LENIENT_DB_BUILD=1` — Next가 페이지 데이터 수집으로 API/스토어를
+    // 불러오면서 prisma 모듈이 로드될 수 있음. CI·Railway 등 빌드 단계에 DB 변수가 없어도
+    // 모듈 초기화만 통과하게 함(`prisma generate`와 동일한 더미). 런타임(`next start`)에는
+    // 반드시 실제 `DATABASE_URL` / `DB_*` 를 넣어야 함.
+    if (String(process.env.MSV_LENIENT_DB_BUILD || "").trim() === "1") {
+      return "postgresql://prisma:prisma@127.0.0.1:5432/dummy?schema=public&sslmode=disable";
+    }
     throw new Error(
       "DB 연결 정보가 없습니다. `DATABASE_URL` 또는 " +
         "`DB_HOST`+`DB_PORT`+`DB_NAME`+`DB_USER`(+`DB_PASSWORD`)를 " +

@@ -7,7 +7,7 @@
     "dev": "concurrently -k -n pg,web -c magenta,green \"node scripts/embedded-pg-serve.mjs\" \"node scripts/wait-embedded-ready.mjs && next dev -H 0.0.0.0 -p 3100\"",
     "dev:webpack": "concurrently -k -n pg,web -c magenta,green \"node scripts/embedded-pg-serve.mjs\" \"node scripts/wait-embedded-ready.mjs && next dev -H 0.0.0.0 -p 3100 --webpack\"",
     "dev:no-embed": "next dev -H 0.0.0.0 -p 3100",
-    "build": "node scripts/clean-prisma-generated.cjs && npx cross-env DATABASE_URL=postgresql://prisma:prisma@127.0.0.1:5432/dummy?schema=public prisma generate && cross-env MSV_LENIENT_DB_BUILD=1 NODE_ENV=production next build",
+    "build": "node scripts/clean-prisma-generated.cjs && npx cross-env DATABASE_URL=postgresql://prisma:prisma@127.0.0.1:5432/dummy?schema=public prisma generate && cross-env MSV_LENIENT_DB_BUILD=1 DATABASE_URL=postgresql://prisma:prisma@127.0.0.1:5432/dummy?schema=public NODE_ENV=production next build",
     "start": "next start -H 0.0.0.0",
     "lint": "eslint",
     "postinstall": "node scripts/postinstall-prisma.cjs",
