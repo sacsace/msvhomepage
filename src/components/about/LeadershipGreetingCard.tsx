@@ -22,7 +22,7 @@ export function LeadershipGreetingCard({ member, eyebrow, title, titleSubline, b
   const showPhoto = Boolean(member.photoSrc && publicFileExists(member.photoSrc));
 
   return (
-    <article className="msv-card p-6 sm:p-8">
+    <article className="rounded-xl border border-slate-200 bg-slate-50/40 p-5 shadow-sm sm:p-6">
       <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:gap-8">
         <div className="relative h-36 w-36 shrink-0 overflow-hidden rounded-full border border-slate-200 bg-white ring-1 ring-slate-100 sm:h-40 sm:w-40">
           {showPhoto && member.photoSrc ? (
@@ -42,9 +42,9 @@ export function LeadershipGreetingCard({ member, eyebrow, title, titleSubline, b
         </div>
         <div className="min-w-0 flex-1 text-center sm:text-left">
           <p className="msv-eyebrow">{eyebrow}</p>
-          <h2 className="mt-2 text-lg font-bold text-msv-navy">{title}</h2>
+          <h3 className="mt-2 text-base font-bold text-msv-navy sm:text-lg">{title}</h3>
           {titleSubline ? (
-            <p className="mt-1.5 text-base font-semibold tracking-tight text-msv-navy">{titleSubline}</p>
+            <p className="mt-1.5 text-sm font-semibold text-msv-navy">{titleSubline}</p>
           ) : null}
           <p className={`text-sm text-slate-500 ${titleSubline ? "mt-3" : "mt-1"}`}>
             <span className="font-medium text-slate-600">{member.role}</span>

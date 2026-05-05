@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { NextResponse } from "next/server";
+import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import { readStaffProfiles, writeStaffProfiles } from "@/lib/staff-profiles-store";
 import { requireAdmin } from "@/lib/require-admin";
 
@@ -65,8 +66,9 @@ export async function POST(request: Request) {
     };
     await writeStaffProfiles(all);
     return NextResponse.json({ ok: true, photoSrc: publicPath });
-  } catch {
-    return NextResponse.json({ error: "업로드 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/staff-profiles/photo POST]", e);
+    return adminApiCatchResponse(e, "업로드 실패");
   }
 }
 
@@ -92,7 +94,8 @@ export async function DELETE(request: Request) {
     };
     await writeStaffProfiles(all);
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "삭제 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/staff-profiles/photo DELETE]", e);
+    return adminApiCatchResponse(e, "삭제 실패");
   }
 }

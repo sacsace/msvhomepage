@@ -1,21 +1,27 @@
 import { Fragment } from "react";
 import { milestones } from "@/lib/site-content";
 
-export function MilestoneRail() {
+export type MilestoneRailItem = { phase: string; title: string; description: string };
+
+type Props = {
+  items?: readonly MilestoneRailItem[];
+};
+
+export function MilestoneRail({ items = milestones }: Props) {
   return (
     <>
       <div className="hidden lg:block">
-        <div className="flex items-stretch">
-          {milestones.map((m, i) => (
+        <div className="flex items-stretch gap-2">
+          {items.map((m, i) => (
             <Fragment key={m.title}>
-              <div className="msv-card flex min-w-0 flex-1 flex-col p-5">
-                <p className="text-xs font-semibold uppercase tracking-wider text-msv-blue">{m.phase}</p>
-                <h3 className="mt-2 text-sm font-bold text-msv-navy">{m.title}</h3>
+              <div className="flex min-w-0 flex-1 flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                <p className="text-xs font-medium uppercase tracking-[0.12em] text-slate-500">{m.phase}</p>
+                <h3 className="mt-3 text-sm font-semibold text-msv-navy sm:text-base">{m.title}</h3>
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">{m.description}</p>
               </div>
-              {i < milestones.length - 1 ? (
+              {i < items.length - 1 ? (
                 <div
-                  className="flex w-9 shrink-0 items-center justify-center self-center text-xl font-light text-msv-blue"
+                  className="flex w-8 shrink-0 items-center justify-center self-center text-lg font-light text-slate-300"
                   aria-hidden
                 >
                   →
@@ -26,19 +32,22 @@ export function MilestoneRail() {
         </div>
       </div>
 
-      <ol className="space-y-6 lg:hidden">
-        {milestones.map((m, index) => (
-          <li key={m.title} className="msv-card flex gap-4 p-5 sm:gap-5">
+      <ol className="space-y-5 lg:hidden">
+        {items.map((m, index) => (
+          <li
+            key={m.title}
+            className="flex gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:gap-5 sm:p-6"
+          >
             <span
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-msv-blue-soft text-xs font-bold text-msv-blue"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-xs font-medium tabular-nums text-slate-600"
               aria-hidden
             >
               {index + 1}
             </span>
             <div className="min-w-0 flex-1">
-              <p className="text-xs font-semibold uppercase tracking-wider text-msv-blue">{m.phase}</p>
-              <h3 className="mt-1 text-sm font-bold text-msv-navy">{m.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">{m.description}</p>
+              <p className="text-xs font-medium uppercase tracking-[0.12em] text-slate-500">{m.phase}</p>
+              <h3 className="mt-2 text-sm font-semibold text-msv-navy sm:text-base">{m.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-slate-600">{m.description}</p>
             </div>
           </li>
         ))}

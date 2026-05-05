@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
+import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import type { Client } from "@/types/client";
-import { readClients, writeClients } from "@/lib/clients-store";
+import { readClients, sortClientsPublic, writeClients } from "@/lib/clients-store";
 import { requireAdmin } from "@/lib/require-admin";
 
 export const runtime = "nodejs";
@@ -8,7 +9,7 @@ export const runtime = "nodejs";
 export async function GET() {
   const denied = await requireAdmin();
   if (denied) return denied;
-  const list = await readClients();
+  const list = sortClientsPublic(await readClients());
   return NextResponse.json(list);
 }
 
@@ -31,13 +32,15 @@ export async function POST(request: Request) {
       website: String(json.website || "").trim() || undefined,
       note: String(json.note || "").trim() || undefined,
       sortOrder: Number.isFinite(Number(json.sortOrder)) ? Number(json.sortOrder) : maxOrder + 1,
+      showOnHome: false,
       createdAt: now,
       updatedAt: now,
     };
     all.push(item);
     await writeClients(all);
     return NextResponse.json(item, { status: 201 });
-  } catch {
-    return NextResponse.json({ error: "저장 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/clients POST]", e);
+    return adminApiCatchResponse(e, "저장 실패");
   }
 }

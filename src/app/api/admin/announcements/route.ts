@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
-import {
-  readAnnouncements,
-  writeAnnouncements,
-} from "@/lib/announcements-store";
+import { adminApiCatchResponse } from "@/lib/db-api-error-response";
+import { createAnnouncement, readAnnouncements } from "@/lib/announcements-store";
 import { isRichTextMeaningful } from "@/lib/richtext";
 import type { Announcement } from "@/types/announcement";
 import { requireAdmin } from "@/lib/require-admin";
@@ -36,11 +34,10 @@ export async function POST(request: Request) {
       createdAt: now,
       updatedAt: now,
     };
-    const all = await readAnnouncements();
-    all.unshift(item);
-    await writeAnnouncements(all);
+    await createAnnouncement(item);
     return NextResponse.json(item, { status: 201 });
-  } catch {
-    return NextResponse.json({ error: "저장 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/announcements POST]", e);
+    return adminApiCatchResponse(e, "저장 실패");
   }
 }

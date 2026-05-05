@@ -1,13 +1,12 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { NextResponse } from "next/server";
-import { leadership } from "@/lib/site-content";
+import { adminApiCatchResponse } from "@/lib/db-api-error-response";
+import { isLeadershipEmailAllowed } from "@/lib/leadership-allow";
 import { requireAdmin } from "@/lib/require-admin";
 import { removeStaffPhoto, setStaffPhoto } from "@/lib/staff-photos-store";
 
 export const runtime = "nodejs";
-
-const allowedEmails = new Set(leadership.map((m) => m.email.toLowerCase()));
 
 const mimeToExt: Record<string, string> = {
   "image/jpeg": "jpg",
@@ -24,7 +23,7 @@ export async function POST(request: Request) {
     const emailRaw = String(formData.get("email") || "").trim().toLowerCase();
     const file = formData.get("file");
 
-    if (!emailRaw || !allowedEmails.has(emailRaw)) {
+    if (!emailRaw || !(await isLeadershipEmailAllowed(emailRaw))) {
       return NextResponse.json({ error: "등록된 경영진 이메일만 업로드할 수 있습니다." }, { status: 400 });
     }
     if (!(file instanceof File) || file.size === 0) {
@@ -54,8 +53,9 @@ export async function POST(request: Request) {
     await setStaffPhoto(emailRaw, publicPath);
 
     return NextResponse.json({ email: emailRaw, photoPath: publicPath }, { status: 201 });
-  } catch {
-    return NextResponse.json({ error: "업로드 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/staff-photos POST]", e);
+    return adminApiCatchResponse(e, "업로드 실패");
   }
 }
 
@@ -67,12 +67,13 @@ export async function DELETE(request: Request) {
     const email = String(body.email || "")
       .trim()
       .toLowerCase();
-    if (!email || !allowedEmails.has(email)) {
+    if (!email || !(await isLeadershipEmailAllowed(email))) {
       return NextResponse.json({ error: "유효하지 않은 이메일입니다." }, { status: 400 });
     }
     await removeStaffPhoto(email);
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "삭제 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/staff-photos DELETE]", e);
+    return adminApiCatchResponse(e, "삭제 실패");
   }
 }

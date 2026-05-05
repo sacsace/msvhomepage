@@ -1,12 +1,14 @@
 import Link from "next/link";
 
 const items = [
+  { href: "/", label: "Home" },
   { href: "/about", label: "회사 소개" },
-  { href: "/mvs-intro", label: "MV System 소개" },
-  { href: "/group", label: "함께하는 회사" },
   { href: "/services", label: "서비스" },
-  { href: "/notice", label: "공지" },
-  { href: "/articles", label: "관련 글" },
+  { href: "/software", label: "소프트웨어" },
+  { href: "/group", label: "그룹사" },
+  { href: "/notice", label: "공지사항" },
+  { href: "/ongoing", label: "프로젝트 현황" },
+  { href: "/articles", label: "자료실" },
   { href: "/contact", label: "문의" },
 ];
 

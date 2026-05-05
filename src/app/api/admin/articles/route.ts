@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
+import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import { readArticles, writeArticles } from "@/lib/articles-store";
 import { makeArticleSlug } from "@/lib/slug";
 import type { Article } from "@/types/article";
 import { requireAdmin } from "@/lib/require-admin";
+import { isRichTextMeaningful, sanitizeRichHtml, textExcerpt } from "@/lib/richtext";
 
 export const runtime = "nodejs";
 
@@ -18,9 +20,10 @@ export async function POST(request: Request) {
   try {
     const json = (await request.json()) as Partial<Article>;
     const title = String(json.title || "").trim();
-    const body = String(json.body || "").trim();
-    const excerpt = String(json.excerpt ?? "").trim() || body.slice(0, 160);
-    if (!title || !body) {
+    const body = sanitizeRichHtml(String(json.body || "").trim());
+    const excerptRaw = String(json.excerpt ?? "").trim();
+    const excerpt = excerptRaw || textExcerpt(body, 160);
+    if (!title || !isRichTextMeaningful(body)) {
       return NextResponse.json({ error: "제목과 본문은 필수입니다." }, { status: 400 });
     }
     const all = await readArticles();
@@ -41,7 +44,8 @@ export async function POST(request: Request) {
     all.unshift(item);
     await writeArticles(all);
     return NextResponse.json(item, { status: 201 });
-  } catch {
-    return NextResponse.json({ error: "저장 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/articles POST]", e);
+    return adminApiCatchResponse(e, "저장 실패");
   }
 }

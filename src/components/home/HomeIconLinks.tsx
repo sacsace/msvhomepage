@@ -165,26 +165,26 @@ function IconChevronRight({ className, ...props }: IconProps) {
 
 const primary = [
   {
-    href: "/services",
-    label: "회계·세무",
-    desc: "기장·GST·TDS·감사·TP",
-    Icon: IconBriefcase,
-  },
-  {
     href: "/about",
     label: "회사 소개",
     desc: "비전·CPA·리더십",
     Icon: IconBuilding,
   },
   {
-    href: "/mvs-intro",
-    label: "MV System 소개",
-    desc: "Minsub Ventus System",
+    href: "/services",
+    label: "회계·세무",
+    desc: "기장·GST·TDS·감사·TP",
+    Icon: IconBriefcase,
+  },
+  {
+    href: "/software",
+    label: "소프트웨어",
+    desc: "그룹웨어(MVS) · 출퇴근 기록 시스템(HereNow)",
     Icon: IconInfo,
   },
   {
     href: "/group",
-    label: "함께하는 회사",
+    label: "그룹사",
     desc: "Neocle·Seda·LKH·Wilmat",
     Icon: IconUsers,
   },
@@ -201,9 +201,9 @@ const secondary: readonly {
   label: string;
   Icon: ComponentType<IconProps>;
 }[] = [
-  { href: "/ongoing", label: "진행중인 업무", Icon: IconProgress },
-  { href: "/notice", label: "공지", Icon: IconMegaphone },
-  { href: "/articles", label: "관련 글", Icon: IconArticle },
+  { href: "/notice", label: "공지사항", Icon: IconMegaphone },
+  { href: "/ongoing", label: "프로젝트 현황", Icon: IconProgress },
+  { href: "/articles", label: "자료실", Icon: IconArticle },
 ];
 
 export function HomeIconLinks() {
@@ -217,7 +217,7 @@ export function HomeIconLinks() {
           <p className="text-[11px] font-semibold tracking-[0.14em] text-msv-blue">메인 안내</p>
           <h2 className="mt-2 text-xl font-bold tracking-tight text-msv-navy sm:text-2xl">바로가기</h2>
           <p className="mt-2 text-sm leading-relaxed text-slate-600">
-            회계·세무 라인업을 먼저 확인하고, 회사 소개·그룹사·문의로 이어질 수 있습니다.
+            회사 소개·회계·세무 라인업을 확인한 뒤, 그룹사·문의로 이어질 수 있습니다.
           </p>
         </div>
 
@@ -256,9 +256,7 @@ export function HomeIconLinks() {
         </ul>
 
         <div className="mx-auto mt-12 max-w-xl border-t border-slate-200/80 pt-10">
-          <p className="mb-4 text-center text-[11px] font-semibold tracking-[0.12em] text-slate-400">
-            새 소식 · 자료
-          </p>
+          <p className="mb-4 text-center text-[11px] font-semibold tracking-[0.12em] text-slate-400">소식</p>
           <ul className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-3">
             {secondary.map(({ href, label, Icon }) => (
               <li key={href} className="sm:flex-1 sm:min-w-[7.5rem] sm:max-w-[11rem]">

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import { readStaffProfiles, writeStaffProfiles } from "@/lib/staff-profiles-store";
 import { requireAdmin } from "@/lib/require-admin";
 import type { StaffProfile } from "@/types/staff-profile";
@@ -21,7 +22,7 @@ export async function POST(request: Request) {
     const intro = String(json.intro || "").trim();
     const email = String(json.email || "").trim() || undefined;
     if (!name || !role || !intro) {
-      return NextResponse.json({ error: "이름·직책·소개는 필수입니다." }, { status: 400 });
+      return NextResponse.json({ error: "이름·담당 부서·소개는 필수입니다." }, { status: 400 });
     }
     const now = new Date().toISOString();
     const item: StaffProfile = {
@@ -37,7 +38,8 @@ export async function POST(request: Request) {
     all.unshift(item);
     await writeStaffProfiles(all);
     return NextResponse.json(item, { status: 201 });
-  } catch {
-    return NextResponse.json({ error: "저장 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/staff-profiles POST]", e);
+    return adminApiCatchResponse(e, "저장 실패");
   }
 }

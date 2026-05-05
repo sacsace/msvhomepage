@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import {
   mergeMailSettings,
   readMailSettings,
@@ -26,7 +27,7 @@ export async function POST(request: Request) {
     await writeMailSettings(merged);
     return NextResponse.json(await readMailSettingsPublic());
   } catch (e) {
-    const msg = e instanceof Error ? e.message : "저장 실패";
-    return NextResponse.json({ error: msg }, { status: 500 });
+    console.error("[api/admin/mail-settings POST]", e);
+    return adminApiCatchResponse(e, "저장 실패");
   }
 }

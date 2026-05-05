@@ -23,7 +23,7 @@ export function LeadershipGrid({ members, compactSummary }: Props) {
         return (
           <li
             key={m.email}
-            className="msv-card grid w-full grid-cols-1 content-start gap-4 p-5 sm:grid-cols-[7rem_minmax(0,1fr)] sm:items-start sm:gap-x-5 sm:gap-y-4 sm:p-6"
+            className="grid w-full grid-cols-1 content-start gap-4 rounded-xl border border-slate-200 bg-slate-50/40 p-5 shadow-sm sm:grid-cols-[7rem_minmax(0,1fr)] sm:items-start sm:gap-x-5 sm:gap-y-4 sm:p-6"
           >
             <div className="relative mx-auto h-28 w-28 shrink-0 overflow-hidden rounded-full border border-slate-200 bg-white ring-1 ring-slate-100 sm:mx-0 sm:mt-0 sm:justify-self-start">
               {showPhoto && m.photoSrc ? (

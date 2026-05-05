@@ -150,7 +150,15 @@ export function StaffProfilesManager({ initialItems }: Props) {
         <h2 className="text-sm font-medium text-zinc-900">직원 추가</h2>
         <form onSubmit={create} className="mt-4 space-y-3">
           <input name="name" required placeholder="이름" className="w-full border border-zinc-200 px-3 py-2 text-sm" />
-          <input name="role" required placeholder="직책" className="w-full border border-zinc-200 px-3 py-2 text-sm" />
+          <label className="block text-sm text-zinc-700">
+            담당 부서
+            <input
+              name="role"
+              required
+              placeholder="예: 회계, 인사, 총무"
+              className="mt-1 block w-full border border-zinc-200 px-3 py-2 text-sm"
+            />
+          </label>
           <input name="email" placeholder="이메일 (선택)" className="w-full border border-zinc-200 px-3 py-2 text-sm" />
           <textarea
             name="intro"
@@ -190,7 +198,16 @@ export function StaffProfilesManager({ initialItems }: Props) {
                 {editingId === s.id ? (
                   <form onSubmit={(e) => void save(e, s.id)} className="space-y-3">
                     <input name="name" required defaultValue={s.name} className="w-full border border-zinc-200 px-3 py-2 text-sm" />
-                    <input name="role" required defaultValue={s.role} className="w-full border border-zinc-200 px-3 py-2 text-sm" />
+                    <label className="block text-sm text-zinc-700">
+                      담당 부서
+                      <input
+                        name="role"
+                        required
+                        defaultValue={s.role}
+                        placeholder="예: 회계, 인사, 총무"
+                        className="mt-1 block w-full border border-zinc-200 px-3 py-2 text-sm"
+                      />
+                    </label>
                     <input
                       name="email"
                       defaultValue={s.email || ""}
@@ -219,7 +236,7 @@ export function StaffProfilesManager({ initialItems }: Props) {
                   </form>
                 ) : (
                   <>
-                    <p className="text-xs font-medium text-zinc-500">담당 업무</p>
+                    <p className="text-xs font-medium text-zinc-500">담당 부서</p>
                     <p className="text-sm font-semibold text-zinc-700">{s.role}</p>
                     <p className="mt-1 font-medium text-zinc-900">{s.name}</p>
                     <div className="mt-3 flex flex-wrap items-center gap-2">

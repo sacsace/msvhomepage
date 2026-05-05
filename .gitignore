@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.development
+!.env.example
+!.env.production.example
 
 # vercel
 .vercel
@@ -39,6 +42,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Prisma Client (`schema.prisma` 의 output) — `prisma generate` 로 생성
+/prisma/generated/
+
+# embedded-postgres (`npm run dev`)
+.msv-embedded.env
+/.msv-embedded-pg/
+
+# Prisma 로컬 SQLite 잔여 파일(선택)
+/prisma/*.db
+/prisma/*.db-journal
 
 # 관리자 업로드 직원 사진 (배포 시 볼륨 또는 별도 백업 권장)
 /public/uploads/

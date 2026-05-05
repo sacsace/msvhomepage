@@ -5,7 +5,7 @@ export default function AdminHomePage() {
     <div>
       <h1 className="text-xl font-semibold text-zinc-900">대시보드</h1>
       <p className="mt-2 max-w-lg text-sm text-zinc-600">
-        진행중인 업무, 공지사항, 관련 글을 이곳에서 관리할 수 있습니다. 변경 사항은 즉시 사이트에
+        프로젝트 현황, 공지사항, 자료실을 이곳에서 관리할 수 있습니다. 변경 사항은 즉시 사이트에
         반영됩니다.
       </p>
       <ul className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -14,7 +14,7 @@ export default function AdminHomePage() {
             href="/admin/ongoing-tasks"
             className="block border border-zinc-200 bg-white p-5 text-sm transition hover:border-zinc-300"
           >
-            <span className="font-medium text-zinc-900">진행중인 업무 관리</span>
+            <span className="font-medium text-zinc-900">프로젝트 현황 관리</span>
             <span className="mt-1 block text-zinc-500">등록 · 수정 · 삭제</span>
           </Link>
         </li>
@@ -32,7 +32,7 @@ export default function AdminHomePage() {
             href="/admin/articles"
             className="block border border-zinc-200 bg-white p-5 text-sm transition hover:border-zinc-300"
           >
-            <span className="font-medium text-zinc-900">관련 글 관리</span>
+            <span className="font-medium text-zinc-900">자료실 관리</span>
             <span className="mt-1 block text-zinc-500">등록 · 수정 · 삭제</span>
           </Link>
         </li>

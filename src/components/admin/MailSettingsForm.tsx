@@ -31,7 +31,7 @@ export function MailSettingsForm() {
     user: "",
     pass: "",
     fromAddress: "",
-    toAddress: "info@msventures.in",
+    toAddress: "lee@msventures.in, info@msventures.in",
     hasPassword: false,
   });
 
@@ -50,7 +50,7 @@ export function MailSettingsForm() {
             user: data.user ?? "",
             pass: "",
             fromAddress: data.fromAddress ?? "",
-            toAddress: data.toAddress ?? "info@msventures.in",
+            toAddress: data.toAddress ?? "lee@msventures.in, info@msventures.in",
             hasPassword: Boolean(data.hasPassword),
           };
           const detectedPreset: MailPreset = next.host === "smtp.gmail.com" ? "gmail" : "custom";
@@ -199,23 +199,27 @@ export function MailSettingsForm() {
         {form.hasPassword ? <p className="mt-1 text-xs text-zinc-500">이미 저장된 비밀번호가 있습니다. 바꾸려면 새 값을 입력하세요.</p> : null}
       </div>
       <div>
-        <label className="block text-xs font-medium text-zinc-600">발신(From) 주소</label>
+        <label className="block text-xs font-medium text-zinc-600">SMTP MAIL FROM (인증과 맞는 주소)</label>
         <input
           value={form.fromAddress}
           onChange={(e) => setForm((f) => ({ ...f, fromAddress: e.target.value }))}
-          placeholder="noreply@yourdomain.com"
+          placeholder="info@msventures.in"
           className="mt-1 w-full rounded border border-zinc-200 px-3 py-2 text-sm"
         />
-        <p className="mt-1 text-xs text-zinc-500">비어 있으면 SMTP 사용자 또는 수신 주소가 사용됩니다.</p>
+        <p className="mt-1 text-xs text-zinc-500">
+          Gmail 등 SMTP 인증에 쓰는 주소(예: info@)를 넣습니다. 웹 문의 메일의 &quot;표시 발신자&quot;는 양식에 적은
+          이메일로 보내지며, 회신은 그 주소로 갑니다.
+        </p>
       </div>
       <div>
         <label className="block text-xs font-medium text-zinc-600">문의 수신(To)</label>
         <input
           value={form.toAddress}
           onChange={(e) => setForm((f) => ({ ...f, toAddress: e.target.value }))}
-          placeholder="info@msventures.in"
+          placeholder="lee@msventures.in, info@msventures.in"
           className="mt-1 w-full rounded border border-zinc-200 px-3 py-2 text-sm"
         />
+        <p className="mt-1 text-xs text-zinc-500">여러 명이면 쉼표(,)로 구분합니다.</p>
       </div>
       <button
         type="submit"

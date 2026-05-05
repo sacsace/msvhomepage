@@ -1,15 +1,12 @@
 import { NextResponse } from "next/server";
+import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import { readTaxCalendar, writeTaxCalendar } from "@/lib/tax-calendar-store";
 import { requireAdmin } from "@/lib/require-admin";
-import { TAX_CALENDAR_KINDS, type TaxCalendarEvent, type TaxCalendarKind } from "@/types/tax-calendar-event";
+import { parseTaxCalendarKindInput, type TaxCalendarEvent } from "@/types/tax-calendar-event";
 
 export const runtime = "nodejs";
 
 const dateRe = /^\d{4}-\d{2}-\d{2}$/;
-
-function isKind(v: unknown): v is TaxCalendarKind {
-  return typeof v === "string" && (TAX_CALENDAR_KINDS as readonly string[]).includes(v);
-}
 
 export async function GET() {
   const denied = await requireAdmin();
@@ -26,8 +23,9 @@ export async function POST(request: Request) {
     if (!dateRe.test(date)) {
       return NextResponse.json({ error: "날짜는 YYYY-MM-DD 형식이어야 합니다." }, { status: 400 });
     }
-    if (!isKind(json.kind)) {
-      return NextResponse.json({ error: "유효하지 않은 일정 유형입니다." }, { status: 400 });
+    const parsedKind = parseTaxCalendarKindInput(json.kind);
+    if (!parsedKind.ok) {
+      return NextResponse.json({ error: parsedKind.message }, { status: 400 });
     }
     const title = json.title !== undefined ? String(json.title).trim() : "";
     const note = json.note !== undefined ? String(json.note).trim() : "";
@@ -35,7 +33,7 @@ export async function POST(request: Request) {
     const item: TaxCalendarEvent = {
       id: crypto.randomUUID(),
       date,
-      kind: json.kind,
+      kind: parsedKind.kind,
       title: title || undefined,
       note: note || undefined,
       createdAt: now,
@@ -45,7 +43,8 @@ export async function POST(request: Request) {
     all.push(item);
     await writeTaxCalendar(all);
     return NextResponse.json(item, { status: 201 });
-  } catch {
-    return NextResponse.json({ error: "저장 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/tax-calendar POST]", e);
+    return adminApiCatchResponse(e, "저장 실패");
   }
 }

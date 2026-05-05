@@ -2,14 +2,17 @@
 
 import { useCallback, useState } from "react";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
+import { readRichBodyFromForm } from "@/lib/admin-read-rich-body";
 import { isRichTextMeaningful, textExcerpt } from "@/lib/richtext";
 import type { Announcement } from "@/types/announcement";
 
 type Props = { initialItems: Announcement[] };
 
+type FormBanner = { message: string; detail?: string };
+
 export function AnnouncementsManager({ initialItems }: Props) {
   const [items, setItems] = useState(initialItems);
-  const [error, setError] = useState<string | null>(null);
+  const [banner, setBanner] = useState<FormBanner | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [createTitle, setCreateTitle] = useState("");
   const [createBody, setCreateBody] = useState("");
@@ -19,9 +22,9 @@ export function AnnouncementsManager({ initialItems }: Props) {
   const [editPinned, setEditPinned] = useState(false);
 
   const reload = useCallback(async () => {
-    setError(null);
+    setBanner(null);
     try {
-      const res = await fetch("/api/admin/announcements");
+      const res = await fetch("/api/admin/announcements", { credentials: "same-origin" });
       if (res.status === 401) {
         window.location.href = "/admin/login";
         return;
@@ -29,28 +32,41 @@ export function AnnouncementsManager({ initialItems }: Props) {
       if (!res.ok) throw new Error("fail");
       setItems(await res.json());
     } catch {
-      setError("목록을 불러오지 못했습니다.");
+      setBanner({ message: "목록을 불러오지 못했습니다." });
     }
   }, []);
 
   async function create(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!createTitle.trim() || !isRichTextMeaningful(createBody)) {
-      setError("제목과 본문은 필수입니다.");
+    const form = e.currentTarget;
+    const bodyHtml = readRichBodyFromForm(form);
+    if (!createTitle.trim() || !isRichTextMeaningful(bodyHtml)) {
+      setBanner({
+        message: "제목과 본문은 필수입니다. 본문 에디터에 텍스트를 입력했는지 확인해 주세요.",
+      });
       return;
     }
     const res = await fetch("/api/admin/announcements", {
       method: "POST",
+      credentials: "same-origin",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title: createTitle,
-        body: createBody,
+        body: bodyHtml,
         pinned: createPinned,
       }),
     });
-    const data = await res.json();
+    let data: { error?: string; detail?: string } = {};
+    try {
+      data = (await res.json()) as { error?: string; detail?: string };
+    } catch {
+      data = { error: "서버 응답을 해석하지 못했습니다. 네트워크·로그인 상태를 확인해 주세요." };
+    }
     if (!res.ok) {
-      setError(String(data.error || "등록 실패"));
+      setBanner({
+        message: data.error || "등록 실패",
+        ...(data.detail ? { detail: data.detail } : {}),
+      });
       return;
     }
     setCreateTitle("");
@@ -61,22 +77,35 @@ export function AnnouncementsManager({ initialItems }: Props) {
 
   async function saveEdit(e: React.FormEvent<HTMLFormElement>, id: string) {
     e.preventDefault();
-    if (!editTitle.trim() || !isRichTextMeaningful(editBody)) {
-      setError("제목과 본문은 필수입니다.");
+    const form = e.currentTarget;
+    const bodyHtml = readRichBodyFromForm(form);
+    if (!editTitle.trim() || !isRichTextMeaningful(bodyHtml)) {
+      setBanner({
+        message: "제목과 본문은 필수입니다. 본문 에디터에 텍스트를 입력했는지 확인해 주세요.",
+      });
       return;
     }
     const res = await fetch(`/api/admin/announcements/${id}`, {
       method: "PATCH",
+      credentials: "same-origin",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title: editTitle,
-        body: editBody,
+        body: bodyHtml,
         pinned: editPinned,
       }),
     });
-    const data = await res.json();
+    let data: { error?: string; detail?: string } = {};
+    try {
+      data = (await res.json()) as { error?: string; detail?: string };
+    } catch {
+      data = { error: "서버 응답을 해석하지 못했습니다." };
+    }
     if (!res.ok) {
-      setError(String(data.error || "저장 실패"));
+      setBanner({
+        message: data.error || "저장 실패",
+        ...(data.detail ? { detail: data.detail } : {}),
+      });
       return;
     }
     setEditingId(null);
@@ -88,9 +117,12 @@ export function AnnouncementsManager({ initialItems }: Props) {
 
   async function remove(id: string) {
     if (!confirm("삭제할까요?")) return;
-    const res = await fetch(`/api/admin/announcements/${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/admin/announcements/${id}`, {
+      method: "DELETE",
+      credentials: "same-origin",
+    });
     if (!res.ok) {
-      setError("삭제 실패");
+      setBanner({ message: "삭제 실패" });
       return;
     }
     await reload();
@@ -98,7 +130,22 @@ export function AnnouncementsManager({ initialItems }: Props) {
 
   return (
     <div className="space-y-10">
-      {error ? <p className="text-sm text-red-600">{error}</p> : null}
+      {banner ? (
+        <div
+          role="alert"
+          className="rounded-lg border border-red-200 bg-red-50/90 px-4 py-3 text-sm text-red-900"
+        >
+          <p className="font-medium leading-snug">{banner.message}</p>
+          {banner.detail ? (
+            <details className="mt-2 text-xs leading-relaxed text-red-800/95">
+              <summary className="cursor-pointer font-medium text-red-900/90 underline-offset-2 hover:underline">
+                자세한 안내
+              </summary>
+              <p className="mt-2 border-t border-red-200/80 pt-2">{banner.detail}</p>
+            </details>
+          ) : null}
+        </div>
+      ) : null}
 
       <section className="border border-zinc-200 bg-white p-5">
         <h2 className="text-sm font-medium text-zinc-900">새 공지</h2>

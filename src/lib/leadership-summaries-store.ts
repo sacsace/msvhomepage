@@ -1,41 +1,27 @@
-import { promises as fs } from "fs";
-import path from "path";
-
-const dataFile = path.join(process.cwd(), "data", "leadership-summaries.json");
-
-async function ensureDir() {
-  await fs.mkdir(path.dirname(dataFile), { recursive: true });
-}
+import { prisma } from "@/lib/prisma";
+import { withRecoverableDbRead } from "@/lib/prisma-read-fallback";
 
 export async function readLeadershipSummaries(): Promise<Record<string, string>> {
-  await ensureDir();
-  try {
-    const raw = await fs.readFile(dataFile, "utf-8");
-    const parsed = JSON.parse(raw) as unknown;
-    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-      return parsed as Record<string, string>;
+  return withRecoverableDbRead({}, async () => {
+    const rows = await prisma.leadershipSummary.findMany();
+    const map: Record<string, string> = {};
+    for (const r of rows) {
+      map[r.emailLower] = r.summary;
     }
-    return {};
-  } catch {
-    return {};
-  }
-}
-
-async function writeLeadershipSummaries(map: Record<string, string>): Promise<void> {
-  await ensureDir();
-  await fs.writeFile(dataFile, JSON.stringify(map, null, 2), "utf-8");
+    return map;
+  });
 }
 
 export async function setLeadershipSummary(email: string, summary: string): Promise<void> {
   const key = email.trim().toLowerCase();
-  const map = await readLeadershipSummaries();
-  map[key] = summary.trim();
-  await writeLeadershipSummaries(map);
+  await prisma.leadershipSummary.upsert({
+    where: { emailLower: key },
+    create: { emailLower: key, summary: summary.trim() },
+    update: { summary: summary.trim() },
+  });
 }
 
 export async function removeLeadershipSummary(email: string): Promise<void> {
   const key = email.trim().toLowerCase();
-  const map = await readLeadershipSummaries();
-  delete map[key];
-  await writeLeadershipSummaries(map);
+  await prisma.leadershipSummary.deleteMany({ where: { emailLower: key } });
 }

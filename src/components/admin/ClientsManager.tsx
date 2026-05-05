@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import type { Client } from "@/types/client";
+import { sortClientsPublic } from "@/lib/clients-sort";
 
 type Props = { initialItems: Client[] };
 
@@ -38,7 +39,8 @@ export function ClientsManager({ initialItems }: Props) {
         return;
       }
       if (!res.ok) throw new Error("fail");
-      setItems(await res.json());
+      const raw = (await res.json()) as Client[];
+      setItems(sortClientsPublic(raw));
     } catch {
       setError("목록을 불러오지 못했습니다.");
     }
@@ -94,6 +96,7 @@ export function ClientsManager({ initialItems }: Props) {
         note: fd.get("note"),
         sortOrder: fd.get("sortOrder") ? Number(fd.get("sortOrder")) : 0,
         logoSrc: String(fd.get("logoSrc") ?? "").trim(),
+        showOnHome: fd.get("showOnHome") === "on",
       }),
     });
     const data = await res.json();
@@ -124,6 +127,30 @@ export function ClientsManager({ initialItems }: Props) {
     await reload();
   }
 
+  async function toggleShowOnHome(id: string, checked: boolean) {
+    const cur = items.find((i) => i.id === id);
+    if (!cur) return;
+    if (checked && !cur.showOnHome) {
+      const n = items.filter((i) => i.showOnHome).length;
+      if (n >= 12) {
+        setError("메인 화면 표시는 최대 12개까지입니다.");
+        return;
+      }
+    }
+    setError(null);
+    const res = await fetch(`/api/admin/clients/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ showOnHome: checked }),
+    });
+    const data = (await res.json()) as { error?: string };
+    if (!res.ok) {
+      setError(String(data.error || "저장 실패"));
+      return;
+    }
+    await reload();
+  }
+
   async function clearLogoOnly(id: string) {
     if (!confirm("등록된 로고를 제거할까요?")) return;
     setError(null);
@@ -135,9 +162,19 @@ export function ClientsManager({ initialItems }: Props) {
     await reload();
   }
 
+  const homeCount = items.filter((c) => c.showOnHome).length;
+
   return (
     <div className="space-y-10">
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
+
+      <p className="rounded border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700">
+        메인 화면 「주요 고객사」(해외 투자·송금 블록 아래):{" "}
+        <span className="font-semibold text-zinc-900">{homeCount}</span> / 12 선택됨
+        {homeCount === 0 ? (
+          <span className="text-zinc-500"> — 아래에서 「메인 화면」을 체크하면 표시됩니다.</span>
+        ) : null}
+      </p>
 
       <section className="border border-zinc-200 bg-white p-5">
         <h2 className="text-sm font-medium text-zinc-900">고객사 추가</h2>
@@ -246,6 +283,10 @@ export function ClientsManager({ initialItems }: Props) {
                         defaultValue={c.note ?? ""}
                         className="w-full border border-zinc-200 px-3 py-2 text-sm"
                       />
+                      <label className="flex cursor-pointer items-center gap-2 text-sm text-zinc-800">
+                        <input name="showOnHome" type="checkbox" defaultChecked={Boolean(c.showOnHome)} className="size-4" />
+                        메인 화면에 표시 (최대 12개)
+                      </label>
                       <div className="flex flex-wrap gap-2">
                         <button type="submit" className="rounded bg-zinc-900 px-3 py-1.5 text-sm text-white">
                           저장
@@ -273,7 +314,24 @@ export function ClientsManager({ initialItems }: Props) {
                           </div>
                         ) : null}
                         <div className="min-w-0">
-                          <p className="font-medium text-zinc-900">{c.name}</p>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <p className="font-medium text-zinc-900">{c.name}</p>
+                            {c.showOnHome ? (
+                              <span className="rounded bg-zinc-900 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                                메인 화면
+                              </span>
+                            ) : null}
+                          </div>
+                          <label className="mt-2 flex cursor-pointer items-center gap-2 text-xs text-zinc-600">
+                            <input
+                              type="checkbox"
+                              checked={Boolean(c.showOnHome)}
+                              disabled={!c.showOnHome && homeCount >= 12}
+                              onChange={(e) => void toggleShowOnHome(c.id, e.target.checked)}
+                              className="size-4 disabled:cursor-not-allowed disabled:opacity-40"
+                            />
+                            메인 화면
+                          </label>
                           {c.sector ? <p className="mt-1 text-sm text-zinc-600">{c.sector}</p> : null}
                           {c.website ? (
                             <a

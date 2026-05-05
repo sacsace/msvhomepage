@@ -10,8 +10,7 @@
 - 회사 카피·수치·연락처의 **단일 출처**는 `src/lib/site-content.ts`와 루트의 **회사 프로필 PDF**(`public/company-profile-ms-ventures.pdf`)입니다. 변경 시 PDF·실제 운영 정보와 반드시 일치시키세요.
 - **게시판** (`/board`): 공지·자료 공유용. 글·첨부는 서버 파일 시스템에 저장됩니다.
 - **질의응답** (`/qna`): 질문 스레드 + 답글(JSON). `data/qna.json`, `api/qna` 참고.
-- **공지사항** (`/notice`, `/notice/[id]`): `data/announcements.json`.
-- **관련 글** (`/articles`, `/articles/[slug]`): `data/articles.json`.
+- **공지·관련 글·클라이언트·팀 DB 등**: **PostgreSQL + Prisma** (`prisma/schema.prisma`, `src/lib/*-store.ts`). 시드는 `data/*.json` → `npm run db:seed`.
 - **관리자** (`/admin/login`, `/admin/*`): `.env`의 `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`(16자+) + JWT 쿠키(`msv_admin`). 공지·관련 글 CRUD.
 
 ---
@@ -54,11 +53,11 @@ web/
 │   │   ├── board-store.ts
 │   │   └── qna-store.ts     # qna.json (Node 전용)
 │   └── types/board.ts, types/qna.ts
+├── prisma/schema.prisma     # PostgreSQL + Prisma 모델
 ├── data/board.json
 ├── data/qna.json
-├── data/announcements.json
-├── data/articles.json
-├── .env.example             # ADMIN_PASSWORD, ADMIN_SESSION_SECRET
+├── data/*.json              # 시드 소스 (db:seed)
+├── .env.example             # DATABASE_URL(필수), ADMIN_*
 ├── public/
 │   ├── company-profile-ms-ventures.pdf
 │   └── uploads/board/       # 첨부 파일 (런타임 생성)
@@ -73,12 +72,19 @@ web/
 
 ```bash
 cd web
+# 로컬 PostgreSQL 실행 후 — DB 생성(CREATE DATABASE msv 등), .env.development 의 DB_* 또는 DATABASE_URL 이 설치 계정과 일치하는지 확인
 npm install
-npm run dev      # http://localhost:3100
+npm run db:ping   # Postgres 연결·인증만 확인 (실패 시 .env.local 에 올바른 DATABASE_URL)
+npm run db:push   # 스키마 반영
+npm run db:seed   # 초기 데이터 (선택)
+npm run dev       # http://localhost:3100
 npm run build
 npm run lint
 ```
 
+- **`DATABASE_URL`**: `web/.env.development`(커밋됨) 또는 `.env.local`에 `postgresql://...` 필수. `src/lib/database-url.ts`에서 검증.
+- **`P1000` 인증 실패**: `DB_USER` / `DB_PASSWORD` 또는 `DATABASE_URL` 이 Postgres 역할과 일치하는지 확인. `env.local.example` → **`web/.env.local`** 로 덮어쓸 수 있음. 그다음 `npm run db:ping` → `npm run db:push`. DB 없으면 `prisma/init-db.sql` 실행.
+- **Railway Postgres 볼륨 크래시**: `web/RAILWAY_POSTGRES.md` 대시보드 절차 참고.
 - 상위 폴더(`Software Project`)에 다른 `package-lock.json`이 있으면 Turbopack 루트 경고가 날 수 있음 → `next.config.ts`의 `turbopack.root`로 `web` 고정.
 - `npm install` 시 셸에 `NODE_ENV=production`이면 devDependency가 빠질 수 있음 → `web/.npmrc`의 `include=dev` 유지.
 
@@ -104,7 +110,7 @@ npm run lint
 
 ## 7. AI/개발자에게 줄 한 줄 지시 예시
 
-> Next.js 16 App Router `web/` — Minsub Ventures 홍보 사이트. 카피는 `site-content.ts`. 게시판: `board.json` + `api/board`. 질의응답: `qna.json` + `api/qna`. 클라이언트에서 `board-store`/`qna-store` import 금지(타입만 `types/*`). UI는 심플(흰 배경·슬레이트 텍스트) 유지.
+> Next.js 16 App Router `web/` — Minsub Ventures 홍보 사이트. 카피는 `site-content.ts`. DB: PostgreSQL + Prisma (`DATABASE_URL`). 게시판: `board.json` + `api/board`. 질의응답: `qna.json` + `api/qna`. 클라이언트에서 `board-store`/`qna-store` import 금지(타입만 `types/*`). UI는 심플(흰 배경·슬레이트 텍스트) 유지.
 
 ---
 

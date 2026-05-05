@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import type { Client } from "@/types/client";
 import { isStoredClientLogo, removeStoredClientLogoFile } from "@/lib/client-logo-utils";
 import { readClients, writeClients } from "@/lib/clients-store";
@@ -38,6 +39,18 @@ export async function PATCH(request: Request, ctx: Ctx) {
       return NextResponse.json({ error: "고객사명은 필수입니다." }, { status: 400 });
     }
 
+    const wasOnHome = Boolean(cur.showOnHome);
+    const nextShowsHome = json.showOnHome !== undefined ? Boolean(json.showOnHome) : wasOnHome;
+    if (nextShowsHome && !wasOnHome) {
+      const onHome = all.filter((c) => c.showOnHome).length;
+      if (onHome >= 12) {
+        return NextResponse.json(
+          { error: "메인 화면에 표시할 고객사는 최대 12개까지입니다. 다른 항목의 「메인 화면」을 끄고 다시 시도하세요." },
+          { status: 400 },
+        );
+      }
+    }
+
     let nextLogoSrc = cur.logoSrc;
     if (json.logoSrc !== undefined) {
       const next = sanitizeLogoSrcInput(String(json.logoSrc || "").trim() || undefined);
@@ -59,13 +72,15 @@ export async function PATCH(request: Request, ctx: Ctx) {
         json.sortOrder !== undefined && Number.isFinite(Number(json.sortOrder))
           ? Number(json.sortOrder)
           : cur.sortOrder,
+      showOnHome: nextShowsHome,
       updatedAt: new Date().toISOString(),
     };
     all[idx] = updated;
     await writeClients(all);
     return NextResponse.json(updated);
-  } catch {
-    return NextResponse.json({ error: "저장 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/clients PATCH]", e);
+    return adminApiCatchResponse(e, "저장 실패");
   }
 }
 
@@ -73,13 +88,18 @@ export async function DELETE(_request: Request, ctx: Ctx) {
   const denied = await requireAdmin();
   if (denied) return denied;
   const { id } = await ctx.params;
-  const all = await readClients();
-  const victim = all.find((c) => c.id === id);
-  if (!victim) {
-    return NextResponse.json({ error: "없음" }, { status: 404 });
+  try {
+    const all = await readClients();
+    const victim = all.find((c) => c.id === id);
+    if (!victim) {
+      return NextResponse.json({ error: "없음" }, { status: 404 });
+    }
+    await removeStoredClientLogoFile(victim.logoSrc);
+    const next = all.filter((c) => c.id !== id);
+    await writeClients(next);
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    console.error("[api/admin/clients DELETE]", e);
+    return adminApiCatchResponse(e, "삭제 실패");
   }
-  await removeStoredClientLogoFile(victim.logoSrc);
-  const next = all.filter((c) => c.id !== id);
-  await writeClients(next);
-  return NextResponse.json({ ok: true });
 }

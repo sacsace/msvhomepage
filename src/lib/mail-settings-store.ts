@@ -1,8 +1,6 @@
-import { promises as fs } from "fs";
-import path from "path";
 import type { MailSettings } from "@/types/mail-settings";
-
-const dataFile = path.join(process.cwd(), "data", "mail-settings.json");
+import { prisma } from "@/lib/prisma";
+import { withRecoverableDbRead } from "@/lib/prisma-read-fallback";
 
 const defaults: MailSettings = {
   host: "",
@@ -11,8 +9,16 @@ const defaults: MailSettings = {
   user: "",
   pass: "",
   fromAddress: "",
-  toAddress: "info@msventures.in",
+  toAddress: "lee@msventures.in, info@msventures.in",
 };
+
+/** `toAddress` 필드에 쉼표·세미콜론 등으로 적힌 수신자 목록 */
+export function parseSmtpRecipientList(toAddress: string): string[] {
+  return toAddress
+    .split(/[,;\n]+/)
+    .map((x) => x.trim())
+    .filter(Boolean);
+}
 
 function normalize(partial: Partial<MailSettings>): MailSettings {
   const port = Number(partial.port);
@@ -27,23 +33,73 @@ function normalize(partial: Partial<MailSettings>): MailSettings {
   };
 }
 
+function rowToSettings(row: {
+  host: string;
+  port: number;
+  secure: boolean;
+  user: string;
+  pass: string;
+  fromAddress: string;
+  toAddress: string;
+}): MailSettings {
+  return normalize({
+    host: row.host,
+    port: row.port,
+    secure: row.secure,
+    user: row.user,
+    pass: row.pass,
+    fromAddress: row.fromAddress,
+    toAddress: row.toAddress,
+  });
+}
+
 export async function readMailSettings(): Promise<MailSettings> {
-  await fs.mkdir(path.dirname(dataFile), { recursive: true });
-  try {
-    const raw = await fs.readFile(dataFile, "utf-8");
-    const parsed = JSON.parse(raw) as Partial<MailSettings>;
-    return normalize({ ...defaults, ...parsed });
-  } catch {
-    return { ...defaults };
-  }
+  return withRecoverableDbRead(defaults, async () => {
+    let row = await prisma.mailSettings.findUnique({ where: { id: 1 } });
+    if (!row) {
+      row = await prisma.mailSettings.create({
+        data: {
+          id: 1,
+          host: defaults.host,
+          port: defaults.port,
+          secure: defaults.secure,
+          user: defaults.user,
+          pass: defaults.pass,
+          fromAddress: defaults.fromAddress,
+          toAddress: defaults.toAddress,
+        },
+      });
+    }
+    return rowToSettings(row);
+  });
 }
 
 export async function writeMailSettings(settings: MailSettings): Promise<void> {
-  await fs.mkdir(path.dirname(dataFile), { recursive: true });
-  await fs.writeFile(dataFile, JSON.stringify(normalize(settings), null, 2), "utf-8");
+  const n = normalize(settings);
+  await prisma.mailSettings.upsert({
+    where: { id: 1 },
+    create: {
+      id: 1,
+      host: n.host,
+      port: n.port,
+      secure: n.secure,
+      user: n.user,
+      pass: n.pass,
+      fromAddress: n.fromAddress,
+      toAddress: n.toAddress,
+    },
+    update: {
+      host: n.host,
+      port: n.port,
+      secure: n.secure,
+      user: n.user,
+      pass: n.pass,
+      fromAddress: n.fromAddress,
+      toAddress: n.toAddress,
+    },
+  });
 }
 
-/** 관리자 응답용: 비밀번호는 내려주지 않음 */
 export async function readMailSettingsPublic(): Promise<
   Omit<MailSettings, "pass"> & { hasPassword: boolean }
 > {

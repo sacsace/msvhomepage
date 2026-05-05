@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
-import { readAnnouncements } from "@/lib/announcements-store";
-import { readArticles } from "@/lib/articles-store";
+import { getCachedAnnouncements, getCachedArticles } from "@/lib/public-page-data-cache";
 import { groupCompanies, siteUrl } from "@/lib/site-content";
 
-export const dynamic = "force-dynamic";
+/** 사이트맵은 캐시된 공지·자료 목록을 사용합니다(공개 페이지와 동일 TTL). */
+export const revalidate = 60;
 
 function lastMod(iso: string | undefined): Date {
   if (!iso) return new Date();
@@ -13,20 +13,31 @@ function lastMod(iso: string | undefined): Date {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-  const articles = await readArticles();
-  const announcements = await readAnnouncements();
+  const [articles, announcements] = await Promise.all([
+    getCachedArticles(),
+    getCachedAnnouncements(),
+  ]);
 
   const staticPaths: MetadataRoute.Sitemap = [
     { url: siteUrl, lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: `${siteUrl}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${siteUrl}/about/team`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${siteUrl}/about/clients`, lastModified: now, changeFrequency: "monthly", priority: 0.82 },
     { url: `${siteUrl}/services`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${siteUrl}/services/corporate-incorporation`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${siteUrl}/services/corporate-incorporation/apply`, lastModified: now, changeFrequency: "monthly", priority: 0.72 },
+    { url: `${siteUrl}/services/frro`, lastModified: now, changeFrequency: "monthly", priority: 0.78 },
     { url: `${siteUrl}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
-    { url: `${siteUrl}/mvs-intro`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${siteUrl}/software`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${siteUrl}/software/mvs`, lastModified: now, changeFrequency: "monthly", priority: 0.72 },
+    { url: `${siteUrl}/software/herenow`, lastModified: now, changeFrequency: "monthly", priority: 0.72 },
     { url: `${siteUrl}/group`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
     { url: `${siteUrl}/notice`, lastModified: now, changeFrequency: "weekly", priority: 0.75 },
     { url: `${siteUrl}/ongoing`, lastModified: now, changeFrequency: "weekly", priority: 0.65 },
     { url: `${siteUrl}/articles`, lastModified: now, changeFrequency: "weekly", priority: 0.65 },
     { url: `${siteUrl}/team`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${siteUrl}/en`, lastModified: now, changeFrequency: "monthly", priority: 0.35 },
+    { url: `${siteUrl}/zh`, lastModified: now, changeFrequency: "monthly", priority: 0.35 },
   ];
 
   const groupEntries: MetadataRoute.Sitemap = groupCompanies.map((g) => ({

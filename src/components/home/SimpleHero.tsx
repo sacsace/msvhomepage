@@ -1,12 +1,26 @@
 import Link from "next/link";
+import { homeTypo } from "@/lib/home-typography";
+import { homeAccountingHeroEn, homeAccountingHeroZh, simpleHeroCtas } from "@/lib/i18n/public-home";
+import type { SiteLocale } from "@/lib/site-locale";
+import { withLocalePrefix } from "@/lib/site-locale";
 import { company, homeAccountingHero } from "@/lib/site-content";
 
-export function SimpleHero() {
-  const { headline, lead, badge } = homeAccountingHero;
+type Props = {
+  locale: SiteLocale;
+};
+
+export function SimpleHero({ locale }: Props) {
+  const hero =
+    locale === "en" ? homeAccountingHeroEn : locale === "zh" ? homeAccountingHeroZh : homeAccountingHero;
+  const { headline, lead, badge } = hero;
+  const ctas = simpleHeroCtas(locale);
+  const L = (p: string) => withLocalePrefix(p, locale);
 
   return (
-    <section className="border-b border-msv-navy/20">
-      <div className="relative isolate flex min-h-[320px] flex-col justify-end overflow-hidden bg-gradient-to-br from-msv-navy via-[#122338] to-slate-950 px-4 pb-12 pt-16 sm:min-h-[400px] sm:px-8 sm:pb-16 sm:pt-20">
+    <section className="border-b border-slate-200/35">
+      <div
+        className={`relative isolate flex min-h-[320px] flex-col justify-end overflow-hidden bg-gradient-to-br from-msv-navy via-[#122338] to-slate-950 pb-12 pt-16 sm:min-h-[400px] sm:pb-16 sm:pt-20 ${homeTypo.pageInset}`}
+      >
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.35] bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] bg-size-[100%_22px]"
           aria-hidden
@@ -15,52 +29,48 @@ export function SimpleHero() {
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(105deg,transparent_40%,rgba(255,255,255,0.04)_50%,transparent_60%)]" />
         <div className="relative mx-auto w-full max-w-6xl">
           <div className="flex flex-wrap items-center gap-3">
-            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.26em] text-white/70">
-              {company.tagline}
-            </p>
+            <p className={homeTypo.heroMeta}>{company.tagline}</p>
             <span className="rounded-full border border-white/20 bg-white/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-msv-blue-soft">
               {badge}
             </span>
           </div>
-          <h1 className="mt-4 max-w-4xl text-3xl font-bold leading-[1.15] tracking-tight text-white sm:text-4xl lg:text-[2.65rem] lg:leading-tight">
+          <h1 className="mt-4 max-w-4xl text-pretty break-keep text-3xl font-semibold leading-[1.12] tracking-[-0.035em] text-white sm:text-4xl lg:text-[2.65rem] lg:leading-[1.08]">
             {headline}
           </h1>
-          <p className="mt-5 max-w-2xl text-sm leading-relaxed text-white/88 sm:text-base">{lead}</p>
-          <div className="mt-9 flex flex-wrap gap-3">
+          <p className={`mt-6 max-w-3xl text-pretty break-keep ${homeTypo.bodyOnDark}`}>{lead}</p>
+          <div className="mt-10 flex flex-wrap gap-3 sm:gap-4">
             <Link
-              href="/services"
-              className="inline-flex bg-msv-blue px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-900/35 transition hover:bg-blue-600"
+              href={L("/services")}
+              className="inline-flex rounded-full bg-msv-blue px-7 py-2.5 text-sm font-semibold text-white shadow-[0_4px_20px_rgba(0,113,227,0.35)] transition duration-300 hover:bg-blue-600 hover:shadow-[0_6px_24px_rgba(0,113,227,0.4)]"
             >
-              회계·세무 라인업
+              {ctas.services}
             </Link>
             <Link
               href={company.brochurePath}
-              className="inline-flex border-2 border-white/45 bg-white/10 px-6 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:border-white/70 hover:bg-white/15"
+              className="inline-flex rounded-full border border-white/35 bg-white/12 px-7 py-2.5 text-sm font-semibold text-white backdrop-blur-md transition duration-300 hover:border-white/55 hover:bg-white/18"
             >
-              회사 프로필 PDF
+              {ctas.pdf}
             </Link>
             <Link
-              href="/contact"
-              className="inline-flex border-2 border-white/25 bg-transparent px-6 py-2.5 text-sm font-semibold text-white/95 transition hover:border-white/50 hover:bg-white/10"
+              href={L("/contact")}
+              className="inline-flex rounded-full border border-white/22 bg-transparent px-7 py-2.5 text-sm font-semibold text-white/92 transition duration-300 hover:border-white/45 hover:bg-white/10"
             >
-              문의하기
+              {ctas.contact}
             </Link>
             <Link
-              href="/about"
+              href={L("/about")}
               className="inline-flex items-center px-2 py-2.5 text-sm font-medium text-white/85 underline-offset-4 hover:text-white hover:underline"
             >
-              회사 소개
+              {ctas.about}
             </Link>
             <Link
-              href="/mvs-intro"
+              href={L("/software")}
               className="inline-flex items-center px-2 py-2.5 text-sm font-medium text-white/85 underline-offset-4 hover:text-white hover:underline"
             >
-              MV System 소개
+              {ctas.software}
             </Link>
           </div>
-          <p className="mt-10 text-xs font-medium tracking-wide text-white/45">
-            고객 만족 {company.satisfaction} · Bangalore · 한국어 · English
-          </p>
+          <p className={`mt-10 ${homeTypo.heroFoot}`}>{ctas.foot}</p>
         </div>
       </div>
     </section>

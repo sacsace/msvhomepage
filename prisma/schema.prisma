@@ -1,0 +1,142 @@
+generator client {
+  provider   = "prisma-client-js"
+  // 기본 `node_modules/.prisma` 와 `src/generated` 에서 Windows EPERM(rename) 이 난 경우를 줄이기 위해 prisma 전용 디렉터리 사용
+  output     = "./generated/client"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// 단일 행(id=1) — SMTP 문의 발송 설정
+model MailSettings {
+  id          Int     @id @default(1)
+  host        String  @default("")
+  port        Int     @default(587)
+  secure      Boolean @default(false)
+  user        String  @default("")
+  pass        String  @default("")
+  fromAddress String  @default("")
+  toAddress   String  @default("lee@msventures.in, info@msventures.in")
+}
+
+/// 단일 행(id=1) — 관리자 bcrypt 해시
+model AdminAuth {
+  id           Int     @id @default(1)
+  passwordHash String?
+}
+
+model Article {
+  id        String   @id
+  title     String
+  slug      String   @unique
+  excerpt   String
+  body      String
+  createdAt DateTime
+  updatedAt DateTime
+}
+
+model Announcement {
+  id        String   @id
+  title     String
+  body      String
+  pinned    Boolean  @default(false)
+  createdAt DateTime
+  updatedAt DateTime
+}
+
+/// answers: QnaAnswer[] JSON
+model QnaThread {
+  id        String   @id
+  title     String
+  body      String
+  author    String
+  createdAt DateTime
+  answers   Json
+}
+
+/// 회사 소개 연혁 — 관리자에서 편집, 공개는 DB 우선·없으면 site-content 기본값
+model CompanyHistoryEntry {
+  id         String   @id @default(uuid())
+  sortOrder  Int      @default(0)
+  period     String
+  body       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Client {
+  id          String   @id
+  name        String
+  logoSrc     String?
+  sector      String?
+  website     String?
+  note        String?
+  sortOrder   Int      @default(0)
+  /// 메인 페이지 하단 「주요 고객사」에 표시(관리자에서 최대 12개)
+  showOnHome  Boolean  @default(false)
+  createdAt   DateTime
+  updatedAt   DateTime
+}
+
+model StaffProfile {
+  id        String   @id
+  name      String
+  /// 담당 부서(앱·관리 UI에서는 「담당 부서」로 표기)
+  role      String
+  intro     String
+  email     String?
+  photoSrc  String?
+  createdAt DateTime
+  updatedAt DateTime
+}
+
+model TaxCalendarEvent {
+  id        String   @id
+  date      String
+  kind      String
+  title     String?
+  note      String?
+  createdAt DateTime
+  updatedAt DateTime
+}
+
+model OngoingTask {
+  id        String   @id
+  title     String
+  body      String
+  createdAt DateTime
+  updatedAt DateTime
+}
+
+/// 이메일(소문자) → 공개 사진 경로
+model StaffPhoto {
+  emailLower String @id
+  path       String
+}
+
+/// 이메일(소문자) → 리더십 요약 본문
+model LeadershipSummary {
+  emailLower String @id
+  summary    String
+}
+
+/// `site-content` 기본 경영진 이메일별 — 관리자가 수정한 표시 이름·직함 (행 없으면 site-content 값)
+model LeadershipStaticProfile {
+  emailLower String   @id
+  name       String
+  role       String
+  updatedAt  DateTime @updatedAt
+}
+
+/// `site-content` leadership 외 관리자가 추가한 경영진
+model LeadershipExtraMember {
+  emailLower String   @id
+  role       String
+  name       String
+  sortOrder  Int      @default(100)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}

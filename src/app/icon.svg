@@ -1,0 +1,10 @@
+<!-- MSV 원형 마크 — components/brand/MsvMark.tsx 와 동기 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+  <circle cx="48" cy="48" r="48" fill="#0f2744" />
+  <circle cx="24" cy="32" r="10" fill="#ffffff" />
+  <circle cx="48" cy="32" r="10" fill="#ffffff" />
+  <circle cx="72" cy="32" r="10" fill="#ffffff" />
+  <circle cx="24" cy="64" r="10" fill="#ffffff" />
+  <circle cx="48" cy="64" r="10" fill="#ffffff" />
+  <circle cx="72" cy="64" r="10" fill="#ffffff" />
+</svg>

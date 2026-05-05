@@ -3,12 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -H 0.0.0.0 -p 3100",
-    "build": "cross-env NODE_ENV=production next build",
+    "predev": "node scripts/clean-prisma-generated.cjs && npx cross-env DATABASE_URL=postgresql://prisma:prisma@127.0.0.1:5432/dummy?schema=public prisma generate",
+    "dev": "concurrently -k -n pg,web -c magenta,green \"node scripts/embedded-pg-serve.mjs\" \"node scripts/wait-embedded-ready.mjs && next dev -H 0.0.0.0 -p 3100\"",
+    "dev:webpack": "concurrently -k -n pg,web -c magenta,green \"node scripts/embedded-pg-serve.mjs\" \"node scripts/wait-embedded-ready.mjs && next dev -H 0.0.0.0 -p 3100 --webpack\"",
+    "dev:no-embed": "next dev -H 0.0.0.0 -p 3100",
+    "build": "node scripts/clean-prisma-generated.cjs && npx cross-env DATABASE_URL=postgresql://prisma:prisma@127.0.0.1:5432/dummy?schema=public prisma generate && cross-env MSV_LENIENT_DB_BUILD=1 NODE_ENV=production next build",
     "start": "next start -H 0.0.0.0",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "node scripts/postinstall-prisma.cjs",
+    "db:ping": "node scripts/db-ping.cjs",
+    "db:doctor": "node scripts/db-doctor.cjs",
+    "db:ping:prod": "cross-env MSV_MERGE_PRODUCTION=1 node scripts/db-ping.cjs",
+    "db:bootstrap": "node scripts/bootstrap-db-role.cjs",
+    "db:bootstrap:prod": "cross-env MSV_MERGE_PRODUCTION=1 node scripts/bootstrap-db-role.cjs",
+    "db:push": "node scripts/merged-env-run.cjs npx prisma db push",
+    "db:push:prod": "cross-env MSV_MERGE_PRODUCTION=1 node scripts/merged-env-run.cjs npx prisma db push",
+    "db:seed": "node scripts/merged-env-run.cjs npx prisma db seed",
+    "db:seed:prod": "cross-env MSV_MERGE_PRODUCTION=1 node scripts/merged-env-run.cjs npx prisma db seed",
+    "db:import-tax": "node scripts/merged-env-run.cjs npx tsx scripts/sync-tax-json-to-db.ts",
+    "db:import-tax:prod": "cross-env MSV_MERGE_PRODUCTION=1 node scripts/merged-env-run.cjs npx tsx scripts/sync-tax-json-to-db.ts",
+    "db:studio": "node scripts/merged-env-run.cjs npx prisma studio",
+    "db:studio:prod": "cross-env MSV_MERGE_PRODUCTION=1 node scripts/merged-env-run.cjs npx prisma studio",
+    "credentials:export": "node scripts/export-company-credential-previews.mjs"
+  },
+  "prisma": {
+    "seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@prisma/client": "^6.19.0",
     "bcryptjs": "^3.0.3",
     "jose": "^6.2.2",
     "next": "16.2.4",
@@ -25,10 +47,17 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/sanitize-html": "^2.16.1",
+    "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
+    "dotenv-cli": "^11.0.0",
+    "embedded-postgres": "^18.3.0-beta.17",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
+    "pdf-to-img": "^4.5.0",
+    "pg": "^8.16.0",
+    "prisma": "^6.19.0",
     "tailwindcss": "^4.2.4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

@@ -1,36 +1,54 @@
 import Link from "next/link";
+import { ClientsSection } from "@/components/home/ClientsSection";
 import { SpotlightHighlightGrid } from "@/components/home/SpotlightHighlightGrid";
+import { homeSpotlightLeadRow, homeTypo } from "@/lib/home-typography";
+import {
+  investmentRemittanceSpotlightEn,
+  investmentRemittanceSpotlightZh,
+  spotlightCtas,
+} from "@/lib/i18n/public-home";
+import type { SiteLocale } from "@/lib/site-locale";
+import { withLocalePrefix } from "@/lib/site-locale";
 import { investmentRemittanceSpotlight } from "@/lib/site-content";
 
-export function InvestmentRemittanceSpotlight() {
-  const { eyebrow, title, body, highlights, servicesHref } = investmentRemittanceSpotlight;
+type Props = {
+  locale: SiteLocale;
+};
+
+export async function InvestmentRemittanceSpotlight({ locale }: Props) {
+  const block =
+    locale === "en"
+      ? investmentRemittanceSpotlightEn
+      : locale === "zh"
+        ? investmentRemittanceSpotlightZh
+        : investmentRemittanceSpotlight;
+  const { eyebrow, title, body, highlights } = block;
+  const servicesHref = "/services";
+  const ctas = spotlightCtas(locale);
 
   return (
     <section
-      className="border-y border-msv-navy/8 bg-gradient-to-b from-msv-blue-soft/35 via-white to-background py-14 sm:py-16"
+      className="overflow-x-hidden bg-gradient-to-b from-msv-blue-soft/35 via-white to-background pt-4 pb-14 sm:pt-5 sm:pb-16"
       aria-labelledby="investment-remittance-heading"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className={`mx-auto max-w-6xl ${homeTypo.pageInset}`}>
         <div className="msv-card p-6 sm:p-8">
-          <p className="flex items-stretch gap-3 text-[13px] font-medium tracking-wide text-msv-navy/70 sm:text-sm">
+          <p className={homeSpotlightLeadRow}>
             <span className="w-px shrink-0 rounded-full bg-msv-blue/45" aria-hidden />
-            <span>{eyebrow}</span>
+            <span className={homeTypo.leadInNavy}>{eyebrow}</span>
           </p>
-          <h2
-            id="investment-remittance-heading"
-            className="mt-5 text-2xl font-bold tracking-tight text-msv-navy sm:text-[1.75rem] lg:text-[1.875rem]"
-          >
+          <h2 id="investment-remittance-heading" className={`mt-5 ${homeTypo.sectionHeadingNavy}`}>
             {title}
           </h2>
-          <p className="mt-6 text-sm leading-relaxed text-slate-600 sm:text-[15px]">{body}</p>
+          <p className={`mt-6 ${homeTypo.body}`}>{body}</p>
           <SpotlightHighlightGrid items={highlights} />
-          <Link
-            href={servicesHref}
-            className="mt-8 inline-flex text-sm font-semibold text-msv-blue underline-offset-4 hover:underline"
-          >
-            서비스 상세 보기
+          <Link href={withLocalePrefix(servicesHref, locale)} className={`mt-8 inline-flex ${homeTypo.linkCta}`}>
+            {ctas.investment}
           </Link>
         </div>
+      </div>
+      <div className={`mx-auto max-w-6xl ${homeTypo.pageInset}`}>
+        <ClientsSection variant="embedded" locale={locale} />
       </div>
     </section>
   );

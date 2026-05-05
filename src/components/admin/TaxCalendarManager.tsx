@@ -1,25 +1,28 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { TAX_CALENDAR_KINDS, type TaxCalendarEvent, type TaxCalendarKind } from "@/types/tax-calendar-event";
-
-const KIND_LABELS: Record<TaxCalendarKind, string> = {
-  TDS: "TDS",
-  GST: "GST",
-  PT: "PT (Professional Tax)",
-  ESI: "ESI",
-  ECB: "ECB",
-  ADVANCE_TAX: "Advance Tax",
-  SHAREHOLDER_MEETING: "주주회의",
-};
+import {
+  TAX_CALENDAR_FORM_CUSTOM,
+  TAX_CALENDAR_KINDS,
+  TAX_CALENDAR_KIND_LABEL_FULL,
+  isTaxCalendarPresetKind,
+  taxCalendarKindLabelFull,
+  type TaxCalendarEvent,
+  type TaxCalendarKind,
+} from "@/types/tax-calendar-event";
 
 type Props = { initialItems: TaxCalendarEvent[] };
+
+function initialKindSelect(kind: string): TaxCalendarKind | typeof TAX_CALENDAR_FORM_CUSTOM {
+  return isTaxCalendarPresetKind(kind) ? kind : TAX_CALENDAR_FORM_CUSTOM;
+}
 
 export function TaxCalendarManager({ initialItems }: Props) {
   const [items, setItems] = useState(initialItems);
   const [error, setError] = useState<string | null>(null);
   const [date, setDate] = useState("");
-  const [kind, setKind] = useState<TaxCalendarKind>("GST");
+  const [kindSelect, setKindSelect] = useState<TaxCalendarKind | typeof TAX_CALENDAR_FORM_CUSTOM>("GST");
+  const [customKind, setCustomKind] = useState("");
   const [title, setTitle] = useState("");
   const [note, setNote] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -39,10 +42,23 @@ export function TaxCalendarManager({ initialItems }: Props) {
     }
   }, []);
 
+  function resolveKindForSubmit(): string | null {
+    if (kindSelect === TAX_CALENDAR_FORM_CUSTOM) {
+      const t = customKind.trim();
+      return t || null;
+    }
+    return kindSelect;
+  }
+
   async function create(e: React.FormEvent) {
     e.preventDefault();
     if (!date) {
       setError("날짜를 선택하세요.");
+      return;
+    }
+    const kind = resolveKindForSubmit();
+    if (!kind) {
+      setError("유형을 직접 입력해 주세요.");
       return;
     }
     const res = await fetch("/api/admin/tax-calendar", {
@@ -57,6 +73,8 @@ export function TaxCalendarManager({ initialItems }: Props) {
     }
     setTitle("");
     setNote("");
+    setCustomKind("");
+    setKindSelect("GST");
     await reload();
   }
 
@@ -105,20 +123,40 @@ export function TaxCalendarManager({ initialItems }: Props) {
               required
             />
           </label>
-          <label className="block text-xs text-zinc-600">
-            유형
-            <select
-              value={kind}
-              onChange={(e) => setKind(e.target.value as TaxCalendarKind)}
-              className="mt-1 block w-full rounded border border-zinc-300 px-2 py-1.5 text-sm sm:w-52"
-            >
-              {TAX_CALENDAR_KINDS.map((k) => (
-                <option key={k} value={k}>
-                  {KIND_LABELS[k]}
-                </option>
-              ))}
-            </select>
-          </label>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
+            <label className="block text-xs text-zinc-600">
+              유형
+              <select
+                value={kindSelect}
+                onChange={(e) => {
+                  const v = e.target.value as TaxCalendarKind | typeof TAX_CALENDAR_FORM_CUSTOM;
+                  setKindSelect(v);
+                  if (v !== TAX_CALENDAR_FORM_CUSTOM) setCustomKind("");
+                }}
+                className="mt-1 block w-full rounded border border-zinc-300 px-2 py-1.5 text-sm sm:w-52"
+              >
+                {TAX_CALENDAR_KINDS.map((k) => (
+                  <option key={k} value={k}>
+                    {TAX_CALENDAR_KIND_LABEL_FULL[k]}
+                  </option>
+                ))}
+                <option value={TAX_CALENDAR_FORM_CUSTOM}>직접 입력</option>
+              </select>
+            </label>
+            {kindSelect === TAX_CALENDAR_FORM_CUSTOM ? (
+              <label className="block min-w-[10rem] text-xs text-zinc-600 sm:min-w-[12rem]">
+                유형 직접 입력
+                <input
+                  value={customKind}
+                  onChange={(e) => setCustomKind(e.target.value)}
+                  className="mt-1 block w-full rounded border border-zinc-300 px-2 py-1.5 text-sm"
+                  placeholder="예: RBI 보고, FEMA"
+                  maxLength={60}
+                  aria-required
+                />
+              </label>
+            ) : null}
+          </div>
           <label className="block min-w-[8rem] flex-1 text-xs text-zinc-600">
             제목 (선택)
             <input
@@ -167,7 +205,7 @@ export function TaxCalendarManager({ initialItems }: Props) {
                     <div>
                       <p className="text-sm font-semibold text-zinc-900">
                         {row.date}{" "}
-                        <span className="font-normal text-msv-blue">{KIND_LABELS[row.kind]}</span>
+                        <span className="font-normal text-msv-blue">{taxCalendarKindLabelFull(row.kind)}</span>
                       </p>
                       {row.title ? <p className="mt-1 text-sm text-zinc-700">{row.title}</p> : null}
                       {row.note ? <p className="mt-1 text-xs text-zinc-500">{row.note}</p> : null}
@@ -209,15 +247,30 @@ function EditRow({
   onSave: (p: Partial<TaxCalendarEvent>) => void | Promise<void>;
 }) {
   const [date, setDate] = useState(row.date);
-  const [kind, setKind] = useState(row.kind);
+  const [kindSelect, setKindSelect] = useState(() => initialKindSelect(row.kind));
+  const [customKind, setCustomKind] = useState(() =>
+    isTaxCalendarPresetKind(row.kind) ? "" : row.kind,
+  );
   const [title, setTitle] = useState(row.title ?? "");
   const [note, setNote] = useState(row.note ?? "");
+
+  function resolvedKind(): string | null {
+    if (kindSelect === TAX_CALENDAR_FORM_CUSTOM) {
+      const t = customKind.trim();
+      return t || null;
+    }
+    return kindSelect;
+  }
 
   return (
     <form
       className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end"
       onSubmit={(e) => {
         e.preventDefault();
+        const kind = resolvedKind();
+        if (!kind) {
+          return;
+        }
         void onSave({ date, kind, title: title.trim() || undefined, note: note.trim() || undefined });
       }}
     >
@@ -227,17 +280,33 @@ function EditRow({
         onChange={(e) => setDate(e.target.value)}
         className="rounded border border-zinc-300 px-2 py-1.5 text-sm"
       />
-      <select
-        value={kind}
-        onChange={(e) => setKind(e.target.value as TaxCalendarKind)}
-        className="rounded border border-zinc-300 px-2 py-1.5 text-sm"
-      >
-        {TAX_CALENDAR_KINDS.map((k) => (
-          <option key={k} value={k}>
-            {k}
-          </option>
-        ))}
-      </select>
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
+        <select
+          value={kindSelect}
+          onChange={(e) => {
+            const v = e.target.value as TaxCalendarKind | typeof TAX_CALENDAR_FORM_CUSTOM;
+            setKindSelect(v);
+            if (v !== TAX_CALENDAR_FORM_CUSTOM) setCustomKind("");
+          }}
+          className="rounded border border-zinc-300 px-2 py-1.5 text-sm"
+        >
+          {TAX_CALENDAR_KINDS.map((k) => (
+            <option key={k} value={k}>
+              {TAX_CALENDAR_KIND_LABEL_FULL[k]}
+            </option>
+          ))}
+          <option value={TAX_CALENDAR_FORM_CUSTOM}>직접 입력</option>
+        </select>
+        {kindSelect === TAX_CALENDAR_FORM_CUSTOM ? (
+          <input
+            value={customKind}
+            onChange={(e) => setCustomKind(e.target.value)}
+            className="min-w-[12rem] rounded border border-zinc-300 px-2 py-1.5 text-sm"
+            placeholder="유형 입력"
+            maxLength={60}
+          />
+        ) : null}
+      </div>
       <input
         value={title}
         onChange={(e) => setTitle(e.target.value)}

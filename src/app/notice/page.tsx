@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { staticPageSeo } from "@/lib/seo-metadata";
 import { PageHeader } from "@/components/layout/PageHeader";
-import {
-  readAnnouncements,
-  sortAnnouncementsPublic,
-} from "@/lib/announcements-store";
+import { StandardPageBody } from "@/components/layout/StandardPageBody";
+import { sortAnnouncementsPublic } from "@/lib/announcements-store";
+import { getCachedAnnouncements } from "@/lib/public-page-data-cache";
 import { company } from "@/lib/site-content";
 import { textExcerpt } from "@/lib/richtext";
 
@@ -14,21 +13,22 @@ export const metadata: Metadata = staticPageSeo("/notice", {
   description: `${company.shortName} 공지사항 목록`,
 });
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 const listGrid =
-  "md:grid md:grid-cols-[3.5rem_7.5rem_3.25rem_minmax(0,1fr)] md:items-start md:gap-x-4" as const;
+  "md:grid md:grid-cols-[3.5rem_7.5rem_3.25rem_minmax(0,1fr)] md:items-center md:gap-x-4" as const;
 
 export default async function NoticeListPage() {
-  const list = sortAnnouncementsPublic(await readAnnouncements());
+  const list = sortAnnouncementsPublic(await getCachedAnnouncements());
 
   return (
     <>
       <PageHeader
         title="공지사항"
         description="회사 소식과 안내를 올립니다."
+        descriptionWide
       />
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
+      <StandardPageBody>
         {list.length === 0 ? (
           <p className="text-sm text-slate-500">등록된 공지가 없습니다.</p>
         ) : (
@@ -73,14 +73,14 @@ export default async function NoticeListPage() {
                   <div className="min-w-0 md:min-h-0">
                     <Link
                       href={`/notice/${a.id}`}
-                      className="group block rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue"
+                      className="group flex min-w-0 items-baseline gap-2 rounded-sm text-base leading-snug focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue sm:gap-4"
                     >
-                      <h2 className="text-base font-bold leading-snug text-msv-navy group-hover:text-msv-blue group-hover:underline">
+                      <span className="min-w-0 flex-1 truncate font-bold text-msv-navy group-hover:text-msv-blue group-hover:underline">
                         {a.title}
-                      </h2>
-                      <p className="mt-1.5 text-sm leading-relaxed text-slate-600 line-clamp-3 md:line-clamp-2">
+                      </span>
+                      <span className="max-w-[42%] shrink-0 truncate text-right text-sm font-normal text-slate-600 sm:max-w-[48%] md:max-w-[50%]">
                         {textExcerpt(a.body, 160)}
-                      </p>
+                      </span>
                     </Link>
                   </div>
                 </li>
@@ -88,7 +88,7 @@ export default async function NoticeListPage() {
             </ul>
           </div>
         )}
-      </div>
+      </StandardPageBody>
     </>
   );
 }

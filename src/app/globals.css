@@ -1,16 +1,36 @@
 @import "tailwindcss";
 
-/* 피치덱 / 테크 기업형: 네이비 + 로열 블루 + 틸 + 모카 (참고 시안) */
+/*
+ * Apple.com 수준의 미니멀 프리미엄 UI 토큰 & 베이스 스타일
+ * 로직/컴포넌트/TS는 변경하지 않음 — CSS(@theme + 레이어)만 조정
+ */
+
 :root {
-  --background: #f4f6f9;
-  --foreground: #0f172a;
-  --msv-navy: #0f2744;
-  --msv-blue: #2d5bff;
-  --msv-blue-soft: #e8edff;
-  --msv-teal: #0d9488;
-  --msv-mocha: #9a8468;
+  --msv-space-1: 4px;
+  --msv-space-2: 8px;
+  --msv-space-3: 12px;
+  --msv-space-4: 16px;
+  --msv-space-6: 24px;
+  --msv-space-8: 32px;
+  --msv-space-12: 48px;
+  --msv-space-16: 64px;
+  --msv-space-24: 96px;
+
+  --background: #ffffff;
+  --foreground: #111111;
+  --msv-navy: #111111;
+  --msv-blue: #0071e3;
+  --msv-blue-soft: #f0f7ff;
+  --msv-teal: #0a7d73;
+  --msv-mocha: #6e6e73;
   --msv-card: #ffffff;
-  --msv-border: #e2e8f0;
+  --msv-border: #e5e5e7;
+  --msv-divider: #e5e5e7;
+  --msv-radius-card: 14px;
+  --msv-radius-control: 10px;
+  --msv-shadow-card: 0 2px 8px rgb(0 0 0 / 0.04);
+  --msv-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --msv-duration: 0.25s;
 }
 
 @theme inline {
@@ -22,35 +42,210 @@
   --color-msv-teal: var(--msv-teal);
   --color-msv-mocha: var(--msv-mocha);
   --color-msv-card: var(--msv-card);
-  --font-sans: var(--font-noto), ui-sans-serif, system-ui, sans-serif;
+
+  /* 시스템 스택 + 한글(Noto, layout의 --font-noto) */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, var(--font-noto), "Apple SD Gothic Neo", "Noto Sans KR",
+    sans-serif;
+
+  /* 콘텐츠 최대 폭 1280px (1200–1400px 가이드) */
+  --container-6xl: 80rem;
+
+  /* 타이포 스케일: 본문 16px, 캡션 13px, 헤드라인 여백·행간 */
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.45;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5;
+  --text-base: 1rem;
+  --text-base--line-height: 1.625;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.55;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.45;
+  --text-2xl: 1.375rem;
+  --text-2xl--line-height: 1.35;
+  --text-3xl: 1.5rem;
+  --text-3xl--line-height: 1.28;
+  --text-4xl: 1.875rem;
+  --text-4xl--line-height: 1.22;
+  --text-5xl: 2.5rem;
+  --text-5xl--line-height: 1.15;
+  --text-6xl: 3rem;
+  --text-6xl--line-height: 1.12;
+  --text-7xl: 3.5rem;
+  --text-7xl--line-height: 1.1;
+
+  /* Apple 톤 중립 그레이 (slate 유틸 전역 정제) */
+  --color-slate-50: #fbfbfd;
+  --color-slate-100: #f5f5f7;
+  --color-slate-200: #e5e5e7;
+  --color-slate-300: #d2d2d7;
+  --color-slate-400: #aeaeb2;
+  --color-slate-500: #86868b;
+  --color-slate-600: #6e6e73;
+  --color-slate-700: #424245;
+  --color-slate-800: #323232;
+  --color-slate-900: #111111;
+  --color-slate-950: #0a0a0a;
+
+  /* 관리 화면 등 zinc 보조 팔레트 동조 */
+  --color-zinc-50: #fbfbfd;
+  --color-zinc-100: #f5f5f7;
+  --color-zinc-200: #e5e5e7;
+  --color-zinc-300: #d2d2d7;
+  --color-zinc-400: #aeaeb2;
+  --color-zinc-500: #86868b;
+  --color-zinc-600: #6e6e73;
+  --color-zinc-700: #424245;
+  --color-zinc-800: #323232;
+  --color-zinc-900: #111111;
+  --color-zinc-950: #0a0a0a;
+
+  /* 액센트 블루 계열 (hover:bg-blue-600 등과 톤 맞춤) */
+  --color-blue-500: #0a84ff;
+  --color-blue-600: #0071e3;
+  --color-blue-700: #0058b0;
+
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.04);
+  --shadow-sm: 0 2px 8px rgb(0 0 0 / 0.04);
+  --shadow-md: 0 4px 20px rgb(0 0 0 / 0.06);
+  --shadow-lg: 0 8px 28px rgb(0 0 0 / 0.07);
+  --shadow-xl: 0 16px 40px rgb(0 0 0 / 0.08);
+  --shadow-2xl: 0 24px 48px rgb(0 0 0 / 0.1);
 }
 
-html {
-  scroll-behavior: smooth;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* 헤드라인: 살짝 타이트한 자간(유틸리티 font-weight·크기는 그대로 유지) */
+  main#main-content :where(h1, h2, h3) {
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  /* 폼 컨트롤 기본 톤만 보강(컴포넌트 유틸이 우선) */
+  main#main-content :where(input:not([type="checkbox"], [type="radio"], [type="range"], [type="file"]), textarea, select) {
+    border-radius: var(--msv-radius-control);
+    transition:
+      border-color var(--msv-duration) var(--msv-ease-standard),
+      box-shadow var(--msv-duration) var(--msv-ease-standard);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
+/* 본문 블록: 과하지 않은 페이드 + 소폭 이동 (과한 스태거 없음) */
+@media (prefers-reduced-motion: no-preference) {
+  main#main-content > * {
+    animation: msv-content-reveal 0.65s var(--msv-ease-standard) both;
+  }
 }
 
-/* 카드형 섹션 (피치덱 카드 느낌) */
+@keyframes msv-content-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 스티키 헤더: 스크롤에 따라 살짝 불투명·테두리 정리 — 단축 속성 뒤에 timeline 선언 (MDN 권장) */
+@supports (animation-timeline: scroll()) {
+  body > header {
+    animation-name: msv-header-scroll;
+    animation-duration: 1ms;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 5rem;
+  }
+}
+
+@keyframes msv-header-scroll {
+  from {
+    background-color: rgb(255 255 255 / 0.72);
+    border-bottom-color: rgb(229 229 231 / 0.35);
+  }
+  to {
+    background-color: rgb(255 255 255 / 0.96);
+    border-bottom-color: rgb(229 229 231 / 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main#main-content > * {
+    animation: none;
+  }
+
+  body > header {
+    animation: none;
+  }
+}
+
 .msv-card {
-  border-radius: 0.5rem;
+  border-radius: var(--msv-radius-card);
   border: 1px solid var(--msv-border);
   background: var(--msv-card);
-  box-shadow: 0 1px 2px rgb(15 23 42 / 0.04);
+  box-shadow: var(--msv-shadow-card);
 }
 
 .msv-eyebrow {
-  font-size: 0.6875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--msv-blue);
+  color: var(--msv-mocha);
 }
 
 :focus-visible {
   outline: 2px solid var(--msv-blue);
   outline-offset: 2px;
+  border-radius: var(--msv-radius-control);
+}
+
+::selection {
+  background-color: color-mix(in srgb, var(--msv-blue) 20%, transparent);
+  color: var(--foreground);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(0 0 0 / 0.2) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 99px;
+  background: rgb(0 0 0 / 0.22);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
 }

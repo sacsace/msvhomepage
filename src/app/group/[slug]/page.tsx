@@ -3,10 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { SectionTitle } from "@/components/SectionTitle";
 import { findGroupCompanyBySlug } from "@/lib/group-companies";
+import { getRequestLocale } from "@/lib/get-request-locale";
 import { staticPageSeo } from "@/lib/seo-metadata";
 import { splitIntroParagraphs } from "@/lib/split-intro-paragraphs";
+import { withLocalePrefix } from "@/lib/site-locale";
 import { groupCompanies } from "@/lib/site-content";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -18,78 +21,87 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const g = findGroupCompanyBySlug(slug);
-  if (!g) return { title: "함께하는 회사" };
+  if (!g) return { title: "그룹사" };
   return staticPageSeo(`/group/${g.slug}`, {
-    title: g.menuLabel,
-    absoluteTitle: `${g.menuLabel} | 함께하는 회사`,
+    title: g.legalName,
+    absoluteTitle: `${g.legalName} | 그룹사`,
     description: `${g.legalName} — ${g.role}`,
   });
 }
+
+const cardSection = "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8";
+
+const bodyText = "text-sm leading-relaxed text-slate-600 break-keep";
+
+/** 자료실 글 상세(`StandardPageBody width="3xl"`)와 동일한 읽기 폭 */
+const introColumn = "mx-auto w-full max-w-3xl text-pretty";
 
 export default async function GroupCompanyPage({ params }: Props) {
   const { slug } = await params;
   const g = findGroupCompanyBySlug(slug);
   if (!g) notFound();
 
+  const locale = await getRequestLocale();
+  const L = (path: string) => withLocalePrefix(path, locale);
   const aboutParagraphs = splitIntroParagraphs(g.intro);
 
   return (
-    <div>
+    <>
       <PageHeader
-        title={g.menuLabel}
-        description={`${g.legalName} — ${g.role}`}
+        title={g.legalName}
+        description={g.menuLabel === g.legalName ? g.role : `${g.menuLabel} — ${g.role}`}
+        descriptionWide
       />
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
+      <StandardPageBody className="space-y-12 sm:space-y-14">
         {g.website || g.profilePdf ? (
-          <section className="msv-card rounded-xl p-5 shadow-sm sm:p-6">
+          <section className={cardSection}>
             <p className="msv-eyebrow">바로가기</p>
-            <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            <div className="mt-4 flex flex-wrap gap-3">
               {g.website ? (
                 <a
                   href={g.website}
-                  className="font-semibold text-msv-blue underline-offset-2 hover:underline"
+                  className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  웹사이트 →
+                  웹사이트
                 </a>
               ) : null}
               {g.profilePdf ? (
                 <a
                   href={g.profilePdf}
-                  className="font-semibold text-msv-blue underline-offset-2 hover:underline"
+                  className="rounded-lg border border-msv-navy/40 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:bg-msv-navy/5"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  비즈니스 소개 PDF →
+                  비즈니스 소개 PDF
                 </a>
               ) : null}
             </div>
           </section>
         ) : null}
 
-        <section className={g.website || g.profilePdf ? "mt-10 sm:mt-12" : ""}>
-          <SectionTitle
-            eyebrow="About"
-            title="소개"
-            spacing="tight"
-            density="compact"
-            contentWidth="full"
-          />
-          <div className="mt-4 space-y-4 sm:space-y-5">
-            {aboutParagraphs.map((para, i) => (
-              <p
-                key={`${g.slug}-about-${i}`}
-                className="max-w-none text-base leading-relaxed text-pretty text-slate-600 break-keep sm:text-[17px] sm:leading-[1.75]"
-              >
-                {para}
-              </p>
-            ))}
+        <section className={cardSection}>
+          <div className={introColumn}>
+            <SectionTitle
+              eyebrow="About"
+              title="소개"
+              spacing="tight"
+              density="compact"
+              contentWidth="full"
+            />
+            <div className="mt-4 space-y-3">
+              {aboutParagraphs.map((para, i) => (
+                <p key={`${g.slug}-about-${i}`} className={`m-0 ${bodyText}`}>
+                  {para}
+                </p>
+              ))}
+            </div>
           </div>
         </section>
 
         {g.gallery && g.gallery.length > 0 ? (
-          <section className="mt-14 sm:mt-16">
+          <section className={cardSection}>
             <SectionTitle
               eyebrow="Gallery"
               title="사진"
@@ -98,7 +110,7 @@ export default async function GroupCompanyPage({ params }: Props) {
               headingLevel={3}
               contentWidth="full"
             />
-            <ul className="mt-6 grid list-none gap-5 sm:grid-cols-2">
+            <ul className="mt-6 grid list-none gap-4 sm:grid-cols-2 sm:gap-5">
               {g.gallery.map((img) => (
                 <li
                   key={img.src}
@@ -114,7 +126,7 @@ export default async function GroupCompanyPage({ params }: Props) {
                     />
                   </div>
                   {img.caption ? (
-                    <p className="border-t border-slate-100 px-3 py-2.5 text-xs leading-relaxed text-slate-600">
+                    <p className="border-t border-slate-200 px-4 py-3 text-sm leading-relaxed text-slate-600 sm:px-5">
                       {img.caption}
                     </p>
                   ) : null}
@@ -124,31 +136,46 @@ export default async function GroupCompanyPage({ params }: Props) {
           </section>
         ) : null}
 
-        <section className="mt-14 sm:mt-16">
-          <SectionTitle
-            eyebrow="Highlights"
-            title="주요 내용"
-            spacing="tight"
-            density="compact"
-            contentWidth="full"
-          />
-          <div className="mt-6 msv-card rounded-xl p-6 shadow-sm sm:p-8">
-            <ul className="list-inside list-disc space-y-2 text-sm leading-relaxed text-slate-600">
+        <section className={cardSection}>
+          <div className={introColumn}>
+            <SectionTitle
+              eyebrow="Highlights"
+              title="주요 내용"
+              spacing="tight"
+              density="compact"
+              headingLevel={3}
+              contentWidth="full"
+            />
+            <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 marker:text-msv-blue">
               {g.highlights.map((h) => (
-                <li key={h}>{h}</li>
+                <li key={h} className="pl-1">
+                  {h}
+                </li>
               ))}
             </ul>
           </div>
         </section>
 
-        <section className="mt-14 border-t border-slate-200 pt-12 sm:mt-16 sm:pt-14">
-          <p className="text-sm text-slate-600">
-            <Link href="/group" className="font-semibold text-msv-blue underline-offset-2 hover:underline">
-              ← 함께하는 회사 목록
-            </Link>
+        <section className="rounded-2xl border border-slate-200 bg-msv-blue-soft/15 p-6 sm:p-8">
+          <p className={`${introColumn} ${bodyText}`}>
+            그룹사 목록으로 돌아가거나 회사 소개를 이어서 보실 수 있습니다.
           </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href={L("/group")}
+              className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
+            >
+              그룹사 목록
+            </Link>
+            <Link
+              href={L("/about")}
+              className="rounded-lg border border-msv-navy/40 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:bg-msv-navy/5"
+            >
+              회사 소개
+            </Link>
+          </div>
         </section>
-      </div>
-    </div>
+      </StandardPageBody>
+    </>
   );
 }

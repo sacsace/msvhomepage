@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
+import { readRichBodyFromForm } from "@/lib/admin-read-rich-body";
 import { isRichTextMeaningful, textExcerpt } from "@/lib/richtext";
 import type { OngoingTask } from "@/types/ongoing-task";
 
@@ -19,7 +20,7 @@ export function OngoingTasksManager({ initialItems }: Props) {
   const reload = useCallback(async () => {
     setError(null);
     try {
-      const res = await fetch("/api/admin/ongoing-tasks");
+      const res = await fetch("/api/admin/ongoing-tasks", { credentials: "same-origin" });
       if (res.status === 401) {
         window.location.href = "/admin/login";
         return;
@@ -33,19 +34,27 @@ export function OngoingTasksManager({ initialItems }: Props) {
 
   async function create(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!createTitle.trim() || !isRichTextMeaningful(createBody)) {
-      setError("제목과 본문은 필수입니다.");
+    const form = e.currentTarget;
+    const bodyHtml = readRichBodyFromForm(form);
+    if (!createTitle.trim() || !isRichTextMeaningful(bodyHtml)) {
+      setError("제목과 본문은 필수입니다. 본문 에디터에 텍스트를 입력했는지 확인해 주세요.");
       return;
     }
     const res = await fetch("/api/admin/ongoing-tasks", {
       method: "POST",
+      credentials: "same-origin",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title: createTitle,
-        body: createBody,
+        body: bodyHtml,
       }),
     });
-    const data = await res.json();
+    let data: { error?: string } = {};
+    try {
+      data = (await res.json()) as { error?: string };
+    } catch {
+      data = { error: "서버 응답을 해석하지 못했습니다. 네트워크·로그인 상태를 확인해 주세요." };
+    }
     if (!res.ok) {
       setError(String(data.error || "등록 실패"));
       return;
@@ -57,19 +66,27 @@ export function OngoingTasksManager({ initialItems }: Props) {
 
   async function saveEdit(e: React.FormEvent<HTMLFormElement>, id: string) {
     e.preventDefault();
-    if (!editTitle.trim() || !isRichTextMeaningful(editBody)) {
-      setError("제목과 본문은 필수입니다.");
+    const form = e.currentTarget;
+    const bodyHtml = readRichBodyFromForm(form);
+    if (!editTitle.trim() || !isRichTextMeaningful(bodyHtml)) {
+      setError("제목과 본문은 필수입니다. 본문 에디터에 텍스트를 입력했는지 확인해 주세요.");
       return;
     }
     const res = await fetch(`/api/admin/ongoing-tasks/${id}`, {
       method: "PATCH",
+      credentials: "same-origin",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title: editTitle,
-        body: editBody,
+        body: bodyHtml,
       }),
     });
-    const data = await res.json();
+    let data: { error?: string } = {};
+    try {
+      data = (await res.json()) as { error?: string };
+    } catch {
+      data = { error: "서버 응답을 해석하지 못했습니다." };
+    }
     if (!res.ok) {
       setError(String(data.error || "저장 실패"));
       return;
@@ -82,7 +99,10 @@ export function OngoingTasksManager({ initialItems }: Props) {
 
   async function remove(id: string) {
     if (!confirm("삭제할까요?")) return;
-    const res = await fetch(`/api/admin/ongoing-tasks/${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/admin/ongoing-tasks/${id}`, {
+      method: "DELETE",
+      credentials: "same-origin",
+    });
     if (!res.ok) {
       setError("삭제 실패");
       return;

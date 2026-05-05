@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import { isRichTextMeaningful } from "@/lib/richtext";
 import { readOngoingTasks, sortOngoingTasks, writeOngoingTasks } from "@/lib/ongoing-tasks-store";
 import { requireAdmin } from "@/lib/require-admin";
@@ -34,7 +35,8 @@ export async function POST(request: Request) {
     all.unshift(item);
     await writeOngoingTasks(all);
     return NextResponse.json(item, { status: 201 });
-  } catch {
-    return NextResponse.json({ error: "저장 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/ongoing-tasks POST]", e);
+    return adminApiCatchResponse(e, "저장 실패");
   }
 }

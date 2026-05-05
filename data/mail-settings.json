@@ -1,9 +1,9 @@
 {
-  "host": "",
+  "host": "smtp.gmail.com",
   "port": 587,
   "secure": false,
-  "user": "",
+  "user": "info@msventures.in",
   "pass": "",
-  "fromAddress": "",
-  "toAddress": "info@msventures.in"
+  "fromAddress": "info@msventures.in",
+  "toAddress": "lee@msventures.in, info@msventures.in"
 }

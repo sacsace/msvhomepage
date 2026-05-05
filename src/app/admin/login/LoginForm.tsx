@@ -1,61 +1,47 @@
-"use client";
+const LOGIN_ERRORS: Record<string, string> = {
+  invalid: "비밀번호가 올바르지 않습니다.",
+  setup: "관리자 비밀번호가 설정되지 않았습니다.",
+  bad: "요청 형식이 올바르지 않습니다.",
+};
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+type Props = {
+  /** `/api/admin/login-form` 실패 시 `?error=` 코드 */
+  error?: string;
+};
 
-export function LoginForm() {
-  const router = useRouter();
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/admin/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(String(data.error || "로그인 실패"));
-        return;
-      }
-      router.push("/admin");
-      router.refresh();
-    } catch {
-      setError("네트워크 오류");
-    } finally {
-      setLoading(false);
-    }
-  }
+/**
+ * 네이티브 `POST` 폼 — LAN 등에서 `/_next` JS 가 막혀도 로그인됩니다.
+ * (주소창이 `.../admin/login?` 만 남는 경우는 보통 JS 미동작 후 GET 제출입니다.)
+ */
+export function LoginForm({ error }: Props) {
+  const msg =
+    error && Object.prototype.hasOwnProperty.call(LOGIN_ERRORS, error)
+      ? LOGIN_ERRORS[error]
+      : error
+        ? "로그인에 실패했습니다."
+        : null;
 
   return (
-    <form onSubmit={onSubmit} className="mt-8 space-y-4">
+    <form method="POST" action="/api/admin/login-form" className="mt-8 space-y-4">
       <div>
         <label htmlFor="pw" className="block text-xs font-medium text-zinc-600">
           비밀번호
         </label>
         <input
           id="pw"
+          name="password"
           type="password"
           autoComplete="current-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="mt-1.5 w-full border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400"
           required
+          className="mt-1.5 w-full border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-400"
         />
       </div>
-      {error ? <p className="text-sm text-red-600">{error}</p> : null}
+      {msg ? <p className="text-sm text-red-600">{msg}</p> : null}
       <button
         type="submit"
-        disabled={loading}
-        className="w-full border border-zinc-900 bg-zinc-900 py-2.5 text-sm font-medium text-white disabled:opacity-50"
+        className="w-full border border-zinc-900 bg-zinc-900 py-2.5 text-sm font-medium text-white hover:bg-zinc-800"
       >
-        {loading ? "확인 중…" : "로그인"}
+        로그인
       </button>
     </form>
   );

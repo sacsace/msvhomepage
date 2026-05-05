@@ -1,38 +1,52 @@
 import Link from "next/link";
 import { SpotlightHighlightGrid } from "@/components/home/SpotlightHighlightGrid";
+import { homeSpotlightLeadRow, homeTypo } from "@/lib/home-typography";
+import {
+  accountingOperationsSpotlightEn,
+  accountingOperationsSpotlightZh,
+  spotlightCtas,
+} from "@/lib/i18n/public-home";
+import type { SiteLocale } from "@/lib/site-locale";
+import { withLocalePrefix } from "@/lib/site-locale";
 import { accountingOperationsSpotlight } from "@/lib/site-content";
 
-export function AccountingOperationsSpotlight() {
-  const { eyebrow, title, paragraphs, highlights, servicesHref } = accountingOperationsSpotlight;
+type Props = {
+  locale: SiteLocale;
+};
+
+export function AccountingOperationsSpotlight({ locale }: Props) {
+  const block =
+    locale === "en"
+      ? accountingOperationsSpotlightEn
+      : locale === "zh"
+        ? accountingOperationsSpotlightZh
+        : accountingOperationsSpotlight;
+  const { eyebrow, title, paragraphs, highlights } = block;
+  const servicesHref = "/services";
+  const ctas = spotlightCtas(locale);
 
   return (
     <section
-      className="border-y border-msv-navy/8 bg-gradient-to-b from-msv-blue-soft/35 via-white to-background py-14 sm:py-16"
+      className="bg-gradient-to-b from-msv-blue-soft/35 via-white to-background pt-4 pb-6 sm:pt-5 sm:pb-8"
       aria-labelledby="accounting-operations-heading"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className={`mx-auto max-w-6xl ${homeTypo.pageInset}`}>
         <div className="msv-card p-6 sm:p-8">
-          <p className="flex items-stretch gap-3 text-[13px] font-medium tracking-wide text-msv-navy/70 sm:text-sm">
+          <p className={homeSpotlightLeadRow}>
             <span className="w-px shrink-0 rounded-full bg-msv-blue/45" aria-hidden />
-            <span>{eyebrow}</span>
+            <span className={homeTypo.leadInNavy}>{eyebrow}</span>
           </p>
-          <h2
-            id="accounting-operations-heading"
-            className="mt-5 text-2xl font-bold tracking-tight text-msv-navy sm:text-[1.75rem] lg:text-[1.875rem]"
-          >
+          <h2 id="accounting-operations-heading" className={`mt-5 ${homeTypo.sectionHeadingNavy}`}>
             {title}
           </h2>
-          <div className="mt-6 space-y-4 text-sm leading-relaxed text-slate-600 sm:text-[15px]">
+          <div className={`mt-6 space-y-4 ${homeTypo.body}`}>
             {paragraphs.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
           </div>
           <SpotlightHighlightGrid items={highlights} />
-          <Link
-            href={servicesHref}
-            className="mt-8 inline-flex text-sm font-semibold text-msv-blue underline-offset-4 hover:underline"
-          >
-            회계·세무 서비스 안내
+          <Link href={withLocalePrefix(servicesHref, locale)} className={`mt-8 inline-flex ${homeTypo.linkCta}`}>
+            {ctas.accounting}
           </Link>
         </div>
       </div>

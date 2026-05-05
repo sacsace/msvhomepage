@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import type { SiteLocale } from "@/lib/site-locale";
+import { withLocalePrefix } from "@/lib/site-locale";
 import { company, siteUrl } from "@/lib/site-content";
 
 const ogImage = "/msv-logo.png";
@@ -23,6 +25,12 @@ export function openGraphFor(pathname: string, overrides?: Partial<OpenGraphConf
     images: [{ url: ogImage, alt: `${company.shortName} 로고` }],
     ...overrides,
   };
+}
+
+function ogLocaleFor(locale: SiteLocale): string {
+  if (locale === "en") return "en_IN";
+  if (locale === "zh") return "zh_CN";
+  return "ko_KR";
 }
 
 type TwitterConfig = NonNullable<Metadata["twitter"]>;
@@ -55,6 +63,35 @@ export function staticPageSeo(pathname: string, opts: StaticPageSeoOpts): Metada
     ...canonicalFor(pathname),
     openGraph: {
       ...openGraphFor(pathname),
+      title: fullTitle,
+      description,
+    },
+    twitter: {
+      ...twitterCard(),
+      title: fullTitle,
+      description,
+    },
+  };
+}
+
+/** `/en/...` 등 실제 공개 URL과 맞는 canonical·OG locale */
+export function staticPageSeoLocalized(
+  internalPath: string,
+  opts: StaticPageSeoOpts,
+  locale: SiteLocale,
+): Metadata {
+  const canonicalPath = withLocalePrefix(internalPath.startsWith("/") ? internalPath : `/${internalPath}`, locale);
+  const fullTitle = opts.absoluteTitle ?? `${opts.title} | ${company.shortName}`;
+  const description = opts.description ?? company.taglineKo;
+  const titleField: Metadata["title"] = opts.absoluteTitle
+    ? { absolute: opts.absoluteTitle }
+    : opts.title;
+  return {
+    title: titleField,
+    description,
+    ...canonicalFor(canonicalPath),
+    openGraph: {
+      ...openGraphFor(canonicalPath, { locale: ogLocaleFor(locale) }),
       title: fullTitle,
       description,
     },

@@ -1,3 +1,7 @@
+/**
+ * 참조용 `data/tax-calendar.json` 생성기. 런타임 캘린더는 DB(`TaxCalendarEvent`)입니다.
+ * JSON을 DB에 반영하려면: `npm run db:import-tax` (또는 관리자 UI에서 저장).
+ */
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";

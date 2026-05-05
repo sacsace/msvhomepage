@@ -1,15 +1,12 @@
 import { NextResponse } from "next/server";
+import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import { readTaxCalendar, writeTaxCalendar } from "@/lib/tax-calendar-store";
 import { requireAdmin } from "@/lib/require-admin";
-import { TAX_CALENDAR_KINDS, type TaxCalendarEvent, type TaxCalendarKind } from "@/types/tax-calendar-event";
+import { parseTaxCalendarKindInput, type TaxCalendarEvent } from "@/types/tax-calendar-event";
 
 export const runtime = "nodejs";
 
 const dateRe = /^\d{4}-\d{2}-\d{2}$/;
-
-function isKind(v: unknown): v is TaxCalendarKind {
-  return typeof v === "string" && (TAX_CALENDAR_KINDS as readonly string[]).includes(v);
-}
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -27,10 +24,12 @@ export async function PATCH(request: Request, ctx: Ctx) {
     if (!dateRe.test(nextDate)) {
       return NextResponse.json({ error: "날짜는 YYYY-MM-DD 형식이어야 합니다." }, { status: 400 });
     }
-    const nextKind = patch.kind !== undefined ? patch.kind : cur.kind;
-    if (!isKind(nextKind)) {
-      return NextResponse.json({ error: "유효하지 않은 일정 유형입니다." }, { status: 400 });
+    const rawKind = patch.kind !== undefined ? patch.kind : cur.kind;
+    const parsedKind = parseTaxCalendarKindInput(rawKind);
+    if (!parsedKind.ok) {
+      return NextResponse.json({ error: parsedKind.message }, { status: 400 });
     }
+    const nextKind = parsedKind.kind;
     const nextTitle = patch.title !== undefined ? String(patch.title).trim() : cur.title ?? "";
     const nextNote = patch.note !== undefined ? String(patch.note).trim() : cur.note ?? "";
     const next: TaxCalendarEvent = {
@@ -44,8 +43,9 @@ export async function PATCH(request: Request, ctx: Ctx) {
     all[idx] = next;
     await writeTaxCalendar(all);
     return NextResponse.json(next);
-  } catch {
-    return NextResponse.json({ error: "수정 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/tax-calendar PATCH]", e);
+    return adminApiCatchResponse(e, "수정 실패");
   }
 }
 
@@ -53,9 +53,14 @@ export async function DELETE(_request: Request, ctx: Ctx) {
   const denied = await requireAdmin();
   if (denied) return denied;
   const { id } = await ctx.params;
-  const all = await readTaxCalendar();
-  const next = all.filter((e) => e.id !== id);
-  if (next.length === all.length) return NextResponse.json({ error: "없음" }, { status: 404 });
-  await writeTaxCalendar(next);
-  return NextResponse.json({ ok: true });
+  try {
+    const all = await readTaxCalendar();
+    const next = all.filter((e) => e.id !== id);
+    if (next.length === all.length) return NextResponse.json({ error: "없음" }, { status: 404 });
+    await writeTaxCalendar(next);
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    console.error("[api/admin/tax-calendar DELETE]", e);
+    return adminApiCatchResponse(e, "삭제 실패");
+  }
 }

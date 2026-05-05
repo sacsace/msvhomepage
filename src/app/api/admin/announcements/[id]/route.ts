@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
+import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import {
-  readAnnouncements,
-  writeAnnouncements,
+  deleteAnnouncement,
+  getAnnouncement,
+  updateAnnouncement,
 } from "@/lib/announcements-store";
 import { isRichTextMeaningful } from "@/lib/richtext";
 import type { Announcement } from "@/types/announcement";
@@ -17,12 +19,10 @@ export async function PATCH(request: Request, ctx: Ctx) {
   const { id } = await ctx.params;
   try {
     const patch = (await request.json()) as Partial<Announcement>;
-    const all = await readAnnouncements();
-    const idx = all.findIndex((a) => a.id === id);
-    if (idx === -1) {
+    const cur = await getAnnouncement(id);
+    if (!cur) {
       return NextResponse.json({ error: "없음" }, { status: 404 });
     }
-    const cur = all[idx];
     const next: Announcement = {
       ...cur,
       title: patch.title !== undefined ? String(patch.title).trim() : cur.title,
@@ -33,11 +33,11 @@ export async function PATCH(request: Request, ctx: Ctx) {
     if (!next.title || !isRichTextMeaningful(next.body)) {
       return NextResponse.json({ error: "제목·내용 비움 불가" }, { status: 400 });
     }
-    all[idx] = next;
-    await writeAnnouncements(all);
+    await updateAnnouncement(id, next);
     return NextResponse.json(next);
-  } catch {
-    return NextResponse.json({ error: "수정 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/announcements PATCH]", e);
+    return adminApiCatchResponse(e, "수정 실패");
   }
 }
 
@@ -45,11 +45,14 @@ export async function DELETE(_request: Request, ctx: Ctx) {
   const denied = await requireAdmin();
   if (denied) return denied;
   const { id } = await ctx.params;
-  const all = await readAnnouncements();
-  const next = all.filter((a) => a.id !== id);
-  if (next.length === all.length) {
-    return NextResponse.json({ error: "없음" }, { status: 404 });
+  try {
+    const removed = await deleteAnnouncement(id);
+    if (!removed) {
+      return NextResponse.json({ error: "없음" }, { status: 404 });
+    }
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    console.error("[api/admin/announcements DELETE]", e);
+    return adminApiCatchResponse(e, "삭제 실패");
   }
-  await writeAnnouncements(next);
-  return NextResponse.json({ ok: true });
 }

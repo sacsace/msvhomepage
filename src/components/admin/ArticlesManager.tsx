@@ -2,6 +2,8 @@
 
 import { useCallback, useState } from "react";
 import type { Article } from "@/types/article";
+import { isRichTextMeaningful } from "@/lib/richtext";
+import { ArticleBodyEditor } from "@/components/admin/ArticleBodyEditor";
 
 type Props = { initialItems: Article[] };
 
@@ -9,11 +11,14 @@ export function ArticlesManager({ initialItems }: Props) {
   const [items, setItems] = useState(initialItems);
   const [error, setError] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [createEditorKey, setCreateEditorKey] = useState(0);
+  const [createBody, setCreateBody] = useState("");
+  const [editBody, setEditBody] = useState("");
 
   const reload = useCallback(async () => {
     setError(null);
     try {
-      const res = await fetch("/api/admin/articles");
+      const res = await fetch("/api/admin/articles", { credentials: "same-origin" });
       if (res.status === 401) {
         window.location.href = "/admin/login";
         return;
@@ -27,41 +32,65 @@ export function ArticlesManager({ initialItems }: Props) {
 
   async function create(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setError(null);
+    if (!isRichTextMeaningful(createBody)) {
+      setError("본문을 입력해 주세요.");
+      return;
+    }
     const form = e.currentTarget;
     const fd = new FormData(form);
     const res = await fetch("/api/admin/articles", {
       method: "POST",
+      credentials: "same-origin",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title: fd.get("title"),
         excerpt: fd.get("excerpt") || undefined,
-        body: fd.get("body"),
+        body: createBody,
       }),
     });
-    const data = await res.json();
+    let data: { error?: string } = {};
+    try {
+      data = (await res.json()) as { error?: string };
+    } catch {
+      data = { error: "서버 응답을 해석하지 못했습니다. 네트워크·로그인 상태를 확인해 주세요." };
+    }
     if (!res.ok) {
       setError(String(data.error || "등록 실패"));
       return;
     }
     form.reset();
+    setCreateBody("");
+    setCreateEditorKey((k) => k + 1);
     await reload();
   }
 
   async function saveEdit(e: React.FormEvent<HTMLFormElement>, id: string) {
     e.preventDefault();
+    setError(null);
+    if (!isRichTextMeaningful(editBody)) {
+      setError("본문을 비울 수 없습니다.");
+      return;
+    }
     const form = e.currentTarget;
     const fd = new FormData(form);
     const res = await fetch(`/api/admin/articles/${id}`, {
       method: "PATCH",
+      credentials: "same-origin",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title: fd.get("title"),
         excerpt: fd.get("excerpt"),
-        body: fd.get("body"),
+        body: editBody,
         slug: fd.get("slug") || undefined,
       }),
     });
-    const data = await res.json();
+    let data: { error?: string } = {};
+    try {
+      data = (await res.json()) as { error?: string };
+    } catch {
+      data = { error: "서버 응답을 해석하지 못했습니다." };
+    }
     if (!res.ok) {
       setError(String(data.error || "저장 실패"));
       return;
@@ -72,7 +101,10 @@ export function ArticlesManager({ initialItems }: Props) {
 
   async function remove(id: string) {
     if (!confirm("삭제할까요?")) return;
-    const res = await fetch(`/api/admin/articles/${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/admin/articles/${id}`, {
+      method: "DELETE",
+      credentials: "same-origin",
+    });
     if (!res.ok) {
       setError("삭제 실패");
       return;
@@ -98,12 +130,10 @@ export function ArticlesManager({ initialItems }: Props) {
             placeholder="요약 (비우면 본문 앞부분 사용)"
             className="w-full border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-zinc-400"
           />
-          <textarea
-            name="body"
-            required
-            rows={8}
-            placeholder="본문"
-            className="w-full border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-zinc-400"
+          <ArticleBodyEditor
+            key={`new-${createEditorKey}`}
+            initialHtml=""
+            onHtmlChange={setCreateBody}
           />
           <button
             type="submit"
@@ -137,12 +167,10 @@ export function ArticlesManager({ initialItems }: Props) {
                     defaultValue={a.excerpt}
                     className="w-full border border-zinc-200 px-3 py-2 text-sm"
                   />
-                  <textarea
-                    name="body"
-                    required
-                    rows={8}
-                    defaultValue={a.body}
-                    className="w-full border border-zinc-200 px-3 py-2 text-sm"
+                  <ArticleBodyEditor
+                    key={a.id}
+                    initialHtml={a.body}
+                    onHtmlChange={setEditBody}
                   />
                   <div className="flex gap-2">
                     <button
@@ -153,7 +181,10 @@ export function ArticlesManager({ initialItems }: Props) {
                     </button>
                     <button
                       type="button"
-                      onClick={() => setEditingId(null)}
+                      onClick={() => {
+                        setEditingId(null);
+                        setEditBody("");
+                      }}
                       className="border border-zinc-200 px-3 py-1.5 text-sm"
                     >
                       취소
@@ -168,7 +199,11 @@ export function ArticlesManager({ initialItems }: Props) {
                   <div className="mt-3 flex gap-2">
                     <button
                       type="button"
-                      onClick={() => setEditingId(a.id)}
+                      onClick={() => {
+                        setError(null);
+                        setEditBody(a.body);
+                        setEditingId(a.id);
+                      }}
                       className="text-sm text-zinc-600 underline-offset-2 hover:underline"
                     >
                       수정

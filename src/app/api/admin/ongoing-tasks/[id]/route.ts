@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import { isRichTextMeaningful } from "@/lib/richtext";
 import { readOngoingTasks, writeOngoingTasks } from "@/lib/ongoing-tasks-store";
 import { requireAdmin } from "@/lib/require-admin";
@@ -32,8 +33,9 @@ export async function PATCH(request: Request, ctx: Ctx) {
     all[idx] = next;
     await writeOngoingTasks(all);
     return NextResponse.json(next);
-  } catch {
-    return NextResponse.json({ error: "수정 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/ongoing-tasks PATCH]", e);
+    return adminApiCatchResponse(e, "수정 실패");
   }
 }
 
@@ -41,11 +43,16 @@ export async function DELETE(_request: Request, ctx: Ctx) {
   const denied = await requireAdmin();
   if (denied) return denied;
   const { id } = await ctx.params;
-  const all = await readOngoingTasks();
-  const next = all.filter((a) => a.id !== id);
-  if (next.length === all.length) {
-    return NextResponse.json({ error: "없음" }, { status: 404 });
+  try {
+    const all = await readOngoingTasks();
+    const next = all.filter((a) => a.id !== id);
+    if (next.length === all.length) {
+      return NextResponse.json({ error: "없음" }, { status: 404 });
+    }
+    await writeOngoingTasks(next);
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    console.error("[api/admin/ongoing-tasks DELETE]", e);
+    return adminApiCatchResponse(e, "삭제 실패");
   }
-  await writeOngoingTasks(next);
-  return NextResponse.json({ ok: true });
 }

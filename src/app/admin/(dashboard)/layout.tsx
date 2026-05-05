@@ -4,11 +4,14 @@ import { redirect } from "next/navigation";
 import { ADMIN_COOKIE, verifyAdminToken } from "@/lib/admin-auth";
 import { LogoutButton } from "./LogoutButton";
 
+export const dynamic = "force-dynamic";
+
 const nav = [
   { href: "/admin", label: "대시보드" },
-  { href: "/admin/ongoing-tasks", label: "진행중인 업무" },
+  { href: "/admin/company-history", label: "회사 연혁" },
+  { href: "/admin/ongoing-tasks", label: "프로젝트 현황" },
   { href: "/admin/announcements", label: "공지사항" },
-  { href: "/admin/articles", label: "관련 글" },
+  { href: "/admin/articles", label: "자료실" },
   { href: "/admin/tax-calendar", label: "신고·준수 달력" },
   { href: "/admin/staff-photos", label: "경영진 사진·소개" },
   { href: "/admin/staff", label: "직원 사진·소개" },

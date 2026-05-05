@@ -6,7 +6,7 @@ export default async function AdminArticlesPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold text-zinc-900">관련 글</h1>
+      <h1 className="text-xl font-semibold text-zinc-900">자료실</h1>
       <p className="mt-1 text-sm text-zinc-600">
         슬러그는 저장 시 자동 생성됩니다. 수정 시 URL이 바뀔 수 있습니다.
       </p>

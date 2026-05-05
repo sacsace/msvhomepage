@@ -2,26 +2,32 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { staticPageSeo } from "@/lib/seo-metadata";
 import { PageHeader } from "@/components/layout/PageHeader";
-import { readArticles, sortArticlesByDate } from "@/lib/articles-store";
+import { StandardPageBody } from "@/components/layout/StandardPageBody";
+import { sortArticlesByDate } from "@/lib/articles-store";
+import { getCachedArticles } from "@/lib/public-page-data-cache";
 import { textExcerpt } from "@/lib/richtext";
 
 export const metadata: Metadata = staticPageSeo("/articles", {
-  title: "관련 글",
-  description: "인도 진출·회계·세무 등 관련 글 목록",
+  title: "자료실",
+  description: "인도 진출·회계·세무 등 자료실 게시글 목록",
 });
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 const listGrid =
-  "md:grid md:grid-cols-[3.5rem_7.5rem_minmax(0,1fr)] md:items-start md:gap-x-4" as const;
+  "md:grid md:grid-cols-[3.5rem_7.5rem_minmax(0,1fr)] md:items-center md:gap-x-4" as const;
 
 export default async function ArticlesListPage() {
-  const list = sortArticlesByDate(await readArticles());
+  const list = sortArticlesByDate(await getCachedArticles());
 
   return (
     <>
-      <PageHeader title="관련 글" description="인도 비즈니스와 관련된 자료 및 안내 글입니다." />
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
+      <PageHeader
+        title="자료실"
+        description="인도 비즈니스와 관련된 자료·안내 글을 모아 두었습니다."
+        descriptionWide
+      />
+      <StandardPageBody>
         {list.length === 0 ? (
           <p className="text-sm text-slate-500">등록된 글이 없습니다.</p>
         ) : (
@@ -59,14 +65,14 @@ export default async function ArticlesListPage() {
                     <div className="min-w-0 md:min-h-0">
                       <Link
                         href={`/articles/${encodeURIComponent(a.slug)}`}
-                        className="group block rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue"
+                        className="group flex min-w-0 items-baseline gap-2 rounded-sm text-base leading-snug focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue sm:gap-4"
                       >
-                        <h2 className="text-base font-bold leading-snug text-msv-navy group-hover:text-msv-blue group-hover:underline">
+                        <span className="min-w-0 flex-1 truncate font-bold text-msv-navy group-hover:text-msv-blue group-hover:underline">
                           {a.title}
-                        </h2>
-                        <p className="mt-1.5 text-sm leading-relaxed text-slate-600 line-clamp-3 md:line-clamp-2">
+                        </span>
+                        <span className="max-w-[42%] shrink-0 truncate text-right text-sm font-normal text-slate-600 sm:max-w-[48%] md:max-w-[50%]">
                           {preview}
-                        </p>
+                        </span>
                       </Link>
                     </div>
                   </li>
@@ -75,7 +81,7 @@ export default async function ArticlesListPage() {
             </ul>
           </div>
         )}
-      </div>
+      </StandardPageBody>
     </>
   );
 }

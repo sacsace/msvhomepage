@@ -203,6 +203,7 @@ export function RichTextEditor({
         contentEditable
         suppressContentEditableWarning
         onInput={syncValue}
+        onBlur={syncValue}
         onClick={(e) => {
           const t = e.target;
           if (t instanceof HTMLImageElement) {

@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { NextResponse } from "next/server";
+import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import type { Client } from "@/types/client";
 import { removeStoredClientLogoFile } from "@/lib/client-logo-utils";
 import { readClients, writeClients } from "@/lib/clients-store";
@@ -63,8 +64,9 @@ export async function POST(request: Request, ctx: Ctx) {
     all[idx] = updated;
     await writeClients(all);
     return NextResponse.json({ ok: true, logoSrc: publicPath });
-  } catch {
-    return NextResponse.json({ error: "업로드 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/clients logo POST]", e);
+    return adminApiCatchResponse(e, "업로드 실패");
   }
 }
 
@@ -88,7 +90,8 @@ export async function DELETE(_request: Request, ctx: Ctx) {
     all[idx] = updated;
     await writeClients(all);
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "삭제 실패" }, { status: 500 });
+  } catch (e) {
+    console.error("[api/admin/clients logo DELETE]", e);
+    return adminApiCatchResponse(e, "삭제 실패");
   }
 }

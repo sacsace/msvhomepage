@@ -1,31 +1,34 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { staticPageSeo } from "@/lib/seo-metadata";
 import { maskOngoingTaskTitle } from "@/lib/mask-public-title";
-import { readOngoingTasks, sortOngoingTasks } from "@/lib/ongoing-tasks-store";
+import { getCachedOngoingTasks } from "@/lib/public-page-data-cache";
+import { sortOngoingTasks } from "@/lib/ongoing-tasks-store";
 import { company } from "@/lib/site-content";
 import { textExcerpt } from "@/lib/richtext";
 
 export const metadata: Metadata = staticPageSeo("/ongoing", {
-  title: "진행중인 업무",
-  description: `${company.shortName}에서 현재 진행 중인 업무를 안내합니다.`,
+  title: "프로젝트 현황",
+  description: `${company.shortName}에서 현재 진행 중인 프로젝트·업무 현황을 안내합니다.`,
 });
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 const listGrid =
-  "md:grid md:grid-cols-[3.75rem_7.5rem_minmax(0,1fr)] md:items-start md:gap-x-5" as const;
+  "md:grid md:grid-cols-[3.75rem_7.5rem_minmax(0,1fr)] md:items-center md:gap-x-5" as const;
 
 export default async function OngoingPage() {
-  const ongoing = sortOngoingTasks(await readOngoingTasks());
+  const ongoing = sortOngoingTasks(await getCachedOngoingTasks());
 
   return (
     <>
       <PageHeader
-        title="현재 진행중인 업무"
-        description="진행 중인 주요 업무를 정리해 두었습니다. 자세한 협의는 문의를 통해 연락 주시기 바랍니다."
+        title="프로젝트 현황"
+        description="진행 중인 주요 프로젝트·업무를 정리해 두었습니다. 자세한 협의는 문의를 통해 연락 주시기 바랍니다."
+        descriptionWide
       />
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
+      <StandardPageBody>
         {ongoing.length === 0 ? (
           <p className="text-sm text-slate-500">등록된 진행 업무가 없습니다.</p>
         ) : (
@@ -57,20 +60,20 @@ export default async function OngoingPage() {
                       {new Date(item.updatedAt).toLocaleDateString("ko-KR")}
                     </time>
                   </div>
-                  <div className="min-w-0 space-y-1.5 md:min-h-0">
-                    <h2 className="text-base font-bold leading-snug text-msv-navy">
+                  <div className="flex min-w-0 items-baseline gap-2 text-base leading-snug sm:gap-4 md:min-h-0">
+                    <span className="min-w-0 flex-1 truncate font-bold text-msv-navy">
                       {maskOngoingTaskTitle(item.title)}
-                    </h2>
-                    <p className="text-sm leading-relaxed text-slate-600 line-clamp-3 md:line-clamp-2">
+                    </span>
+                    <span className="max-w-[42%] shrink-0 truncate text-right text-sm font-normal text-slate-600 sm:max-w-[48%] md:max-w-[50%]">
                       {textExcerpt(item.body, 160)}
-                    </p>
+                    </span>
                   </div>
                 </li>
               ))}
             </ul>
           </div>
         )}
-      </div>
+      </StandardPageBody>
     </>
   );
 }

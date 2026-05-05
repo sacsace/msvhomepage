@@ -1,32 +1,46 @@
-import { promises as fs } from "fs";
-import path from "path";
 import type { OngoingTask } from "@/types/ongoing-task";
+import { prisma } from "@/lib/prisma";
+import { withRecoverableDbRead } from "@/lib/prisma-read-fallback";
 
 export type { OngoingTask } from "@/types/ongoing-task";
 
-const dataFile = path.join(process.cwd(), "data", "ongoing-tasks.json");
-
-async function ensureDir() {
-  await fs.mkdir(path.dirname(dataFile), { recursive: true });
+function toTask(row: {
+  id: string;
+  title: string;
+  body: string;
+  createdAt: Date;
+  updatedAt: Date;
+}): OngoingTask {
+  return {
+    id: row.id,
+    title: row.title,
+    body: row.body,
+    createdAt: row.createdAt.toISOString(),
+    updatedAt: row.updatedAt.toISOString(),
+  };
 }
 
 export async function readOngoingTasks(): Promise<OngoingTask[]> {
-  await ensureDir();
-  try {
-    const raw = await fs.readFile(dataFile, "utf-8");
-    const parsed = JSON.parse(raw) as OngoingTask[];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
+  return withRecoverableDbRead([], async () => {
+    const rows = await prisma.ongoingTask.findMany();
+    return rows.map(toTask);
+  });
 }
 
 export async function writeOngoingTasks(items: OngoingTask[]): Promise<void> {
-  await ensureDir();
-  await fs.writeFile(dataFile, JSON.stringify(items, null, 2), "utf-8");
+  const data = items.map((t) => ({
+    id: t.id,
+    title: t.title,
+    body: t.body,
+    createdAt: new Date(t.createdAt),
+    updatedAt: new Date(t.updatedAt),
+  }));
+  await prisma.$transaction(async (tx) => {
+    await tx.ongoingTask.deleteMany();
+    if (data.length) await tx.ongoingTask.createMany({ data });
+  });
 }
 
-/** 최신 업데이트·최신 등록 순(위가 가장 최근) */
 export function sortOngoingTasks(list: OngoingTask[]): OngoingTask[] {
   return [...list].sort((a, b) => {
     const u = new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
