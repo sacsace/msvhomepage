@@ -42,6 +42,17 @@ function databaseUrlFromParts(): string | null {
   return `postgresql://${u}:${p}@${host}:${port}/${name}?schema=public&sslmode=${sslmode}`;
 }
 
+/** Next `next build` 가 페이지 데이터 수집 등으로 서버 번들을 돌릴 때 설정됨. `next start` 런타임에는 보통 없음. */
+function isNextProductionBuildPhase(): boolean {
+  return process.env.NEXT_PHASE === "phase-production-build";
+}
+
+/** 빌드 단계에서 DB 변수 없이 Prisma 모듈만 로드·통과할 때(실 DB 연결은 하지 않음). */
+function useBuildTimeDummyDatabaseUrl(): boolean {
+  if (String(process.env.MSV_LENIENT_DB_BUILD || "").trim() === "1") return true;
+  return isNextProductionBuildPhase();
+}
+
 export function resolveDatabaseUrl(): string {
   const ignoreEmbedded =
     String(process.env.MSV_IGNORE_EMBEDDED_ENV || "").trim() === "1" ||
@@ -63,11 +74,9 @@ export function resolveDatabaseUrl(): string {
     u = partsUrl ?? "";
   }
   if (!u) {
-    // `npm run build` 시 `MSV_LENIENT_DB_BUILD=1` — Next가 페이지 데이터 수집으로 API/스토어를
-    // 불러오면서 prisma 모듈이 로드될 수 있음. CI·Railway 등 빌드 단계에 DB 변수가 없어도
-    // 모듈 초기화만 통과하게 함(`prisma generate`와 동일한 더미). 런타임(`next start`)에는
-    // 반드시 실제 `DATABASE_URL` / `DB_*` 를 넣어야 함.
-    if (String(process.env.MSV_LENIENT_DB_BUILD || "").trim() === "1") {
+    // Next 빌드 워커(`NEXT_PHASE`) 또는 `MSV_LENIENT_DB_BUILD=1` — 페이지 데이터 수집 시 prisma 로드.
+    // Railway 등에서 빌드용 env가 빠져도 `next build`만 통과시키며, `next start`에는 실제 DB 변수 필요.
+    if (useBuildTimeDummyDatabaseUrl()) {
       return "postgresql://prisma:prisma@127.0.0.1:5432/dummy?schema=public&sslmode=disable";
     }
     throw new Error(
