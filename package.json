@@ -9,6 +9,7 @@
     "dev:no-embed": "next dev -H 0.0.0.0 -p 3100",
     "build": "node scripts/clean-prisma-generated.cjs && npx cross-env DATABASE_URL=postgresql://prisma:prisma@127.0.0.1:5432/dummy?schema=public prisma generate && cross-env MSV_LENIENT_DB_BUILD=1 DATABASE_URL=postgresql://prisma:prisma@127.0.0.1:5432/dummy?schema=public NODE_ENV=production next build",
     "start": "next start -H 0.0.0.0",
+    "railway:predeploy": "prisma generate && prisma db push && prisma db seed",
     "lint": "eslint",
     "postinstall": "node scripts/postinstall-prisma.cjs",
     "db:ping": "node scripts/db-ping.cjs",
@@ -27,7 +28,7 @@
     "credentials:export": "node scripts/export-company-credential-previews.mjs"
   },
   "prisma": {
-    "seed": "npx tsx prisma/seed.ts"
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
@@ -37,7 +38,9 @@
     "nodemailer": "^8.0.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "sanitize-html": "^2.17.3"
+    "sanitize-html": "^2.17.3",
+    "prisma": "^6.19.0",
+    "tsx": "^4.21.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.4",
@@ -55,9 +58,7 @@
     "eslint-config-next": "16.2.4",
     "pdf-to-img": "^4.5.0",
     "pg": "^8.16.0",
-    "prisma": "^6.19.0",
     "tailwindcss": "^4.2.4",
-    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

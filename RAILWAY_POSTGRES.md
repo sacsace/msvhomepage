@@ -36,6 +36,14 @@ Please update the volume mount path to the expected path and redeploy the servic
 - 볼륨을 비우거나 새 볼륨으로 갈아타고, Postgres 이미지 권장대로 **마운트는 `/var/lib/postgresql/data`** 만 쓴다.
 - 필요 시 Postgres 문서/이미지에서 안내하는 **`PGDATA`** 서브디렉터리 방식은 Railway Postgres 플러그인 문서를 따른다.
 
+## Pre-deploy로 스키마·시드 자동 적용 (이 저장소)
+
+`railway.toml` 의 **`preDeployCommand`** 가 배포마다 다음을 실행합니다: `prisma generate` → `prisma db push` → `prisma db seed`.
+
+- 웹 서비스에 **`DATABASE_URL`**(Postgres Reference)과 **`MSV_ALLOW_POSTGRES_APP_USER=1`** 이 있어야 합니다.
+- **첫 배포**부터 테이블·초기 데이터가 채워집니다. 이후 배포에서도 `db push`는 스키마 변경을 반영하고, 시드는 `prisma/seed.ts` 로직대로(예: 기사가 이미 있으면 목록 시드 생략) 동작합니다.
+- 수동으로만 하려면 대시보드에서 **Pre-deploy command** 를 비우고, 로컬에서 `npm run db:push:prod` / `db:seed:prod` 를 사용하면 됩니다.
+
 ## 그 다음 — Next 앱(`msvhomepage` 등)에 `DATABASE_URL` 연결
 
 Postgres가 **Running** 이면, **웹(Next) 서비스**에 DB 자격 증명이 없으면 런타임·헬스체크까지 전부 실패한다. 같은 환경의 Postgres와 **변수로 연결**해야 한다.

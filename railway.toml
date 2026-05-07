@@ -1,8 +1,10 @@
 # Railway — https://docs.railway.com/reference/config-as-code
 # GitHub 연동 시 이 저장소 루트가 `web`이면 그대로, 상위에 모노레포가 있으면 대시보드 Root Directory를 `web`으로 설정하세요.
 # Postgres 가 "volume not mounted … /var/lib/postgresql/data" 로 크래시하면 → RAILWAY_POSTGRES.md 참고
+# 빌드 후·기동 전에 Prisma 스키마 반영 + 시드(초기 데이터). DATABASE_URL·MSV_ALLOW_POSTGRES_APP_USER 는 서비스 Variables 필수.
 
 [deploy]
+preDeployCommand = "npm run railway:predeploy"
 startCommand = "npm run start"
 healthcheckPath = "/"
 healthcheckTimeout = 300
