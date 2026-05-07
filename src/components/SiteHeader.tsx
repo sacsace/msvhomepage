@@ -131,6 +131,13 @@ export function SiteHeader({ locale }: Props) {
                         zh: "会计与税务服务",
                       })}
                     </MobileNavLink>
+                    <MobileNavLink href="/services/india-accounting-glossary">
+                      {pickLocale(locale, {
+                        ko: "인도 회계 용어집",
+                        en: "India accounting glossary",
+                        zh: "印度会计术语表",
+                      })}
+                    </MobileNavLink>
                     <MobileNavLink href="/services/license-registration">
                       {pickLocale(locale, {
                         ko: "라이센스 등록 서비스",
@@ -148,6 +155,16 @@ export function SiteHeader({ locale }: Props) {
                     <MobileNavLink href="/services/frro">
                       {pickLocale(locale, { ko: "FRRO 서비스", en: "FRRO services", zh: "FRRO 服务" })}
                     </MobileNavLink>
+                    <MobileNavLink href="/services/ecb">
+                      {pickLocale(locale, { ko: "ECB 안내", en: "ECB guide", zh: "ECB 说明" })}
+                    </MobileNavLink>
+                    <MobileNavLink href="/services/form-41-registration">
+                      {pickLocale(locale, {
+                        ko: "Form 41(구 Form 10F) 등록 서비스",
+                        en: "Form 41 registration (formerly Form 10F)",
+                        zh: "Form 41 注册（原 Form 10F）",
+                      })}
+                    </MobileNavLink>
                     <MobileNavLink href="/services/personal-income-tax-calculator">
                       {pickLocale(locale, {
                         ko: "개인 소득세 계산기",
@@ -160,6 +177,13 @@ export function SiteHeader({ locale }: Props) {
                         ko: "법인세 계산기",
                         en: "Corporate tax calculator",
                         zh: "企业所得税计算器",
+                      })}
+                    </MobileNavLink>
+                    <MobileNavLink href="/services/professional-tax-calculator">
+                      {pickLocale(locale, {
+                        ko: "Professional Tax 계산기",
+                        en: "Professional tax calculator",
+                        zh: "职业税计算器",
                       })}
                     </MobileNavLink>
                   </div>

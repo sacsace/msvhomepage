@@ -2,23 +2,12 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ADMIN_COOKIE, verifyAdminToken } from "@/lib/admin-auth";
+import { getAdminUiLocale } from "@/lib/admin-ui-locale";
+import { adminLayoutCopy, adminNavItems } from "@/lib/admin-ui-strings";
+import { AdminLanguageToggle } from "./AdminLanguageToggle";
 import { LogoutButton } from "./LogoutButton";
 
 export const dynamic = "force-dynamic";
-
-const nav = [
-  { href: "/admin", label: "대시보드" },
-  { href: "/admin/company-history", label: "회사 연혁" },
-  { href: "/admin/ongoing-tasks", label: "프로젝트 현황" },
-  { href: "/admin/announcements", label: "공지사항" },
-  { href: "/admin/articles", label: "자료실" },
-  { href: "/admin/tax-calendar", label: "신고·준수 달력" },
-  { href: "/admin/staff-photos", label: "경영진 사진·소개" },
-  { href: "/admin/staff", label: "직원 사진·소개" },
-  { href: "/admin/clients", label: "고객사" },
-  { href: "/admin/mail-settings", label: "메일 서버" },
-  { href: "/admin/password", label: "비밀번호 변경" },
-];
 
 export default async function AdminDashboardLayout({
   children,
@@ -29,6 +18,10 @@ export default async function AdminDashboardLayout({
   if (!(await verifyAdminToken(token))) {
     redirect("/admin/login");
   }
+
+  const uiLocale = await getAdminUiLocale();
+  const nav = adminNavItems(uiLocale);
+  const copy = adminLayoutCopy(uiLocale);
 
   return (
     <div className="mx-auto flex min-h-screen max-w-6xl flex-col md:flex-row">
@@ -45,9 +38,12 @@ export default async function AdminDashboardLayout({
             </Link>
           ))}
           <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-800">
-            사이트 보기
+            {copy.viewSite}
           </Link>
-          <LogoutButton />
+          <LogoutButton label={copy.logout} />
+          <div className="pt-1">
+            <AdminLanguageToggle locale={uiLocale} />
+          </div>
         </nav>
       </aside>
       <main className="flex-1 bg-zinc-50/50 px-4 py-8 md:px-8 md:py-10">{children}</main>

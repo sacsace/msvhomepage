@@ -27,6 +27,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/services/corporate-incorporation`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${siteUrl}/services/corporate-incorporation/apply`, lastModified: now, changeFrequency: "monthly", priority: 0.72 },
     { url: `${siteUrl}/services/frro`, lastModified: now, changeFrequency: "monthly", priority: 0.78 },
+    {
+      url: `${siteUrl}/services/form-41-registration`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.76,
+    },
+    {
+      url: `${siteUrl}/services/india-accounting-glossary`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.72,
+    },
     { url: `${siteUrl}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/software`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
     { url: `${siteUrl}/software/mvs`, lastModified: now, changeFrequency: "monthly", priority: 0.72 },

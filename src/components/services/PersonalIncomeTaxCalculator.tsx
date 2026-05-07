@@ -51,10 +51,10 @@ export function PersonalIncomeTaxCalculator() {
     return Math.max(0, Math.round(monthlySalary - result.monthlyTds));
   }, [result, monthlySalary]);
 
+  /** 카드 셸·그림자는 상위 페이지(`section`)에서 통일합니다. */
   return (
-    <div className="mx-auto max-w-5xl">
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_1px_2px_rgb(15_23_42/0.04)] sm:p-7">
-        <div className="border-b border-slate-100 pb-5 sm:pb-6">
+    <div className="w-full">
+      <div className="border-b border-slate-100 pb-5 sm:pb-6">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-stretch sm:justify-between sm:gap-8">
             <div className="min-w-0 flex-1">
               <label className="block text-sm font-semibold text-msv-navy">
@@ -132,7 +132,7 @@ export function PersonalIncomeTaxCalculator() {
 
         {result === null ? (
           <p className="pt-5 text-sm leading-relaxed text-slate-600 sm:pt-6">
-            세전 월급을 숫자로 입력하면 아래에 급여자 TDS 워킹 표가 채워집니다. (스프레드시트 형식의 참고용 계산입니다.)
+            세전 월급을 숫자로 입력하면 아래에 급여자 TDS 계산 표가 채워집니다. (스프레드시트 형식의 참고용 계산입니다.)
           </p>
         ) : (
           <div className="overflow-x-auto pt-5 sm:pt-6">
@@ -247,7 +247,6 @@ export function PersonalIncomeTaxCalculator() {
             </table>
           </div>
         )}
-      </div>
     </div>
   );
 }

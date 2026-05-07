@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
+import { getRequestLocale } from "@/lib/get-request-locale";
 import { staticPageSeo } from "@/lib/seo-metadata";
+import { withLocalePrefix } from "@/lib/site-locale";
 import { AccountingServicesInfographic } from "@/components/services/AccountingServicesInfographic";
+import { IndiaComplianceScheduleSection } from "@/components/services/IndiaComplianceScheduleSection";
 import { ServiceCasesInfographic } from "@/components/services/ServiceCasesInfographic";
 import { ServicesInfographic } from "@/components/services/ServicesInfographic";
 import { accountingServiceBlocks, sampleProjects, services } from "@/lib/site-content";
@@ -37,7 +40,9 @@ const accountingHighlights = [
   },
 ] as const;
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const locale = await getRequestLocale();
+  const L = (path: string) => withLocalePrefix(path, locale);
   return (
     <div>
       <PageHeader
@@ -65,6 +70,12 @@ export default function ServicesPage() {
               회계 서비스
             </Link>
             <Link
+              href={L("/services/india-accounting-glossary")}
+              className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
+            >
+              인도 회계 용어집
+            </Link>
+            <Link
               href="/services/license-registration"
               className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
             >
@@ -83,6 +94,18 @@ export default function ServicesPage() {
               FRRO 서비스
             </Link>
             <Link
+              href="/services/ecb"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
+            >
+              ECB 안내
+            </Link>
+            <Link
+              href="/services/form-41-registration"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
+            >
+              Form 41(구 Form 10F) 등록 서비스
+            </Link>
+            <Link
               href="/services/personal-income-tax-calculator"
               className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
             >
@@ -93,6 +116,12 @@ export default function ServicesPage() {
               className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
             >
               법인세 계산기
+            </Link>
+            <Link
+              href="/services/professional-tax-calculator"
+              className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
+            >
+              Professional Tax 계산기
             </Link>
           </div>
         </section>
@@ -129,8 +158,10 @@ export default function ServicesPage() {
               </article>
             ))}
           </div>
-
         </section>
+
+        <IndiaComplianceScheduleSection />
+
         <AccountingServicesInfographic blocks={accountingServiceBlocks} />
         <ServiceCasesInfographic items={sampleProjects} />
       </StandardPageBody>

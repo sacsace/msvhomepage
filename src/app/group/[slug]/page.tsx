@@ -33,8 +33,11 @@ const cardSection = "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm 
 
 const bodyText = "text-sm leading-relaxed text-slate-600 break-keep";
 
-/** 자료실 글 상세(`StandardPageBody width="3xl"`)와 동일한 읽기 폭 */
-const introColumn = "mx-auto w-full max-w-3xl text-pretty";
+/** 카드 내부는 왼쪽 기준(가운데 `mx-auto` 없음). 읽기 폭만 `max-w-3xl`로 제한 */
+const introColumn = "w-full max-w-3xl text-pretty text-left";
+
+/** 소개 카드: 카드 패딩 안쪽까지 전폭(빨간선까지 영역) */
+const introColumnFullWidth = "w-full max-w-none text-pretty text-left";
 
 export default async function GroupCompanyPage({ params }: Props) {
   const { slug } = await params;
@@ -82,7 +85,7 @@ export default async function GroupCompanyPage({ params }: Props) {
         ) : null}
 
         <section className={cardSection}>
-          <div className={introColumn}>
+          <div className={introColumnFullWidth}>
             <SectionTitle
               eyebrow="About"
               title="소개"
@@ -90,7 +93,7 @@ export default async function GroupCompanyPage({ params }: Props) {
               density="compact"
               contentWidth="full"
             />
-            <div className="mt-4 space-y-3">
+            <div className="mt-4 space-y-3 text-justify [text-align-last:start]">
               {aboutParagraphs.map((para, i) => (
                 <p key={`${g.slug}-about-${i}`} className={`m-0 ${bodyText}`}>
                   {para}

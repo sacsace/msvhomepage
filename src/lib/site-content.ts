@@ -515,6 +515,93 @@ export const accountingServiceBlocks: readonly AccountingServiceBlock[] = [
   },
 ];
 
+/** 인도 법인 기간별 법정 신고·컴플라이언스 일정(참고) — 서비스 페이지 표용. 법령·고시 변경 시 달라질 수 있습니다. */
+export type IndiaComplianceScheduleRow = {
+  readonly item: string;
+  readonly schedule: string;
+};
+
+export const indiaComplianceScheduleIntro =
+  "아래는 일반적인 인도 법인·사업자 기준의 대표 일정입니다. 업종, 등록 유형, 연매출, 주(邦)별 요건, 법 개정에 따라 의무·마감일이 달라질 수 있으므로 실제 운영 전 상근 CPA와 일정을 확정하시기 바랍니다.";
+
+export const indiaComplianceMonthlyRows: readonly IndiaComplianceScheduleRow[] = [
+  { item: "TDS", schedule: "매월 7일 전 신고·납부(해당 시)" },
+  { item: "GSTR-1", schedule: "매월 11일 전 신고·납부(매출, 월 신고자 기준)" },
+  { item: "GSTR-3B", schedule: "매월 20일 전 신고·납부(매입·ITC 등, 월 신고자 기준)" },
+  { item: "PF(연금)", schedule: "매월 15일 전 신고·납부(해당 시)" },
+  { item: "ESI", schedule: "매월 15일 전 신고·납부(해당 시)" },
+  { item: "Professional Tax", schedule: "매월 20일 전 신고·납부(주별 세법 상이)" },
+  {
+    item: "ECB(대외상업차입)",
+    schedule: "차입 잔액이 있는 경우 익월 7일 이내 ECB-2 등 보고(RBI FIRMS 포털)",
+  },
+];
+
+export const indiaComplianceQuarterlyRows: readonly IndiaComplianceScheduleRow[] = [
+  {
+    item: "Advance Tax(선납세)",
+    schedule: "6월 15일 15% · 9월 15일 45% · 12월 15일 75% · 3월 15일 100%(대표 일정)",
+  },
+  {
+    item: "TDS Return",
+    schedule:
+      "Q1(4~6월) 7월 31일 · Q2(7~9월) 10월 31일 · Q3(10~12월) 익년 1월 31일 · Q4(1~3월) 5월 31일",
+  },
+  {
+    item: "이사회(Board Meeting)",
+    schedule:
+      "설립 후 첫 이사회 30일 이내, 연간 최소 4회, 이사회 간격 최대 120일 초과 불가(Companies Act 기준)",
+  },
+  {
+    item: "GSTR-1(분기)",
+    schedule: "분기 종료 다음달 13일(연매출 5 Cr 이하 등 QRMP·분기 신고 선택 시)",
+  },
+  {
+    item: "GSTR-3B(분기)",
+    schedule: "분기 종료 다음달 22~24일(연매출 5 Cr 이하 등 QRMP·분기 신고 선택 시)",
+  },
+];
+
+export const indiaComplianceAnnualRows: readonly IndiaComplianceScheduleRow[] = [
+  { item: "DIR-3 KYC", schedule: "9월 30일까지(미이행 시 DIN 비활성화 가능)" },
+  { item: "Professional Tax 연간 신고", schedule: "4월 1일~4월 30일(주별 상이)" },
+  { item: "SFT", schedule: "5월 1일~5월 30일(해당 시)" },
+  { item: "FLA", schedule: "7월 1일~7월 20일(해당 시)" },
+  { item: "재무제표 감사", schedule: "9월 30일 이전(협의된 일정)" },
+  { item: "ITR(법인소득세 신고)", schedule: "9월 30일 이전(일반적 기한, 사례별 연장·조정 가능)" },
+  { item: "ROC AOC-4 / MGT-7(또는 MGT-7A)", schedule: "10월 30일 이전(일반적 기한)" },
+  { item: "TP Audit Report", schedule: "11월 30일 이전(국제거래·해당 법인에 적용 시)" },
+  {
+    item: "GSTR-9(연간 GST)",
+    schedule: "연매출 2 Cr 초과 시 의무, 이하 시 선택(연도·고시에 따름)",
+  },
+  {
+    item: "GSTR-9C(GST 조정·감사)",
+    schedule: "현재 일반적으로 선택(Optional), 정부 고시에 따라 변동 가능",
+  },
+];
+
+export type IndiaCompliancePortalRow = {
+  readonly label: string;
+  readonly href: string;
+  readonly note: string;
+};
+
+export const indiaCompliancePortalRows: readonly IndiaCompliancePortalRow[] = [
+  { label: "GST", href: "https://www.gst.gov.in", note: "GST 포털" },
+  {
+    label: "e-Filing(소득세)",
+    href: "https://portal.incometaxindiaefiling.gov.in",
+    note: "법인·개인 소득세 등",
+  },
+  { label: "Traces(TDS)", href: "https://www.tdscpc.gov.in", note: "TDS·Form 등" },
+  { label: "FRRO", href: "https://indianfrro.gov.in", note: "비자·체류 등" },
+  { label: "FIRMS(RBI)", href: "https://firms.rbi.org.in", note: "FDI·ECB 등 외환 보고" },
+  { label: "E-Way Bill", href: "https://ewaybillgst.gov.in", note: "물류 이동" },
+  { label: "Ice Gate", href: "https://www.icegate.gov.in", note: "관세·세금 납부" },
+  { label: "MCA", href: "https://www.mca.gov.in", note: "기업부·ROC 등" },
+];
+
 export const leadership: LeadershipMember[] = [
   {
     role: "대표이사",

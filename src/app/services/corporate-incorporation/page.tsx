@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { IncorporationScheduleChart } from "@/components/corporate-incorporation/IncorporationScheduleChart";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { SectionTitle } from "@/components/SectionTitle";
@@ -149,6 +150,7 @@ export default function CorporateIncorporationServicePage() {
               <li key={step}>{step}</li>
             ))}
           </ol>
+          <IncorporationScheduleChart />
         </section>
 
         <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">

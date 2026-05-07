@@ -2,7 +2,11 @@
 
 import { useRouter } from "next/navigation";
 
-export function LogoutButton() {
+type Props = {
+  label?: string;
+};
+
+export function LogoutButton({ label = "로그아웃" }: Props) {
   const router = useRouter();
 
   async function logout() {
@@ -17,7 +21,7 @@ export function LogoutButton() {
       onClick={() => void logout()}
       className="text-left text-sm text-zinc-500 hover:text-zinc-900"
     >
-      로그아웃
+      {label}
     </button>
   );
 }
