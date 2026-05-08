@@ -1,5 +1,67 @@
 import { company } from "@/lib/site-content";
 import type { SiteLocale } from "@/lib/site-locale";
+import { pickLocale } from "@/lib/site-locale";
+
+/** 회사 개요 카드 — 6점 심볼 접근성용 짧은 설명 */
+export function aboutOverviewDotsImageAlt(locale: SiteLocale): string {
+  return pickLocale(locale, {
+    ko: `${company.shortName} 로고 — 2×3 여섯 점, 체계성과 안정성`,
+    en: `${company.shortName} logo — six dots in a 2×3 grid, order and stability`,
+    zh: `${company.shortName} 标识——2×3 六点，象征体系与稳定`,
+  });
+}
+
+/** 회사 개요 카드 — 로고 아래 System & Stability 본문(한·영·중) */
+export type AboutOverviewDotsCopy = {
+  title: string;
+  intro: string;
+  values: readonly string[];
+  narrative: string;
+};
+
+export function aboutOverviewDotsCopy(locale: SiteLocale): AboutOverviewDotsCopy {
+  return pickLocale(locale, {
+    ko: {
+      title: "System & Stability",
+      intro: `${company.shortName}의 로고는 2×3 구조의 여섯 개 점으로 구성되어 있으며, 체계성과 안정성을 상징합니다. 각 점은 다음과 같은 ${company.shortName}의 핵심 가치를 의미합니다.`,
+      values: [
+        "체계적 운영",
+        "표준화",
+        "정확성",
+        "데이터 기반 관리",
+        "신뢰성",
+        "지속 가능한 성장",
+      ],
+      narrative: `여섯 개의 점은 독립적인 전문 영역이 유기적으로 연결되어 하나의 시스템을 이루는 모습을 표현합니다. ${company.shortName}는 이를 기반으로 실행 중심의 맞춤형 컨설팅과 검증 가능한 회계·세무 운영, 한국·인도 간 실무 커뮤니케이션 지원, One-stop 직접 수행 체계를 제공합니다. 또한 인도 현지 규제와 인허가 대응 경험을 바탕으로, 컨설팅에 그치지 않고 실제 운영과 현장 실행까지 연결되는 서비스를 지향합니다.`,
+    },
+    en: {
+      title: "System & Stability",
+      intro: `The ${company.shortName} logo is six dots arranged in a 2×3 structure, symbolizing order and stability. Each dot stands for a core value of ${company.shortName}:`,
+      values: [
+        "Systematic operations",
+        "Standardization",
+        "Accuracy",
+        "Data-driven management",
+        "Reliability",
+        "Sustainable growth",
+      ],
+      narrative: `The six dots express how independent areas of expertise connect organically into a single system. On that basis, ${company.shortName} provides execution-led tailored consulting, verifiable accounting and tax operations, practical Korea–India communication, and a one-stop direct delivery model. Drawing on experience with Indian regulations and licensing, we aim for services that go beyond consulting to real operations and field execution.`,
+    },
+    zh: {
+      title: "System & Stability（体系与稳定）",
+      intro: `${company.shortName} 的标识由 2×3 结构的六个圆点组成，象征体系性与稳定性。每个圆点代表 ${company.shortName} 的一项核心价值：`,
+      values: [
+        "体系化运营",
+        "标准化",
+        "准确性",
+        "数据驱动的管理",
+        "可靠性",
+        "可持续成长",
+      ],
+      narrative: `六个圆点表达独立的专业领域有机衔接、共同构成一个系统的意象。${company.shortName} 以此为基础，提供以执行为导向的定制咨询、可验证的会计与税务运营、韩印实务沟通支持，以及一站式直接交付体系。同时依托对印度当地法规与许可应对的经验，追求不止于咨询、而是贯通实际运营与现场落地的服务。`,
+    },
+  });
+}
 
 export const milestonesEn = [
   {
@@ -146,8 +208,7 @@ const aboutPageEn: AboutPageI18n = {
   websiteCta: "Website →",
   servicesCta: "Service details →",
   credentialTitle: "Company credentials",
-  credentialSubtitle:
-    "We do not distribute original PDFs here—the images are first-page previews prepared for external use. Regenerate PNGs under public/company-credentials/ with npm run credentials:export when documents change.",
+  credentialSubtitle: `These are key ${company.shortName} documents covering corporate registration, tax, certifications and operations. All materials are kept current and provided for client review and practical engagement.`,
   strengthsTitle: "Strengths at a glance",
   historyEmpty: "No history entries yet.",
 };
@@ -169,8 +230,7 @@ const aboutPageZh: AboutPageI18n = {
   websiteCta: "网站 →",
   servicesCta: "服务详情 →",
   credentialTitle: "公司资质",
-  credentialSubtitle:
-    "此处不提供原始 PDF——图片为对外使用准备的首页预览。文档变更时请使用 npm run credentials:export 重新生成 public/company-credentials/ 下的 PNG。",
+  credentialSubtitle: `以下为 ${company.shortName} 法人登记、税务、认证及运营相关的主要资质文件。所有文档保持最新，供客户审阅与实务推进使用。`,
   strengthsTitle: "优势一览",
   historyEmpty: "暂无沿革记录。",
 };

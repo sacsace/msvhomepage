@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { CompanyCredentialSection } from "@/components/about/CompanyCredentialSection";
 import { CompanyHistory } from "@/components/about/CompanyHistory";
@@ -9,6 +10,8 @@ import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { SectionTitle } from "@/components/SectionTitle";
 import { getRequestLocale } from "@/lib/get-request-locale";
 import {
+  aboutOverviewDotsCopy,
+  aboutOverviewDotsImageAlt,
   aboutPageCopy,
   milestonesEn,
   milestonesZh,
@@ -82,6 +85,7 @@ export default async function AboutPage() {
   const strengthItems = locale === "ko" ? strengths : locale === "en" ? strengthsEn : strengthsZh;
   const milestoneItems = locale === "ko" ? undefined : locale === "en" ? milestonesEn : milestonesZh;
   const units = localizeBusinessUnits(locale);
+  const dotsCopy = aboutOverviewDotsCopy(locale);
 
   const footerNav =
     locale === "ko"
@@ -125,7 +129,39 @@ export default async function AboutPage() {
             density="compact"
             contentWidth="full"
           />
-          <p className={`mt-4 max-w-none ${bodyText}`}>{overviewBlock.body}</p>
+          <p
+            className={`mt-4 max-w-none ${bodyText} [text-align:justify] [text-align-last:start] [text-justify:inter-character]`}
+          >
+            {overviewBlock.body}
+          </p>
+          <div className="mt-8 w-full max-w-none">
+            <div className="flex justify-start">
+              <Image
+                src="/about/msv-dots-mark.png"
+                alt={aboutOverviewDotsImageAlt(locale)}
+                width={128}
+                height={77}
+                className="h-auto w-32 max-w-[35vw] object-contain object-left"
+                sizes="(max-width: 640px) 35vw, 128px"
+              />
+            </div>
+            <div className="mt-6 max-w-none space-y-4 [text-align:justify] [text-align-last:start] [text-justify:inter-character]">
+              <h3 className="text-left text-base font-semibold tracking-tight text-msv-navy sm:text-lg">
+                {dotsCopy.title}
+              </h3>
+              <p className={`m-0 ${bodyText}`}>{dotsCopy.intro}</p>
+              <ul
+                className={`m-0 list-disc space-y-1.5 pl-5 ${bodyText} marker:text-msv-blue [text-align:start] [text-justify:auto]`}
+              >
+                {dotsCopy.values.map((item) => (
+                  <li key={item} className="pl-0.5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <p className={`m-0 ${bodyText}`}>{dotsCopy.narrative}</p>
+            </div>
+          </div>
         </section>
 
         <section className={cardSection}>
