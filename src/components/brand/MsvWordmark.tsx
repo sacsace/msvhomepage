@@ -28,8 +28,10 @@ export function MsvWordmark({
       width={640}
       height={160}
       priority={priority}
-      className={`${heightClass} w-auto max-w-[min(230px,68vw)] shrink-0 origin-left scale-[0.95] object-contain object-left ${onDark} ${className}`.trim()}
-      sizes="(max-width: 640px) 68vw, 230px"
+      /** 공개 `public` 정적 파일 — 프로덕션 `/_next/image` 최적화(Sharp·호스트) 차이로 크기가 무너지는 것을 막음 */
+      unoptimized
+      className={`${heightClass} w-auto min-w-[7.5rem] max-w-[min(240px,72vw)] shrink-0 origin-left scale-[0.95] object-contain object-left ${onDark} ${className}`.trim()}
+      sizes="(max-width: 640px) 72vw, 240px"
     />
   );
 }

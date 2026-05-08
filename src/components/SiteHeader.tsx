@@ -39,7 +39,7 @@ export function SiteHeader({ locale }: Props) {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-2.5 sm:gap-3 sm:px-6 sm:py-3">
         <Link
           href={homeHref}
-          className="flex min-w-0 shrink-0 items-center rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue"
+          className="flex shrink-0 items-center rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue"
         >
           <MsvWordmark alt={shell.brandWordmarkAlt} priority heightClass="h-7 sm:h-8" />
         </Link>

@@ -18,7 +18,7 @@ import { getAdminUiLocale } from "@/lib/admin-ui-locale";
 import { getRequestBrowserPath } from "@/lib/get-request-browser-path";
 import { getRequestLocale } from "@/lib/get-request-locale";
 import { shellStrings } from "@/lib/i18n/shell";
-import { openGraphFor, twitterCard } from "@/lib/seo-metadata";
+import { openGraphFor, siteVerificationMetadata, twitterCard } from "@/lib/seo-metadata";
 import { company, siteUrl } from "@/lib/site-content";
 
 const noto = Noto_Sans_KR({
@@ -37,6 +37,7 @@ export const metadata: Metadata = {
   },
   description: company.taglineKo,
   metadataBase: new URL(siteUrl),
+  ...siteVerificationMetadata(),
   robots: {
     index: true,
     follow: true,

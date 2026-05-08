@@ -6,8 +6,8 @@ import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { getCachedArticleBySlug } from "@/lib/public-page-data-cache";
 import { publicArticleBodyProse, publicContentCard } from "@/lib/public-page-styles";
 import { hasHtmlTag, sanitizeRichHtml, textExcerpt } from "@/lib/richtext";
+import { ArticleJsonLd } from "@/components/seo/ArticleJsonLd";
 import { staticPageSeo } from "@/lib/seo-metadata";
-import { company, siteUrl } from "@/lib/site-content";
 
 export const revalidate = 60;
 
@@ -34,30 +34,9 @@ export default async function ArticleDetailPage({ params }: Props) {
 
   const bodyHtml = hasHtmlTag(article.body) ? sanitizeRichHtml(article.body) : null;
 
-  const articleUrl = `${siteUrl}/articles/${encodeURIComponent(article.slug)}`;
-  const articleJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: article.title,
-    description: article.excerpt || textExcerpt(article.body, 200),
-    datePublished: article.createdAt,
-    dateModified: article.updatedAt,
-    author: { "@type": "Organization", name: company.legalName },
-    publisher: {
-      "@type": "Organization",
-      name: company.legalName,
-      logo: { "@type": "ImageObject", url: `${siteUrl}/msv-logo.png` },
-    },
-    mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
-    url: articleUrl,
-  };
-
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
-      />
+      <ArticleJsonLd article={article} />
       <PageHeader
         title={article.title}
         belowDescription={
