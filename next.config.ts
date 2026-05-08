@@ -99,6 +99,7 @@ const nextConfig: NextConfig = {
     /** Next 16: 로컬 `next/image` src는 패턴 등록 필요. `search` 생략 시 `?v=` 등 쿼리 허용 */
     localPatterns: [
       { pathname: "/msv-wordmark.png" },
+      { pathname: "/msv-wordmark-header.png" },
       { pathname: "/about/**" },
       { pathname: "/group/**" },
       { pathname: "/uploads/**" },

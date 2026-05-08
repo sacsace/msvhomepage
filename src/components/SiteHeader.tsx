@@ -41,7 +41,15 @@ export function SiteHeader({ locale }: Props) {
           href={homeHref}
           className="flex shrink-0 items-center rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue"
         >
-          <MsvWordmark alt={shell.brandWordmarkAlt} priority heightClass="h-8 sm:h-9" />
+          <MsvWordmark
+            alt={shell.brandWordmarkAlt}
+            priority
+            heightClass="h-8 sm:h-9"
+            className="origin-left scale-90"
+            imageSrc="/msv-wordmark-header.png"
+            imageWidth={1024}
+            imageHeight={100}
+          />
         </Link>
 
         <div className="flex min-w-0 flex-1 items-center justify-end gap-2 sm:gap-3">
@@ -194,6 +202,9 @@ export function SiteHeader({ locale }: Props) {
                     </div>
                     <MobileNavLink href="/about" match="exact">
                       {pickLocale(locale, { ko: "회사 소개", en: "Company", zh: "公司简介" })}
+                    </MobileNavLink>
+                    <MobileNavLink href="/about/ci" match="exact">
+                      {pickLocale(locale, { ko: "CI 소개", en: "Brand & CI", zh: "CI 介绍" })}
                     </MobileNavLink>
                     <MobileNavLink href="/about/team" match="exact">
                       {pickLocale(locale, { ko: "팀원 소개", en: "Team", zh: "团队介绍" })}

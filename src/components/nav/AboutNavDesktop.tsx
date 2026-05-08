@@ -9,21 +9,29 @@ import { isNavActive, localeFromPathname, pickLocale, stripLocalePrefix, withLoc
 
 const subKo = [
   { href: "/about", label: "회사 소개" },
+  { href: "/about/ci", label: "CI 소개" },
   { href: "/about/team", label: "팀원 소개" },
   { href: "/about/clients", label: "고객사" },
 ] as const;
 
 const subEn = [
   { href: "/about", label: "Company" },
+  { href: "/about/ci", label: "Brand & CI" },
   { href: "/about/team", label: "Team" },
   { href: "/about/clients", label: "Clients" },
 ] as const;
 
 const subZh = [
   { href: "/about", label: "公司简介" },
+  { href: "/about/ci", label: "CI 介绍" },
   { href: "/about/team", label: "团队介绍" },
   { href: "/about/clients", label: "客户" },
 ] as const;
+
+function isAboutSubActive(href: string, bare: string): boolean {
+  if (href === "/about") return bare === "/about";
+  return bare === href || bare.startsWith(`${href}/`);
+}
 
 function linkClass(active: boolean) {
   return `rounded-md px-2.5 py-1.5 text-[13px] transition ${desktopNavTopSegmentClass(active)}`;
@@ -58,12 +66,7 @@ export function AboutNavDesktop() {
       >
         <div className="rounded-lg border border-slate-100 bg-white py-1 shadow-lg shadow-slate-900/5">
           {sub.map((item) => {
-            const isSubActive =
-              item.href === "/about"
-                ? bare === "/about"
-                : item.href === "/about/team"
-                  ? bare === "/about/team" || bare.startsWith("/about/team/")
-                  : bare === "/about/clients" || bare.startsWith("/about/clients/");
+            const isSubActive = isAboutSubActive(item.href, bare);
             return (
               <Link
                 key={item.href}
