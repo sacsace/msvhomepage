@@ -48,12 +48,23 @@ export default async function GroupCompanyPage({ params }: Props) {
   const L = (path: string) => withLocalePrefix(path, locale);
   const aboutParagraphs = splitIntroParagraphs(g.intro);
 
+  /** 히어로 하단: 네이비 위 흰 세로 캡슐(공통) — 로고는 본문 「소개」에 배치 */
+  const groupHeroBelow = (
+    <div className="mt-2 flex max-w-full flex-wrap items-center gap-3 sm:gap-4">
+      <span
+        className="h-16 w-1.5 shrink-0 rounded-full bg-white shadow-[0_0_0_1px_rgba(255,255,255,0.12)] sm:h-[5.25rem] sm:w-2"
+        aria-hidden
+      />
+    </div>
+  );
+
   return (
     <>
       <PageHeader
         title={g.legalName}
         description={g.menuLabel === g.legalName ? g.role : `${g.menuLabel} — ${g.role}`}
         descriptionWide
+        belowDescription={groupHeroBelow}
       />
       <StandardPageBody className="space-y-12 sm:space-y-14">
         {g.website || g.profilePdf ? (
@@ -100,6 +111,19 @@ export default async function GroupCompanyPage({ params }: Props) {
                 </p>
               ))}
             </div>
+            {g.logoSrc ? (
+              <div className="mt-8">
+                <div className="relative mx-auto h-20 w-60 max-w-full rounded-xl bg-white p-3 sm:mx-0 sm:h-[5.5rem] sm:w-[15rem]">
+                  <Image
+                    src={g.logoSrc}
+                    alt={`${g.menuLabel} 로고`}
+                    fill
+                    className="object-contain object-left"
+                    sizes="240px"
+                  />
+                </div>
+              </div>
+            ) : null}
           </div>
         </section>
 
@@ -158,6 +182,28 @@ export default async function GroupCompanyPage({ params }: Props) {
             </ul>
           </div>
         </section>
+
+        {g.majorCustomers && g.majorCustomers.length > 0 ? (
+          <section className={cardSection}>
+            <div className={introColumn}>
+              <SectionTitle
+                eyebrow="Major customers"
+                title="주요 고객"
+                spacing="tight"
+                density="compact"
+                headingLevel={3}
+                contentWidth="full"
+              />
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 marker:text-msv-blue">
+                {g.majorCustomers.map((name) => (
+                  <li key={name} className="pl-1">
+                    {name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        ) : null}
 
         <section className="rounded-2xl border border-slate-200 bg-msv-blue-soft/15 p-6 sm:p-8">
           <p className={`${introColumn} ${bodyText}`}>

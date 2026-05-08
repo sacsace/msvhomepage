@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useBrowserPathname } from "@/components/layout/BrowserPathnameProvider";
+import { desktopNavTopSegmentClass } from "@/components/nav/desktop-nav-top-class";
 import type { SiteLocale } from "@/lib/site-locale";
 import { localeFromPathname, pickLocale, stripLocalePrefix, withLocalePrefix } from "@/lib/site-locale";
 
@@ -51,11 +52,7 @@ const subZh = [
 ] as const;
 
 function linkClass(active: boolean) {
-  return `rounded-md px-2.5 py-1.5 text-[13px] transition ${
-    active
-      ? "cursor-default font-semibold text-msv-navy"
-      : "cursor-default font-medium text-slate-500 hover:text-msv-navy"
-  }`;
+  return `rounded-md px-2.5 py-1.5 text-[13px] transition ${desktopNavTopSegmentClass(active)}`;
 }
 
 export function ServicesNavDesktop() {
@@ -93,7 +90,7 @@ export function ServicesNavDesktop() {
                 key={item.href}
                 href={withLocalePrefix(item.href, locale)}
                 className={`block px-3 py-2 text-[13px] transition hover:bg-slate-50 ${
-                  subActive ? "bg-slate-50 font-semibold text-msv-navy" : "font-medium text-slate-600"
+                  subActive ? "bg-msv-blue-soft/70 font-semibold text-msv-navy" : "font-medium text-slate-600 hover:text-msv-navy"
                 }`}
                 aria-current={subActive ? "page" : undefined}
               >

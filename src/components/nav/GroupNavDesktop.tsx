@@ -2,16 +2,13 @@
 
 import Link from "next/link";
 import { useBrowserPathname } from "@/components/layout/BrowserPathnameProvider";
+import { desktopNavTopSegmentClass } from "@/components/nav/desktop-nav-top-class";
 import { groupCompanies } from "@/lib/site-content";
 import type { SiteLocale } from "@/lib/site-locale";
 import { localeFromPathname, pickLocale, stripLocalePrefix, withLocalePrefix } from "@/lib/site-locale";
 
 function linkClass(active: boolean) {
-  return `rounded-md px-2.5 py-1.5 text-[13px] transition ${
-    active
-      ? "cursor-default font-semibold text-msv-navy"
-      : "cursor-default font-medium text-slate-500 hover:text-msv-navy"
-  }`;
+  return `rounded-md px-2.5 py-1.5 text-[13px] transition ${desktopNavTopSegmentClass(active)}`;
 }
 
 export function GroupNavDesktop() {
@@ -20,11 +17,6 @@ export function GroupNavDesktop() {
   const bare = stripLocalePrefix(pathname.split("#")[0] || pathname);
   const active = bare === "/group" || bare.startsWith("/group/");
   const label = pickLocale(locale, { ko: "그룹사", en: "Group", zh: "集团" });
-  const ariaTop = pickLocale(locale, {
-    ko: "그룹사 — 하위 메뉴에서 회사를 선택하세요",
-    en: "Group companies — choose a company from the submenu",
-    zh: "集团公司 — 请从子菜单中选择公司",
-  });
   const ariaSub = pickLocale(locale, {
     ko: "그룹사 하위 메뉴",
     en: "Group companies submenu",
@@ -33,9 +25,13 @@ export function GroupNavDesktop() {
 
   return (
     <div className="group relative flex items-center">
-      <span className={`${linkClass(active)} block cursor-default select-none`} aria-label={ariaTop}>
+      <Link
+        href={withLocalePrefix("/group", locale)}
+        className={`${linkClass(active)} block select-none`}
+        aria-current={active ? "page" : undefined}
+      >
         {label}
-      </span>
+      </Link>
       <div
         className="pointer-events-none invisible absolute left-0 top-full z-50 w-[min(17rem,calc(100vw-2rem))] pt-1.5 opacity-0 transition duration-150 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100"
         role="navigation"
@@ -49,7 +45,7 @@ export function GroupNavDesktop() {
                 key={g.slug}
                 href={withLocalePrefix(`/group/${g.slug}`, locale)}
                 className={`block px-3 py-2 text-[13px] transition hover:bg-slate-50 ${
-                  subActive ? "bg-slate-50 font-semibold text-msv-navy" : "font-medium text-slate-600"
+                  subActive ? "bg-msv-blue-soft/70 font-semibold text-msv-navy" : "font-medium text-slate-600 hover:text-msv-navy"
                 }`}
                 aria-current={subActive ? "page" : undefined}
               >

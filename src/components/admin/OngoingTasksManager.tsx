@@ -5,8 +5,26 @@ import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { readRichBodyFromForm } from "@/lib/admin-read-rich-body";
 import { isRichTextMeaningful, textExcerpt } from "@/lib/richtext";
 import type { OngoingTask } from "@/types/ongoing-task";
+import {
+  adminBoardCard,
+  adminBoardRow,
+  adminBoardTd,
+  adminBoardTh,
+  adminDangerBtn,
+  adminDetailsShell,
+  adminDetailsSummary,
+  adminGhostBtn,
+} from "@/components/admin/admin-board-styles";
 
 type Props = { initialItems: OngoingTask[] };
+
+function formatListDate(iso: string) {
+  try {
+    return new Date(iso).toLocaleDateString("ko-KR", { year: "numeric", month: "short", day: "numeric" });
+  } catch {
+    return iso;
+  }
+}
 
 export function OngoingTasksManager({ initialItems }: Props) {
   const [items, setItems] = useState(initialItems);
@@ -110,104 +128,220 @@ export function OngoingTasksManager({ initialItems }: Props) {
     await reload();
   }
 
+  const createForm = (
+    <form onSubmit={create} className="space-y-3 border-t border-zinc-100 px-4 py-4 sm:px-5 sm:py-5">
+      <input
+        required
+        value={createTitle}
+        onChange={(e) => setCreateTitle(e.target.value)}
+        placeholder="업무 제목"
+        className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none transition-shadow focus:border-zinc-400 focus:ring-2 focus:ring-zinc-900/5"
+      />
+      <RichTextEditor value={createBody} onChange={setCreateBody} />
+      <button
+        type="submit"
+        className="rounded-lg border border-zinc-900 bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-800"
+      >
+        등록
+      </button>
+    </form>
+  );
+
   return (
-    <div className="space-y-10">
+    <div className="space-y-6">
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
 
-      <section className="border border-zinc-200 bg-white p-5">
-        <h2 className="text-sm font-medium text-zinc-900">새 업무</h2>
-        <form onSubmit={create} className="mt-4 space-y-3">
-          <input
-            required
-            value={createTitle}
-            onChange={(e) => setCreateTitle(e.target.value)}
-            placeholder="업무 제목"
-            className="w-full border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-zinc-400"
-          />
-          <RichTextEditor value={createBody} onChange={setCreateBody} />
-          <button
-            type="submit"
-            className="border border-zinc-900 bg-zinc-900 px-4 py-2 text-sm text-white"
-          >
-            등록
-          </button>
-        </form>
-      </section>
-
       <section>
-        <h2 className="text-sm font-medium text-zinc-900">목록</h2>
-        <ul className="mt-4 space-y-6">
-          {items.map((item) => (
-            <li key={item.id} className="border border-zinc-200 bg-white p-4">
-              {editingId === item.id ? (
-                <form onSubmit={(e) => void saveEdit(e, item.id)} className="space-y-3">
-                  <input
-                    required
-                    value={editTitle}
-                    onChange={(e) => setEditTitle(e.target.value)}
-                    className="w-full border border-zinc-200 px-3 py-2 text-sm"
-                  />
-                  <RichTextEditor value={editBody} onChange={setEditBody} minHeightClassName="min-h-[15rem]" />
-                  <div className="flex gap-2">
-                    <button
-                      type="submit"
-                      className="border border-zinc-900 bg-zinc-900 px-3 py-1.5 text-sm text-white"
-                    >
-                      저장
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditingId(null);
-                        setEditTitle("");
-                        setEditBody("");
-                      }}
-                      className="border border-zinc-200 px-3 py-1.5 text-sm"
-                    >
-                      취소
-                    </button>
-                  </div>
-                </form>
-              ) : (
-                <>
-                  <div className="flex flex-wrap items-start justify-between gap-2">
-                    <div>
-                      <div className="flex items-center gap-2 text-xs text-zinc-400">
-                        <time dateTime={item.createdAt}>
-                          {new Date(item.createdAt).toLocaleString("ko-KR")}
-                        </time>
+        <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
+          <h2 className="text-base font-semibold tracking-tight text-zinc-900">게시판</h2>
+          <p className="text-xs tabular-nums text-zinc-500">총 {items.length}건</p>
+        </div>
+
+        <div className={adminBoardCard}>
+          <div className="hidden overflow-x-auto md:block">
+            <table className="w-full min-w-[700px] border-collapse text-left">
+              <thead>
+                <tr>
+                  <th className={`${adminBoardTh} w-10 text-center`}>No</th>
+                  <th className={adminBoardTh}>제목</th>
+                  <th className={adminBoardTh}>요약</th>
+                  <th className={`${adminBoardTh} w-28 whitespace-nowrap`}>수정일</th>
+                  <th className={`${adminBoardTh} w-28 text-right`}>관리</th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className={`${adminBoardTd} py-10 text-center text-sm text-zinc-500`}>
+                      등록된 항목이 없습니다.
+                    </td>
+                  </tr>
+                ) : null}
+                {items.map((item, i) => {
+                  const no = String(items.length - i).padStart(2, "0");
+                  const excerpt = textExcerpt(item.body, 140);
+                  if (editingId === item.id) {
+                    return (
+                      <tr key={item.id} className="bg-zinc-50/70">
+                        <td colSpan={5} className="border-b border-zinc-100 px-4 py-4 sm:px-5">
+                          <form onSubmit={(e) => void saveEdit(e, item.id)} className="space-y-3">
+                            <input
+                              required
+                              value={editTitle}
+                              onChange={(e) => setEditTitle(e.target.value)}
+                              className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm"
+                            />
+                            <RichTextEditor
+                              value={editBody}
+                              onChange={setEditBody}
+                              minHeightClassName="min-h-[15rem]"
+                            />
+                            <div className="flex flex-wrap gap-2">
+                              <button
+                                type="submit"
+                                className="rounded-lg border border-zinc-900 bg-zinc-900 px-3 py-1.5 text-sm text-white"
+                              >
+                                저장
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setEditingId(null);
+                                  setEditTitle("");
+                                  setEditBody("");
+                                }}
+                                className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm"
+                              >
+                                취소
+                              </button>
+                            </div>
+                          </form>
+                        </td>
+                      </tr>
+                    );
+                  }
+                  return (
+                    <tr key={item.id} className={adminBoardRow}>
+                      <td className={`${adminBoardTd} w-10 text-center text-xs tabular-nums text-zinc-400`}>{no}</td>
+                      <td className={`${adminBoardTd} max-w-[16rem] font-medium text-zinc-900`}>
+                        <span className="line-clamp-2">{item.title}</span>
+                      </td>
+                      <td className={`${adminBoardTd} max-w-[20rem] text-zinc-600`}>
+                        <span className="line-clamp-2 text-xs">{excerpt}</span>
+                      </td>
+                      <td className={`${adminBoardTd} whitespace-nowrap text-xs tabular-nums text-zinc-500`}>
+                        {formatListDate(item.updatedAt)}
+                      </td>
+                      <td className={`${adminBoardTd} text-right`}>
+                        <div className="flex justify-end gap-1">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setError(null);
+                              setEditingId(item.id);
+                              setEditTitle(item.title);
+                              setEditBody(item.body);
+                            }}
+                            className={adminGhostBtn}
+                          >
+                            수정
+                          </button>
+                          <button type="button" onClick={() => void remove(item.id)} className={adminDangerBtn}>
+                            삭제
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          <ul className="divide-y divide-zinc-100 md:hidden" role="list">
+            {items.length === 0 ? (
+              <li className="px-4 py-10 text-center text-sm text-zinc-500">등록된 항목이 없습니다.</li>
+            ) : null}
+            {items.map((item, i) => {
+              const no = String(items.length - i).padStart(2, "0");
+              if (editingId === item.id) {
+                return (
+                  <li key={item.id} className="bg-zinc-50/70 p-4">
+                    <form onSubmit={(e) => void saveEdit(e, item.id)} className="space-y-3">
+                      <input
+                        required
+                        value={editTitle}
+                        onChange={(e) => setEditTitle(e.target.value)}
+                        className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm"
+                      />
+                      <RichTextEditor
+                        value={editBody}
+                        onChange={setEditBody}
+                        minHeightClassName="min-h-[15rem]"
+                      />
+                      <div className="flex gap-2">
+                        <button
+                          type="submit"
+                          className="rounded-lg border border-zinc-900 bg-zinc-900 px-3 py-1.5 text-sm text-white"
+                        >
+                          저장
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditingId(null);
+                            setEditTitle("");
+                            setEditBody("");
+                          }}
+                          className="rounded-lg border border-zinc-200 px-3 py-1.5 text-sm"
+                        >
+                          취소
+                        </button>
                       </div>
-                      <h3 className="mt-1 font-medium text-zinc-900">{item.title}</h3>
-                      <p className="mt-2 line-clamp-3 text-sm text-zinc-600">{textExcerpt(item.body, 180)}</p>
+                    </form>
+                  </li>
+                );
+              }
+              return (
+                <li key={item.id} className="px-4 py-3.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <span className="text-[11px] font-medium tabular-nums text-zinc-300">{no}</span>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-zinc-900">{item.title}</p>
+                      <p className="mt-1 line-clamp-2 text-xs text-zinc-600">{textExcerpt(item.body, 120)}</p>
+                      <time className="mt-1.5 block text-[11px] tabular-nums text-zinc-400">
+                        {formatListDate(item.updatedAt)}
+                      </time>
                     </div>
-                    <div className="flex shrink-0 gap-2">
+                    <div className="flex shrink-0 flex-col items-end gap-1">
                       <button
                         type="button"
                         onClick={() => {
+                          setError(null);
                           setEditingId(item.id);
                           setEditTitle(item.title);
                           setEditBody(item.body);
                         }}
-                        className="text-sm text-zinc-600 underline-offset-2 hover:underline"
+                        className={adminGhostBtn}
                       >
                         수정
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => void remove(item.id)}
-                        className="text-sm text-red-600 hover:underline"
-                      >
+                      <button type="button" onClick={() => void remove(item.id)} className={adminDangerBtn}>
                         삭제
                       </button>
                     </div>
                   </div>
-                  <p className="mt-2 text-xs text-zinc-400">ID: {item.id}</p>
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </section>
+
+      <details className={adminDetailsShell}>
+        <summary className={adminDetailsSummary}>새 업무 등록</summary>
+        {createForm}
+      </details>
     </div>
   );
 }

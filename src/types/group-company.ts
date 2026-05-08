@@ -15,6 +15,10 @@ export type GroupCompany = {
   legalName: string;
   role: string;
   highlights: readonly string[];
+  /** 선택. 주요 납품·시공 실적 등(영문 표기 등) — 있으면 「주요 고객」 카드로 표시 */
+  majorCustomers?: readonly string[];
+  /** `public` 기준 경로 — 있으면 그룹사 상단 히어로에 표시(예: `/group/.../logo.png`) */
+  logoSrc?: string;
   /** 소개 페이지 본문(여러 문단, `\n\n` 구분) */
   intro: string;
   website?: string;

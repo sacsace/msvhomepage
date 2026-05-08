@@ -99,6 +99,9 @@ export const businessUnits = [
   },
 ] as const;
 
+/** 그룹사 로고 PNG를 교체했는데도 예전 이미지가 보이면 숫자만 올려 캐시를 끊습니다. */
+const GROUP_LOGO_VER = "?v=3";
+
 /** 인도 현지 파트너(계열·관련 법인) — `/group`, `/group/[slug]` */
 export const groupCompanies = [
   {
@@ -106,6 +109,7 @@ export const groupCompanies = [
     menuLabel: "Neocle International",
     legalName: "Neocle International Private Limited",
     role: "수출입 전문회사",
+    logoSrc: `/group/neocle-international/neocle-logo.png${GROUP_LOGO_VER}`,
     highlights: ["스크랩(scrap) 수출", "수출입 대행", "창고 운영"],
     intro: `Neocle International Private Limited는 인도 현지에서 수출입을 전문으로 하는 법인으로, 스크랩(scrap) 수출·수입 대행·창고 운영 등을 통해 물류·통관 실행력을 제공합니다.
 
@@ -116,16 +120,16 @@ MSV의 법인 설립·운영 고객과 연계해, 견적·선적·문서·현지
     menuLabel: "Seda Engineering India",
     legalName: "Seda Engineering India Private Limited",
     role: "엔지니어링 회사",
-    highlights: ["아틀라스콥코(Atlas Copco) 대리점"],
-    intro: `Seda Engineering India Private Limited는 산업용 장비·압축기 등 엔지니어링 분야에서 아틀라스콥코(Atlas Copco) 대리점 역할을 수행합니다.
-
-제조·플랜트 현장의 설비 도입·유지보수와 관련된 기술·공급 체계를 바탕으로, 인도 내 공장·설비 프로젝트에 실질적인 엔지니어링 파트너로 기여합니다.`,
+    logoSrc: `/group/seda-engineering-india/deers-seda-logo.png${GROUP_LOGO_VER}`,
+    highlights: ["산업용 장비·압축기 엔지니어링", "플랜트·공장 설비 도입 및 유지보수"],
+    intro: `Seda Engineering India Private Limited는 산업용 장비·압축기 등 엔지니어링 분야에서 제조·플랜트 현장의 설비 도입·유지보수와 관련된 기술·공급 체계를 바탕으로, 인도 내 공장·설비 프로젝트에 실질적인 엔지니어링 파트너로 기여합니다.`,
   },
   {
     slug: "lotus-korean-hotel",
     menuLabel: "Lotus Korean Hotel",
     legalName: "Lotus Korean Hotel",
     role: "한국형 호텔 · 숙박",
+    logoSrc: `/group/lotus-korean-hotel/lotus-korean-hotel-logo.png${GROUP_LOGO_VER}`,
     highlights: ["비즈니스·장기 숙박", "온라인: hotellotus.in"],
     website: "https://www.hotellotus.in",
     intro: `Lotus Korean Hotel은 방갈로르에서 비즈니스·장기 체류에 맞춘 한국형 호텔·숙박 서비스를 제공합니다.
@@ -137,6 +141,7 @@ MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등�
     menuLabel: "Wilmat",
     legalName: "Wilmat",
     role: "프리미엄 입구 매트·매트팅 시스템",
+    logoSrc: `/group/wilmat/wilmat-logo.png${GROUP_LOGO_VER}`,
     highlights: [
       "ANAB·IAF·TRA 및 KS Q ISO 9001:2015 품질경영",
       "매립(Recessed)·노출(Surface)형 등 맞춤 입구 솔루션",
@@ -146,6 +151,20 @@ MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등�
       "인도 현지 공급 및 A/S",
     ],
     website: "https://www.wilmat.in",
+    majorCustomers: [
+      "Kempegowda International Airport",
+      "Embassy Group",
+      "DLF Mall",
+      "Sheraton Grand Hotel",
+      "Hilton Hotel Convention Center",
+      "Lido Mall, MG Road",
+      "Brigade Group — Uptown Mall",
+      "Brigade Senate",
+      "Brigade Southfield",
+      "Brigade 7 Gardens",
+      "Brigade Parkside",
+      "Many more projects.",
+    ] as const,
     intro: `Wilmat은 건물 입구용 프리미엄 매트팅(Entrance Matting) 시스템입니다. 한국 Ecosys의 연구·개발을 바탕으로 하며, 신발에 붙은 먼지를 걸러 실내를 깨끗이 유지하고 미끄럼·넘어짐 위험을 줄입니다. 대리석·타일 등 마감과 조화를 이루는 색·패턴을 선택할 수 있습니다.
 
 국제 인증(예: ANAB, ANSI National Accreditation Board)과 IAF·TRA, KS Q ISO 9001:2015에 맞는 품질경영을 갖추었습니다. 친환경 소재와 긴 수명으로 건물 운영의 지속가능성에도 도움이 됩니다.
@@ -162,6 +181,7 @@ MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등�
     menuLabel: "JW Industrial Tech Service",
     legalName: "JW Industrial Tech Service Private Limited",
     role: "도장·공장 설비 설치 및 엔지니어링",
+    logoSrc: `/group/jw-industrial-tech-service/jwits-logo.png${GROUP_LOGO_VER}`,
     highlights: [
       "자동차 생산 설비 기계·전기 설치·이전·개조·수리",
       "도장·조립·프레스·바디 샵 라인",

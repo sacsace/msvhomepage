@@ -22,6 +22,7 @@ import {
 import {
   getCachedAnnouncements,
   getCachedTaxCalendar,
+  PUBLIC_PAGE_DATA_REVALIDATE_SEC,
 } from "@/lib/public-page-data-cache";
 import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import { company, services, strengths, values } from "@/lib/site-content";
@@ -43,12 +44,15 @@ export async function generateMetadata(): Promise<Metadata> {
   );
 }
 
-export const revalidate = 60;
+export const revalidate = PUBLIC_PAGE_DATA_REVALIDATE_SEC;
+
+/** 홈 공지·달력 2열에서 달력 카드 높이에 맞추기 위한 미리보기 개수(고정·최신 순) */
+const HOME_ANNOUNCEMENT_PREVIEW_COUNT = 6;
 
 export default async function HomePage() {
   const locale = await getRequestLocale();
   const [rawAnn, rawCal] = await Promise.all([getCachedAnnouncements(), getCachedTaxCalendar()]);
-  const ann = sortAnnouncementsPublic(rawAnn).slice(0, 3);
+  const ann = sortAnnouncementsPublic(rawAnn).slice(0, HOME_ANNOUNCEMENT_PREVIEW_COUNT);
   const calendarEvents = sortTaxCalendarByDate(rawCal);
 
   const svcList =

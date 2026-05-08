@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { useBrowserPathname } from "@/components/layout/BrowserPathnameProvider";
+import { desktopNavTopSegmentClass } from "@/components/nav/desktop-nav-top-class";
 import { isNavActive, localeFromPathname, stripLocalePrefix, withLocalePrefix } from "@/lib/site-locale";
 
 type Props = {
@@ -26,11 +27,7 @@ export function NavLink({ href, children, className = "" }: Props) {
   return (
     <Link
       href={resolvedHref}
-      className={`inline-flex items-center rounded-md px-2.5 py-1.5 text-[13px] transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue ${
-        active
-          ? "font-semibold text-msv-navy"
-          : "font-medium text-slate-500 hover:text-msv-navy"
-      } ${className}`}
+      className={`inline-flex items-center rounded-md px-2.5 py-1.5 text-[13px] transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue ${desktopNavTopSegmentClass(active)} ${className}`}
       aria-current={active ? "page" : undefined}
     >
       {children}

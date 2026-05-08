@@ -84,14 +84,17 @@ export function SiteHeader({ locale }: Props) {
                     <div className="px-3 pb-1 pt-2 text-[11px] font-medium uppercase tracking-wider text-slate-400">
                       {shell.groupSection}
                     </div>
+                    <MobileNavLink href="/group" match="prefix">
+                      {pickLocale(locale, {
+                        ko: "브랜드 · 법인",
+                        en: "Brands & companies",
+                        zh: "品牌与法人",
+                      })}
+                    </MobileNavLink>
                     {groupCompanies.map((g) => (
-                      <Link
-                        key={g.slug}
-                        href={withLocalePrefix(`/group/${g.slug}`, locale)}
-                        className="block px-3 py-2 pl-4 text-sm text-slate-600 hover:bg-slate-50 hover:text-msv-navy"
-                      >
+                      <MobileNavLink key={g.slug} href={`/group/${g.slug}`} className="pl-4" match="exact">
                         {g.menuLabel}
-                      </Link>
+                      </MobileNavLink>
                     ))}
                   </div>
                 ) : item.href === "/software" ? (

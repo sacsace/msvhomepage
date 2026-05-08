@@ -4,7 +4,10 @@ import { staticPageSeo } from "@/lib/seo-metadata";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { sortAnnouncementsPublic } from "@/lib/announcements-store";
-import { getCachedAnnouncements } from "@/lib/public-page-data-cache";
+import {
+  getCachedAnnouncements,
+  PUBLIC_PAGE_DATA_REVALIDATE_SEC,
+} from "@/lib/public-page-data-cache";
 import { company } from "@/lib/site-content";
 import { textExcerpt } from "@/lib/richtext";
 
@@ -13,7 +16,7 @@ export const metadata: Metadata = staticPageSeo("/notice", {
   description: `${company.shortName} 공지사항 목록`,
 });
 
-export const revalidate = 60;
+export const revalidate = PUBLIC_PAGE_DATA_REVALIDATE_SEC;
 
 const listGrid =
   "md:grid md:grid-cols-[3.5rem_7.5rem_3.25rem_minmax(0,1fr)] md:items-center md:gap-x-4" as const;
@@ -73,12 +76,12 @@ export default async function NoticeListPage() {
                   <div className="min-w-0 md:min-h-0">
                     <Link
                       href={`/notice/${a.id}`}
-                      className="group flex min-w-0 items-baseline gap-2 rounded-sm text-base leading-snug focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue sm:gap-4"
+                      className="group flex min-w-0 items-baseline gap-2 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue sm:gap-4"
                     >
-                      <span className="min-w-0 flex-1 truncate font-bold text-msv-navy group-hover:text-msv-blue group-hover:underline">
+                      <span className="min-w-0 flex-1 truncate text-xs font-semibold leading-snug text-msv-navy sm:text-sm group-hover:text-msv-blue group-hover:underline">
                         {a.title}
                       </span>
-                      <span className="max-w-[42%] shrink-0 truncate text-right text-sm font-normal text-slate-600 sm:max-w-[48%] md:max-w-[50%]">
+                      <span className="max-w-[42%] shrink-0 truncate text-right text-sm font-normal leading-snug text-slate-600 sm:max-w-[48%] md:max-w-[50%]">
                         {textExcerpt(a.body, 160)}
                       </span>
                     </Link>

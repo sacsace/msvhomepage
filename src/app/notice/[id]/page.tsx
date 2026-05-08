@@ -3,13 +3,16 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
-import { getCachedAnnouncements } from "@/lib/public-page-data-cache";
+import {
+  getCachedAnnouncements,
+  PUBLIC_PAGE_DATA_REVALIDATE_SEC,
+} from "@/lib/public-page-data-cache";
 import { publicArticleBodyProse, publicContentCard } from "@/lib/public-page-styles";
 import { hasHtmlTag, sanitizeRichHtml, textExcerpt } from "@/lib/richtext";
 import { staticPageSeo } from "@/lib/seo-metadata";
 import { company, siteUrl } from "@/lib/site-content";
 
-export const revalidate = 60;
+export const revalidate = PUBLIC_PAGE_DATA_REVALIDATE_SEC;
 
 type Props = { params: Promise<{ id: string }> };
 
