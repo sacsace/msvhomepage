@@ -1,6 +1,9 @@
 import { unstable_cache } from "next/cache";
-import { readAnnouncements } from "@/lib/announcements-store";
-import { readArticles, findArticleBySlug } from "@/lib/articles-store";
+import {
+  getAnnouncement,
+  readAnnouncementsListPublic,
+} from "@/lib/announcements-store";
+import { findArticleBySlug, readArticlesListPublic } from "@/lib/articles-store";
 import { readClients } from "@/lib/clients-store";
 import { readCompanyHistoryPublic } from "@/lib/company-history-store";
 import { getLeadershipForPublic } from "@/lib/leadership-resolve";
@@ -17,11 +20,21 @@ export const PUBLIC_PAGE_DATA_REVALIDATE_SEC = 15;
 
 const opts = { revalidate: PUBLIC_PAGE_DATA_REVALIDATE_SEC } as const;
 
-export const getCachedAnnouncements = unstable_cache(
-  () => readAnnouncements(),
-  ["msv-public-announcements"],
+/** 공지 목록(본문 제외) — Next 데이터 캐시 항목당 2MB 제한 회피 */
+export const getCachedAnnouncementsList = unstable_cache(
+  () => readAnnouncementsListPublic(),
+  ["msv-public-announcements-list"],
   opts,
 );
+
+/** 공지 단건(상세) — 항목별 캐시 */
+export function getCachedAnnouncementById(id: string) {
+  return unstable_cache(
+    () => getAnnouncement(id),
+    ["msv-public-announcement", id],
+    opts,
+  )();
+}
 
 export const getCachedTaxCalendar = unstable_cache(
   () => readTaxCalendar(),
@@ -43,7 +56,12 @@ export const getCachedOngoingTasks = unstable_cache(
   opts,
 );
 
-export const getCachedArticles = unstable_cache(() => readArticles(), ["msv-public-articles"], opts);
+/** 자료실 목록(본문 제외) — Next 데이터 캐시 항목당 2MB 제한 회피 */
+export const getCachedArticlesList = unstable_cache(
+  () => readArticlesListPublic(),
+  ["msv-public-articles-list"],
+  opts,
+);
 
 export const getCachedLeadershipForPublic = unstable_cache(
   () => getLeadershipForPublic(),

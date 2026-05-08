@@ -1,8 +1,9 @@
-import type { Article } from "@/types/article";
+import type { Article, ArticleListItem } from "@/types/article";
 import { prisma } from "@/lib/prisma";
 import { withRecoverableDbRead } from "@/lib/prisma-read-fallback";
+import { textExcerpt } from "@/lib/richtext";
 
-export type { Article } from "@/types/article";
+export type { Article, ArticleListItem } from "@/types/article";
 
 function toArticle(row: {
   id: string;
@@ -31,6 +32,37 @@ export async function readArticles(): Promise<Article[]> {
   });
 }
 
+/** 공개 목록 — 본문은 DB에서 읽되 응답·캐시에는 `listPreview`만 포함 */
+export async function readArticlesListPublic(): Promise<ArticleListItem[]> {
+  return withRecoverableDbRead([], async () => {
+    const rows = await prisma.article.findMany({
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        excerpt: true,
+        body: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    return rows.map((row) => {
+      const excerpt = row.excerpt?.trim() ?? "";
+      const listPreview =
+        excerpt.length > 0 ? textExcerpt(excerpt, 160) : textExcerpt(row.body, 120);
+      return {
+        id: row.id,
+        title: row.title,
+        slug: row.slug,
+        createdAt: row.createdAt.toISOString(),
+        updatedAt: row.updatedAt.toISOString(),
+        excerpt,
+        listPreview,
+      };
+    });
+  });
+}
+
 export async function writeArticles(items: Article[]): Promise<void> {
   const data = items.map((a) => ({
     id: a.id,
@@ -54,7 +86,7 @@ export async function findArticleBySlug(slug: string): Promise<Article | null> {
   });
 }
 
-export function sortArticlesByDate(list: Article[]): Article[] {
+export function sortArticlesByDate<T extends { createdAt: string }>(list: readonly T[]): T[] {
   return [...list].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   );

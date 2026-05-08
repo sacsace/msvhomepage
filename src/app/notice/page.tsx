@@ -5,11 +5,10 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { sortAnnouncementsPublic } from "@/lib/announcements-store";
 import {
-  getCachedAnnouncements,
+  getCachedAnnouncementsList,
   PUBLIC_PAGE_DATA_REVALIDATE_SEC,
 } from "@/lib/public-page-data-cache";
 import { company } from "@/lib/site-content";
-import { textExcerpt } from "@/lib/richtext";
 
 export const metadata: Metadata = staticPageSeo("/notice", {
   title: "공지사항",
@@ -22,7 +21,7 @@ const listGrid =
   "md:grid md:grid-cols-[3.5rem_7.5rem_3.25rem_minmax(0,1fr)] md:items-center md:gap-x-4" as const;
 
 export default async function NoticeListPage() {
-  const list = sortAnnouncementsPublic(await getCachedAnnouncements());
+  const list = sortAnnouncementsPublic(await getCachedAnnouncementsList());
 
   return (
     <>
@@ -82,7 +81,7 @@ export default async function NoticeListPage() {
                         {a.title}
                       </span>
                       <span className="max-w-[42%] shrink-0 truncate text-right text-sm font-normal leading-snug text-slate-600 sm:max-w-[48%] md:max-w-[50%]">
-                        {textExcerpt(a.body, 160)}
+                        {a.summary}
                       </span>
                     </Link>
                   </div>

@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import {
-  getCachedAnnouncements,
+  getCachedAnnouncementById,
   PUBLIC_PAGE_DATA_REVALIDATE_SEC,
 } from "@/lib/public-page-data-cache";
 import { publicArticleBodyProse, publicContentCard } from "@/lib/public-page-styles";
@@ -18,8 +18,7 @@ type Props = { params: Promise<{ id: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const list = await getCachedAnnouncements();
-  const item = list.find((a) => a.id === id);
+  const item = await getCachedAnnouncementById(id);
   if (!item) return { title: "공지" };
   return staticPageSeo(`/notice/${id}`, {
     title: item.title,
@@ -30,8 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function NoticeDetailPage({ params }: Props) {
   const { id } = await params;
-  const list = await getCachedAnnouncements();
-  const item = list.find((a) => a.id === id);
+  const item = await getCachedAnnouncementById(id);
   if (!item) notFound();
 
   const pageUrl = `${siteUrl}/notice/${item.id}`;

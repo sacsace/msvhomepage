@@ -4,11 +4,11 @@ import { homeTypo } from "@/lib/home-typography";
 import { contentPreviewsCopy } from "@/lib/i18n/public-home";
 import type { SiteLocale } from "@/lib/site-locale";
 import { withLocalePrefix } from "@/lib/site-locale";
-import type { Announcement } from "@/types/announcement";
+import type { AnnouncementListItem } from "@/types/announcement";
 import type { TaxCalendarEvent } from "@/types/tax-calendar-event";
 
 type Props = {
-  announcements: Announcement[];
+  announcements: AnnouncementListItem[];
   calendarEvents: TaxCalendarEvent[];
   locale: SiteLocale;
 };

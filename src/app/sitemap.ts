@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getCachedAnnouncements, getCachedArticles } from "@/lib/public-page-data-cache";
+import { getCachedAnnouncementsList, getCachedArticlesList } from "@/lib/public-page-data-cache";
 import { groupCompanies, siteUrl } from "@/lib/site-content";
 
 /** 사이트맵은 캐시된 공지·자료 목록을 사용합니다(공개 페이지와 동일 TTL). */
@@ -14,8 +14,8 @@ function lastMod(iso: string | undefined): Date {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const [articles, announcements] = await Promise.all([
-    getCachedArticles(),
-    getCachedAnnouncements(),
+    getCachedArticlesList(),
+    getCachedAnnouncementsList(),
   ]);
 
   const staticPaths: MetadataRoute.Sitemap = [

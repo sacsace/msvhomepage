@@ -1,8 +1,9 @@
-import type { Announcement } from "@/types/announcement";
+import type { Announcement, AnnouncementListItem } from "@/types/announcement";
 import { prisma } from "@/lib/prisma";
 import { withRecoverableDbRead } from "@/lib/prisma-read-fallback";
+import { textExcerpt } from "@/lib/richtext";
 
-export type { Announcement } from "@/types/announcement";
+export type { Announcement, AnnouncementListItem } from "@/types/announcement";
 
 function toAnnouncement(row: {
   id: string;
@@ -26,6 +27,30 @@ export async function readAnnouncements(): Promise<Announcement[]> {
   return withRecoverableDbRead([], async () => {
     const rows = await prisma.announcement.findMany();
     return rows.map(toAnnouncement);
+  });
+}
+
+/** 공개 목록·홈 미리보기 — 본문은 DB에서 읽되 응답·캐시에는 짧은 `summary`만 포함 */
+export async function readAnnouncementsListPublic(): Promise<AnnouncementListItem[]> {
+  return withRecoverableDbRead([], async () => {
+    const rows = await prisma.announcement.findMany({
+      select: {
+        id: true,
+        title: true,
+        body: true,
+        pinned: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    return rows.map((row) => ({
+      id: row.id,
+      title: row.title,
+      pinned: row.pinned,
+      createdAt: row.createdAt.toISOString(),
+      updatedAt: row.updatedAt.toISOString(),
+      summary: textExcerpt(row.body, 200),
+    }));
   });
 }
 
@@ -81,7 +106,9 @@ export async function deleteAnnouncement(id: string): Promise<boolean> {
   return r.count > 0;
 }
 
-export function sortAnnouncementsPublic(list: Announcement[]): Announcement[] {
+export function sortAnnouncementsPublic<T extends { pinned: boolean; createdAt: string }>(
+  list: readonly T[],
+): T[] {
   return [...list].sort((a, b) => {
     if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();

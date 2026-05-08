@@ -4,8 +4,7 @@ import { staticPageSeo } from "@/lib/seo-metadata";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { sortArticlesByDate } from "@/lib/articles-store";
-import { getCachedArticles } from "@/lib/public-page-data-cache";
-import { textExcerpt } from "@/lib/richtext";
+import { getCachedArticlesList } from "@/lib/public-page-data-cache";
 
 export const metadata: Metadata = staticPageSeo("/articles", {
   title: "자료실",
@@ -32,7 +31,7 @@ function ListChevron() {
 }
 
 export default async function ArticlesListPage() {
-  const list = sortArticlesByDate(await getCachedArticles());
+  const list = sortArticlesByDate(await getCachedArticlesList());
 
   return (
     <>
@@ -51,8 +50,7 @@ export default async function ArticlesListPage() {
           <div className="overflow-hidden rounded-2xl border border-slate-200/85 bg-white shadow-[0_1px_10px_rgb(15_23_42/0.045)] ring-1 ring-slate-900/[0.02]">
             <ul role="list" className="divide-y divide-black/[0.06]">
               {list.map((a, i) => {
-                const preview =
-                  a.excerpt?.trim().length > 0 ? a.excerpt.trim() : textExcerpt(a.body, 100);
+                const preview = a.listPreview;
                 const indexLabel = String(list.length - i).padStart(2, "0");
                 const href = `/articles/${encodeURIComponent(a.slug)}`;
                 const showPreview = preview.trim().length > 0 && preview.trim() !== a.title.trim();

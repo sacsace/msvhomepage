@@ -20,7 +20,7 @@ import {
   valuesZh,
 } from "@/lib/i18n/public-home";
 import {
-  getCachedAnnouncements,
+  getCachedAnnouncementsList,
   getCachedTaxCalendar,
   PUBLIC_PAGE_DATA_REVALIDATE_SEC,
 } from "@/lib/public-page-data-cache";
@@ -51,7 +51,10 @@ const HOME_ANNOUNCEMENT_PREVIEW_COUNT = 6;
 
 export default async function HomePage() {
   const locale = await getRequestLocale();
-  const [rawAnn, rawCal] = await Promise.all([getCachedAnnouncements(), getCachedTaxCalendar()]);
+  const [rawAnn, rawCal] = await Promise.all([
+    getCachedAnnouncementsList(),
+    getCachedTaxCalendar(),
+  ]);
   const ann = sortAnnouncementsPublic(rawAnn).slice(0, HOME_ANNOUNCEMENT_PREVIEW_COUNT);
   const calendarEvents = sortTaxCalendarByDate(rawCal);
 
