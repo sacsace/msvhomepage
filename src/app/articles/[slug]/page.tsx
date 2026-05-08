@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { getCachedArticleBySlug } from "@/lib/public-page-data-cache";
-import { publicContentCard } from "@/lib/public-page-styles";
+import { publicArticleBodyProse, publicContentCard } from "@/lib/public-page-styles";
 import { hasHtmlTag, sanitizeRichHtml, textExcerpt } from "@/lib/richtext";
 import { staticPageSeo } from "@/lib/seo-metadata";
 import { company, siteUrl } from "@/lib/site-content";
@@ -79,14 +79,11 @@ export default async function ArticleDetailPage({ params }: Props) {
           </>
         }
       />
-      <StandardPageBody width="3xl">
+      <StandardPageBody width="6xl">
         <article className={publicContentCard}>
           <div className="text-sm leading-relaxed text-slate-700">
             {bodyHtml ? (
-              <div
-                className="article-body [&_a]:text-blue-700 [&_a]:underline [&_blockquote]:my-4 [&_blockquote]:border-l-2 [&_blockquote]:border-slate-200 [&_blockquote]:pl-4 [&_blockquote]:text-slate-600 [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-semibold [&_h3]:mt-6 [&_h3]:text-lg [&_h3]:font-semibold [&_img]:my-4 [&_img]:max-w-full [&_img]:rounded-sm [&_li]:my-0.5 [&_ol]:my-3 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-3 [&_pre]:my-4 [&_pre]:overflow-x-auto [&_pre]:rounded-md [&_pre]:bg-slate-50 [&_pre]:p-3 [&_pre]:text-xs [&_ul]:my-3 [&_ul]:list-disc [&_ul]:pl-6"
-                dangerouslySetInnerHTML={{ __html: bodyHtml }}
-              />
+              <div className={publicArticleBodyProse} dangerouslySetInnerHTML={{ __html: bodyHtml }} />
             ) : (
               <p className="whitespace-pre-wrap">{article.body}</p>
             )}

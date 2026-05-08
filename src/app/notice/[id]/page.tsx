@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { getCachedAnnouncements } from "@/lib/public-page-data-cache";
-import { publicContentCard } from "@/lib/public-page-styles";
+import { publicArticleBodyProse, publicContentCard } from "@/lib/public-page-styles";
 import { hasHtmlTag, sanitizeRichHtml, textExcerpt } from "@/lib/richtext";
 import { staticPageSeo } from "@/lib/seo-metadata";
 import { company, siteUrl } from "@/lib/site-content";
@@ -62,31 +62,31 @@ export default async function NoticeDetailPage({ params }: Props) {
                 공지사항 목록
               </Link>
             </p>
-            <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-white/58">
+            <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-white/58 tabular-nums">
               {item.pinned ? (
                 <span className="rounded border border-white/25 bg-white/10 px-1.5 py-0.5 font-medium text-white/90">
                   고정
                 </span>
               ) : null}
-              <time dateTime={item.createdAt} className="tabular-nums">
-                {new Date(item.createdAt).toLocaleString("ko-KR")}
+              <time dateTime={item.createdAt}>
+                {new Date(item.createdAt).toLocaleDateString("ko-KR")}
               </time>
             </div>
           </>
         }
       />
-      <StandardPageBody width="3xl">
+      <StandardPageBody width="6xl">
         <article className={publicContentCard}>
-          {hasHtmlTag(item.body) ? (
-            <div
-              className="text-sm leading-relaxed text-slate-700 [&_a]:text-msv-blue [&_a]:underline [&_img]:h-auto [&_img]:max-w-full [&_li]:ml-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-2 [&_ul]:list-disc [&_ul]:pl-5"
-              dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(item.body) }}
-            />
-          ) : (
-            <div className="text-sm leading-relaxed text-slate-700">
+          <div className="text-sm leading-relaxed text-slate-700">
+            {hasHtmlTag(item.body) ? (
+              <div
+                className={publicArticleBodyProse}
+                dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(item.body) }}
+              />
+            ) : (
               <p className="whitespace-pre-wrap">{item.body}</p>
-            </div>
-          )}
+            )}
+          </div>
           <p className="mt-10 border-t border-slate-100 pt-6 text-sm">
             <Link href="/notice" className="text-slate-600 underline-offset-4 hover:underline">
               ← 목록

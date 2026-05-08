@@ -8,7 +8,7 @@ import {
 type Props = {
   children: ReactNode;
   className?: string;
-  /** 기본 `6xl` — 공지·자료 글 본문 등은 `3xl`, 계산기 등 풀폭은 `full` */
+  /** 기본 `6xl` — 공지·자료 글 본문도 `6xl`(히어로·푸터와 동일 폭), 계산기 등 풀폭은 `full` */
   width?: "6xl" | "3xl" | "full";
   /** 서비스 랜딩 등 세로 여백을 한 단계 더 줄 때 */
   padding?: "default" | "spacious";
