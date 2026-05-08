@@ -28,17 +28,18 @@ function ServiceCard({ index, title, description }: { index: number; title: stri
 
 type Props = {
   items: readonly ServiceLineItem[];
+  sectionEyebrow: string;
+  sectionTitle: string;
+  sectionIntro: string;
 };
 
 /** 서비스 페이지 — 6개 서비스 라인 인포그래픽 그리드 */
-export function ServicesInfographic({ items }: Props) {
+export function ServicesInfographic({ items, sectionEyebrow, sectionTitle, sectionIntro }: Props) {
   return (
     <section className="rounded-2xl border border-slate-200/80 bg-slate-50/95 px-5 py-10 sm:px-8 sm:py-12">
-      <p className="msv-eyebrow">Service lines</p>
-      <h2 className="mt-2 text-xl font-bold tracking-tight text-msv-navy sm:text-2xl">핵심 서비스</h2>
-      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">
-        법인 컨설팅·회계 사업부에서 인도 현지에서 직접 실행하는 서비스입니다.
-      </p>
+      <p className="msv-eyebrow">{sectionEyebrow}</p>
+      <h2 className="mt-2 text-xl font-bold tracking-tight text-msv-navy sm:text-2xl">{sectionTitle}</h2>
+      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">{sectionIntro}</p>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {items.map((s, i) => (
           <ServiceCard key={s.title} index={i + 1} title={s.title} description={s.description} />

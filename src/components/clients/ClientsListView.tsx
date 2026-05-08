@@ -2,11 +2,24 @@ import Image from "next/image";
 import type { Client } from "@/types/client";
 import { publicFileExists } from "@/lib/public-file";
 
-export function ClientsListView({ list }: { list: Client[] }) {
+export type ClientsListLabels = {
+  emptyListMessage: string;
+  /** `${name} ${logoAltSuffix}` — 예: "로고", "logo", "标志" */
+  logoAltSuffix: string;
+  noLogoPlaceholder: string;
+  websiteLinkLabel: string;
+};
+
+type Props = {
+  list: Client[];
+  labels: ClientsListLabels;
+};
+
+export function ClientsListView({ list, labels }: Props) {
   if (list.length === 0) {
     return (
       <p className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-6 py-10 text-center text-sm leading-relaxed text-slate-600">
-        등록된 고객사가 없습니다.
+        {labels.emptyListMessage}
       </p>
     );
   }
@@ -27,7 +40,7 @@ export function ClientsListView({ list }: { list: Client[] }) {
               <div className="relative mx-auto h-20 w-32 shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-white sm:mx-0">
                 <Image
                   src={c.logoSrc}
-                  alt={`${c.name} 로고`}
+                  alt={`${c.name} ${labels.logoAltSuffix}`}
                   fill
                   className="object-contain p-1.5"
                   sizes="128px"
@@ -36,7 +49,7 @@ export function ClientsListView({ list }: { list: Client[] }) {
               </div>
             ) : (
               <div className="mx-auto flex h-20 w-32 shrink-0 items-center justify-center rounded-lg border border-dashed border-slate-200 bg-slate-50 text-xs text-slate-400 sm:mx-0">
-                로고 없음
+                {labels.noLogoPlaceholder}
               </div>
             )}
             <div className="min-w-0 flex-1 text-center sm:text-left">
@@ -53,7 +66,7 @@ export function ClientsListView({ list }: { list: Client[] }) {
                   rel="noopener noreferrer"
                   className="mt-3 inline-flex rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
                 >
-                  웹사이트
+                  {labels.websiteLinkLabel}
                 </a>
               ) : null}
               {c.note ? (

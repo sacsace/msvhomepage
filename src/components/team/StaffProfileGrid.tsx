@@ -8,10 +8,12 @@ function initials(name: string): string {
 
 type Props = {
   profiles: readonly StaffProfile[];
+  /** 이미지 alt 접미(예: "프로필 사진" / "profile photo") */
+  profilePhotoAltSuffix?: string;
 };
 
 /** 회사 소개 등 — 좁은 세로 카드: 사진 → 이름 → 부서명(`role`, 라벨 없음) */
-export function StaffProfileGrid({ profiles }: Props) {
+export function StaffProfileGrid({ profiles, profilePhotoAltSuffix = "프로필 사진" }: Props) {
   return (
     <ul className="mx-auto flex max-w-[1100px] flex-wrap justify-center gap-4 sm:gap-5 md:gap-6">
       {profiles.map((p) => {
@@ -27,7 +29,7 @@ export function StaffProfileGrid({ profiles }: Props) {
               {showPhoto && p.photoSrc ? (
                 <Image
                   src={p.photoSrc}
-                  alt={`${p.name} 프로필 사진`}
+                  alt={`${p.name} ${profilePhotoAltSuffix}`}
                   fill
                   className="object-cover object-top"
                   sizes="(max-width: 640px) 80px, 96px"

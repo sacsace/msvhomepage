@@ -5,20 +5,22 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { SectionTitle } from "@/components/SectionTitle";
 import { getRequestLocale } from "@/lib/get-request-locale";
+import { clientsPageCopy } from "@/lib/i18n/clients-locale";
 import { sortClientsPublic } from "@/lib/clients-store";
 import { getCachedClients } from "@/lib/public-page-data-cache";
-import { staticPageSeo } from "@/lib/seo-metadata";
+import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import type { SiteLocale } from "@/lib/site-locale";
 import { withLocalePrefix } from "@/lib/site-locale";
-import { company } from "@/lib/site-content";
 
-const clientsPageDescription =
-  "MSV와 함께 성장해온 주요 고객사를 소개합니다. 인도 진출부터 운영, 회계·세무, 컴플라이언스까지 신뢰를 바탕으로 협력하는 파트너십을 안내합니다.";
-
-export const metadata: Metadata = staticPageSeo("/about/clients", {
-  title: "고객사",
-  description: `${company.shortName} 고객사 — ${clientsPageDescription}`,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  const copy = clientsPageCopy(locale);
+  return staticPageSeoLocalized(
+    "/about/clients",
+    { title: copy.metaTitle, description: copy.metaDescription },
+    locale,
+  );
+}
 
 export const revalidate = 60;
 
@@ -58,44 +60,44 @@ export default async function AboutClientsPage() {
   const locale = await getRequestLocale();
   const L = (path: string) => withLocalePrefix(path, locale);
   const footerNav = footerNavCopy(locale);
+  const copy = clientsPageCopy(locale);
   const list = sortClientsPublic(await getCachedClients());
+
+  const listLabels = {
+    emptyListMessage: copy.emptyListMessage,
+    logoAltSuffix: copy.clientLogoAltSuffix,
+    noLogoPlaceholder: copy.noLogoPlaceholder,
+    websiteLinkLabel: copy.websiteLinkLabel,
+  };
 
   return (
     <>
-      <PageHeader
-        title="고객사"
-        description={`MSV와 함께 성장해온 주요 고객사를 소개합니다.
-인도 진출부터 운영, 회계·세무, 컴플라이언스까지 다양한 분야에서 신뢰를 바탕으로 협력하고 있습니다.`}
-        descriptionWide
-      />
+      <PageHeader title={copy.pageTitle} description={copy.pageDescription} descriptionWide />
+
       <StandardPageBody className="space-y-12 sm:space-y-14">
         <p className="text-sm text-slate-600">
           <Link
             href={L("/about")}
             className="font-semibold text-msv-navy underline-offset-2 transition hover:text-msv-blue hover:underline"
           >
-            회사 소개
+            {copy.breadcrumbAbout}
           </Link>
           <span aria-hidden className="mx-1.5 text-slate-300">
             ·
           </span>
-          <span className="font-medium text-slate-700">고객사</span>
+          <span className="font-medium text-slate-700">{copy.breadcrumbCurrent}</span>
         </p>
 
         <section className={cardSection}>
           <SectionTitle
-            eyebrow="Directory"
-            title="등록 고객사"
+            eyebrow={copy.directoryEyebrow}
+            title={copy.directoryTitle}
             spacing="tight"
             density="compact"
-            subtitle={
-              <p className={`m-0 ${bodyText}`}>
-                메인 화면에는 최대 12곳만 노출되며, 여기서는 등록된 항목을 모두 확인할 수 있습니다.
-              </p>
-            }
+            subtitle={<p className={`m-0 ${bodyText}`}>{copy.directorySubtitle}</p>}
             contentWidth="full"
           />
-          <ClientsListView list={list} />
+          <ClientsListView list={list} labels={listLabels} />
         </section>
 
         <section className="rounded-2xl border border-slate-200 bg-msv-blue-soft/15 p-6 sm:p-8">

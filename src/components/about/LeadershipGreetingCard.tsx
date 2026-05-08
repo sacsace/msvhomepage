@@ -16,10 +16,13 @@ type Props = {
   body: string;
   /** 본문 아래 경력·학력 등 목록 */
   bullets?: readonly string[];
+  /** 프로필 이미지 대체 텍스트(미지정 시 한국어 기본) */
+  photoAlt?: string;
 };
 
-export function LeadershipGreetingCard({ member, eyebrow, title, titleSubline, body, bullets }: Props) {
+export function LeadershipGreetingCard({ member, eyebrow, title, titleSubline, body, bullets, photoAlt }: Props) {
   const showPhoto = Boolean(member.photoSrc && publicFileExists(member.photoSrc));
+  const imageAlt = photoAlt ?? `${member.name} 프로필 사진`;
 
   return (
     <article className="rounded-xl border border-slate-200 bg-slate-50/40 p-5 shadow-sm sm:p-6">
@@ -28,7 +31,7 @@ export function LeadershipGreetingCard({ member, eyebrow, title, titleSubline, b
           {showPhoto && member.photoSrc ? (
             <Image
               src={member.photoSrc}
-              alt={`${member.name} 프로필 사진`}
+              alt={imageAlt}
               fill
               className="object-contain object-top"
               sizes="160px"

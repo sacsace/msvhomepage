@@ -104,6 +104,7 @@ const GROUP_LOGO_VER = "?v=3";
 
 /** 인도 현지 파트너(계열·관련 법인) — `/group`, `/group/[slug]` */
 export const groupCompanies = [
+  /** 그룹사 카드·상세 문구는 `@/lib/i18n/group-pages-locale`과 동기화할 것 */
   {
     slug: "neocle-international",
     menuLabel: "Neocle International",
@@ -163,7 +164,6 @@ MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등�
       "Brigade Southfield",
       "Brigade 7 Gardens",
       "Brigade Parkside",
-      "Many more projects.",
     ] as const,
     intro: `Wilmat은 건물 입구용 프리미엄 매트팅(Entrance Matting) 시스템입니다. 한국 Ecosys의 연구·개발을 바탕으로 하며, 신발에 붙은 먼지를 걸러 실내를 깨끗이 유지하고 미끄럼·넘어짐 위험을 줄입니다. 대리석·타일 등 마감과 조화를 이루는 색·패턴을 선택할 수 있습니다.
 
@@ -296,86 +296,7 @@ export const teamIntro = {
 export const teamGreetingLead =
   "고객과 함께 성장하는 파트너로서, 정확한 회계와 투명한 경영을 기반으로 신뢰를 만들어가고 있습니다. 한국과 인도를 잇는 실무 중심의 전문성을 바탕으로, 기업 운영 전반에 실질적인 가치를 제공하겠습니다.";
 
-/** MVS — MS Ventures System (`/software/mvs`) — 법인·서비스 상세는 회사 소개·서비스 페이지와 맞출 것 */
-export const mvsIntro = {
-  /** PageHeader 한 줄 요약 · 메타 설명 */
-  headerSummary: `${company.shortName}이 운영하는 웹 통합 그룹웨어입니다. 인사·근태·휴가·급여, 전자근로계약·전자결재, 업무 보드·보고·통계, 파트너·재고·전자세금계산서 등 법인 운영 업무를 한 로그인 체계에서 다룹니다.`,
-  /** 본문 상단 개요(`\\n\\n`으로 문단 구분) */
-  heroLead: `MVS(MS Ventures System, 브랜드 표기에 따라 Ventus 계열을 함께 쓰기도 합니다)는 ${company.shortName}(${company.legalName})이 보유·운영하는 웹 기반 통합 그룹웨어입니다. 대시보드, 기본정보·조직·사용자·권한, 근태·휴가·급여, 전자근로계약, 전자결재·업무 보드·업무 보고·통계, 파트너·고객사, 재고·전자세금계산서 등 현장에서 매일 이어지는 업무를 모듈로 묶었고, 회사 단위 데이터 격리, SMTP·알림, 언어·통화(예: INR), 출근 반경·세션·비밀번호 정책 같은 운영·보안 항목은 시스템 설정에서 통제합니다.
-
-직원에게는 출퇴근·근태·휴가 신청·급여 조회, 관리자에게는 결재·엑셀 연동·집계·감사 같은 운영 기능을 같은 제품 안에서 이어 줍니다. 필요 시 회계·세무·컴플라이언스 실행은 상근 CPA 체계의 서비스 라인과 연계해 설계할 수 있습니다.
-
-법인 소개·비전·연혁은 회사 소개 페이지에서 확인하실 수 있습니다.`,
-  sections: [
-    {
-      eyebrow: "Name",
-      title: "Minsub Ventus System",
-      body: "MVS는 MS Ventures System·Minsub Ventus System을 아우르는 제품 브랜드로, Ventus(라틴어 ‘바람’)에 담긴 실행·순환의 이미지를 바탕으로 합니다. 그룹웨어로서 사내 업무 흐름을 한데 묶는 것을 목표로 합니다.",
-    },
-    {
-      eyebrow: "Scope",
-      title: "주요 기능",
-      body: "도입 범위에 따라 모듈 구성이 달라질 수 있으며, 일반적으로 다음 영역을 한 제품 안에서 전환하며 사용합니다.\n\n• 기본정보·사용자·부서·역할, 시스템 설정·로그인 이력·SMTP\n\n• 근태(출퇴근, 통계), 휴가, 급여, 전자근로계약\n\n• 전자결재, 업무 보드(칸반), 업무 보고·업무 통계\n\n• 파트너·고객사, 재고(현황·입고·출고·보고서)·견적서·일반 세금계산서(인보이스)·지출결의서·전자세금계산서 등 거래·재무 보조\n\n• 호텔 등 그룹 확장 모듈(옵션)\n\n재고는 등록 품목 기준으로 조회·입출고·집계 보고서까지 이어지고, 견적·인보이스·지출결의는 각각 작성·승인·결제·지급 상태를 화면에서 추적합니다. 아래 화면 예시에서 UI 형태를 참고하실 수 있습니다.\n\n회계·세무·신고 실행은 외부 서비스 라인과 연계해 설계할 수 있습니다.",
-    },
-    {
-      eyebrow: "Next steps",
-      title: "더 알아보기",
-      body: "비전·인사말·마일스톤은 회사 소개에서 확인하실 수 있습니다.\n\n서비스 라인과 사례는 서비스 페이지에서 확인하실 수 있습니다.",
-    },
-  ] as const,
-  /** `/software/mvs` 화면 예시 섹션 */
-  screenshotsLead:
-    "아래 캡처는 MVS 재고·견적·일반 세금계산서(인보이스)·지출결의서 등 일부 화면입니다. 테넌트·역할·통화·언어 설정에 따라 숫자·라벨·노출 필드가 달라질 수 있습니다.",
-  screenshots: [
-    {
-      src: "/software/mvs/inventory-status.png",
-      alt: "MVS 재고 현황 조회 화면. 요약 지표와 상품별 재고 테이블",
-      caption:
-        "재고 현황 조회 — 총 재고 가치·부족·품목 수 등 요약과 함께 품목별 현재 재고·최소·최대·재고율·단가·총가치·상태를 표시합니다. 행을 선택하면 해당 품목의 입·출고 내역으로 이어질 수 있습니다.",
-    },
-    {
-      src: "/software/mvs/receiving.png",
-      alt: "MVS 입고 관리 화면. 제품명 검색과 품목코드 입력",
-      caption:
-        "입고 관리 — 시스템에 등록된 품목만 입고할 수 있도록 제품명 검색·품목코드(바코드) 입력으로 품목을 특정하고, 신규 품목은 재고(제품) 관리에서 먼저 등록하는 흐름과 맞춥니다.",
-    },
-    {
-      src: "/software/mvs/shipping.png",
-      alt: "MVS 출고 관리 화면. 검색·수량·출고 이유와 출고 버튼",
-      caption:
-        "출고 관리 — 바코드·품목코드·제품명으로 품목을 찾은 뒤 수량·출고 사유를 입력하고, 출고 전 품목 정보를 읽기 전용으로 확인한 다음 처리합니다.",
-    },
-    {
-      src: "/software/mvs/inventory-report.png",
-      alt: "MVS 재고 보고서 화면. 요약·차트·상세 테이블",
-      caption:
-        "재고 보고서 — 기간·카테고리 필터, 새로고침·인쇄·보고서 내려받기와 함께 추이·카테고리별 분포·회전율 분석 등을 시각화하고, 하단에서 상세 재고 현황을 표로 확인합니다.",
-    },
-    {
-      src: "/software/mvs/quotations.png",
-      alt: "MVS 견적서 관리 화면. 요약 카드·탭·필터·견적 목록",
-      caption:
-        "견적서 관리 — 총 견적·총액·승인·대기 건수를 카드로 보여 주고, 내가 요청한 견적·승인 대기 탭과 검색·상태 필터로 목록을 좁힌 뒤 견적서 작성·발송·승인 상태를 관리합니다.",
-    },
-    {
-      src: "/software/mvs/tax-invoice-general.png",
-      alt: "MVS 일반 세금계산서 화면. 인보이스 목록·승인·결제 상태",
-      caption:
-        "일반 세금계산서 — 내가 요청한 인보이스·승인 대기 탭으로 구분하고, 번호·고객명 검색·결제 상태 필터와 새 인보이스 작성으로 발행 건을 관리합니다. 발행일·만기일·금액·승인·결제 상태를 표로 보여 주며 행 단위로 조회·승인·인쇄 등 작업을 이어 갈 수 있습니다.",
-    },
-    {
-      src: "/software/mvs/expense-resolution.png",
-      alt: "MVS 지출결의서 화면. 요약 카드·탭·지출 목록",
-      caption:
-        "지출결의서 — 작성한 지출·받은 지출·송금 대기 탭으로 흐름을 나누고, 총 지출·승인·대기·긴급 건을 카드로 요약합니다. 제목·지출번호·신청자 검색과 상태·우선순위 필터로 목록을 좁힌 뒤 금액·지급 상태 등을 표에서 관리합니다.",
-    },
-  ] as const,
-  links: {
-    about: "/about",
-    services: "/services",
-    contact: "/contact",
-  } as const,
-};
+/** MVS 페이지 본문·메타는 `mvsSoftwarePageCopy` (`@/lib/i18n/mvs-software-page-locale`)에서 로케일별로 관리합니다. */
 
 /** Software 상위 페이지 (`/software`) */
 export const softwareLanding = {
@@ -395,37 +316,7 @@ export const softwareLanding = {
   ] as const,
 };
 
-/** HereNow (`/software/herenow`) */
-export const hereNowIntro = {
-  headerSummary:
-    "회사(테넌트) 단위로 격리되는 출퇴근·근태 관리 웹앱입니다. 세부 기능·도입 문의는 담당자에게 연락 주시면 안내드립니다.",
-  heroLead: `HereNow는 회사(테넌트)마다 데이터와 설정이 분리되는 출퇴근·근태 관리 웹 애플리케이션입니다. 조직 단위로 근무지·근태 정책을 적용할 수 있도록 설계하는 것을 목표로 합니다.
-
-법인 ${company.shortName}의 회계·세무 실행은 서비스 페이지와 동일한 전문 조직이 담당합니다.`,
-  sections: [
-    {
-      eyebrow: "Focus",
-      title: "테넌트·근태",
-      body: "회사(조직) 단위로 환경을 격리해, 타 고객사 데이터와 섞이지 않도록 하는 방향입니다.\n\n출퇴근 기록·근태 승인 등 구체적인 화면·모듈은 제품 로드맵에 따라 공개됩니다.",
-    },
-    {
-      eyebrow: "Fit",
-      title: "MSV 서비스와의 관계",
-      body: "인사·근태 데이터는 회계·급여 처리와 맞물릴 수 있으며, 회계·세무·컴플라이언스 실행은 상근 CPA 체계의 서비스와 연계됩니다.",
-    },
-    {
-      eyebrow: "Next",
-      title: "문의",
-      body: "도입·데모·협업 가능 여부는 문의 페이지로 연락 주시면 담당자가 안내드립니다.",
-    },
-  ] as const,
-  links: {
-    about: "/about",
-    services: "/services",
-    contact: "/contact",
-    software: "/software",
-  } as const,
-};
+/** HereNow 페이지 본문·메타는 `herenowSoftwarePageCopy` (`@/lib/i18n/herenow-software-page-locale`)에서 로케일별로 관리합니다. */
 
 export const values = [
   "실행 중심의 맞춤형 컨설팅 제공",

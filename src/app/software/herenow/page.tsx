@@ -3,37 +3,46 @@ import Link from "next/link";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { SectionTitle } from "@/components/SectionTitle";
-import { staticPageSeo } from "@/lib/seo-metadata";
+import { herenowSoftwarePageCopy } from "@/lib/i18n/herenow-software-page-locale";
+import { getRequestLocale } from "@/lib/get-request-locale";
+import { staticPageSeoLocalized } from "@/lib/seo-metadata";
+import { company } from "@/lib/site-content";
 import { splitIntroParagraphs } from "@/lib/split-intro-paragraphs";
-import { company, hereNowIntro } from "@/lib/site-content";
+import { withLocalePrefix } from "@/lib/site-locale";
 
-export const metadata: Metadata = staticPageSeo("/software/herenow", {
-  title: "출퇴근 기록 시스템 (HereNow)",
-  description: hereNowIntro.headerSummary,
-  absoluteTitle: `출퇴근 기록 시스템 (HereNow) | ${company.shortName}`,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  const c = herenowSoftwarePageCopy(locale);
+  return staticPageSeoLocalized(
+    "/software/herenow",
+    {
+      title: c.metaTitle,
+      description: c.metaDescription,
+      absoluteTitle: `${c.pageTitle} | ${company.shortName}`,
+    },
+    locale,
+  );
+}
 
 /** 법인 설립·그룹웨어(MVS) 페이지와 동일한 본문 타이포·카드 */
 const bodyText = "text-sm leading-relaxed text-slate-600 break-keep";
 
 const cardSection = "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8";
 
-export default function SoftwareHereNowPage() {
-  const { links } = hereNowIntro;
-  const overviewParagraphs = splitIntroParagraphs(hereNowIntro.heroLead);
+export default async function SoftwareHereNowPage() {
+  const locale = await getRequestLocale();
+  const c = herenowSoftwarePageCopy(locale);
+  const L = (path: string) => withLocalePrefix(path, locale);
+  const overviewParagraphs = splitIntroParagraphs(c.heroLead);
 
   return (
     <>
-      <PageHeader
-        title="출퇴근 기록 시스템 (HereNow)"
-        description={hereNowIntro.headerSummary}
-        descriptionWide
-      />
+      <PageHeader title={c.pageTitle} description={c.pageHeaderDescription} descriptionWide />
       <StandardPageBody className="space-y-12 sm:space-y-14">
         <section className={cardSection}>
           <SectionTitle
-            eyebrow="Overview"
-            title="개요"
+            eyebrow={c.overviewEyebrow}
+            title={c.overviewTitle}
             spacing="tight"
             density="compact"
             contentWidth="full"
@@ -47,10 +56,10 @@ export default function SoftwareHereNowPage() {
           </div>
         </section>
 
-        {hereNowIntro.sections.map((s) => {
+        {c.sections.map((s, si) => {
           const paras = splitIntroParagraphs(s.body);
           return (
-            <section key={s.title} className={cardSection}>
+            <section key={`hn-section-${si}`} className={cardSection}>
               <SectionTitle
                 eyebrow={s.eyebrow}
                 title={s.title}
@@ -60,7 +69,7 @@ export default function SoftwareHereNowPage() {
               />
               <div className="mt-4 space-y-3">
                 {paras.map((para, i) => (
-                  <p key={`${s.title}-${i}`} className={bodyText}>
+                  <p key={`hn-section-${si}-p-${i}`} className={bodyText}>
                     {para}
                   </p>
                 ))}
@@ -70,33 +79,31 @@ export default function SoftwareHereNowPage() {
         })}
 
         <section className="rounded-2xl border border-slate-200 bg-msv-blue-soft/15 p-6 sm:p-8">
-          <p className={bodyText}>
-            소프트웨어·서비스 소개로 이동하시거나, 도입·연동 문의를 남겨 주세요.
-          </p>
+          <p className={bodyText}>{c.ctaLead}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
-              href={links.software}
+              href={L("/software")}
               className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
             >
-              소프트웨어
+              {c.linkSoftware}
             </Link>
             <Link
-              href={links.about}
+              href={L("/about")}
               className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
             >
-              회사 소개
+              {c.linkAbout}
             </Link>
             <Link
-              href={links.services}
+              href={L("/services")}
               className="rounded-lg border border-msv-navy/40 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:bg-msv-navy/5"
             >
-              서비스
+              {c.linkServices}
             </Link>
             <Link
-              href={links.contact}
+              href={L("/contact")}
               className="rounded-lg bg-msv-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-msv-navy/90"
             >
-              문의하기
+              {c.linkContact}
             </Link>
           </div>
         </section>

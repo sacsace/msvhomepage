@@ -7,7 +7,12 @@ import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { SectionTitle } from "@/components/SectionTitle";
 import { findGroupCompanyBySlug } from "@/lib/group-companies";
 import { getRequestLocale } from "@/lib/get-request-locale";
-import { staticPageSeo } from "@/lib/seo-metadata";
+import {
+  groupCompanyContentCopy,
+  groupCompanyPageChrome,
+  isGroupCompanySlug,
+} from "@/lib/i18n/group-pages-locale";
+import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import { splitIntroParagraphs } from "@/lib/split-intro-paragraphs";
 import { withLocalePrefix } from "@/lib/site-locale";
 import { groupCompanies } from "@/lib/site-content";
@@ -21,12 +26,21 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const g = findGroupCompanyBySlug(slug);
-  if (!g) return { title: "그룹사" };
-  return staticPageSeo(`/group/${g.slug}`, {
-    title: g.legalName,
-    absoluteTitle: `${g.legalName} | 그룹사`,
-    description: `${g.legalName} — ${g.role}`,
-  });
+  const locale = await getRequestLocale();
+  const chrome = groupCompanyPageChrome(locale);
+  if (!g) return { title: chrome.absoluteTitleSuffix };
+  if (!isGroupCompanySlug(g.slug)) return { title: chrome.absoluteTitleSuffix };
+
+  const content = groupCompanyContentCopy(g.slug, locale);
+  return staticPageSeoLocalized(
+    `/group/${g.slug}`,
+    {
+      title: g.legalName,
+      description: content.metaDescription,
+      absoluteTitle: `${g.legalName} | ${chrome.absoluteTitleSuffix}`,
+    },
+    locale,
+  );
 }
 
 const cardSection = "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8";
@@ -43,10 +57,20 @@ export default async function GroupCompanyPage({ params }: Props) {
   const { slug } = await params;
   const g = findGroupCompanyBySlug(slug);
   if (!g) notFound();
+  if (!isGroupCompanySlug(g.slug)) notFound();
 
   const locale = await getRequestLocale();
   const L = (path: string) => withLocalePrefix(path, locale);
-  const aboutParagraphs = splitIntroParagraphs(g.intro);
+  const chrome = groupCompanyPageChrome(locale);
+  const content = groupCompanyContentCopy(g.slug, locale);
+
+  const pageHeaderDescription =
+    g.menuLabel === g.legalName ? content.role : `${g.menuLabel} — ${content.role}`;
+
+  const aboutParagraphs = splitIntroParagraphs(content.intro);
+  const highlightItems = content.highlights;
+  const majorCustomerRows = content.majorCustomerRows;
+  const majorCustomersList = content.majorCustomers ?? g.majorCustomers ?? [];
 
   /** 히어로 하단: 네이비 위 흰 세로 캡슐(공통) — 로고는 본문 「소개」에 배치 */
   const groupHeroBelow = (
@@ -62,14 +86,14 @@ export default async function GroupCompanyPage({ params }: Props) {
     <>
       <PageHeader
         title={g.legalName}
-        description={g.menuLabel === g.legalName ? g.role : `${g.menuLabel} — ${g.role}`}
+        description={pageHeaderDescription}
         descriptionWide
         belowDescription={groupHeroBelow}
       />
       <StandardPageBody className="space-y-12 sm:space-y-14">
         {g.website || g.profilePdf ? (
           <section className={cardSection}>
-            <p className="msv-eyebrow">바로가기</p>
+            <p className="msv-eyebrow">{chrome.quickEyebrow}</p>
             <div className="mt-4 flex flex-wrap gap-3">
               {g.website ? (
                 <a
@@ -78,7 +102,7 @@ export default async function GroupCompanyPage({ params }: Props) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  웹사이트
+                  {chrome.websiteLabel}
                 </a>
               ) : null}
               {g.profilePdf ? (
@@ -88,7 +112,7 @@ export default async function GroupCompanyPage({ params }: Props) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  비즈니스 소개 PDF
+                  {chrome.pdfLabel}
                 </a>
               ) : null}
             </div>
@@ -98,8 +122,8 @@ export default async function GroupCompanyPage({ params }: Props) {
         <section className={cardSection}>
           <div className={introColumnFullWidth}>
             <SectionTitle
-              eyebrow="About"
-              title="소개"
+              eyebrow={chrome.aboutEyebrow}
+              title={chrome.aboutTitle}
               spacing="tight"
               density="compact"
               contentWidth="full"
@@ -116,7 +140,7 @@ export default async function GroupCompanyPage({ params }: Props) {
                 <div className="relative mx-auto h-20 w-60 max-w-full rounded-xl bg-white p-3 sm:mx-0 sm:h-[5.5rem] sm:w-[15rem]">
                   <Image
                     src={g.logoSrc}
-                    alt={`${g.menuLabel} 로고`}
+                    alt={content.logoAlt}
                     fill
                     className="object-contain object-left"
                     sizes="240px"
@@ -130,8 +154,8 @@ export default async function GroupCompanyPage({ params }: Props) {
         {g.gallery && g.gallery.length > 0 ? (
           <section className={cardSection}>
             <SectionTitle
-              eyebrow="Gallery"
-              title="사진"
+              eyebrow={chrome.galleryEyebrow}
+              title={chrome.galleryTitle}
               spacing="tight"
               density="compact"
               headingLevel={3}
@@ -166,15 +190,15 @@ export default async function GroupCompanyPage({ params }: Props) {
         <section className={cardSection}>
           <div className={introColumn}>
             <SectionTitle
-              eyebrow="Highlights"
-              title="주요 내용"
+              eyebrow={chrome.highlightsEyebrow}
+              title={chrome.highlightsTitle}
               spacing="tight"
               density="compact"
               headingLevel={3}
               contentWidth="full"
             />
             <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 marker:text-msv-blue">
-              {g.highlights.map((h) => (
+              {highlightItems.map((h) => (
                 <li key={h} className="pl-1">
                   {h}
                 </li>
@@ -183,19 +207,60 @@ export default async function GroupCompanyPage({ params }: Props) {
           </div>
         </section>
 
-        {g.majorCustomers && g.majorCustomers.length > 0 ? (
+        {majorCustomerRows && majorCustomerRows.length > 0 ? (
           <section className={cardSection}>
             <div className={introColumn}>
               <SectionTitle
-                eyebrow="Major customers"
-                title="주요 고객"
+                eyebrow={chrome.majorCustomersEyebrow}
+                title={chrome.majorCustomersTitle}
+                spacing="tight"
+                density="compact"
+                headingLevel={3}
+                contentWidth="full"
+              />
+              <ul className="mt-4 grid list-none gap-2.5 sm:grid-cols-2 sm:gap-3">
+                {majorCustomerRows.map((row) => (
+                  <li
+                    key={row.name}
+                    className="flex min-h-[3rem] items-center gap-3 rounded-lg border border-slate-200 bg-slate-50/60 px-3 py-2.5 sm:px-3.5"
+                  >
+                    {row.logoSrc ? (
+                      <Image
+                        src={row.logoSrc}
+                        alt=""
+                        width={32}
+                        height={32}
+                        unoptimized
+                        className="size-8 shrink-0 rounded object-contain"
+                        aria-hidden
+                      />
+                    ) : (
+                      <span
+                        className="flex size-8 shrink-0 items-center justify-center rounded border border-dashed border-slate-300 bg-white text-[10px] font-medium text-slate-400"
+                        aria-hidden
+                      >
+                        —
+                      </span>
+                    )}
+                    <span className="min-w-0 text-sm font-medium leading-snug text-slate-800">{row.name}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        ) : majorCustomersList.length > 0 ? (
+          <section className={cardSection}>
+            <div className={introColumn}>
+              <SectionTitle
+                eyebrow={chrome.majorCustomersEyebrow}
+                title={chrome.majorCustomersTitle}
                 spacing="tight"
                 density="compact"
                 headingLevel={3}
                 contentWidth="full"
               />
               <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 marker:text-msv-blue">
-                {g.majorCustomers.map((name) => (
+                {majorCustomersList.map((name) => (
                   <li key={name} className="pl-1">
                     {name}
                   </li>
@@ -206,21 +271,19 @@ export default async function GroupCompanyPage({ params }: Props) {
         ) : null}
 
         <section className="rounded-2xl border border-slate-200 bg-msv-blue-soft/15 p-6 sm:p-8">
-          <p className={`${introColumn} ${bodyText}`}>
-            그룹사 목록으로 돌아가거나 회사 소개를 이어서 보실 수 있습니다.
-          </p>
+          <p className={`${introColumn} ${bodyText}`}>{chrome.footerLead}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href={L("/group")}
               className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
             >
-              그룹사 목록
+              {chrome.linkGroupList}
             </Link>
             <Link
               href={L("/about")}
               className="rounded-lg border border-msv-navy/40 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:bg-msv-navy/5"
             >
-              회사 소개
+              {chrome.linkAbout}
             </Link>
           </div>
         </section>

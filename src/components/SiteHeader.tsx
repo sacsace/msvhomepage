@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MsvMark } from "@/components/brand/MsvMark";
+import { MsvWordmark } from "@/components/brand/MsvWordmark";
 import { MobileNavLink, NavLink } from "@/components/layout/NavLink";
 import { AboutNavDesktop } from "@/components/nav/AboutNavDesktop";
 import { GroupNavDesktop } from "@/components/nav/GroupNavDesktop";
@@ -10,7 +10,7 @@ import { HeaderLanguageSelect } from "@/components/layout/HeaderLanguageSelect";
 import { shellStrings } from "@/lib/i18n/shell";
 import type { SiteLocale } from "@/lib/site-locale";
 import { pickLocale, withLocalePrefix } from "@/lib/site-locale";
-import { company, groupCompanies } from "@/lib/site-content";
+import { groupCompanies } from "@/lib/site-content";
 
 /** 헤더 전용: 실제 경로가 아닌 드롭다운 슬롯 식별자 */
 const ABOUT_MENU = "__msv_about__" as const;
@@ -39,12 +39,9 @@ export function SiteHeader({ locale }: Props) {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-2.5 sm:gap-3 sm:px-6 sm:py-3">
         <Link
           href={homeHref}
-          className="flex min-w-0 shrink-0 items-center gap-2 rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue sm:gap-2.5"
+          className="flex min-w-0 shrink-0 items-center rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue"
         >
-          <MsvMark className="h-8 w-8 shrink-0 sm:h-9 sm:w-9" />
-          <span className="truncate text-sm font-semibold leading-tight text-msv-navy sm:text-[15px]">
-            {company.shortName}
-          </span>
+          <MsvWordmark alt={shell.brandWordmarkAlt} priority heightClass="h-8 sm:h-9" />
         </Link>
 
         <div className="flex min-w-0 flex-1 items-center justify-end gap-2 sm:gap-3">

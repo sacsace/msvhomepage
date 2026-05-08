@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { staticPageSeo } from "@/lib/seo-metadata";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { sortAnnouncementsPublic } from "@/lib/announcements-store";
+import { getRequestLocale } from "@/lib/get-request-locale";
+import { noticeDateFormatLocale, noticePagesCopy } from "@/lib/i18n/notice-pages-locale";
 import { getCachedAnnouncementsList } from "@/lib/public-page-data-cache";
-import { company } from "@/lib/site-content";
+import { staticPageSeoLocalized } from "@/lib/seo-metadata";
+import { withLocalePrefix } from "@/lib/site-locale";
 
-export const metadata: Metadata = staticPageSeo("/notice", {
-  title: "공지사항",
-  description: `${company.shortName} 공지사항 목록`,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  const c = noticePagesCopy(locale);
+  return staticPageSeoLocalized("/notice", { title: c.metaTitle, description: c.metaDescription }, locale);
+}
 
 /** Next 빌드는 리터럴만 인식 — `PUBLIC_PAGE_DATA_REVALIDATE_SEC`(15)와 동일 */
 export const revalidate = 15;
@@ -19,27 +22,27 @@ const listGrid =
   "md:grid md:grid-cols-[3.5rem_7.5rem_3.25rem_minmax(0,1fr)] md:items-center md:gap-x-4" as const;
 
 export default async function NoticeListPage() {
+  const locale = await getRequestLocale();
+  const L = (path: string) => withLocalePrefix(path, locale);
+  const c = noticePagesCopy(locale);
+  const dateLoc = noticeDateFormatLocale(locale);
   const list = sortAnnouncementsPublic(await getCachedAnnouncementsList());
 
   return (
     <>
-      <PageHeader
-        title="공지사항"
-        description="회사 소식과 안내를 올립니다."
-        descriptionWide
-      />
+      <PageHeader title={c.pageTitle} description={c.pageDescription} descriptionWide />
       <StandardPageBody>
         {list.length === 0 ? (
-          <p className="text-sm text-slate-500">등록된 공지가 없습니다.</p>
+          <p className="text-sm text-slate-500">{c.emptyMessage}</p>
         ) : (
           <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
             <div
               className={`hidden border-b border-slate-200 bg-slate-50 px-5 py-2.5 text-xs font-semibold uppercase tracking-wide text-slate-500 ${listGrid}`}
             >
-              <span className="text-center">번호</span>
-              <span>등록일</span>
-              <span className="text-center">고정</span>
-              <span>제목 · 요약</span>
+              <span className="text-center">{c.colNo}</span>
+              <span>{c.colDate}</span>
+              <span className="text-center">{c.colPinned}</span>
+              <span>{c.colTitleSummary}</span>
             </div>
             <ul role="list">
               {list.map((a, i) => (
@@ -58,12 +61,12 @@ export default async function NoticeListPage() {
                       dateTime={a.createdAt}
                       className="text-xs tabular-nums text-slate-500 md:pt-0.5 md:text-left"
                     >
-                      {new Date(a.createdAt).toLocaleDateString("ko-KR")}
+                      {new Date(a.createdAt).toLocaleDateString(dateLoc)}
                     </time>
                     <span className="md:justify-self-center md:pt-0.5">
                       {a.pinned ? (
                         <span className="rounded border border-msv-blue/20 bg-msv-blue-soft/70 px-1.5 py-0.5 text-[10px] font-semibold text-msv-blue">
-                          고정
+                          {c.pinnedBadge}
                         </span>
                       ) : (
                         <span className="text-xs text-slate-300 md:inline">—</span>
@@ -72,7 +75,7 @@ export default async function NoticeListPage() {
                   </div>
                   <div className="min-w-0 md:min-h-0">
                     <Link
-                      href={`/notice/${a.id}`}
+                      href={L(`/notice/${a.id}`)}
                       className="group flex min-w-0 items-baseline gap-2 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue sm:gap-4"
                     >
                       <span className="min-w-0 flex-1 truncate text-xs font-semibold leading-snug text-msv-navy sm:text-sm group-hover:text-msv-blue group-hover:underline">

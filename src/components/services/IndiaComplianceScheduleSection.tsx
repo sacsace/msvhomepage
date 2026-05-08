@@ -1,38 +1,47 @@
 import Link from "next/link";
-import {
-  indiaComplianceAnnualRows,
-  indiaComplianceMonthlyRows,
-  indiaCompliancePortalRows,
-  indiaComplianceQuarterlyRows,
-  indiaComplianceScheduleIntro,
-} from "@/lib/site-content";
+import type { AccountingServicesPageCopy } from "@/lib/i18n/accounting-services-page-locale";
+
+/** 항목 열과 일정·요건 열 사이 시각적 스파인(참고 디자인과 동일) */
+const columnSpine = "border-l-[3px] border-l-msv-blue";
+
+const theadRow = "border-b border-slate-200 bg-slate-100";
+const thBase =
+  "px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-600 sm:px-4";
+const tdItem =
+  "border-b border-slate-200 px-3 py-2.5 align-top text-sm font-medium text-slate-900 sm:px-4";
+const tdSchedule =
+  `border-b border-slate-200 px-3 py-2.5 align-top text-sm leading-relaxed text-slate-700 sm:px-4 ${columnSpine}`;
 
 function ComplianceTable({
   caption,
   rows,
+  thItem,
+  thSchedule,
 }: {
   caption: string;
   rows: readonly { item: string; schedule: string }[];
+  thItem: string;
+  thSchedule: string;
 }) {
   return (
-    <div className="mt-4 overflow-x-auto rounded-xl border border-slate-200">
-      <table className="min-w-[20rem] w-full border-collapse text-left text-sm">
+    <div className="mt-3 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+      <table className="min-w-[20rem] w-full border-collapse text-left">
         <caption className="sr-only">{caption}</caption>
         <thead>
-          <tr className="border-b border-slate-200 bg-slate-50">
-            <th scope="col" className="px-3 py-2.5 font-semibold text-msv-navy sm:px-4">
-              항목
+          <tr className={theadRow}>
+            <th scope="col" className={thBase}>
+              {thItem}
             </th>
-            <th scope="col" className="px-3 py-2.5 font-semibold text-msv-navy sm:px-4">
-              일정·요건(요약)
+            <th scope="col" className={`${thBase} ${columnSpine}`}>
+              {thSchedule}
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="[&>tr:last-child>td]:border-b-0">
           {rows.map((row) => (
-            <tr key={row.item} className="border-b border-slate-100 last:border-0">
-              <td className="whitespace-nowrap px-3 py-2.5 font-medium text-slate-800 sm:px-4">{row.item}</td>
-              <td className="px-3 py-2.5 leading-relaxed text-slate-700 sm:px-4">{row.schedule}</td>
+            <tr key={row.item} className="bg-white">
+              <td className={tdItem}>{row.item}</td>
+              <td className={tdSchedule}>{row.schedule}</td>
             </tr>
           ))}
         </tbody>
@@ -41,68 +50,113 @@ function ComplianceTable({
   );
 }
 
-/** 서비스 페이지 — 인도 법인 컴플라이언스 일정 참고표 */
-export function IndiaComplianceScheduleSection() {
+const portalThBase =
+  "px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-600 sm:px-4";
+const portalTdCat =
+  "border-b border-slate-200 px-3 py-2.5 align-top text-sm font-medium text-slate-900 sm:px-4";
+const portalTdLink = `border-b border-slate-200 px-3 py-2.5 align-top text-sm sm:px-4 ${columnSpine}`;
+const portalTdNote = "border-b border-slate-200 border-l border-slate-200 px-3 py-2.5 align-top text-sm text-slate-700 sm:px-4";
+
+function CompliancePortalTable({
+  thCategory,
+  thLink,
+  thNote,
+  rows,
+}: {
+  thCategory: string;
+  thLink: string;
+  thNote: string;
+  rows: readonly { label: string; href: string; note: string }[];
+}) {
+  return (
+    <div className="mt-3 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+      <table className="min-w-[22rem] w-full border-collapse text-left">
+        <thead>
+          <tr className={theadRow}>
+            <th scope="col" className={portalThBase}>
+              {thCategory}
+            </th>
+            <th scope="col" className={`${portalThBase} ${columnSpine}`}>
+              {thLink}
+            </th>
+            <th scope="col" className={`${portalThBase} border-l border-slate-200`}>
+              {thNote}
+            </th>
+          </tr>
+        </thead>
+        <tbody className="[&>tr:last-child>td]:border-b-0">
+          {rows.map((row) => (
+            <tr key={row.href} className="bg-white">
+              <td className={portalTdCat}>{row.label}</td>
+              <td className={portalTdLink}>
+                <Link
+                  href={row.href}
+                  className="break-all text-msv-blue underline decoration-msv-blue/30 underline-offset-2 hover:decoration-msv-blue"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {row.href}
+                </Link>
+              </td>
+              <td className={portalTdNote}>{row.note}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+type Props = {
+  pageCopy: AccountingServicesPageCopy;
+};
+
+/** 서비스 페이지 — 인도 법인 컴플라이언스 일정 참고표 (월별·분기별·연도별 동일 격자) */
+export function IndiaComplianceScheduleSection({ pageCopy: c }: Props) {
   return (
     <section className="mt-10 rounded-2xl border border-slate-200 bg-white p-6 sm:p-7">
-      <h2 className="text-xl font-bold text-msv-navy">인도 법인 기간별 법정 신고·컴플라이언스 일정</h2>
-      <p className="mt-2 text-sm leading-relaxed text-slate-600">{indiaComplianceScheduleIntro}</p>
+      <h2 className="text-xl font-bold text-msv-navy">{c.complianceTitle}</h2>
+      <p className="mt-2 text-sm leading-relaxed text-slate-600">{c.complianceIntro}</p>
 
-      <div className="mt-8 space-y-8">
+      <div className="mt-8 space-y-10">
         <div>
-          <h3 className="text-sm font-semibold text-msv-navy">월별</h3>
-          <ComplianceTable caption="월별 신고·납부" rows={indiaComplianceMonthlyRows} />
+          <h3 className="text-base font-bold tracking-tight text-msv-navy">{c.complianceMonthlyHeading}</h3>
+          <ComplianceTable
+            caption={c.complianceMonthlyCaption}
+            rows={c.complianceMonthlyRows}
+            thItem={c.complianceThItem}
+            thSchedule={c.complianceThSchedule}
+          />
         </div>
         <div>
-          <h3 className="text-sm font-semibold text-msv-navy">분기별</h3>
-          <ComplianceTable caption="분기별 신고·납부" rows={indiaComplianceQuarterlyRows} />
+          <h3 className="text-base font-bold tracking-tight text-msv-navy">{c.complianceQuarterlyHeading}</h3>
+          <ComplianceTable
+            caption={c.complianceQuarterlyCaption}
+            rows={c.complianceQuarterlyRows}
+            thItem={c.complianceThItem}
+            thSchedule={c.complianceThSchedule}
+          />
         </div>
         <div>
-          <h3 className="text-sm font-semibold text-msv-navy">연도별</h3>
-          <ComplianceTable caption="연도별 신고·납부" rows={indiaComplianceAnnualRows} />
+          <h3 className="text-base font-bold tracking-tight text-msv-navy">{c.complianceAnnualHeading}</h3>
+          <ComplianceTable
+            caption={c.complianceAnnualCaption}
+            rows={c.complianceAnnualRows}
+            thItem={c.complianceThItem}
+            thSchedule={c.complianceThSchedule}
+          />
         </div>
       </div>
 
-      <div className="mt-8 border-t border-slate-200 pt-6">
-        <h3 className="text-sm font-semibold text-msv-navy">주요 정부·포털(참고)</h3>
-        <p className="mt-1 text-xs leading-relaxed text-slate-500">
-          실제 로그인·메뉴명은 포털 개편에 따라 달라질 수 있습니다.
-        </p>
-        <div className="mt-3 overflow-x-auto rounded-xl border border-slate-200">
-          <table className="min-w-[22rem] w-full border-collapse text-left text-sm">
-            <thead>
-              <tr className="border-b border-slate-200 bg-slate-50">
-                <th scope="col" className="px-3 py-2.5 font-semibold text-msv-navy sm:px-4">
-                  구분
-                </th>
-                <th scope="col" className="px-3 py-2.5 font-semibold text-msv-navy sm:px-4">
-                  링크
-                </th>
-                <th scope="col" className="px-3 py-2.5 font-semibold text-msv-navy sm:px-4">
-                  비고
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {indiaCompliancePortalRows.map((row) => (
-                <tr key={row.href} className="border-b border-slate-100 last:border-0">
-                  <td className="whitespace-nowrap px-3 py-2 font-medium text-slate-800 sm:px-4">{row.label}</td>
-                  <td className="px-3 py-2 sm:px-4">
-                    <Link
-                      href={row.href}
-                      className="break-all text-msv-blue underline decoration-msv-blue/30 underline-offset-2 hover:decoration-msv-blue"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {row.href}
-                    </Link>
-                  </td>
-                  <td className="px-3 py-2 text-slate-600 sm:px-4">{row.note}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      <div className="mt-10 border-t border-slate-200 pt-8">
+        <h3 className="text-base font-bold tracking-tight text-msv-navy">{c.compliancePortalTitle}</h3>
+        <p className="mt-1 text-xs leading-relaxed text-slate-500">{c.compliancePortalNote}</p>
+        <CompliancePortalTable
+          thCategory={c.complianceThCategory}
+          thLink={c.complianceThLink}
+          thNote={c.complianceThNote}
+          rows={c.compliancePortalRows}
+        />
       </div>
     </section>
   );

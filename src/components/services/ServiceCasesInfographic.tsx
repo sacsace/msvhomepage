@@ -8,15 +8,18 @@ const accents = ["border-msv-navy", "border-msv-teal", "border-msv-mocha"] as co
 
 type Props = {
   items: readonly CaseItem[];
+  sectionEyebrow: string;
+  sectionTitle: string;
+  sectionIntro: string;
 };
 
 /** 서비스 페이지 — 프로젝트 예시 인포그래피 */
-export function ServiceCasesInfographic({ items }: Props) {
+export function ServiceCasesInfographic({ items, sectionEyebrow, sectionTitle, sectionIntro }: Props) {
   return (
     <section className="mt-14 rounded-2xl border border-slate-200/80 bg-white px-5 py-10 shadow-sm sm:px-8 sm:py-12">
-      <p className="msv-eyebrow">Cases</p>
-      <h2 className="mt-2 text-xl font-bold tracking-tight text-msv-navy sm:text-2xl">프로필 프로젝트 예시</h2>
-      <p className="mt-2 text-sm text-slate-600">회사 프로필에 수록된 사례입니다.</p>
+      <p className="msv-eyebrow">{sectionEyebrow}</p>
+      <h2 className="mt-2 text-xl font-bold tracking-tight text-msv-navy sm:text-2xl">{sectionTitle}</h2>
+      <p className="mt-2 text-sm text-slate-600">{sectionIntro}</p>
       <ul className="mt-8 grid gap-4 md:grid-cols-3">
         {items.map((p, i) => (
           <li

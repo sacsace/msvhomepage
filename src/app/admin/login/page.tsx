@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MsvWordmark } from "@/components/brand/MsvWordmark";
 import { adminPasswordConfigured, adminSessionSecretConfigured } from "@/lib/admin-auth";
 import { LoginForm } from "./LoginForm";
 
@@ -18,6 +19,9 @@ export default async function AdminLoginPage({ searchParams }: PageProps) {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-sm flex-col justify-center px-4 py-16">
+      <Link href="/" className="mb-8 inline-block self-start rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400">
+        <MsvWordmark alt="Minsub Ventures" heightClass="h-9" />
+      </Link>
       <h1 className="text-lg font-semibold tracking-tight text-zinc-900">관리자 로그인</h1>
       {!sessionOk ? (
         <p className="mt-6 rounded border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">

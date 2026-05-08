@@ -4,33 +4,47 @@ import Link from "next/link";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { SectionTitle } from "@/components/SectionTitle";
-import { staticPageSeo } from "@/lib/seo-metadata";
+import { mvsSoftwarePageCopy } from "@/lib/i18n/mvs-software-page-locale";
+import { getRequestLocale } from "@/lib/get-request-locale";
+import { staticPageSeoLocalized } from "@/lib/seo-metadata";
+import { company } from "@/lib/site-content";
 import { splitIntroParagraphs } from "@/lib/split-intro-paragraphs";
-import { company, mvsIntro } from "@/lib/site-content";
+import { withLocalePrefix } from "@/lib/site-locale";
 
-export const metadata: Metadata = staticPageSeo("/software/mvs", {
-  title: "그룹웨어 (MVS)",
-  description: mvsIntro.headerSummary,
-  absoluteTitle: `그룹웨어 (MVS) | ${company.shortName}`,
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  const c = mvsSoftwarePageCopy(locale);
+  return staticPageSeoLocalized(
+    "/software/mvs",
+    {
+      title: c.metaTitle,
+      description: c.metaDescription,
+      absoluteTitle: `${c.pageTitle} | ${company.shortName}`,
+    },
+    locale,
+  );
+}
 
 /** 법인 설립 서비스 페이지와 동일한 본문 타이포 */
-const bodyText = "text-sm leading-relaxed text-slate-600";
+const bodyText = "text-sm leading-relaxed text-slate-600 break-keep";
 
 const cardSection = "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8";
 
-export default function SoftwareMvsPage() {
-  const { links, screenshots, screenshotsLead } = mvsIntro;
-  const overviewParagraphs = splitIntroParagraphs(mvsIntro.heroLead);
+export default async function SoftwareMvsPage() {
+  const locale = await getRequestLocale();
+  const c = mvsSoftwarePageCopy(locale);
+  const L = (path: string) => withLocalePrefix(path, locale);
+  const overviewParagraphs = splitIntroParagraphs(c.heroLead);
+  const { screenshots, screenshotsLead } = c;
 
   return (
     <>
-      <PageHeader title="그룹웨어 (MVS)" description={mvsIntro.headerSummary} descriptionWide />
+      <PageHeader title={c.pageTitle} description={c.pageHeaderDescription} descriptionWide />
       <StandardPageBody className="space-y-12 sm:space-y-14">
         <section className={cardSection}>
           <SectionTitle
-            eyebrow="Overview"
-            title="개요"
+            eyebrow={c.overviewEyebrow}
+            title={c.overviewTitle}
             spacing="tight"
             density="compact"
             contentWidth="full"
@@ -44,10 +58,10 @@ export default function SoftwareMvsPage() {
           </div>
         </section>
 
-        {mvsIntro.sections.map((s) => {
+        {c.sections.map((s, si) => {
           const paras = splitIntroParagraphs(s.body);
           return (
-            <section key={s.title} className={cardSection}>
+            <section key={`mvs-section-${si}`} className={cardSection}>
               <SectionTitle
                 eyebrow={s.eyebrow}
                 title={s.title}
@@ -57,7 +71,7 @@ export default function SoftwareMvsPage() {
               />
               <div className="mt-4 space-y-3">
                 {paras.map((para, i) => (
-                  <p key={`${s.title}-${i}`} className={bodyText}>
+                  <p key={`mvs-section-${si}-p-${i}`} className={bodyText}>
                     {para}
                   </p>
                 ))}
@@ -68,8 +82,8 @@ export default function SoftwareMvsPage() {
 
         <section className={cardSection}>
           <SectionTitle
-            eyebrow="Screens"
-            title="화면 예시"
+            eyebrow={c.screensEyebrow}
+            title={c.screensTitle}
             spacing="tight"
             density="compact"
             contentWidth="full"
@@ -100,33 +114,31 @@ export default function SoftwareMvsPage() {
         </section>
 
         <section className="rounded-2xl border border-slate-200 bg-msv-blue-soft/15 p-6 sm:p-8">
-          <p className={bodyText}>
-            소프트웨어·서비스 소개로 이동하시거나, 도입·연동 문의를 남겨 주세요.
-          </p>
+          <p className={bodyText}>{c.ctaLead}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
-              href="/software"
+              href={L("/software")}
               className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
             >
-              소프트웨어
+              {c.linkSoftware}
             </Link>
             <Link
-              href={links.about}
+              href={L("/about")}
               className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
             >
-              회사 소개
+              {c.linkAbout}
             </Link>
             <Link
-              href={links.services}
+              href={L("/services")}
               className="rounded-lg border border-msv-navy/40 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:bg-msv-navy/5"
             >
-              서비스
+              {c.linkServices}
             </Link>
             <Link
-              href={links.contact}
+              href={L("/contact")}
               className="rounded-lg bg-msv-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-msv-navy/90"
             >
-              문의하기
+              {c.linkContact}
             </Link>
           </div>
         </section>

@@ -51,5 +51,10 @@ export function shellStrings(locale: SiteLocale) {
       en: "Head office (Google Maps)",
       zh: "总部位置（Google 地图）",
     }),
+    brandWordmarkAlt: pickLocale(locale, {
+      ko: "Minsub Ventures 로고",
+      en: "Minsub Ventures logo",
+      zh: "Minsub Ventures 标志",
+    }),
   };
 }

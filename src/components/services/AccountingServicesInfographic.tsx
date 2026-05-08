@@ -4,6 +4,9 @@ const accents = ["border-msv-navy", "border-msv-teal", "border-msv-mocha"] as co
 
 type Props = {
   blocks: readonly AccountingServiceBlock[];
+  sectionEyebrow: string;
+  sectionTitle: string;
+  sectionIntro: string;
 };
 
 function BlockCard({ block, accentIndex }: { block: AccountingServiceBlock; accentIndex: number }) {
@@ -30,15 +33,12 @@ function BlockCard({ block, accentIndex }: { block: AccountingServiceBlock; acce
 }
 
 /** 서비스 페이지 — 회계·세무 라인업(금액 비표시) */
-export function AccountingServicesInfographic({ blocks }: Props) {
+export function AccountingServicesInfographic({ blocks, sectionEyebrow, sectionTitle, sectionIntro }: Props) {
   return (
     <section className="mt-14 rounded-2xl border border-slate-200/80 bg-slate-50/95 px-5 py-10 sm:px-8 sm:py-12">
-      <p className="msv-eyebrow">{"Accounting & Tax"}</p>
-      <h2 className="mt-2 text-xl font-bold tracking-tight text-msv-navy sm:text-2xl">회계·세무 서비스 라인업</h2>
-      <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-600">
-        상근 공인회계사 체계로 정기·연간·건단위 업무를 지원합니다. 구체 범위·견적은 사업 규모와 자료 검토 후
-        안내드립니다.
-      </p>
+      <p className="msv-eyebrow">{sectionEyebrow}</p>
+      <h2 className="mt-2 text-xl font-bold tracking-tight text-msv-navy sm:text-2xl">{sectionTitle}</h2>
+      <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-600">{sectionIntro}</p>
       <div className="mt-8 grid gap-6 lg:grid-cols-3">
         {blocks.map((b, i) => (
           <BlockCard key={b.title} block={b} accentIndex={i} />
