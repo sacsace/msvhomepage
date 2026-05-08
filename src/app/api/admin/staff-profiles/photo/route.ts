@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import { readStaffProfiles, writeStaffProfiles } from "@/lib/staff-profiles-store";
 import { requireAdmin } from "@/lib/require-admin";
+import { unlinkUploadByPublicPath, uploadsSubdir } from "@/lib/uploads-storage";
 
 export const runtime = "nodejs";
 
@@ -14,13 +15,7 @@ const mimeToExt: Record<string, string> = {
 };
 
 async function removeUploadedPhoto(photoSrc?: string) {
-  if (!photoSrc?.startsWith("/uploads/staff/")) return;
-  try {
-    const full = path.join(process.cwd(), "public", photoSrc.replace(/^\//, ""));
-    await fs.unlink(full);
-  } catch {
-    // ignore
-  }
+  await unlinkUploadByPublicPath(photoSrc);
 }
 
 export async function POST(request: Request) {
@@ -53,7 +48,7 @@ export async function POST(request: Request) {
     const buf = Buffer.from(await file.arrayBuffer());
     const safe = id.replace(/[^a-z0-9._-]+/gi, "_");
     const filename = `${safe}-${Date.now()}.${ext}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads", "staff");
+    const uploadDir = uploadsSubdir("staff");
     await fs.mkdir(uploadDir, { recursive: true });
     await fs.writeFile(path.join(uploadDir, filename), buf);
     const publicPath = `/uploads/staff/${filename}`;

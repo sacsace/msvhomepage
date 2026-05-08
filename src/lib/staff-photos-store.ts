@@ -1,5 +1,4 @@
-import fs from "node:fs/promises";
-import path from "node:path";
+import { unlinkUploadByPublicPath } from "@/lib/uploads-storage";
 import { prisma } from "@/lib/prisma";
 import { withRecoverableDbRead } from "@/lib/prisma-read-fallback";
 
@@ -47,13 +46,5 @@ export async function removeStaffPhoto(email: string): Promise<void> {
   const row = await prisma.staffPhoto.findUnique({ where: { emailLower: key } });
   await prisma.staffPhoto.deleteMany({ where: { emailLower: key } });
   const urlPath = row?.path;
-  if (urlPath?.startsWith("/uploads/")) {
-    try {
-      const rel = urlPath.replace(/^\//, "");
-      const full = path.join(process.cwd(), "public", rel);
-      await fs.unlink(full);
-    } catch {
-      /* 파일 없음 등 무시 */
-    }
-  }
+  await unlinkUploadByPublicPath(urlPath);
 }

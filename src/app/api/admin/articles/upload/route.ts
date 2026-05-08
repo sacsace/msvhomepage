@@ -4,6 +4,7 @@ import path from "path";
 import { NextResponse } from "next/server";
 import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import { requireAdmin } from "@/lib/require-admin";
+import { uploadsSubdir } from "@/lib/uploads-storage";
 
 export const runtime = "nodejs";
 
@@ -62,7 +63,7 @@ export async function POST(request: Request) {
 
     const buf = Buffer.from(await file.arrayBuffer());
     const filename = `${randomUUID()}.${ext}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads", "articles");
+    const uploadDir = uploadsSubdir("articles");
     await fs.mkdir(uploadDir, { recursive: true });
     await fs.writeFile(path.join(uploadDir, filename), buf);
     const publicPath = `/uploads/articles/${filename}`;

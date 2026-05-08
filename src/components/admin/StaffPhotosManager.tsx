@@ -254,7 +254,11 @@ export function StaffPhotosManager({ initialMembers }: Props) {
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       <p className="text-sm text-zinc-600">
         JPEG / PNG / WebP, 최대 5MB. 업로드 시 DB(<code className="rounded bg-zinc-100 px-1">StaffPhoto</code>)에
-        경로가 저장되고 파일은 <code className="rounded bg-zinc-100 px-1">public/uploads/team/</code>에 저장됩니다.
+        경로가 저장되고 파일은 디스크 루트(<code className="rounded bg-zinc-100 px-1">MSV_UPLOADS_ROOT</code> 또는{" "}
+        <code className="rounded bg-zinc-100 px-1">public/uploads</code>) 아래{" "}
+        <code className="rounded bg-zinc-100 px-1">team/</code>에 저장됩니다. Railway에서는 볼륨+
+        <code className="rounded bg-zinc-100 px-1">MSV_UPLOADS_ROOT</code> 설정을 권장합니다(
+        <code className="rounded bg-zinc-100 px-1">RAILWAY_POSTGRES.md</code> 참고).
         인사말 본문은 DB(<code className="rounded bg-zinc-100 px-1">LeadershipSummary</code>)에 저장되며
         회사 소개·팀 페이지에 반영됩니다. 기본 인원은 <code className="rounded bg-zinc-100 px-1">site-content.ts</code>
         의 <code className="rounded bg-zinc-100 px-1">leadership</code>에 두고, 추가 인원은 아래 폼으로 등록합니다.

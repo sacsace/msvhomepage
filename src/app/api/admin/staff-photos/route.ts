@@ -5,6 +5,7 @@ import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import { isLeadershipEmailAllowed } from "@/lib/leadership-allow";
 import { requireAdmin } from "@/lib/require-admin";
 import { removeStaffPhoto, setStaffPhoto } from "@/lib/staff-photos-store";
+import { uploadsSubdir } from "@/lib/uploads-storage";
 
 export const runtime = "nodejs";
 
@@ -44,7 +45,7 @@ export async function POST(request: Request) {
     const buf = Buffer.from(await file.arrayBuffer());
     const safe = emailRaw.replace(/[^a-z0-9@._-]+/gi, "_");
     const filename = `${safe}-${Date.now()}.${ext}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads", "team");
+    const uploadDir = uploadsSubdir("team");
     await fs.mkdir(uploadDir, { recursive: true });
     const diskPath = path.join(uploadDir, filename);
     await fs.writeFile(diskPath, buf);

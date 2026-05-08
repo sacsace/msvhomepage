@@ -2,10 +2,11 @@ import { promises as fs } from "fs";
 import path from "path";
 import { NextResponse } from "next/server";
 import { adminApiCatchResponse } from "@/lib/db-api-error-response";
-import type { Client } from "@/types/client";
-import { removeStoredClientLogoFile } from "@/lib/client-logo-utils";
 import { readClients, writeClients } from "@/lib/clients-store";
+import { removeStoredClientLogoFile } from "@/lib/client-logo-utils";
 import { requireAdmin } from "@/lib/require-admin";
+import type { Client } from "@/types/client";
+import { uploadsSubdir } from "@/lib/uploads-storage";
 
 export const runtime = "nodejs";
 
@@ -51,7 +52,7 @@ export async function POST(request: Request, ctx: Ctx) {
     const buf = Buffer.from(await file.arrayBuffer());
     const safeId = id.replace(/[^a-z0-9-]+/gi, "x");
     const filename = `${safeId}-${Date.now()}.${ext}`;
-    const uploadDir = path.join(process.cwd(), "public", "uploads", "clients");
+    const uploadDir = uploadsSubdir("clients");
     await fs.mkdir(uploadDir, { recursive: true });
     await fs.writeFile(path.join(uploadDir, filename), buf);
     const publicPath = `/uploads/clients/${filename}`;
