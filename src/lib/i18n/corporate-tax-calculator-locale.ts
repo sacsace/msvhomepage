@@ -93,7 +93,7 @@ const KO: CorporateTaxCalculatorCopy = {
   metaDescription: `${company.shortName} — §115BAA 기준 법인세·일반 국내법인 ₹400 Crore 기준 25%/30%·surcharge·cess 안내, 매출·매입·비용·TDS·선납세 참고 계산`,
   pageHeaderTitle: "법인세 계산기",
   pageHeaderDescription:
-    "매출·매입·비용 및 TDS·선납세를 입력하면 과세소득과 §115BAA 기준 법인세(22%+surcharge(서차지)+cess, 실효세율 약 25.168%)를 계산합니다. 일반 국내법인의 직전 연도 매출 ₹400 Crore 기준 기본세율(25%/30%)과 surcharge·cess 적용에 따른 실효세율도 함께 안내합니다. MAT/AMT, §115BAB 적용 여부 및 세법 개정 사항은 별도 검토가 필요합니다.",
+    "매출·매입·비용 및 TDS·선납세를 입력하면 과세소득과 §115BAA 기준 법인세(22%+surcharge(추가세)+cess, 실효세율 약 25.168%)를 계산합니다. 일반 국내법인의 직전 연도 매출 ₹400 Crore 기준 기본세율(25%/30%)과 surcharge·cess 적용에 따른 실효세율도 함께 안내합니다. MAT/AMT, §115BAB 적용 여부 및 세법 개정 사항은 별도 검토가 필요합니다.",
   sectionRefCalc: "참고 계산",
   disclaimer:
     "본 도구는 참고용이며 법적·세무 자문을 대체하지 않습니다. 실제 과세소득·세율·surcharge·이자·가산세는 법인별 상황에 따라 달라질 수 있으므로 확정 신고·납부는 MSV와 상담해 주세요.",
@@ -109,7 +109,7 @@ const KO: CorporateTaxCalculatorCopy = {
     "의 선택 과세(기본세율 22%) 구조를 단순화하여 계산한 예시입니다. 일부 공제 제한, 이월결손금 처리 등 실제 적용 조건은 관련 세법 및 해석에 따릅니다.",
   section1LiIStrong: "(i) 법인세",
   section1LiIRest: " = 과세소득(음수는 0) × 22%",
-  section1LiJStrong: "(j) surcharge(서차지)",
+  section1LiJStrong: "(j) surcharge(추가세)",
   section1LiJNote:
     " (실제 신고 시에는 과세소득 구간에 따라 surcharge 비율이 달라질 수 있으나, 본 계산에서는 예시 목적으로 10%를 고정 적용하였습니다.)",
   section1LiK: "(k) 교육·건강 cess = ((i) + (j)) × 4%",
@@ -168,7 +168,7 @@ const KO: CorporateTaxCalculatorCopy = {
   rowH: "Taxable income / 과세소득",
   rowI: "Tax @ 22% / 법인세",
   rowISub: "과세소득이 음수인 경우 세액은 0으로 계산합니다.",
-  rowJ: "Add: Surcharge @ 10% / surcharge(서차지)",
+  rowJ: "Add: Surcharge @ 10% / surcharge(추가세)",
   rowK: "Add: Cess @ 4% / 교육·건강 cess",
   rowL: "Gross Tax Liability / 총 세액",
   rowLSub: "세액공제(TDS·선납세) 차감 전 총 법인세",

@@ -1,3 +1,4 @@
+import fsSync from "node:fs";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
@@ -17,6 +18,16 @@ export function getUploadsDiskRoot(): string {
   return path.join(process.cwd(), "public", "uploads");
 }
 
+function getPublicUploadsDiskRoot(): string {
+  return path.join(process.cwd(), "public", "uploads");
+}
+
+function getUploadsReadRoots(): string[] {
+  const primary = path.resolve(getUploadsDiskRoot());
+  const fallback = path.resolve(getPublicUploadsDiskRoot());
+  return primary === fallback ? [primary] : [primary, fallback];
+}
+
 export function uploadsSubdir(name: "team" | "staff" | "articles" | "clients"): string {
   return path.join(getUploadsDiskRoot(), name);
 }
@@ -33,12 +44,19 @@ export function resolveUploadDiskPath(publicUrlPath: string): string | null {
   if (!ALLOWED_TOP.has(segments[0] ?? "")) return null;
   if (segments.some((s) => s === ".." || s === ".")) return null;
 
-  const root = path.resolve(getUploadsDiskRoot());
-  const full = path.resolve(root, ...segments);
-  if (!full.startsWith(root + path.sep) && full !== root) {
-    return null;
+  const roots = getUploadsReadRoots();
+  const validCandidates: string[] = [];
+  for (const root of roots) {
+    const full = path.resolve(root, ...segments);
+    if (!full.startsWith(root + path.sep) && full !== root) {
+      continue;
+    }
+    validCandidates.push(full);
+    if (fsSync.existsSync(full)) {
+      return full;
+    }
   }
-  return full;
+  return validCandidates[0] ?? null;
 }
 
 export async function unlinkUploadByPublicPath(publicUrlPath: string | undefined): Promise<void> {

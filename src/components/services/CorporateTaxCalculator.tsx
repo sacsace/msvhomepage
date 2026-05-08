@@ -28,7 +28,7 @@ function FinalPayableInrCell({
   payableLabel: string;
 }) {
   const v = Math.round(amount);
-  const red = "font-bold tabular-nums text-red-600";
+  const red = "inline-block whitespace-nowrap font-bold tabular-nums text-red-600";
   if (v < 0) {
     return (
       <span className={red}>
@@ -43,7 +43,7 @@ function FinalPayableInrCell({
       </span>
     );
   }
-  return <span className="tabular-nums text-slate-600">{formatInr(0)}</span>;
+  return <span className="inline-block whitespace-nowrap tabular-nums text-slate-600">{formatInr(0)}</span>;
 }
 
 const effectivePct = (CORPORATE_EFFECTIVE_RATE_UP_TO_400CR * 100).toLocaleString("en-IN", {
@@ -86,45 +86,44 @@ function Field({
   );
 }
 
-const cell = "border border-slate-200 px-3 py-2.5 text-sm text-slate-800 sm:px-3.5";
-const cellRight = `${cell} text-right tabular-nums`;
-const th = `${cell} bg-slate-50 text-left text-xs font-semibold text-msv-navy`;
-const rowHighlight = "bg-msv-navy/[0.06] font-semibold text-msv-navy";
-const groupHeaderCell = `${cell} bg-slate-100/95 py-2 text-xs font-semibold tracking-wide text-msv-navy`;
+const cell = "border border-slate-200 px-3 py-2 text-sm text-slate-800 sm:px-3.5";
+const cellFormula = `${cell} w-[13rem] text-left text-xs text-slate-600 sm:w-[14.5rem]`;
+const cellRight = `${cell} w-[17rem] sm:w-[20rem] whitespace-nowrap text-right tabular-nums text-slate-700`;
+const th = `${cell} bg-msv-blue-soft text-left text-xs font-semibold text-msv-navy`;
+const thFormula = `${cell} w-[13rem] bg-msv-blue-soft text-left text-xs font-semibold text-msv-navy sm:w-[14.5rem]`;
+const rowHighlight = "bg-slate-100/80 font-semibold text-slate-900";
+const groupHeaderCell =
+  "border border-slate-200 bg-sky-50 px-3 py-2 text-xs font-semibold text-msv-navy sm:px-3.5";
+
+function normalizeFormulaCase(formula: string): string {
+  return formula.replace(/\b([a-z])\b/g, (m) => m.toUpperCase());
+}
 
 function ItemCell({
   code,
   title,
-  sub,
-  formula,
-  formulaLabel,
 }: {
   code: string;
   title: string;
-  sub?: string;
-  formula?: string;
-  formulaLabel: string;
 }) {
+  const codeDisplay = code.toUpperCase();
+
   return (
     <td className={`${cell} align-middle`}>
-      <p className="min-w-0 text-sm leading-snug sm:whitespace-nowrap sm:overflow-x-auto">
-        <span className="font-mono text-xs font-bold text-msv-blue">({code})</span>{" "}
-        <span className="font-medium">{title}</span>
-        {formula ? (
-          <>
-            <span className="text-slate-500"> · </span>
-            <span className="font-mono text-xs text-slate-700">
-              {formulaLabel}: ({formula})
-            </span>
-          </>
-        ) : null}
-        {sub ? (
-          <>
-            <span className="text-slate-500"> · </span>
-            <span className="text-xs text-slate-500">{sub}</span>
-          </>
-        ) : null}
-      </p>
+      <div className="min-w-0">
+        <p className="text-sm leading-snug sm:whitespace-nowrap sm:overflow-x-auto">
+          <span className="font-mono text-xs font-semibold text-sky-700">({codeDisplay})</span>{" "}
+          <span className="font-medium text-slate-800">{title}</span>
+        </p>
+      </div>
+    </td>
+  );
+}
+
+function FormulaCell({ formula }: { formula: string }) {
+  return (
+    <td className={cellFormula}>
+      <span className="font-mono">{normalizeFormulaCase(formula)}</span>
     </td>
   );
 }
@@ -228,159 +227,119 @@ export function CorporateTaxCalculator({ locale }: { locale: SiteLocale }) {
           <strong className="font-semibold">{t.workingLeadGrossStrong}</strong>
           {t.workingLeadEnd}
         </p>
-        <div className="mt-3 overflow-x-auto rounded-xl border border-slate-200">
-          <table className="w-full min-w-[32rem] border-collapse text-left text-sm">
+        <div className="mt-3 overflow-x-auto rounded-lg border border-slate-200 bg-white">
+          <table className="w-full min-w-[58rem] border-collapse text-left text-sm">
             <thead>
               <tr>
                 <th scope="col" className={th}>
                   {t.tableColItem}
                 </th>
-                <th scope="col" className={`${th} w-[28%] text-right`}>
+                <th scope="col" className={thFormula}>
+                  {t.formulaLabel}
+                </th>
+                <th scope="col" className={`${th} w-[17rem] sm:w-[20rem] text-right`}>
                   {t.tableColAmount}
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <ItemCell formulaLabel={t.formulaLabel} code="a" title={t.rowA} formula={t.formulaInput} />
+                <ItemCell code="A" title={t.rowA} />
+                <FormulaCell formula="INPUT" />
                 <td className={cellRight}>{formatInr(parseInr(revenue))}</td>
               </tr>
               <tr>
-                <ItemCell
-                  formulaLabel={t.formulaLabel}
-                  code="b"
-                  title={t.rowB}
-                  sub={t.rowBSub}
-                  formula="b = (a)"
-                />
+                <ItemCell code="B" title={t.rowB} />
+                <FormulaCell formula="B = (A)" />
                 <td className={cellRight}>{formatInr(result.totalIncome)}</td>
               </tr>
               <tr>
-                <ItemCell formulaLabel={t.formulaLabel} code="c" title={t.rowC} formula={t.formulaInput} />
+                <ItemCell code="C" title={t.rowC} />
+                <FormulaCell formula="INPUT" />
                 <td className={cellRight}>{formatInr(parseInr(purchases))}</td>
               </tr>
               <tr>
-                <ItemCell formulaLabel={t.formulaLabel} code="d" title={t.rowD} formula={t.formulaInput} />
+                <ItemCell code="D" title={t.rowD} />
+                <FormulaCell formula="INPUT" />
                 <td className={cellRight}>{formatInr(parseInr(directExp))}</td>
               </tr>
               <tr>
-                <ItemCell
-                  formulaLabel={t.formulaLabel}
-                  code="e"
-                  title={t.rowE}
-                  formula="e = (c + d)"
-                />
+                <ItemCell code="E" title={t.rowE} />
+                <FormulaCell formula="E = (C + D)" />
                 <td className={cellRight}>{formatInr(result.totalDirectExpenses)}</td>
               </tr>
               <tr>
-                <ItemCell formulaLabel={t.formulaLabel} code="f" title={t.rowF} formula={t.formulaInput} />
+                <ItemCell code="F" title={t.rowF} />
+                <FormulaCell formula="INPUT" />
                 <td className={cellRight}>{formatInr(parseInr(indirectExp))}</td>
               </tr>
               <tr>
-                <ItemCell
-                  formulaLabel={t.formulaLabel}
-                  code="g"
-                  title={t.rowG}
-                  sub={t.rowGSub}
-                  formula="g = (e + f)"
-                />
+                <ItemCell code="G" title={t.rowG} />
+                <FormulaCell formula="G = (E + F)" />
                 <td className={cellRight}>{formatInr(result.totalExpenses)}</td>
               </tr>
               <tr className={rowHighlight}>
-                <ItemCell
-                  formulaLabel={t.formulaLabel}
-                  code="h"
-                  title={t.rowH}
-                  formula="h = (b − g)"
-                />
+                <ItemCell code="H" title={t.rowH} />
+                <FormulaCell formula="H = (B − G)" />
                 <td className={cellRight}>{formatInr(result.taxableIncome)}</td>
               </tr>
               <tr>
-                <ItemCell
-                  formulaLabel={t.formulaLabel}
-                  code="i"
-                  title={t.rowI}
-                  sub={t.rowISub}
-                  formula="i = (max(0, h) × 22%)"
-                />
+                <ItemCell code="I" title={t.rowI} />
+                <FormulaCell formula="I = (MAX(0, H) × 22%)" />
                 <td className={cellRight}>{formatInr(result.taxAt22)}</td>
               </tr>
               <tr>
-                <ItemCell
-                  formulaLabel={t.formulaLabel}
-                  code="j"
-                  title={t.rowJ}
-                  formula="j = (i × 10%)"
-                />
+                <ItemCell code="J" title={t.rowJ} />
+                <FormulaCell formula="J = (I × 10%)" />
                 <td className={cellRight}>{formatInr(result.surchargeAt10)}</td>
               </tr>
               <tr>
-                <ItemCell
-                  formulaLabel={t.formulaLabel}
-                  code="k"
-                  title={t.rowK}
-                  formula="k = ((i + j) × 4%)"
-                />
+                <ItemCell code="K" title={t.rowK} />
+                <FormulaCell formula="K = ((I + J) × 4%)" />
                 <td className={cellRight}>{formatInr(result.cessAt4)}</td>
               </tr>
             </tbody>
             <tbody>
               <tr>
-                <td colSpan={2} className={groupHeaderCell}>
+                <td colSpan={3} className={groupHeaderCell}>
                   {t.groupGrossCredits}
                 </td>
               </tr>
-              <tr className="bg-red-50/90">
-                <ItemCell
-                  formulaLabel={t.formulaLabel}
-                  code="l"
-                  title={t.rowL}
-                  sub={t.rowLSub}
-                  formula="l = (i + j + k)"
-                />
-                <td className={`${cellRight} font-bold text-red-600`}>{formatInr(result.totalTaxLiability)}</td>
+              <tr className="bg-rose-50/70">
+                <ItemCell code="L" title={t.rowL} />
+                <FormulaCell formula="L = (I + J + K)" />
+                <td className={`${cellRight} font-bold text-slate-900`}>{formatInr(result.totalTaxLiability)}</td>
               </tr>
               <tr>
-                <ItemCell formulaLabel={t.formulaLabel} code="m" title={t.rowM} formula={t.formulaInput} />
+                <ItemCell code="M" title={t.rowM} />
+                <FormulaCell formula="INPUT" />
                 <td className={cellRight}>{formatInr(parseInr(tds))}</td>
               </tr>
               <tr>
-                <ItemCell
-                  formulaLabel={t.formulaLabel}
-                  code="n"
-                  title={t.rowN}
-                  formula="n = (l − m)"
-                />
+                <ItemCell code="N" title={t.rowN} />
+                <FormulaCell formula="N = (L − M)" />
                 <td className={cellRight}>{formatInr(result.netTaxPayable)}</td>
               </tr>
             </tbody>
             <tbody>
               <tr>
-                <td colSpan={2} className={groupHeaderCell}>
+                <td colSpan={3} className={groupHeaderCell}>
                   {t.groupAdvanceFinal}
                 </td>
               </tr>
               <tr>
-                <ItemCell
-                  formulaLabel={t.formulaLabel}
-                  code="o"
-                  title={t.rowO}
-                  sub={t.rowOSub}
-                  formula="o = (n)"
-                />
+                <ItemCell code="O" title={t.rowO} />
+                <FormulaCell formula="O = (N)" />
                 <td className={cellRight}>{formatInr(result.netTaxPayable)}</td>
               </tr>
               <tr>
-                <ItemCell formulaLabel={t.formulaLabel} code="p" title={t.rowP} formula={t.formulaInput} />
+                <ItemCell code="P" title={t.rowP} />
+                <FormulaCell formula="INPUT" />
                 <td className={cellRight}>{formatInr(parseInr(advancePaid))}</td>
               </tr>
               <tr>
-                <ItemCell
-                  formulaLabel={t.formulaLabel}
-                  code="q"
-                  title={t.rowQ}
-                  formula="q = (n − p)"
-                />
+                <ItemCell code="Q" title={t.rowQ} />
+                <FormulaCell formula="Q = (N − P)" />
                 <td className={cellRight}>
                   <FinalPayableInrCell
                     amount={result.balanceBeforeRound}
@@ -390,12 +349,8 @@ export function CorporateTaxCalculator({ locale }: { locale: SiteLocale }) {
                 </td>
               </tr>
               <tr className={rowHighlight}>
-                <ItemCell
-                  formulaLabel={t.formulaLabel}
-                  code="r"
-                  title={t.rowR}
-                  formula="r = (round₹100(q))"
-                />
+                <ItemCell code="R" title={t.rowR} />
+                <FormulaCell formula="R = (ROUND₹100(Q))" />
                 <td className={cellRight}>
                   <FinalPayableInrCell
                     amount={result.finalRoundedNearest100}

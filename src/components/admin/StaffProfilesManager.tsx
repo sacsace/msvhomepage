@@ -189,7 +189,15 @@ export function StaffProfilesManager({ initialItems }: Props) {
             <li key={s.id} className="border border-zinc-200 bg-white p-4 sm:flex sm:items-start sm:gap-6">
               <div className="relative mx-auto h-24 w-24 shrink-0 overflow-hidden rounded-full border border-zinc-200 bg-zinc-50 sm:mx-0">
                 {s.photoSrc ? (
-                  <Image src={s.photoSrc} alt={s.name} fill className="object-cover object-top" sizes="96px" />
+                  <Image
+                    key={`${s.id}:${s.photoSrc}`}
+                    src={s.photoSrc}
+                    alt={s.name}
+                    fill
+                    className="object-cover object-top"
+                    sizes="96px"
+                    unoptimized={s.photoSrc.startsWith("/uploads/")}
+                  />
                 ) : (
                   <span className="flex h-full w-full items-center justify-center text-xs text-zinc-400">없음</span>
                 )}

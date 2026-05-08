@@ -328,7 +328,15 @@ export function StaffPhotosManager({ initialMembers }: Props) {
             <li key={m.email} className="border border-zinc-200 bg-white p-4 sm:flex sm:items-start sm:gap-6">
               <div className="relative mx-auto h-24 w-24 shrink-0 overflow-hidden rounded-full border border-zinc-200 bg-zinc-50 sm:mx-0">
                 {m.photoSrc ? (
-                  <Image src={m.photoSrc} alt={m.name} fill className="object-cover object-top" sizes="96px" />
+                  <Image
+                    key={`${m.email}:${m.photoSrc}`}
+                    src={m.photoSrc}
+                    alt={m.name}
+                    fill
+                    className="object-cover object-top"
+                    sizes="96px"
+                    unoptimized={m.photoSrc.startsWith("/uploads/")}
+                  />
                 ) : (
                   <span className="flex h-full w-full items-center justify-center text-xs text-zinc-400">없음</span>
                 )}
