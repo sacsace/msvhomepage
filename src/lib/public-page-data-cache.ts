@@ -15,6 +15,9 @@ import { readTaxCalendar } from "@/lib/tax-calendar-store";
  * 공개 마케팅 페이지의 DB·파일 읽기 캐시(초).
  * 관리자 수정 반영은 최대 이 시간만큼 지연될 수 있습니다.
  * (홈 공지·달력 등 — 너무 길면 메인 반영이 느리게 느껴질 수 있음)
+ *
+ * Next 16: `export const revalidate` 는 페이지·레이아웃에서 **숫자 리터럴**만
+ * 정적 분석됩니다. 값을 바꾸면 `app/page.tsx`, `app/notice/...` 의 `revalidate` 리터럴도 같이 맞출 것.
  */
 export const PUBLIC_PAGE_DATA_REVALIDATE_SEC = 15;
 

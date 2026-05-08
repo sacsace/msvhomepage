@@ -3,16 +3,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
-import {
-  getCachedAnnouncementById,
-  PUBLIC_PAGE_DATA_REVALIDATE_SEC,
-} from "@/lib/public-page-data-cache";
+import { getCachedAnnouncementById } from "@/lib/public-page-data-cache";
 import { publicArticleBodyProse, publicContentCard } from "@/lib/public-page-styles";
 import { hasHtmlTag, sanitizeRichHtml, textExcerpt } from "@/lib/richtext";
 import { staticPageSeo } from "@/lib/seo-metadata";
 import { company, siteUrl } from "@/lib/site-content";
 
-export const revalidate = PUBLIC_PAGE_DATA_REVALIDATE_SEC;
+/** Next 빌드는 리터럴만 인식 — `PUBLIC_PAGE_DATA_REVALIDATE_SEC`(15)와 동일 */
+export const revalidate = 15;
 
 type Props = { params: Promise<{ id: string }> };
 

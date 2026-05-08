@@ -22,7 +22,6 @@ import {
 import {
   getCachedAnnouncementsList,
   getCachedTaxCalendar,
-  PUBLIC_PAGE_DATA_REVALIDATE_SEC,
 } from "@/lib/public-page-data-cache";
 import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import { company, services, strengths, values } from "@/lib/site-content";
@@ -44,7 +43,8 @@ export async function generateMetadata(): Promise<Metadata> {
   );
 }
 
-export const revalidate = PUBLIC_PAGE_DATA_REVALIDATE_SEC;
+/** Next 빌드는 가져온 상수가 아닌 리터럴만 인식 — `public-page-data-cache`의 TTL과 맞출 것 */
+export const revalidate = 15;
 
 /** 홈 공지·달력 2열에서 달력 카드 높이에 맞추기 위한 미리보기 개수(고정·최신 순) */
 const HOME_ANNOUNCEMENT_PREVIEW_COUNT = 6;

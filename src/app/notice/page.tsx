@@ -4,10 +4,7 @@ import { staticPageSeo } from "@/lib/seo-metadata";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { sortAnnouncementsPublic } from "@/lib/announcements-store";
-import {
-  getCachedAnnouncementsList,
-  PUBLIC_PAGE_DATA_REVALIDATE_SEC,
-} from "@/lib/public-page-data-cache";
+import { getCachedAnnouncementsList } from "@/lib/public-page-data-cache";
 import { company } from "@/lib/site-content";
 
 export const metadata: Metadata = staticPageSeo("/notice", {
@@ -15,7 +12,8 @@ export const metadata: Metadata = staticPageSeo("/notice", {
   description: `${company.shortName} 공지사항 목록`,
 });
 
-export const revalidate = PUBLIC_PAGE_DATA_REVALIDATE_SEC;
+/** Next 빌드는 리터럴만 인식 — `PUBLIC_PAGE_DATA_REVALIDATE_SEC`(15)와 동일 */
+export const revalidate = 15;
 
 const listGrid =
   "md:grid md:grid-cols-[3.5rem_7.5rem_3.25rem_minmax(0,1fr)] md:items-center md:gap-x-4" as const;
