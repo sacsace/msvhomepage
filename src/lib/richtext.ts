@@ -51,6 +51,10 @@ const allowedStyles: sanitizeHtml.IOptions["allowedStyles"] = {
 
 /** 자료실 업로드 API가 저장하는 경로만 허용 (경로 조작 방지) */
 const uploadsArticlesPath = /^\/uploads\/articles\/[a-f0-9-]+\.[a-z0-9]{2,12}$/i;
+/** 절대 URL(같은 사이트/외부 CDN)로 저장된 경우도 경로가 동일하면 허용 */
+const uploadsArticlesAbsolutePath = /^https?:\/\/[^/]+\/uploads\/articles\/[a-f0-9-]+\.[a-z0-9]{2,12}$/i;
+/** 구형 관리자 에디터가 저장한 data URL 이미지(레거시 본문 호환) */
+const legacyDataImage = /^data:image\/(?:png|jpe?g|webp|gif);base64,[a-z0-9+/=\s]+$/i;
 
 export function sanitizeRichHtml(input: string): string {
   return sanitizeHtml(input, {
@@ -64,7 +68,7 @@ export function sanitizeRichHtml(input: string): string {
       }),
       img: (tagName, attribs) => {
         const src = String(attribs.src || "").trim();
-        if (!uploadsArticlesPath.test(src)) {
+        if (!uploadsArticlesPath.test(src) && !uploadsArticlesAbsolutePath.test(src) && !legacyDataImage.test(src)) {
           return { tagName: "span", text: "", attribs: {} };
         }
         const next: Record<string, string> = { src, alt: String(attribs.alt || "") };
