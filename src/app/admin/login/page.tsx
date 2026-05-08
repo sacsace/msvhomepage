@@ -20,7 +20,7 @@ export default async function AdminLoginPage({ searchParams }: PageProps) {
   return (
     <div className="mx-auto flex min-h-screen max-w-sm flex-col justify-center px-4 py-16">
       <Link href="/" className="mb-8 inline-block self-start rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400">
-        <MsvWordmark alt="Minsub Ventures" heightClass="h-9" />
+        <MsvWordmark alt="Minsub Ventures" heightClass="h-8" />
       </Link>
       <h1 className="text-lg font-semibold tracking-tight text-zinc-900">관리자 로그인</h1>
       {!sessionOk ? (

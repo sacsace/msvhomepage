@@ -1,60 +1,35 @@
-/** CI 워드마크: `MsvMark` 와 동일한 6점 필드 + `minsub ventures` (PNG 없이 SVG) */
+import Image from "next/image";
+
+/** 공식 가로 워드마크 — `public/msv-wordmark.png` */
 export type MsvWordmarkTone = "default" | "onDark";
 
 type Props = {
   alt: string;
   className?: string;
-  /** Tailwind 높이 클래스 예: `h-8 sm:h-9` */
+  /** Tailwind 높이 클래스 예: `h-7 sm:h-8` */
   heightClass?: string;
-  /** 어두운 배경용 팔레트 */
+  /** 어두운 배경에서는 밝게 반전(네이비 원본 기준) */
   tone?: MsvWordmarkTone;
-  /** 이전 `next/image` 호환용 — SVG에서는 무시됩니다 */
   priority?: boolean;
 };
-
-const MARK_SCALE = 32 / 96;
 
 export function MsvWordmark({
   alt,
   className = "",
-  heightClass = "h-8 sm:h-9",
+  heightClass = "h-7 sm:h-8",
   tone = "default",
-  priority: _priority = false,
+  priority = false,
 }: Props) {
-  const { field, dot, text } =
-    tone === "onDark"
-      ? { field: "#ffffff", dot: "#0f2744", text: "#ffffff" }
-      : { field: "#0f2744", dot: "#ffffff", text: "#0f2744" };
-
+  const onDark = tone === "onDark" ? "brightness-0 invert opacity-95" : "";
   return (
-    <svg
-      className={`font-sans ${heightClass} w-auto max-w-[min(260px,72vw)] shrink-0 ${className}`.trim()}
-      viewBox="0 0 268 32"
-      role="img"
-      aria-label={alt}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <title>{alt}</title>
-      <g transform={`scale(${MARK_SCALE})`}>
-        <circle cx="48" cy="48" r="48" fill={field} />
-        <circle cx="24" cy="32" r="10" fill={dot} />
-        <circle cx="48" cy="32" r="10" fill={dot} />
-        <circle cx="72" cy="32" r="10" fill={dot} />
-        <circle cx="24" cy="64" r="10" fill={dot} />
-        <circle cx="48" cy="64" r="10" fill={dot} />
-        <circle cx="72" cy="64" r="10" fill={dot} />
-      </g>
-      <text
-        x="40"
-        y="22.5"
-        fill={text}
-        fontSize="15"
-        fontWeight="600"
-        letterSpacing="0.02em"
-        fontFamily="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif"
-      >
-        minsub ventures
-      </text>
-    </svg>
+    <Image
+      src="/msv-wordmark.png"
+      alt={alt}
+      width={640}
+      height={160}
+      priority={priority}
+      className={`${heightClass} w-auto max-w-[min(230px,68vw)] shrink-0 origin-left scale-[0.95] object-contain object-left ${onDark} ${className}`.trim()}
+      sizes="(max-width: 640px) 68vw, 230px"
+    />
   );
 }
