@@ -75,7 +75,7 @@ export type AccountingServicesPageCopy = {
 const koMenuLinks: readonly ServicesMenuLink[] = [
   { path: "/services/corporate-incorporation", label: "법인 설립 서비스" },
   { path: "/services", label: "회계 서비스", current: true },
-  { path: "/services/india-accounting-glossary", label: "인도 회계 용어집" },
+  { path: "/services/india-accounting-glossary", label: "인도 회계·세무 지식 베이스" },
   { path: "/services/license-registration", label: "라이센스 등록 서비스" },
   { path: "/services/recruitment-support", label: "채용지원 서비스" },
   { path: "/services/frro", label: "FRRO 서비스" },
@@ -161,7 +161,7 @@ const ko: AccountingServicesPageCopy = {
 const enMenuLinks: readonly ServicesMenuLink[] = [
   { path: "/services/corporate-incorporation", label: "Corporate incorporation" },
   { path: "/services", label: "Accounting services", current: true },
-  { path: "/services/india-accounting-glossary", label: "India accounting glossary" },
+  { path: "/services/india-accounting-glossary", label: "India accounting knowledge base" },
   { path: "/services/license-registration", label: "Licence registration" },
   { path: "/services/recruitment-support", label: "Recruitment support" },
   { path: "/services/frro", label: "FRRO services" },
@@ -421,7 +421,7 @@ const en: AccountingServicesPageCopy = {
 const zhMenuLinks: readonly ServicesMenuLink[] = [
   { path: "/services/corporate-incorporation", label: "公司设立服务" },
   { path: "/services", label: "会计服务", current: true },
-  { path: "/services/india-accounting-glossary", label: "印度会计术语表" },
+  { path: "/services/india-accounting-glossary", label: "印度会计实务知识库" },
   { path: "/services/license-registration", label: "许可证登记服务" },
   { path: "/services/recruitment-support", label: "招聘支持服务" },
   { path: "/services/frro", label: "FRRO 服务" },

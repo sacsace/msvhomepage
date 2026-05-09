@@ -4,7 +4,10 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { LicenseCardsWithModal } from "@/components/services/LicenseCardsWithModal";
 import { getRequestLocale } from "@/lib/get-request-locale";
-import { licenseRegistrationServiceCopy } from "@/lib/i18n/license-registration-service-locale";
+import {
+  licenseCardDomId,
+  licenseRegistrationServiceCopy,
+} from "@/lib/i18n/license-registration-service-locale";
 import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import { withLocalePrefix } from "@/lib/site-locale";
 
@@ -47,6 +50,62 @@ export default async function LicenseRegistrationServicePage() {
             >
               {copy.contactCta}
             </Link>
+          </div>
+        </section>
+
+        <section className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <p className="msv-eyebrow">{copy.taxonomyEyebrow}</p>
+          <h2 className="mt-2 text-xl font-bold tracking-tight text-msv-navy sm:text-2xl">{copy.taxonomyTitle}</h2>
+          <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-slate-600">{copy.taxonomyIntro}</p>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {copy.taxonomyGroups.map((group) => (
+              <div
+                key={group.heading}
+                className="flex min-h-[240px] flex-col rounded-xl border border-slate-200/90 bg-slate-50/50 px-4 py-4 sm:px-5 sm:py-5"
+              >
+                <h3 className="text-sm font-bold text-msv-navy">{group.heading}</h3>
+                <ul className="mt-3 flex-1 space-y-1.5 text-sm text-slate-700">
+                  {group.items.map((name) => (
+                    <li key={name}>
+                      <a
+                        href={`#${licenseCardDomId(name)}`}
+                        className="font-medium text-slate-900 no-underline underline-offset-2 transition-colors hover:text-msv-blue hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue"
+                      >
+                        {name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <p className="msv-eyebrow">{copy.industryExamplesEyebrow}</p>
+          <h2 className="mt-2 text-xl font-bold tracking-tight text-msv-navy sm:text-2xl">{copy.industryExamplesTitle}</h2>
+          <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-slate-600">{copy.industryExamplesIntro}</p>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {copy.industryExamples.map((block) => (
+              <div
+                key={block.industry}
+                className="flex min-h-[240px] flex-col rounded-xl border border-msv-blue/20 bg-msv-blue-soft/15 px-4 py-5 sm:px-5"
+              >
+                <h3 className="text-sm font-bold text-msv-navy">{block.industry}</h3>
+                <ul className="mt-3 flex-1 space-y-1.5 text-sm text-slate-700">
+                  {block.items.map((name) => (
+                    <li key={name}>
+                      <a
+                        href={`#${licenseCardDomId(name)}`}
+                        className="font-medium text-slate-900 no-underline underline-offset-2 transition-colors hover:text-msv-blue hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue"
+                      >
+                        {name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </section>
 

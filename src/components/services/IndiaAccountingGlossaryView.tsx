@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import {
   flattenGlossaryRows,
   glossaryRowHaystack,
   indiaGlossarySections,
-  indiaGlossaryTotalCount,
   type GlossarySection,
 } from "@/lib/india-accounting-glossary-data";
 import {
@@ -56,17 +55,18 @@ function SectionTable({
     return (
       <div className="overflow-x-auto rounded-lg border border-slate-200">
         {intro ? (
-          <p className="border-b border-slate-200 bg-slate-50 px-3 py-3 text-sm leading-relaxed text-slate-700 sm:px-4 sm:py-3.5">
+          <p className="border-b border-slate-200 bg-slate-50 px-3 py-3.5 text-sm leading-relaxed text-slate-700 sm:px-4">
             {intro}
           </p>
         ) : null}
-        <table className="w-full min-w-[28rem] border-collapse text-left text-sm sm:min-w-[36rem]">
+        {/* 3·4열 표와 동일: 카드 전폭 + 고정 비율 열로 줄바꿈 방지 */}
+        <table className="w-full min-w-[36rem] table-fixed border-collapse text-left text-sm">
           <thead>
             <tr className="border-b border-slate-200 bg-slate-50 text-xs font-semibold text-msv-navy">
-              <th scope="col" className="px-3 py-2 sm:w-[28%]">
+              <th scope="col" className="w-[32%] whitespace-nowrap px-3 py-3.5 align-middle">
                 {c1}
               </th>
-              <th scope="col" className="px-3 py-2">
+              <th scope="col" className="whitespace-nowrap px-3 py-3.5 align-middle">
                 {c2}
               </th>
             </tr>
@@ -74,8 +74,8 @@ function SectionTable({
           <tbody className="text-slate-700">
             {section.rows.map((row) => (
               <tr key={`${section.id}-${row.en}`} className="border-b border-slate-100 last:border-0">
-                <td className="px-3 py-2 align-top font-medium text-msv-navy">{row.en}</td>
-                <td className="px-3 py-2 align-top leading-relaxed text-slate-600">{row.ko}</td>
+                <td className="whitespace-nowrap px-3 py-4 align-middle font-medium text-msv-navy">{row.en}</td>
+                <td className="whitespace-nowrap px-3 py-4 align-middle text-slate-800">{row.ko}</td>
               </tr>
             ))}
           </tbody>
@@ -87,13 +87,13 @@ function SectionTable({
   if (section.variant === "four") {
     return (
       <div className="overflow-x-auto rounded-lg border border-slate-200">
-        <table className="w-full min-w-[42rem] border-collapse text-left text-sm">
+        <table className="w-max min-w-full min-w-[42rem] border-collapse text-left text-sm">
           <thead>
             <tr className="border-b border-slate-200 bg-slate-50 text-xs font-semibold text-msv-navy">
-              <th className="px-3 py-2 sm:w-[10%]">{table.abbr}</th>
-              <th className="px-3 py-2 sm:w-[22%]">{table.english}</th>
-              <th className="px-3 py-2 sm:w-[18%]">{table.korean}</th>
-              <th className="px-3 py-2">{table.description}</th>
+              <th className="whitespace-nowrap px-3 py-3.5 sm:w-[10%]">{table.abbr}</th>
+              <th className="whitespace-nowrap px-3 py-3.5 sm:w-[22%]">{table.english}</th>
+              <th className="whitespace-nowrap px-3 py-3.5 sm:w-[18%]">{table.korean}</th>
+              <th className="whitespace-nowrap px-3 py-3.5">{table.description}</th>
             </tr>
           </thead>
           <tbody className="text-slate-700">
@@ -102,10 +102,10 @@ function SectionTable({
                 key={`${section.id}-${row.abbr ?? ""}-${row.en}`}
                 className="border-b border-slate-100 last:border-0"
               >
-                <td className="px-3 py-2 align-top font-semibold text-msv-blue">{row.abbr}</td>
-                <td className="px-3 py-2 align-top font-medium text-msv-navy">{row.en}</td>
-                <td className="px-3 py-2 align-top text-slate-800">{row.ko}</td>
-                <td className="px-3 py-2 align-top leading-relaxed text-slate-600">{row.desc}</td>
+                <td className="whitespace-nowrap px-3 py-4 align-middle font-semibold text-msv-blue">{row.abbr}</td>
+                <td className="whitespace-nowrap px-3 py-4 align-middle font-medium text-msv-navy">{row.en}</td>
+                <td className="whitespace-nowrap px-3 py-4 align-middle text-slate-800">{row.ko}</td>
+                <td className="whitespace-nowrap px-3 py-4 align-middle leading-relaxed text-slate-600">{row.desc}</td>
               </tr>
             ))}
           </tbody>
@@ -121,20 +121,20 @@ function SectionTable({
 
   return (
     <div className="overflow-x-auto rounded-lg border border-slate-200">
-      <table className="w-full min-w-[36rem] border-collapse text-left text-sm">
+      <table className="w-max min-w-full min-w-[36rem] border-collapse text-left text-sm">
         <thead>
           <tr className="border-b border-slate-200 bg-slate-50 text-xs font-semibold text-msv-navy">
-            <th className="px-3 py-2 sm:w-[22%]">{h1}</th>
-            <th className="px-3 py-2 sm:w-[18%]">{h2}</th>
-            <th className="px-3 py-2">{h3}</th>
+            <th className="whitespace-nowrap px-3 py-3.5 sm:w-[22%]">{h1}</th>
+            <th className="whitespace-nowrap px-3 py-3.5 sm:w-[18%]">{h2}</th>
+            <th className="whitespace-nowrap px-3 py-3.5">{h3}</th>
           </tr>
         </thead>
         <tbody className="text-slate-700">
           {section.rows.map((row) => (
             <tr key={`${section.id}-${row.en}`} className="border-b border-slate-100 last:border-0">
-              <td className="px-3 py-2 align-top font-medium text-msv-navy">{row.en}</td>
-              <td className="px-3 py-2 align-top text-slate-800">{row.ko}</td>
-              <td className="px-3 py-2 align-top leading-relaxed text-slate-600">{row.desc}</td>
+              <td className="whitespace-nowrap px-3 py-4 align-middle font-medium text-msv-navy">{row.en}</td>
+              <td className="whitespace-nowrap px-3 py-4 align-middle text-slate-800">{row.ko}</td>
+              <td className="whitespace-nowrap px-3 py-4 align-middle leading-relaxed text-slate-600">{row.desc}</td>
             </tr>
           ))}
         </tbody>
@@ -144,6 +144,22 @@ function SectionTable({
 }
 
 type Props = { locale: SiteLocale };
+
+function GlossaryPracticeTipCard({ label, paragraphs }: { label: string; paragraphs: readonly string[] }) {
+  return (
+    <aside
+      className="rounded-xl border border-msv-blue/25 bg-gradient-to-br from-msv-blue-soft/30 via-white to-amber-50/50 px-5 py-4 shadow-sm sm:px-6 sm:py-5"
+      aria-label={label}
+    >
+      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-msv-navy/75">{label}</p>
+      <div className="mt-2.5 space-y-2 text-sm leading-relaxed text-slate-800">
+        {paragraphs.map((para, idx) => (
+          <p key={idx}>{para}</p>
+        ))}
+      </div>
+    </aside>
+  );
+}
 
 export function IndiaAccountingGlossaryView({ locale }: Props) {
   const copy = useMemo(() => indiaAccountingGlossaryCopy(locale), [locale]);
@@ -168,7 +184,7 @@ export function IndiaAccountingGlossaryView({ locale }: Props) {
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <h2 className="text-lg font-bold text-msv-navy">{copy.introCardTitle}</h2>
-            <p className="mt-1 text-sm text-slate-600">{copy.introCardSubtitle}</p>
+            <p className="mt-1 whitespace-pre-line text-sm leading-relaxed text-slate-600">{copy.introCardSubtitle}</p>
             {copy.contentNote ? (
               <p className="mt-2 text-xs leading-relaxed text-slate-500">{copy.contentNote}</p>
             ) : null}
@@ -187,9 +203,7 @@ export function IndiaAccountingGlossaryView({ locale }: Props) {
               autoComplete="off"
             />
             <p className="mt-1.5 text-xs text-slate-500">
-              {filtered
-                ? copy.fmtSearchResults(filtered.length, indiaGlossaryTotalCount)
-                : copy.fmtSearchHintFull(indiaGlossaryTotalCount)}
+              {filtered ? copy.fmtSearchResults(filtered.length) : copy.fmtSearchHintFull()}
             </p>
           </div>
         </div>
@@ -235,17 +249,26 @@ export function IndiaAccountingGlossaryView({ locale }: Props) {
           </ul>
         </section>
       ) : (
-        indiaGlossarySections.map((section) => (
-          <section
-            key={section.id}
-            className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
-          >
-            <h3 className="text-base font-bold text-msv-navy">{glossarySectionTitle(section, locale)}</h3>
-            <div className="mt-4">
-              <SectionTable section={section} locale={locale} table={copy.table} />
-            </div>
-          </section>
-        ))
+        indiaGlossarySections.map((section) => {
+          const tipsAfter = copy.practiceTips.filter((t) => t.afterSectionId === section.id);
+          return (
+            <Fragment key={section.id}>
+              <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+                <h3 className="text-base font-bold text-msv-navy">{glossarySectionTitle(section, locale)}</h3>
+                <div className="mt-4">
+                  <SectionTable section={section} locale={locale} table={copy.table} />
+                </div>
+              </section>
+              {tipsAfter.map((tip, tipIdx) => (
+                <GlossaryPracticeTipCard
+                  key={`${section.id}-practice-tip-${tipIdx}`}
+                  label={copy.practiceTipLabel}
+                  paragraphs={tip.paragraphs}
+                />
+              ))}
+            </Fragment>
+          );
+        })
       )}
 
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">

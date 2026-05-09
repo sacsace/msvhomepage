@@ -9,7 +9,7 @@ import { localeFromPathname, pickLocale, stripLocalePrefix, withLocalePrefix } f
 const subKo = [
   { href: "/services/corporate-incorporation", label: "법인 설립 서비스" },
   { href: "/services", label: "회계 서비스" },
-  { href: "/services/india-accounting-glossary", label: "인도 회계 용어집" },
+  { href: "/services/india-accounting-glossary", label: "인도 회계·세무 지식 베이스" },
   { href: "/services/license-registration", label: "라이센스 등록 서비스" },
   { href: "/services/recruitment-support", label: "채용지원 서비스" },
   { href: "/services/frro", label: "FRRO 서비스" },
@@ -23,7 +23,7 @@ const subKo = [
 const subEn = [
   { href: "/services/corporate-incorporation", label: "Corporate incorporation" },
   { href: "/services", label: "Accounting services" },
-  { href: "/services/india-accounting-glossary", label: "India accounting glossary" },
+  { href: "/services/india-accounting-glossary", label: "India accounting knowledge base" },
   { href: "/services/license-registration", label: "License registration" },
   { href: "/services/recruitment-support", label: "Recruitment support" },
   { href: "/services/frro", label: "FRRO services" },
@@ -40,7 +40,7 @@ const subEn = [
 const subZh = [
   { href: "/services/corporate-incorporation", label: "公司设立服务" },
   { href: "/services", label: "会计与税务服务" },
-  { href: "/services/india-accounting-glossary", label: "印度会计术语表" },
+  { href: "/services/india-accounting-glossary", label: "印度会计实务知识库" },
   { href: "/services/license-registration", label: "许可证注册" },
   { href: "/services/recruitment-support", label: "招聘支持" },
   { href: "/services/frro", label: "FRRO 服务" },

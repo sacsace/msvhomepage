@@ -61,7 +61,7 @@ export default async function CorporateIncorporationServicePage() {
             {copy.ctaApply}
           </Link>
         </div>
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="rounded-2xl border border-slate-200 bg-white px-6 py-10 shadow-sm sm:px-8 sm:py-12">
           <SectionTitle
             eyebrow={copy.supportEyebrow}
             title={copy.supportTitle}
@@ -76,7 +76,19 @@ export default async function CorporateIncorporationServicePage() {
           </ul>
         </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="rounded-2xl border border-msv-blue/20 bg-msv-blue-soft/10 px-6 py-10 shadow-sm sm:px-8 sm:py-12">
+          <SectionTitle
+            title={copy.valuePropositionTitle}
+            spacing="tight"
+            density="compact"
+            contentWidth="full"
+          />
+          <p className="mt-4 text-sm leading-relaxed text-slate-700 sm:text-[15px] sm:leading-relaxed">
+            {copy.valueProposition}
+          </p>
+        </section>
+
+        <section className="rounded-2xl border border-slate-200 bg-white px-6 py-10 shadow-sm sm:px-8 sm:py-12">
           <SectionTitle
             id="corp-prep-name"
             eyebrow={copy.step1Eyebrow}
@@ -95,7 +107,7 @@ export default async function CorporateIncorporationServicePage() {
           </ul>
         </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="rounded-2xl border border-slate-200 bg-white px-6 py-10 shadow-sm sm:px-8 sm:py-12">
           <SectionTitle
             eyebrow={copy.step2Eyebrow}
             title={copy.step2Title}
@@ -111,7 +123,7 @@ export default async function CorporateIncorporationServicePage() {
           <IncorporationScheduleChart chart={copy.scheduleChart} />
         </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="rounded-2xl border border-slate-200 bg-white px-6 py-10 shadow-sm sm:px-8 sm:py-12">
           <SectionTitle
             eyebrow={copy.step3Eyebrow}
             title={copy.step3Title}
@@ -126,7 +138,7 @@ export default async function CorporateIncorporationServicePage() {
           </ol>
         </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="rounded-2xl border border-slate-200 bg-white px-6 py-10 shadow-sm sm:px-8 sm:py-12">
           <SectionTitle
             eyebrow={copy.step4Eyebrow}
             title={copy.step4Title}
@@ -148,7 +160,7 @@ export default async function CorporateIncorporationServicePage() {
           <p className="mt-4 text-xs leading-relaxed text-slate-500">{copy.timelineFootnote}</p>
         </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="rounded-2xl border border-slate-200 bg-white px-6 py-10 shadow-sm sm:px-8 sm:py-12">
           <SectionTitle
             eyebrow={copy.step5Eyebrow}
             title={copy.step5Title}
@@ -163,7 +175,7 @@ export default async function CorporateIncorporationServicePage() {
           </ul>
         </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="rounded-2xl border border-slate-200 bg-white px-6 py-10 shadow-sm sm:px-8 sm:py-12">
           <SectionTitle
             eyebrow={copy.step6Eyebrow}
             title={copy.step6Title}
@@ -203,7 +215,7 @@ export default async function CorporateIncorporationServicePage() {
           <p className="mt-3 text-xs leading-relaxed text-slate-500">{copy.step6Footnote}</p>
         </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="rounded-2xl border border-slate-200 bg-white px-6 py-10 shadow-sm sm:px-8 sm:py-12">
           <SectionTitle
             eyebrow={copy.step7Eyebrow}
             title={copy.step7Title}
@@ -218,7 +230,7 @@ export default async function CorporateIncorporationServicePage() {
           </ul>
         </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-msv-blue-soft/15 p-6 sm:p-8">
+        <section className="rounded-2xl border border-slate-200 bg-msv-blue-soft/15 px-6 py-10 sm:px-8 sm:py-12">
           <p className="text-sm leading-relaxed text-slate-600">{copy.closingNote}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link

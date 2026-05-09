@@ -141,9 +141,9 @@ export function SiteHeader({ locale }: Props) {
                     </MobileNavLink>
                     <MobileNavLink href="/services/india-accounting-glossary">
                       {pickLocale(locale, {
-                        ko: "인도 회계 용어집",
-                        en: "India accounting glossary",
-                        zh: "印度会计术语表",
+                        ko: "인도 회계·세무 지식 베이스",
+                        en: "India accounting knowledge base",
+                        zh: "印度会计实务知识库",
                       })}
                     </MobileNavLink>
                     <MobileNavLink href="/services/license-registration">

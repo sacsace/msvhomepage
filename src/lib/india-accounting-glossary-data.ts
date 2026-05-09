@@ -45,12 +45,12 @@ export const indiaGlossarySections: GlossarySection[] = [
       r("Fixed Assets", "고정자산", "설비·기계·차량 등"),
       r("Depreciation", "감가상각", "자산 비용 배분"),
       r("Accrued Expense", "미지급비용", "아직 지급 안 된 비용"),
-      r("Provision", "충당금", "예상 비용 반영"),
-      r("Advance", "선급금", "미리 지급한 금액"),
+      r("Provision", "충당금", "예상 비용·손실 반영"),
+      r("Advance", "선급금 / 선수금", "advance from customer, vendor advance, salary advance 등 맥락에 따라 선수·선급이 달라질 수 있음."),
       r("Prepaid Expense", "선급비용", "미래 비용 선지급"),
-      r("Outstanding Expense", "미지급비용", "회계기간 종료 후 미지급"),
-      r("Sundry Debtors", "외상매출금", "매출채권. 고객 미수금(인도 실무에서도 매출채권 병기)."),
-      r("Sundry Creditors", "외상매입금", "매입채무. 공급업체 미지급(인도 실무에서도 매입채무 병기)."),
+      r("Outstanding Expense", "미지급비용", "기간 말 기준 미지급 비용"),
+      r("Sundry Debtors", "매출채권(외상매출금)", "고객 미수금 등."),
+      r("Sundry Creditors", "매입채무(외상매입금)", "공급업체 미지급 등."),
       r("Inventory / Stock", "재고자산", "판매용 재고"),
       r("Cost of Goods Sold (COGS)", "매출원가", "판매된 상품 원가"),
       r("Revenue", "매출", "수익"),
@@ -87,10 +87,10 @@ export const indiaGlossarySections: GlossarySection[] = [
       r("TDS", "원천징수세", "지급 시 세금 공제"),
       r("TCS", "원천징수징수세", "판매자 대신 징수"),
       r("Advance Tax", "선납세", "분기별 법인세 선납"),
-      r("Professional Tax (PT)", "직업세", "주정부 급여세"),
+      r("Professional Tax (PT)", "주정부 급여세(Professional Tax)", "주(邦)별로 부과되는 급여 기반 세목(PT)."),
       r("Income Tax", "소득세", "법인·개인 소득세"),
       r("ITR", "소득세 확정신고", "Income Tax Return. 납세자 유형별 신고 양식(e-filing)."),
-      r("Form 26AS", "세금 크레딧 명세", "TDS·납부 등이 반영되는 통합 명세(환급·대사 참고)."),
+      r("Form 26AS", "TDS 납부·세액 반영 통합 명세", "TDS·자기납부 등이 누적 반영되는 통합 명세(환급·대사 참고)."),
       r("Withholding Tax (WHT)", "원천세", "해외송금 세금"),
       r("Surcharge", "서차지", "추가 세금"),
       r("Cess", "교육·건강세", "추가 목적세"),
@@ -124,8 +124,8 @@ export const indiaGlossarySections: GlossarySection[] = [
       r("MOA", "정관(목적)", "Memorandum of Association"),
       r("AOA", "정관(운영)", "Articles of Association"),
       r("Board Resolution", "이사회 결의", "공식 의사결정"),
-      r("ROC Filing", "법인등기 신고", "MCA 신고"),
-      r("Annual Return", "연차보고", "연간 MCA 신고"),
+      r("ROC Filing", "법인등기 신고", "기업부(MCA) 법인 신고"),
+      r("Annual Return", "연간 법인 신고", "연간 MCA 신고"),
       r("CIN", "법인 식별번호", "Corporate Identification Number"),
     ],
   },
@@ -136,8 +136,8 @@ export const indiaGlossarySections: GlossarySection[] = [
     rows: [
       r("FEMA", "외환관리법", "Foreign Exchange Management Act"),
       r("FDI", "외국인직접투자", "외국인 투자"),
-      r("FC-GPR", "외국인 투자 보고", "주식 발행 보고"),
-      r("FC-TRS", "주식 양도 보고", "외국인 간 지분 이전"),
+      r("FC-GPR", "외국인 투자 보고", "외국인 투자 주식 발행 보고"),
+      r("FC-TRS", "주식 양도 보고", "외국인 간 지분 양도 보고"),
       r("ECB", "외화차입", "External Commercial Borrowing"),
       r("AD Bank", "지정 외국환은행", "RBI 승인 은행"),
       r("FIRC", "외화입금증명", "Foreign Inward Remittance Certificate"),
@@ -163,7 +163,7 @@ export const indiaGlossarySections: GlossarySection[] = [
       p("MSME compliance", "중소기업 대금 규정"),
       p("MSME interest", "지급 지연 이자"),
       p("DIN KYC", "이사 KYC 갱신"),
-      p("Active compliance", "MCA 정상 상태"),
+      p("Active compliance", "MCA 정상 운영 상태"),
       p("Strike off", "법인 폐업"),
       p("Dormant company", "휴면 법인"),
     ],
@@ -181,7 +181,7 @@ export const indiaGlossarySections: GlossarySection[] = [
       r("PF", "직원연금", "Provident Fund"),
       r("ESI", "건강보험", "Employee State Insurance"),
       r("Gratuity", "퇴직금", "장기근속 보상"),
-      r("CTC", "총보상금액", "Cost to Company"),
+      r("CTC", "회사 총 인건비 기준 금액", "Cost to Company"),
       r("Take-home Salary", "실수령액", "실제 수령 급여"),
       r("Leave Encashment", "연차수당", "미사용 연차 보상"),
     ],
@@ -248,7 +248,7 @@ export const indiaGlossarySections: GlossarySection[] = [
       q("JV", "Journal Voucher", "대체전표", "분개 입력"),
       q("PV", "Payment Voucher", "지급전표", "지출 입력"),
       q("RV", "Receipt Voucher", "입금전표", "수금 입력"),
-      q("CV", "Contra Voucher", "계좌간이체전표", "Bank↔Cash, Bank↔Bank 등 계좌간 이체(Tally 등 실무)"),
+      q("CV", "Contra Voucher", "계좌간이체전표", "현금↔은행 간 계좌 이체, Bank↔Bank 등 계좌간 이체(Tally 등 실무)"),
       q("DN", "Debit Note", "차변통지", "공급업체 차감"),
       q("CN", "Credit Note", "대변통지", "환입·할인"),
     ],
@@ -423,7 +423,7 @@ export const indiaGlossarySections: GlossarySection[] = [
     rows: [
       p("TDS return filing", "TDS 신고"),
       p("GST filing", "GST 신고"),
-      p("ROC filing", "ROC/MCA 신고"),
+      p("ROC filing", "기업부(MCA) 법인 신고"),
       p("Form pending", "서류 미제출"),
       p("Notice received", "세무통지 수령(정부 Notice: GST/MCA/PF/ESI 등)"),
       p("Reconciliation required", "대사(Reconciliation) 필요"),
@@ -494,8 +494,6 @@ export function flattenGlossaryRows(): { section: GlossarySection; row: Glossary
   }
   return out;
 }
-
-export const indiaGlossaryTotalCount = flattenGlossaryRows().length;
 
 export function glossaryRowHaystack(section: GlossarySection, row: GlossaryRow): string {
   const phraseLead =

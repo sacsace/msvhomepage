@@ -14,6 +14,7 @@ export type LicenseCardItem = {
 /** 모달·타임라인 등 — 클라이언트에 전달 가능한 lookup만 포함 */
 export type LicenseRegistrationModalLookups = {
   ui: {
+    /** 카드 버튼 aria-label 접미(항목명과 조합) */
     clickToSeeMore: string;
     close: string;
     closeAria: string;
@@ -23,6 +24,10 @@ export type LicenseRegistrationModalLookups = {
     detailHeading: string;
     disclaimerHeading: string;
     disclaimerBody: string;
+    /** 카드 하단 통일 CTA (전체 버튼 클릭 가능) */
+    viewDetailsCta: string;
+    /** 모달 하단 관련 등록 섹션 제목 */
+    relatedHeading: string;
   };
   timelineDefault: string;
   timelineByName: Partial<Record<string, string>>;
@@ -30,6 +35,21 @@ export type LicenseRegistrationModalLookups = {
   ownerByName: Partial<Record<string, string>>;
   detailDefault: readonly string[];
   detailByName: Partial<Record<string, readonly string[]>>;
+  /** 카드 `name` 기준 관련 등록(앵커 이동); 값은 `licenseCardShell`의 name과 동일 */
+  relatedByName: Partial<Record<string, readonly string[]>>;
+  /** 관련 등록 목록 아래 보조 문구(예: PF/ESI) */
+  relatedNoteByName?: Partial<Record<string, string>>;
+};
+
+export type LicenseTaxonomyGroup = {
+  heading: string;
+  /** `licenseCardShell`의 `name`과 동일(영문 표기) */
+  items: readonly string[];
+};
+
+export type LicenseIndustrySpotlight = {
+  industry: string;
+  items: readonly string[];
 };
 
 export type LicenseRegistrationServiceCopy = {
@@ -41,12 +61,31 @@ export type LicenseRegistrationServiceCopy = {
   scopeItems: readonly string[];
   backToServices: string;
   contactCta: string;
+  taxonomyEyebrow: string;
+  taxonomyTitle: string;
+  taxonomyIntro: string;
+  taxonomyGroups: readonly LicenseTaxonomyGroup[];
+  industryExamplesEyebrow: string;
+  industryExamplesTitle: string;
+  industryExamplesIntro: string;
+  industryExamples: readonly LicenseIndustrySpotlight[];
   cardsEyebrow: string;
   cardsTitle: string;
   cardsIntro: string;
   licenseCards: readonly LicenseCardItem[];
   modal: LicenseRegistrationModalLookups;
 };
+
+/** 카드 앵커용 DOM id (`#${licenseCardDomId(name)}`) */
+export function licenseCardDomId(name: string): string {
+  const slug = name
+    .replace(/[()]/g, " ")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return `lic-${slug || "item"}`;
+}
 
 const licenseCardShell = [
   { name: "BIS", subtitle: "Bureau of Indian Standards", monochrome: true as const, comingSoon: true as const },
@@ -79,10 +118,43 @@ const licenseCardShell = [
   { name: "Startup Certificate" },
   { name: "Trademark", subtitle: "Brand and Intellectual Property Registration" },
   { name: "Trading License", subtitle: "Municipal Trade License" },
-  { name: "Udyam", subtitle: "MSME Registration Portal" },
 ] as const;
 
 type CardName = (typeof licenseCardShell)[number]["name"];
+
+/** 모달 하단 「관련 등록」— 값은 카드 `name`과 동일(앵커·스크롤 연동). */
+const LICENSE_MODAL_RELATED_BY_NAME = {
+  BIS: ["ISO", "Factory License", "Legal Metrology"],
+  CDSCO: ["FSSAI", "Legal Metrology", "Trading License"],
+  "Capexile Certificate": ["IEC", "RCMC", "ICEGATE"],
+  CLRA: ["Factory License", "ISMW", "Contractor License"],
+  "Contractor License": ["CLRA", "ISMW", "Factory License"],
+  "Digital Signature (DSC)": ["GST", "PAN", "ICEGATE"],
+  EPCG: ["IEC", "LUT", "RCMC"],
+  "EPR Registration": ["Pollution NOC", "Factory License", "IEC"],
+  "Factory License": ["Fire NOC", "Pollution NOC", "CLRA"],
+  "Fire NOC": ["Factory License", "Pollution NOC", "Trading License"],
+  FSSAI: ["GST", "Trading License", "Legal Metrology"],
+  GST: ["PAN", "MSME", "IEC"],
+  ICEGATE: ["IEC", "LUT", "RCMC"],
+  IEC: ["ICEGATE", "RCMC", "LUT"],
+  ISO: ["BIS", "Factory License", "MSME"],
+  ISMW: ["CLRA", "Contractor License", "Factory License"],
+  "Legal Metrology": ["FSSAI", "GST", "Trading License"],
+  LUT: ["GST", "IEC", "RCMC"],
+  MOOWR: ["EPCG", "IEC", "Factory License"],
+  MSME: ["GST", "PAN", "Startup Certificate"],
+  PAN: ["GST", "MSME", "Digital Signature (DSC)"],
+  PIMS: ["IEC", "ICEGATE", "SIMS"],
+  "Pollution NOC": ["Factory License", "Fire NOC", "Trading License"],
+  RCMC: ["IEC", "ICEGATE", "Capexile Certificate"],
+  "RERA Registration": ["Trading License", "Fire NOC", "GST"],
+  "S&E Registration": ["Trading License", "Factory License", "GST"],
+  SIMS: ["IEC", "ICEGATE", "PIMS"],
+  "Startup Certificate": ["MSME", "PAN", "GST"],
+  Trademark: ["GST", "MSME", "PAN"],
+  "Trading License": ["GST", "FSSAI", "S&E Registration"],
+} satisfies Partial<Record<CardName, readonly CardName[]>>;
 
 function mergeCards(desc: Record<CardName, string>): readonly LicenseCardItem[] {
   return licenseCardShell.map((s) => ({
@@ -92,113 +164,116 @@ function mergeCards(desc: Record<CardName, string>): readonly LicenseCardItem[] 
 }
 
 const descriptionsKo: Record<CardName, string> = {
-  BIS: "인도 표준 규격(BIS) 인증 대상 품목에 대해 적용 표준 확인, 신청 문서 준비, 인증 진행 대응을 지원합니다.",
-  CDSCO: "의료기기·의약품 관련 CDSCO 등록/허가 요건 검토, 제출 문서 구성, 인허가 절차 대응을 지원합니다.",
+  BIS: "전자·철강·소비재 등 BIS 인증 대상 품목의 적용 기준 검토 및 등록 절차를 지원합니다.",
+  CDSCO: "의료기기·의약품 수입·판매를 위한 CDSCO 등록 및 허가 절차를 지원합니다.",
   "Capexile Certificate": "CAPEXIL 등록 인증 발급 절차를 진행해 해당 품목 수출 활동과 관련 신고를 지원합니다.",
-  CLRA: "계약직 근로자 고용 관련 등록·허가 절차를 지원하고, 관련 문서와 요건 충족을 점검합니다.",
+  CLRA:
+    "계약 구조·인원 기준에 따라 Principal Employer 등록과 도급업체(Contractor) 측 절차가 달리 적용될 수 있어, 해당 범위별 문서와 요건을 구분해 지원합니다.",
   "Contractor License":
-    "계약근로자 운영에 필요한 도급업체 라이센스 신청과 관련 컴플라이언스 요건 점검을 지원합니다.",
+    "노무 도급(계약근로자 공급)에 필요한 도급업체 라이센스 신청과 관련 컴플라이언스 요건 점검을 지원합니다.",
   "Digital Signature (DSC)":
     "전자서명(DSC) 발급·갱신 절차와 포털 연동을 지원해 각종 온라인 신고/신청 업무를 준비합니다.",
   EPCG: "자본재 수입 관세 혜택을 위한 EPCG 신청, 의무 수출 조건 검토, 사후 관리 절차를 지원합니다.",
-  "EPR Registration": "품목별 EPR 등록 요건 검토부터 등록 신청, 이행 계획·보고 체계 준비까지 지원합니다.",
+  "EPR Registration":
+    "플라스틱·배터리·전자제품 등 EPR 등록 요건 검토부터 등록 신청, 이행·보고 체계 준비까지 지원합니다.",
   "Factory License": "제조 사업장 운영에 필요한 공장 등록·허가 절차를 지원하고 정기 갱신 요건을 안내합니다.",
-  "Fire NOC": "소방 안전 기준 점검 후 사업장 Fire NOC 신청·보완·승인 절차를 지원합니다.",
+  "Fire NOC": "건물·공장·상업시설 대상 Fire NOC 신청 및 갱신 절차를 지원합니다.",
   FSSAI:
     "인도 식품안전기준청으로, 식품의 안전과 품질을 보장하며 제조·유통·식품 사업 전반 규제, 면허 및 등록을 발급합니다.",
-  GST: "GSTIN 등록과 사업장·업종 정보 입력, 필수 제출 문서 정리를 지원합니다.",
+  GST: "GST 등록·사업장 추가·수정 및 필수 신고 구조를 지원합니다.",
   ICEGATE: "관세 시스템 연동용 ICEGATE 계정 등록과 기본 사용자 세팅을 지원합니다.",
-  IEC: "수출입 코드(Import Export Code) 발급 절차를 준비해 DGFT 등록을 지원합니다.",
+  IEC: "수출입 코드(IEC) 발급 및 DGFT 등록 절차를 지원합니다.",
   ISO: "기업 운영·제품 품질·안전 관련 표준 충족을 위한 인증 준비와 등록 절차를 지원합니다.",
   ISMW: "주 간 이주 노동자 고용 시 필요한 등록·컴플라이언스 절차를 준비하고 신청을 지원합니다.",
   "Legal Metrology": "계량·포장·라벨링 관련 법정 등록 및 신고 절차를 지원해 유통 컴플라이언스를 맞춥니다.",
-  LUT: "수출 거래 관련 LUT 신청·갱신을 지원하고, GST 환급·무세율 공급 운영에 필요한 문서 관리를 돕습니다.",
+  LUT: "수출 GST 면세 적용을 위한 LUT 신청·갱신을 지원합니다.",
   MOOWR:
     "보세창고 기반 제조·가공 운영을 위한 MOOWR 등록, 승인, 운영 컴플라이언스 체계를 지원합니다.",
-  MSME: "기준 충족 기업의 MSME 등록·확인 절차를 진행해 금융·세제·지원 프로그램 연계를 돕습니다.",
+  MSME: "중소기업(MSME/Udyam) 등록 및 정부 지원 연계 절차를 지원합니다.",
   PAN: "법인 PAN 신청과 세무 계정 연계 단계까지 진행을 지원합니다.",
   PIMS: "종이류 수입 사전 등록(PIMS) 신청, 품목·수량 정보 등록, 수입 일정 연계 절차를 지원합니다.",
-  "Pollution NOC": "환경 규제 대상 사업장의 CTE·CTO 신청과 관련 서류 준비, 갱신 절차를 지원합니다.",
-  RCMC: "수출진흥협의회 등록(RCMC) 신청, 업종별 기관 선택, 발급 절차를 지원합니다.",
+  "Pollution NOC": "환경 허가(CTE/CTO) 신청 및 갱신 절차를 지원합니다.",
+  RCMC: "수출진흥협회 등록(RCMC) 및 수출 관련 인증 절차를 지원합니다.",
   "RERA Registration":
     "부동산 프로젝트/중개업 관련 RERA 등록 절차와 제출 문서 준비, 보완 대응을 지원합니다.",
   "S&E Registration":
-    "사업장 설립 등록 증명서 발급 절차를 지원해 법정 필수 등록 요건을 충족하도록 돕습니다.",
+    "Shop & Establishment 등록 및 주정부 사업장 등록 절차를 지원합니다.",
   SIMS: "철강류 수입 사전 등록(SIMS) 신청, 품목 정보 검토, 선적·통관 일정 연계 절차를 지원합니다.",
   "Startup Certificate": "Startup India 등록 요건 검토부터 증빙 문서 제출까지 단계별로 지원합니다.",
   Trademark:
     "인도에서 상표를 등록해 브랜드 권리를 확보하고, 제3자의 무단 사용을 예방할 수 있도록 지원합니다.",
   "Trading License": "지자체 기준에 맞는 사업장 영업 허가를 등록하고 갱신 일정을 관리합니다.",
-  Udyam: "중소기업 식별 등록을 통해 정부 지원 제도와 혜택을 활용할 수 있도록 신청을 지원합니다.",
 };
 
 const descriptionsEn: Record<CardName, string> = {
-  BIS: "For products under BIS certification, we help confirm applicable standards, prepare filings and coordinate the certification process.",
-  CDSCO: "We support medical device and pharmaceutical CDSCO registration and licensing, document packs and authority interactions.",
+  BIS: "For electronics, steel, consumer goods and other BIS-covered products, we review applicable standards and support registration and certification steps.",
+  CDSCO: "We support CDSCO registration and licensing for importing and selling medical devices and pharmaceutical products.",
   "Capexile Certificate": "We guide CAPEXIL registration and certification steps tied to eligible export categories and related declarations.",
-  CLRA: "We assist with contract labour registration and permits, checking documents and compliance for principal employers and contractors.",
-  "Contractor License": "We support contractor licence applications for supplying contract labour and related compliance checks.",
+  CLRA:
+    "We support principal employer registration and contractor-side licensing where they apply under your contract structure and headcount profile, with documents and checks scoped to each track.",
+  "Contractor License":
+    "We support contractor licences for labour contracting (contract labour supply) and related compliance checks.",
   "Digital Signature (DSC)": "We help with DSC issuance and renewal and portal setup for e-filing and online applications.",
   EPCG: "We support EPCG applications, review of export obligation conditions, and post-approval monitoring steps.",
-  "EPR Registration": "We help from category-wise EPR requirements through registration, compliance plans and reporting readiness.",
+  "EPR Registration":
+    "We support EPR registration for plastics, batteries, electronics and similar streams, including applications, compliance plans and reporting readiness.",
   "Factory License": "We support factory registration and licensing for manufacturing sites and renewal planning.",
-  "Fire NOC": "We coordinate Fire NOC applications after fire-safety readiness, follow-ups and approvals.",
+  "Fire NOC": "We support Fire NOC applications and renewals for buildings, factories and commercial premises.",
   FSSAI:
     "FSSAI governs food safety and quality across manufacture, distribution and import; we help with licences and registrations.",
-  GST: "We support GSTIN registration, place-of-business and activity details, and core document preparation.",
+  GST: "We support GST registration, additional place amendments and the core filing structure you need to operate.",
   ICEGATE: "We help set up ICEGATE accounts for Indian customs e-filing and baseline user configuration.",
-  IEC: "We prepare Import Export Code applications and DGFT registration steps.",
+  IEC: "We support Import Export Code (IEC) issuance and DGFT registration steps.",
   ISO: "We support certification readiness and registration aligned with operations, product quality and safety standards.",
   ISMW: "We prepare registrations and compliance when engaging inter-state migrant workmen.",
   "Legal Metrology": "We support legal metrology registration and filings for weights, measures and pre-packaged goods.",
-  LUT: "We support LUT filing and renewal for exports and documentation for zero-rated GST supply chains.",
+  LUT: "We support LUT applications and renewals for zero-rated export GST treatment.",
   MOOWR: "We support MOOWR registration, approvals and operating compliance for bonded-warehouse manufacturing.",
-  MSME: "We help eligible enterprises complete MSME/Udyam registration to access schemes and benefits.",
+  MSME: "We support MSME/Udyam registration and linking into government benefit and support programmes.",
   PAN: "We support corporate PAN applications and linkage with tax accounts.",
   PIMS: "We support PIMS registration for paper imports, item and quantity data, and shipment scheduling.",
-  "Pollution NOC": "We support CTE/CTO applications, documentation and renewals for regulated sites.",
-  RCMC: "We help select the right export promotion council, apply for RCMC and manage issuance steps.",
+  "Pollution NOC": "We support environmental consent (CTE/CTO) applications and renewals.",
+  RCMC: "We support RCMC registration with export promotion councils and related export certification steps.",
   "RERA Registration": "We support RERA registration for projects and brokers, document preparation and authority follow-up.",
-  "S&E Registration": "We guide establishment registration certificates to meet statutory shop and establishment requirements.",
+  "S&E Registration":
+    "We support Shop & Establishment registration and related state establishment registration steps.",
   SIMS: "We support SIMS registration for steel imports, item checks, and customs/shipment alignment.",
   "Startup Certificate": "We guide Startup India registration from eligibility review through evidence submission.",
   Trademark: "We help register trade marks in India to secure brand rights and deter unauthorised use.",
   "Trading License": "We register and renew municipal trade licences aligned with local rules.",
-  Udyam: "We support Udyam registration so MSME-classified businesses can access government programmes.",
 };
 
 const descriptionsZh: Record<CardName, string> = {
-  BIS: "针对需 BIS 认证的品类，协助确认适用标准、准备申请材料并配合认证流程。",
-  CDSCO: "协助医疗器械与药品相关的 CDSCO 注册/许可要件梳理、申报资料整理及与主管机关沟通。",
+  BIS: "针对电子、钢铁、消费品等 BIS 认证品类，协助适用标准梳理及注册与认证流程。",
+  CDSCO: "协助医疗器械与药品进口、销售所需的 CDSCO 注册及许可办理。",
   "Capexile Certificate": "办理 CAPEXIL 注册与认证流程，配合相关出口品类及申报要求。",
-  CLRA: "协助合同工雇佣相关注册与许可，核对文件与合规要点。",
-  "Contractor License": "协助申请供应合同工所需的承包商执照及相关合规检查。",
+  CLRA: "依合同结构与用工人数等，用工单位登记与承包商侧手续可能分别适用；我们协助分项梳理材料与合规要点。",
+  "Contractor License": "协助劳工派遣（合同工供应）承包商执照及相关合规检查。",
   "Digital Signature (DSC)": "协助电子签名证书签发、续期及与门户绑定，为各类线上申报做准备。",
   EPCG: "协助 EPCG 申请、出口义务条件审阅及获批后的跟踪管理。",
-  "EPR Registration": "从品类 EPR 要求梳理到注册申请、履约计划与报告体系准备。",
+  "EPR Registration": "协助塑料、电池、电子产品等品类 EPR 注册申请、履约计划与报告体系准备。",
   "Factory License": "协助制造场所工厂注册与许可，并提示定期续期要求。",
-  "Fire NOC": "在消防安全评估基础上，协助 Fire NOC 申请、补件与获批。",
+  "Fire NOC": "协助厂房、办公楼及商业设施 Fire NOC 申请与续期。",
   FSSAI: "印度食品安全标准局，负责食品制造、流通与进口等环节的安全与质量监管及许可注册。",
-  GST: "协助 GSTIN 注册、营业场所与行业信息填报及必备材料整理。",
+  GST: "协助 GST 注册、营业场所增改及必备申报结构梳理。",
   ICEGATE: "协助开通海关电子系统 ICEGATE 账户及基础用户配置。",
-  IEC: "协助准备进出口代码（IEC）申请及 DGFT 登记步骤。",
+  IEC: "协助进出口代码（IEC）签发及 DGFT 登记流程。",
   ISO: "协助企业运营、产品质量与安全相关的认证准备与注册流程。",
   ISMW: "协助跨邦流动劳工雇佣场景的注册与合规准备。",
   "Legal Metrology": "协助计量、预包装商品标签等法定注册与申报，满足流通合规。",
-  LUT: "协助出口相关 LUT 申请与续期，并配合零税率供应及 GST 文档管理。",
+  LUT: "协助为出口适用零税率 GST 而办理 LUT 申请与续期。",
   MOOWR: "协助保税仓内制造/加工的 MOOWR 注册、审批及运营合规体系。",
-  MSME: "协助符合条件企业完成 MSME 注册/确认，以便衔接融资、税收与支持政策。",
+  MSME: "协助中小企业（MSME/Udyam）登记及政府支持计划衔接。",
   PAN: "协助法人 PAN 申请及与税务账户衔接。",
   PIMS: "协助纸张进口 PIMS 登记、品名与数量信息及与船期、通关衔接。",
-  "Pollution NOC": "协助受环保监管场所的 CTE/CTO 申请、资料准备与续期。",
-  RCMC: "协助出口促进委员会 RCMC 申请、行业对口机构选择与发证流程。",
+  "Pollution NOC": "协助环境许可（CTE/CTO）申请与续期。",
+  RCMC: "协助出口促进机构 RCMC 注册及相关出口认证流程。",
   "RERA Registration": "协助房地产项目/中介相关 RERA 注册、材料准备与补件沟通。",
-  "S&E Registration": "协助办理商铺与设立登记证明，满足法定设立登记要求。",
+  "S&E Registration": "协助 Shop & Establishment 登记及邦级营业场所登记流程。",
   SIMS: "协助钢铁进口 SIMS 登记、品名核对及与装运、通关安排衔接。",
   "Startup Certificate": "从 Startup India 资格条件审阅到证明材料分步提交。",
   Trademark: "协助在印度注册商标以保护品牌并降低被他人抢用风险。",
   "Trading License": "按市政要求办理营业许可注册并管理续期节点。",
-  Udyam: "协助 Udyam 登记，使中小企业可享受政府支持与优惠政策。",
 };
 
 const importExportOwnerKo =
@@ -207,7 +282,8 @@ const premisesOwnerKo = "사업장을 실제 운영하는 법인(사업자) 명�
 
 const modalKo: LicenseRegistrationModalLookups = {
   ui: {
-    clickToSeeMore: "클릭하여 자세히 보기",
+    /** 카드 전체가 버튼일 때 스크린리더용 (화면에 반복 표시하지 않음) */
+    clickToSeeMore: "상세 내용 열기",
     close: "닫기",
     closeAria: "팝업 닫기",
     comingSoon: "서비스 준비 중",
@@ -216,9 +292,11 @@ const modalKo: LicenseRegistrationModalLookups = {
     detailHeading: "상세 설명",
     disclaimerHeading: "유의사항",
     disclaimerBody:
-      "실제 요구 문서와 처리 기간은 주(State), 관할 기관, 업종, 신청 시점에 따라 달라질 수 있으며, 접수 후 보완 요청이 발생할 수 있습니다.",
+      "실제 요구 문서와 처리 기간은 주(State), 관할 기관, 업종 및 신청 시기에 따라 달라질 수 있으며, 접수 후 추가 보완 요청이 발생할 수 있습니다.",
+    viewDetailsCta: "자세히 보기 →",
+    relatedHeading: "관련 등록",
   },
-  timelineDefault: "관할 기관·사업 유형에 따라 평균 2~6주",
+  timelineDefault: "관할 주(State), 사업장 규모 및 제출 서류 상태에 따라 평균 2~6주 소요될 수 있습니다.",
   timelineByName: {
     ISO: "심사 일정 포함 평균 4~8주",
     "Startup Certificate": "요건 검토 포함 평균 2~6주",
@@ -247,7 +325,8 @@ const modalKo: LicenseRegistrationModalLookups = {
     "Pollution NOC": premisesOwnerKo,
     "S&E Registration": premisesOwnerKo,
     "Trading License": premisesOwnerKo,
-    CLRA: "사업장 운영 주체(Principal Employer) 및 도급업체(Contractor)가 각자 해당 등록을 진행합니다.",
+    CLRA:
+      "사업장 운영 주체(Principal Employer) 등록 및 도급업체(Contractor) 라이선스는 계약 인원·사업장 구조·관할 규정에 따라 각각 적용됩니다.",
     "Contractor License": "계약근로자를 공급·운영하는 도급업체(Contractor) 명의로 신청합니다.",
     ISMW: "주 간 이주 노동자를 고용하는 사업장 운영 법인이 등록 주체가 됩니다.",
     "EPR Registration": "생산자·수입자·브랜드소유자(PIBO) 해당 법인 명의로 등록합니다.",
@@ -256,15 +335,18 @@ const modalKo: LicenseRegistrationModalLookups = {
     "Digital Signature (DSC)": "법인 대표자 또는 권한 위임된 서명권자 개인 명의로 발급받습니다.",
     ISO: "인증 대상 조직(법인) 명의로 인증을 진행합니다.",
     Trademark: "상표권 보유 주체(법인 또는 개인 사업자) 명의로 출원합니다.",
-    Udyam: "MSME 요건을 충족하는 사업자(법인/개인사업자/LLP) 명의로 등록합니다.",
     MSME: "MSME 요건을 충족하는 사업자(법인/개인사업자/LLP) 명의로 등록합니다.",
     "Capexile Certificate": "해당 수출 품목의 실제 수출 주체 법인 명의로 등록합니다.",
   },
   detailDefault: [
-    "해당 등록은 사업 형태, 업종, 거래 구조, 사업장 위치(주/관할 기관)에 따라 요구 요건과 심사 포인트가 달라질 수 있습니다.",
+    "해당 등록은 사업 형태, 업종, 계약 구조, 사업장 위치(주/관할 기관)에 따라 요구 요건과 심사 포인트가 달라질 수 있습니다.",
     "초기에는 요건 적합성 검토와 문서 정합성 확보가 가장 중요하며, 접수 후 보완 요청을 신속히 대응할 수 있도록 자료 체계를 미리 갖추는 것이 효과적입니다.",
     "등록 후에도 갱신·변경 신고 및 관련 컴플라이언스 관리가 이어지므로, 발급 이후 운영 기준까지 함께 설계하는 것을 권장합니다.",
   ],
+  relatedByName: LICENSE_MODAL_RELATED_BY_NAME,
+  relatedNoteByName: {
+    CLRA: "사회보험(PF·ESI) 등은 사업·인력 구조에 따라 별도로 검토·연계할 수 있습니다.",
+  },
   detailByName: {
     FSSAI: [
       "FSSAI는 식품 제조·가공·보관·유통·수입 등 식품 밸류체인 전반에 적용되는 핵심 등록/면허 체계입니다. 사업 규모(소규모/주정부/중앙)와 취급 품목에 따라 등록 유형이 달라집니다.",
@@ -306,6 +388,11 @@ const modalKo: LicenseRegistrationModalLookups = {
       "품목 코드, 수량, 선적 일정 등의 정보 정합성이 중요하며, 등록 시점과 실제 선적/통관 일정이 어긋나면 운영 차질이 생길 수 있습니다.",
       "반복 수입 기업은 품목별 기준 정보와 내부 체크리스트를 표준화해 운영하면 실무 속도와 정확도를 동시에 확보할 수 있습니다.",
     ],
+    CLRA: [
+      "CLRA 관련 절차는 사업 형태, 업종, 계약 구조·인원 규모, 노동 투입 방식 및 사업장 위치(주/관할 기관)에 따라 요구되는 등록·허가 유형과 심사 포인트가 달라질 수 있습니다.",
+      "초기에는 요건 적합성 검토와 문서 정합성 확보가 가장 중요하며, 접수 후 보완 요청을 신속히 대응할 수 있도록 자료 체계를 미리 갖추는 것이 효과적입니다.",
+      "등록 후에도 갱신·변경 신고 및 관련 컴플라이언스 관리가 이어지므로, 발급 이후 운영 기준까지 함께 설계하는 것을 권장합니다.",
+    ],
   },
 };
 
@@ -315,7 +402,7 @@ const premisesOwnerEn = "Registered in the name of the corporate entity that act
 
 const modalEn: LicenseRegistrationModalLookups = {
   ui: {
-    clickToSeeMore: "Click for details",
+    clickToSeeMore: "Open details",
     close: "Close",
     closeAria: "Close dialog",
     comingSoon: "Coming soon",
@@ -324,9 +411,12 @@ const modalEn: LicenseRegistrationModalLookups = {
     detailHeading: "Overview",
     disclaimerHeading: "Disclaimer",
     disclaimerBody:
-      "Required documents and processing times vary by state, authority, industry and filing date; authorities may request additional information after submission.",
+      "Required documents and processing times vary by state, authority, industry and the timing of your application; additional clarification requests may follow submission.",
+    viewDetailsCta: "View details →",
+    relatedHeading: "Related registrations",
   },
-  timelineDefault: "Typically around 2–6 weeks depending on authority and business profile",
+  timelineDefault:
+    "Typically 2–6 weeks depending on state, site scale and how complete your filing materials are.",
   timelineByName: {
     ISO: "Typically 4–8 weeks including audit scheduling",
     "Startup Certificate": "Typically 2–6 weeks including eligibility review",
@@ -355,7 +445,8 @@ const modalEn: LicenseRegistrationModalLookups = {
     "Pollution NOC": premisesOwnerEn,
     "S&E Registration": premisesOwnerEn,
     "Trading License": premisesOwnerEn,
-    CLRA: "Both the principal employer and the contractor complete the registrations that apply to their respective roles.",
+    CLRA:
+      "Principal employer registration and contractor licensing apply separately depending on contract headcount, site structure and regulatory jurisdiction.",
     "Contractor License": "Applied for by the labour contractor that supplies or manages contract labour.",
     ISMW: "The operating employer that engages inter-state migrant workmen is generally the registration applicant.",
     "EPR Registration": "Registered by the producer, importer or brand owner (PIBO) entity as applicable.",
@@ -364,15 +455,18 @@ const modalEn: LicenseRegistrationModalLookups = {
     "Digital Signature (DSC)": "Issued to the authorised signatory individual (director or attorney) as per portal rules.",
     ISO: "Certification is pursued in the name of the organisation in scope.",
     Trademark: "Filed in the name of the entity or individual that will own the trade mark rights.",
-    Udyam: "Registered in the name of the enterprise (company, LLP or proprietorship) that meets MSME thresholds.",
     MSME: "Registered in the name of the enterprise (company, LLP or proprietorship) that meets MSME thresholds.",
     "Capexile Certificate": "Registered in the name of the exporting entity for the relevant product lines.",
   },
   detailDefault: [
-    "Requirements and review focus vary with business model, sector, transaction pattern and location (state and regulator).",
+    "Requirements and review focus vary with business model, sector, contracting structure and location (state and regulator).",
     "Early eligibility screening and consistent documentation are critical; a structured evidence pack speeds up clarifications.",
     "Post-registration renewals, change filings and ongoing compliance should be planned alongside the initial approval.",
   ],
+  relatedByName: LICENSE_MODAL_RELATED_BY_NAME,
+  relatedNoteByName: {
+    CLRA: "Provident fund and ESI compliance may need separate review depending on your workforce model.",
+  },
   detailByName: {
     FSSAI: [
       "FSSAI licensing sits across the food value chain—manufacturing, processing, storage, distribution and import—with categories driven by scale (basic/state/central) and product risk.",
@@ -414,6 +508,11 @@ const modalEn: LicenseRegistrationModalLookups = {
       "Consistency across HS codes, quantities and sailing dates matters; drift between registration and actual shipment disrupts operations.",
       "Repeat importers benefit from standardised SKU playbooks and internal checklists.",
     ],
+    CLRA: [
+      "CLRA tracks vary by operating model, sector, contracting and headcount patterns, how labour is deployed on site, and the state and regulator you sit under.",
+      "Early eligibility screening and consistent documentation are critical; a structured evidence pack speeds up clarifications.",
+      "Post-registration renewals, change filings and ongoing compliance should be planned alongside the initial approval.",
+    ],
   },
 };
 
@@ -422,7 +521,7 @@ const premisesOwnerZh = "由实际运营该场所的法人（经营者）名义�
 
 const modalZh: LicenseRegistrationModalLookups = {
   ui: {
-    clickToSeeMore: "点击查看详情",
+    clickToSeeMore: "打开详细说明",
     close: "关闭",
     closeAria: "关闭弹窗",
     comingSoon: "服务筹备中",
@@ -431,9 +530,11 @@ const modalZh: LicenseRegistrationModalLookups = {
     detailHeading: "详细说明",
     disclaimerHeading: "注意事项",
     disclaimerBody:
-      "实际所需材料与办理时间因各邦、主管机关、行业与受理时点而异，受理后亦可能发生补件要求。",
+      "实际所需材料与办理时间因各邦、主管机关、行业及提出申请的时间而异，受理后亦可能发生补充材料要求。",
+    viewDetailsCta: "查看详情 →",
+    relatedHeading: "相关登记",
   },
-  timelineDefault: "视管辖机关与业务类型，平均约 2–6 周",
+  timelineDefault: "视所在邦、场所规模及提交材料完备程度，平均约需 2–6 周",
   timelineByName: {
     ISO: "含审核排期，平均约 4–8 周",
     "Startup Certificate": "含资格条件审阅，平均约 2–6 周",
@@ -462,7 +563,7 @@ const modalZh: LicenseRegistrationModalLookups = {
     "Pollution NOC": premisesOwnerZh,
     "S&E Registration": premisesOwnerZh,
     "Trading License": premisesOwnerZh,
-    CLRA: "用工单位（Principal Employer）与承包商（Contractor）应各自办理适用登记。",
+    CLRA: "用工单位（Principal Employer）登记与承包商（Contractor）执照依合同用工人数、场所结构及管辖规定分别适用。",
     "Contractor License": "由供应或运营合同工的承包商名义申请。",
     ISMW: "雇佣跨邦流动劳工的运营法人通常为登记主体。",
     "EPR Registration": "由生产者、进口商或品牌持有人（PIBO）等适用主体名义注册。",
@@ -471,15 +572,18 @@ const modalZh: LicenseRegistrationModalLookups = {
     "Digital Signature (DSC)": "按门户规则，由法定代表人或获授权签字的个人名义申领。",
     ISO: "以受认证组织（法人）名义推进认证。",
     Trademark: "以将持有商标权的公司或个人经营者名义提交申请。",
-    Udyam: "由符合 MSME 门槛的企业（公司/LLP/个体）名义登记。",
     MSME: "由符合 MSME 门槛的企业（公司/LLP/个体）名义登记。",
     "Capexile Certificate": "由相关出口产品的实际出口法人名义注册。",
   },
   detailDefault: [
-    "具体要件与审查重点因业态、行业、交易结构及所在地（邦与主管机关）而异。",
+    "具体要件与审查重点因业态、行业、合同结构及所在地（邦与主管机关）而异。",
     "初期应重点完成适用性评估与材料一致性；完善的资料体系有助于快速应对补件。",
     "获批后仍需办理续期、变更申报及持续合规，建议与首次登记同步规划运营机制。",
   ],
+  relatedByName: LICENSE_MODAL_RELATED_BY_NAME,
+  relatedNoteByName: {
+    CLRA: "PF/ESI 等社保义务可视用工与组织结构另行衔接评估。",
+  },
   detailByName: {
     FSSAI: [
       "FSSAI 覆盖食品制造、加工、储存、流通与进口等全链条，是小规模/邦级/中央级等分级许可体系的核心。",
@@ -521,6 +625,11 @@ const modalZh: LicenseRegistrationModalLookups = {
       "品目编码、数量与船期等信息需保持一致；登记与实际装运/通关脱节可能造成运营中断。",
       "对重复进口企业，建议将品目基线与内部核对清单标准化以兼顾效率与准确。",
     ],
+    CLRA: [
+      "CLRA 相关手续会因业态、行业、合同与用工规模、劳动力投入方式及所在地（邦与主管机关）而不同。",
+      "初期应重点完成适用性评估与材料一致性；完善的资料体系有助于快速应对补件。",
+      "获批后仍需办理续期、变更申报及持续合规，建议与首次登记同步规划运营机制。",
+    ],
   },
 };
 
@@ -528,15 +637,85 @@ const ko: LicenseRegistrationServiceCopy = {
   metaTitle: "라이센스 등록 서비스",
   metaDescription: "인도 현지 라이센스·인허가 등록 업무를 단계별로 지원합니다.",
   pageTitle: "라이센스 등록 서비스",
-  pageDescription: "사업 시작 전후 필요한 인허가 항목을 정리하고, 등록 절차를 끝까지 지원합니다.",
+  pageDescription:
+    "사업 업종·운영 형태에 필요한 인허가 항목을 검토하고,\n등록·갱신·컴플라이언스 대응까지 실무 중심으로 지원합니다.",
   scopeTitle: "지원 범위",
   scopeItems: [
     "사업 유형별 필수 라이센스 식별 및 등록 로드맵 설계",
     "관할 기관 제출 서류 준비, 검토, 접수 대행",
-    "갱신·변경·보완 요청 대응 및 일정 관리",
+    "갱신·변경·정부 보완 대응 및 일정 관리",
   ],
   backToServices: "회계 서비스로 돌아가기",
   contactCta: "문의하기",
+  taxonomyEyebrow: "License taxonomy",
+  taxonomyTitle: "라이선스 분류",
+  taxonomyIntro:
+    "제조·수출입·식품·의료·노무·세무·규제 등 실무 영역별로 묶었습니다. 항목명을 누르면 아래 해당 카드로 이동합니다.",
+  taxonomyGroups: [
+    {
+      heading: "제조업·공장 운영",
+      items: ["Factory License", "Fire NOC", "Pollution NOC", "CLRA"],
+    },
+    {
+      heading: "수출입·DGFT·통관",
+      items: ["IEC", "EPCG", "RCMC", "ICEGATE", "LUT", "Capexile Certificate", "MOOWR", "PIMS", "SIMS"],
+    },
+    { heading: "식품·의료", items: ["FSSAI", "CDSCO"] },
+    {
+      heading: "세무·사업자·전자 등록",
+      items: ["GST", "PAN", "MSME", "Digital Signature (DSC)"],
+    },
+    {
+      heading: "노무·현지 고용",
+      items: ["Contractor License", "ISMW"],
+    },
+    {
+      heading: "규제·인증·지속가능",
+      items: ["BIS", "ISO", "EPR Registration", "Legal Metrology"],
+    },
+    {
+      heading: "사업 운영·상업 등록",
+      items: ["Trading License", "S&E Registration", "Startup Certificate"],
+    },
+    {
+      heading: "지식재산·브랜드",
+      items: ["Trademark"],
+    },
+    {
+      heading: "부동산·건설",
+      items: ["RERA Registration"],
+    },
+  ],
+  industryExamplesEyebrow: "Industry playbook",
+  industryExamplesTitle: "업종별 주요 라이선스 예시",
+  industryExamplesIntro:
+    "대표 업종에서 우선 검토되는 등록·허가 조합입니다. 실제 적용 범위는 사업 모델·관할에 따라 달라질 수 있습니다.",
+  industryExamples: [
+    {
+      industry: "제조업",
+      items: ["Factory License", "Pollution NOC", "GST", "IEC", "Fire NOC", "CLRA"],
+    },
+    {
+      industry: "식품업",
+      items: ["FSSAI", "GST", "Trading License"],
+    },
+    {
+      industry: "수입·유통",
+      items: ["IEC", "ICEGATE", "RCMC"],
+    },
+    {
+      industry: "건설업",
+      items: ["GST", "CLRA", "Contractor License", "Pollution NOC"],
+    },
+    {
+      industry: "전자·기계 제조",
+      items: ["BIS", "EPR Registration", "Factory License", "IEC"],
+    },
+    {
+      industry: "호텔·F&B",
+      items: ["FSSAI", "Fire NOC", "Trading License", "Pollution NOC"],
+    },
+  ],
   cardsEyebrow: "License registration",
   cardsTitle: "등록 가능 항목",
   cardsIntro: "주요 라이센스·등록 항목별로 준비 서류와 접수 절차를 실무 중심으로 지원합니다.",
@@ -549,15 +728,84 @@ const en: LicenseRegistrationServiceCopy = {
   metaDescription: `${company.shortName} — step-by-step support for Indian licences and regulatory registrations.`,
   pageTitle: "Licence registration",
   pageDescription:
-    "We map the permits you need before and after go-live and support you through each filing stage.",
+    "We review licences and permits required for your sector and operating model,\nand support registrations, renewals and compliance responses with a practice-led approach.",
   scopeTitle: "What we cover",
   scopeItems: [
     "Identify mandatory licences by business model and design a registration roadmap",
     "Prepare, review and file documentation with the relevant authorities",
-    "Handle renewals, changes, clarifications and deadline tracking",
+    "Renewals, changes, responses to authority deficiency letters and deadline tracking",
   ],
   backToServices: "Back to services",
   contactCta: "Contact us",
+  taxonomyEyebrow: "License taxonomy",
+  taxonomyTitle: "How we group registrations",
+  taxonomyIntro:
+    "Manufacturing, trade, food & drugs, labour, tax and compliance clusters mirror how teams plan filings in practice. Click a name to jump to its card below.",
+  taxonomyGroups: [
+    {
+      heading: "Manufacturing & plant operations",
+      items: ["Factory License", "Fire NOC", "Pollution NOC", "CLRA"],
+    },
+    {
+      heading: "Imports, exports & DGFT / customs",
+      items: ["IEC", "EPCG", "RCMC", "ICEGATE", "LUT", "Capexile Certificate", "MOOWR", "PIMS", "SIMS"],
+    },
+    { heading: "Food & life sciences", items: ["FSSAI", "CDSCO"] },
+    {
+      heading: "Tax, business & digital registration",
+      items: ["GST", "PAN", "MSME", "Digital Signature (DSC)"],
+    },
+    {
+      heading: "Labour & local establishment",
+      items: ["Contractor License", "ISMW"],
+    },
+    {
+      heading: "Regulation, certification & sustainability",
+      items: ["BIS", "ISO", "EPR Registration", "Legal Metrology"],
+    },
+    {
+      heading: "Operations & commercial registration",
+      items: ["Trading License", "S&E Registration", "Startup Certificate"],
+    },
+    {
+      heading: "IP & brand",
+      items: ["Trademark"],
+    },
+    {
+      heading: "Real estate & construction",
+      items: ["RERA Registration"],
+    },
+  ],
+  industryExamplesEyebrow: "Industry playbook",
+  industryExamplesTitle: "Typical licence bundles by sector",
+  industryExamplesIntro:
+    "Illustrative combinations we see reviewed first for common entry profiles—your stack will still depend on facts on the ground.",
+  industryExamples: [
+    {
+      industry: "Manufacturing",
+      items: ["Factory License", "Pollution NOC", "GST", "IEC", "Fire NOC", "CLRA"],
+    },
+    {
+      industry: "Food businesses",
+      items: ["FSSAI", "GST", "Trading License"],
+    },
+    {
+      industry: "Import & distribution",
+      items: ["IEC", "ICEGATE", "RCMC"],
+    },
+    {
+      industry: "Construction",
+      items: ["GST", "CLRA", "Contractor License", "Pollution NOC"],
+    },
+    {
+      industry: "Electronics & machinery manufacturing",
+      items: ["BIS", "EPR Registration", "Factory License", "IEC"],
+    },
+    {
+      industry: "Hotels & F&B",
+      items: ["FSSAI", "Fire NOC", "Trading License", "Pollution NOC"],
+    },
+  ],
   cardsEyebrow: "Licence registration",
   cardsTitle: "Registrations we support",
   cardsIntro: "Practical help on documentation and filing pathways for major Indian registrations and licences.",
@@ -569,15 +817,85 @@ const zh: LicenseRegistrationServiceCopy = {
   metaTitle: "许可证登记服务",
   metaDescription: `${company.shortName} — 在印度当地分步协助办理各类许可证与登记。`,
   pageTitle: "许可证登记服务",
-  pageDescription: "梳理业务启动前后所需许可，并全程协助办理登记流程。",
+  pageDescription:
+    "按行业与运营形态梳理所需许可与登记，\n以实务为导向协助办理、续期及合规应对。",
   scopeTitle: "服务范围",
   scopeItems: [
     "按业务类型识别必备许可证并制定登记路线图",
     "准备、审阅并向主管机关递交材料",
-    "应对续期、变更与补件并管理时间节点",
+    "续期、变更、政府补件应对及进度管理",
   ],
   backToServices: "返回服务页",
   contactCta: "联系我们",
+  taxonomyEyebrow: "License taxonomy",
+  taxonomyTitle: "许可与登记分类",
+  taxonomyIntro:
+    "按制造、进出口、食品医疗、劳工、税务与合规等实务板块归纳。点击名称可跳转至下方对应卡片。",
+  taxonomyGroups: [
+    {
+      heading: "制造业与工厂运营",
+      items: ["Factory License", "Fire NOC", "Pollution NOC", "CLRA"],
+    },
+    {
+      heading: "进出口·DGFT·通关",
+      items: ["IEC", "EPCG", "RCMC", "ICEGATE", "LUT", "Capexile Certificate", "MOOWR", "PIMS", "SIMS"],
+    },
+    { heading: "食品与医疗", items: ["FSSAI", "CDSCO"] },
+    {
+      heading: "税务、主体与电子登记",
+      items: ["GST", "PAN", "MSME", "Digital Signature (DSC)"],
+    },
+    {
+      heading: "劳工与本地用工",
+      items: ["Contractor License", "ISMW"],
+    },
+    {
+      heading: "监管、认证与可持续",
+      items: ["BIS", "ISO", "EPR Registration", "Legal Metrology"],
+    },
+    {
+      heading: "商业运营与商事登记",
+      items: ["Trading License", "S&E Registration", "Startup Certificate"],
+    },
+    {
+      heading: "知识产权与品牌",
+      items: ["Trademark"],
+    },
+    {
+      heading: "房地产与建设",
+      items: ["RERA Registration"],
+    },
+  ],
+  industryExamplesEyebrow: "Industry playbook",
+  industryExamplesTitle: "按行业的主要许可示例",
+  industryExamplesIntro:
+    "以下为常见业态中优先梳理的登记组合示例；实际范围仍取决于业务模式与管辖机关。",
+  industryExamples: [
+    {
+      industry: "制造业",
+      items: ["Factory License", "Pollution NOC", "GST", "IEC", "Fire NOC", "CLRA"],
+    },
+    {
+      industry: "食品业",
+      items: ["FSSAI", "GST", "Trading License"],
+    },
+    {
+      industry: "进口与流通",
+      items: ["IEC", "ICEGATE", "RCMC"],
+    },
+    {
+      industry: "建筑业",
+      items: ["GST", "CLRA", "Contractor License", "Pollution NOC"],
+    },
+    {
+      industry: "电子与机械制造",
+      items: ["BIS", "EPR Registration", "Factory License", "IEC"],
+    },
+    {
+      industry: "酒店与餐饮",
+      items: ["FSSAI", "Fire NOC", "Trading License", "Pollution NOC"],
+    },
+  ],
   cardsEyebrow: "License registration",
   cardsTitle: "可协助登记的项目",
   cardsIntro: "针对主要许可与登记类别，从材料准备到递交路径提供实务导向支持。",

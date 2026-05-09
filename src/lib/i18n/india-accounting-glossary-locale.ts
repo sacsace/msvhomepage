@@ -2,6 +2,99 @@ import type { GlossarySection } from "@/lib/india-accounting-glossary-data";
 import type { SiteLocale } from "@/lib/site-locale";
 import { pickLocale } from "@/lib/site-locale";
 
+/** 섹션 `id` 직후에 표시할 실무 Tip (검색 모드가 아닐 때만 렌더) */
+export type IndiaGlossaryPracticeTip = {
+  afterSectionId: string;
+  paragraphs: readonly string[];
+};
+
+const PRACTICE_TIPS_KO: readonly IndiaGlossaryPracticeTip[] = [
+  {
+    afterSectionId: "gst-tds",
+    paragraphs: [
+      "GSTR-2B·매입장부 간 ITC 대사는 월별로 끊어서 확인하는 편이 안전합니다.",
+      "mismatch가 누적되면 환급·추가 납부 조정 폭이 커질 수 있습니다.",
+    ],
+  },
+  {
+    afterSectionId: "ap-ar",
+    paragraphs: [
+      "인도에서는 Vendor reconciliation 업무 비중이 매우 큽니다.",
+      "GST mismatch 및 미지급 잔액 이슈로 인해 월별 대사가 필수적으로 수행됩니다.",
+    ],
+  },
+  {
+    afterSectionId: "corporate",
+    paragraphs: [
+      "연간 법인 신고(MGT-7 등)·재무제표 제출(AOC-4) 등은 마감 전 증빙·전자서명·이사회 결의 확보 루트를 미리 잡아 두는 것이 MCA 대응에 유리합니다.",
+    ],
+  },
+  {
+    afterSectionId: "fema",
+    paragraphs: [
+      "FC-GPR·FC-TRS 제출 이후에도 RBI(FIRMS) 상태와 주주명부·지분 변동을 주기적으로 맞추어 두면, 이후 양도·증자 이력 추적이 쉬워집니다.",
+    ],
+  },
+];
+
+const PRACTICE_TIPS_EN: readonly IndiaGlossaryPracticeTip[] = [
+  {
+    afterSectionId: "gst-tds",
+    paragraphs: [
+      "Reconcile GSTR-2B against your purchase register every month—small ITC gaps compound into large refund or payable swings.",
+      "Treat monthly GST books vs. portal mismatches as a control point, not a year-end clean-up.",
+    ],
+  },
+  {
+    afterSectionId: "ap-ar",
+    paragraphs: [
+      "In India, vendor reconciliation typically consumes a large share of finance bandwidth.",
+      "GST mismatches and open payable balances mean month-end reconciliation is effectively mandatory, not optional.",
+    ],
+  },
+  {
+    afterSectionId: "corporate",
+    paragraphs: [
+      "For annual MCA filings (e.g. MGT-7, AOC-4), line up evidence, DSC signing and board resolutions before deadline week—ROC queues spike near due dates.",
+    ],
+  },
+  {
+    afterSectionId: "fema",
+    paragraphs: [
+      "After FC-GPR / FC-TRS, keep RBI (FIRMS) status aligned with shareholder registers as capital events stack—this saves time on the next transfer or round.",
+    ],
+  },
+];
+
+const PRACTICE_TIPS_ZH: readonly IndiaGlossaryPracticeTip[] = [
+  {
+    afterSectionId: "gst-tds",
+    paragraphs: [
+      "建议按月核对 GSTR-2B 与采购账 ITC，小额差异若累积，退款或补税调整会被放大。",
+      "把月度 GST 账册与门户数据差异当作内控节点，而不是年末一次性清理。",
+    ],
+  },
+  {
+    afterSectionId: "ap-ar",
+    paragraphs: [
+      "在印度，供应商对账（vendor reconciliation）往往占用财务团队大量精力。",
+      "因 GST 不符与应付未清余额等问题，月末对账在实践中几乎必不可少。",
+    ],
+  },
+  {
+    afterSectionId: "corporate",
+    paragraphs: [
+      "年度 MCA 申报（如 MGT-7、AOC-4）宜提前准备证据链、电子签名与董事会决议，截止前一周排队与补件压力会明显上升。",
+    ],
+  },
+  {
+    afterSectionId: "fema",
+    paragraphs: [
+      "完成 FC-GPR / FC-TRS 后，仍建议定期核对 RBI（FIRMS）状态与股东名册，后续股权转让或增资时追溯更省力。",
+    ],
+  },
+];
+
 const SECTION_TITLES: Record<
   string,
   { ko: string; en: string; zh: string }
@@ -215,34 +308,44 @@ export function indiaAccountingGlossaryCopy(locale: SiteLocale) {
   const table = tableLabels(locale);
   return {
     metaTitle: pickLocale(locale, {
-      ko: "인도 회계·세무 실무 용어집",
-      en: "India accounting & tax glossary",
-      zh: "印度会计与税务实务术语表",
+      ko: "인도 회계·세무 실무 지식 베이스",
+      en: "India accounting & tax practice knowledge base",
+      zh: "印度会计与税务实务知识库",
     }),
     metaDescription: pickLocale(locale, {
-      ko: "인도 회계·세무 용어·약어·Form(GSTR-9, Form 83, SPICe+, PF ECR 등) 통합 검색",
-      en: "Search India accounting & tax terms, abbreviations and forms (GSTR-9, Form 83, SPICe+, PF ECR, etc.).",
-      zh: "印度会计与税务术语、缩写及表格（GSTR-9、Form 83、SPICe+、PF ECR 等）整合检索。",
+      ko: "인도 회계·세무 용어·약어·Form과 섹션별 실무 Tip. GSTR-9, Form 83, SPICe+, PF ECR 등 통합 검색",
+      en: "India accounting & tax terms, abbreviations, forms and section-level practice tips—search in one place (GSTR-9, Form 83, SPICe+, PF ECR, etc.).",
+      zh: "印度会计与税务术语、缩写、表格及分节实务提示，一站式检索（GSTR-9、Form 83、SPICe+、PF ECR 等）。",
     }),
     pageHeaderTitle: pickLocale(locale, {
-      ko: "인도 회계·세무 실무 용어집",
-      en: "India accounting & tax practice glossary",
-      zh: "印度会计与税务实务术语表",
+      ko: "인도 회계·세무 실무 지식 베이스",
+      en: "India accounting & tax practice knowledge base",
+      zh: "印度会计与税务实务知识库",
     }),
     pageHeaderDescription: pickLocale(locale, {
-      ko: "한국어 기준으로 영어·한국어·실무 설명을 묶었습니다. 기본 회계·GST·법인·FEMA·놓치기 쉬운 인도 고유 개념(5절)·급여·감사·약어(4열)에 더해, 소득세·GST·RBI·MCA·노무·무역 관련 Form 표(17~22절), 신고·대응 표현(23절), 인도 실무 운영·대사 중심 요약(24절)을 검색할 수 있습니다.",
-      en: "Entries group English, Korean and practice notes (Korean-led). Sections cover core accounting, GST, corporate law, FEMA, India-only concepts (section 5), payroll, audit, four-column abbreviations, income tax/GST/RBI/MCA/labour/trade forms (sections 17–22), filing-desk phrases (section 23) and a reconciliation-focused practice overview (section 24).",
-      zh: "以韩语为主整理英语、韩语与实务说明。涵盖基础会计、GST、公司法、FEMA、易被忽略的印度特有概念（第5节）、薪酬、审计、四列表缩写，以及所得税/GST/RBI/MCA/劳工/贸易相关表格（第17–22节）、申报应对用语（第23节）与以对账为中心的实务概要（第24节）。",
+      ko: "한국 기업 기준으로 인도 회계·GST·법인·FEMA 실무 용어를 정리했습니다.\n영어·한국어·실무 설명을 함께 제공하며,\n회계·세무·노무·송금·MCA·RBI 실무 표현까지 통합 검색할 수 있습니다.",
+      en: "We index India accounting, GST, corporate and FEMA practice terms for Korean companies.\nEnglish, Korean and short practice notes sit together,\nand you can search across accounting, tax, payroll, remittances, MCA and RBI wording in one place.",
+      zh: "面向韩国企业整理印度会计、GST、公司法与 FEMA 实务用语。\n英语、韩语与实务说明并列呈现，\n并支持对会计、税务、劳工、汇款、MCA、RBI 等表述的一体化检索。",
     }),
     introCardTitle: pickLocale(locale, {
-      ko: "인도 회계·세무 실무 용어집",
-      en: "India accounting & tax glossary",
-      zh: "印度会计与税务实务术语表",
+      ko: "인도 회계·세무 실무 지식 베이스",
+      en: "India accounting & tax practice knowledge base",
+      zh: "印度会计与税务实务知识库",
     }),
     introCardSubtitle: pickLocale(locale, {
-      ko: "한국어 기준 정리 · 섹션별 표(3열·4열·Form/용도·표현/의미·요약) · 통합 검색",
-      en: "Korean-led index · section tables (3/4 columns, forms, phrases, summaries) · unified search",
-      zh: "以韩语为主 · 分节表格（三列/四列、表格用途、用语与摘要）· 统一检索",
+      ko: "단순 용어 사전이 아니라, 표와 함께 섹션 사이에 실무 Tip을 두었습니다.\n한국어 기준 정리 · 3열·4열·Form·표현 · 통합 검색",
+      en: "More than a dictionary: tables plus practice tip callouts between sections.\nKorean-led · 3/4-column tables, forms, phrases · unified search",
+      zh: "不仅是术语表：各节表格之间穿插实务提示。\n以韩语为主 · 三/四列表格、表格与用语 · 统一检索",
+    }),
+    practiceTipLabel: pickLocale(locale, {
+      ko: "실무 Tip",
+      en: "Practice tip",
+      zh: "实务提示",
+    }),
+    practiceTips: pickLocale(locale, {
+      ko: PRACTICE_TIPS_KO,
+      en: PRACTICE_TIPS_EN,
+      zh: PRACTICE_TIPS_ZH,
     }),
     contentNote: pickLocale(locale, {
       ko: "",
@@ -255,9 +358,9 @@ export function indiaAccountingGlossaryCopy(locale: SiteLocale) {
       zh: "搜索术语",
     }),
     searchPlaceholder: pickLocale(locale, {
-      ko: "약어·영어·한국어·설명 검색 (예: AP, GSTR, Vendor reconciliation)",
-      en: "Search abbr., English, Korean, notes (e.g. AP, GSTR, vendor reconciliation)",
-      zh: "搜索缩写、英语、韩语、说明（如 AP、GSTR、供应商对账）",
+      ko: "예: GSTR, Vendor reconciliation, FC-GPR, AP",
+      en: "e.g. GSTR, Vendor reconciliation, FC-GPR, AP",
+      zh: "例：GSTR、Vendor reconciliation、FC-GPR、AP",
     }),
     noResults: pickLocale(locale, {
       ko: "검색어와 일치하는 용어가 없습니다. 다른 키워드를 입력해 보세요.",
@@ -270,9 +373,9 @@ export function indiaAccountingGlossaryCopy(locale: SiteLocale) {
       zh: "搜索结果",
     }),
     disclaimer: pickLocale(locale, {
-      ko: "본 용어집은 일반 참고용이며, 실무 적용·신고는 최신 법령·고시 및 담당 전문가 확인이 필요합니다.",
-      en: "This glossary is for general reference only; filings and practice should follow current law and professional advice.",
-      zh: "本术语表仅供一般参考；实务适用与申报请以最新法规及专业人士意见为准。",
+      ko: "본 지식 베이스는 일반 참고용이며, 실무 적용·신고는 최신 법령·고시 및 담당 전문가 확인이 필요합니다.",
+      en: "This knowledge base is for general reference only; filings and practice should follow current law and professional advice.",
+      zh: "本知识库仅供一般参考；实务适用与申报请以最新法规及专业人士意见为准。",
     }),
     backToServices: pickLocale(locale, {
       ko: "서비스로 돌아가기",
@@ -285,18 +388,18 @@ export function indiaAccountingGlossaryCopy(locale: SiteLocale) {
       zh: "联系我们",
     }),
     table,
-    fmtSearchResults(filteredLen: number, total: number) {
+    fmtSearchResults(filteredLen: number) {
       return pickLocale(locale, {
-        ko: `검색 결과 ${filteredLen}개 / 전체 ${total}개`,
-        en: `${filteredLen} results / ${total} total`,
-        zh: `找到 ${filteredLen} 条 / 共 ${total} 条`,
+        ko: `검색 결과 ${filteredLen}건입니다.`,
+        en: `${filteredLen} result${filteredLen === 1 ? "" : "s"}.`,
+        zh: `找到 ${filteredLen} 条结果。`,
       });
     },
-    fmtSearchHintFull(total: number) {
+    fmtSearchHintFull() {
       return pickLocale(locale, {
-        ko: `전체 ${total}개 · 아래 표에서 섹션별로 확인할 수 있습니다.`,
-        en: `${total} entries · browse by section below.`,
-        zh: `共 ${total} 条 · 可在下方按分节表格浏览。`,
+        ko: "분야별 실무 용어를 계속 보완하고 있으며, 회계·GST·FEMA·노무·감사 등은 아래 표에서 섹션별로 확인할 수 있습니다. 일부 구간에는 실무 Tip 박스가 함께 표시됩니다.",
+        en: "We keep adding and refining terms by topic—browse the section tables below for accounting, GST, FEMA, payroll, audit and more. Practice tip callouts appear after selected sections.",
+        zh: "我们按主题持续补充实务用语；会计、GST、FEMA、薪酬、审计等请在下方的分节表中浏览，部分节后附有实务提示框。",
       });
     },
   };
