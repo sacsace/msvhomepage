@@ -26,21 +26,57 @@ const assetDownloadClass =
 /** 가로 로고·워드마크 미리보기: 동일 픽셀 박스 안에 contain(다운로드 원본은 변경 없음) */
 const ciLogoPreviewBox =
   "mt-6 rounded-xl border border-slate-200 bg-white px-4 py-3 sm:px-6 sm:py-4";
-/** 네 로고 공통 표시 영역 — 높이·최대 너비 고정으로 바운딩 박스 동일 */
+/** 네 로고 공통 표시 영역 — 동일 박스, 화면 표시만 이전 대비 약 70%(−30%) */
 const ciLogoPreviewFrame =
-  "relative mx-auto h-[4.2rem] w-full max-w-[min(100%,52rem)] sm:h-[4.8rem] md:h-[5rem]";
-const ciLogoFillClass = "object-contain object-center";
+  "relative h-[2.94rem] w-full max-w-[min(100%,52rem)] sm:h-[3.36rem] md:h-[3.5rem]";
+const ciLogoFillClass = "object-contain object-left";
 const ciLogoFillSizes = "(max-width: 768px) 100vw, min(100%, 52rem)";
+
+/**
+ * 미리보기만: 합성 PNG마다 심볼 가로 비율이 달라 동일 박스에서 심볼 크기가 달라 보임.
+ * `transform: scale`로 보정(1=원본). PNG 교체 시 값만 조정.
+ */
+const ciLockupPreviewViewScale: Record<string, number> = {
+  "/msv-lockup-navy.png": 0.72,
+  "/msv-wordmark.png": 1,
+  "/msv-lockup-sixdot-navy.png": 1,
+  "/msv-lockup-bottomlink-navy.png": 1,
+};
+
+function CiLockupPreviewImage({ src, alt }: { src: string; alt: string }) {
+  const viewScale = ciLockupPreviewViewScale[src] ?? 1;
+  return (
+    <div className={ciLogoPreviewBox}>
+      <div className={ciLogoPreviewFrame}>
+        <div
+          className="relative h-full w-full"
+          style={
+            viewScale !== 1
+              ? { transform: `scale(${viewScale})`, transformOrigin: "left center" }
+              : undefined
+          }
+        >
+          <Image fill src={src} alt={alt} unoptimized className={ciLogoFillClass} sizes={ciLogoFillSizes} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** 회사 소개(about/page) 카드 본문과 동일: space-y·양끝 정렬·leading-relaxed */
+const logoGuideNarrativeShell =
+  "mt-4 max-w-none space-y-3 text-slate-600 [text-align:justify] [text-align-last:start] [text-justify:inter-character]";
+const logoGuideNarrativeP = "m-0 text-sm leading-relaxed break-keep";
 
 function CiLogoNarrative({ paragraphs }: { paragraphs: readonly string[] }) {
   return (
-    <>
-      {paragraphs.map((text, i) => (
-        <p key={i} className={i === 0 ? `mt-4 ${body}` : `mt-3 ${body}`}>
+    <div className={logoGuideNarrativeShell}>
+      {paragraphs.map((text, index) => (
+        <p key={index} className={logoGuideNarrativeP}>
           {text}
         </p>
       ))}
-    </>
+    </div>
   );
 }
 
@@ -70,8 +106,8 @@ export default async function AboutCiPage() {
             />
             <p className={`mt-4 ${bodySymbolIntro}`}>{copy.symbolIntro}</p>
             <p className={`mt-3 ${bodySymbolIntro}`}>{copy.symbolIntroSecondary}</p>
-            <div className="mt-6 flex flex-wrap items-center gap-4">
-              <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-5 py-4">
+            <div className="mt-6 flex w-full flex-wrap items-center justify-start gap-4">
+              <div className="flex shrink-0 items-center justify-start gap-3 rounded-xl border border-slate-200 bg-slate-50 px-5 py-4">
                 <MsvMark className="h-14 w-14 sm:h-16 sm:w-16" />
               </div>
               <a href="/msv-mark.svg" download="msv-mark.svg" className={assetDownloadClass}>
@@ -89,18 +125,7 @@ export default async function AboutCiPage() {
               headingLevel={2}
             />
             <CiLogoNarrative paragraphs={copy.wordmarkNarrative} />
-            <div className={ciLogoPreviewBox}>
-              <div className={ciLogoPreviewFrame}>
-                <Image
-                  fill
-                  src="/msv-wordmark.png"
-                  alt={wordmarkAlt}
-                  unoptimized
-                  className={ciLogoFillClass}
-                  sizes={ciLogoFillSizes}
-                />
-              </div>
-            </div>
+            <CiLockupPreviewImage src="/msv-wordmark.png" alt={wordmarkAlt} />
             <div className="mt-4 flex flex-wrap gap-3">
               <a href="/msv-wordmark.png" download="msv-wordmark.png" className={assetDownloadClass}>
                 {copy.downloadWordmarkPng}
@@ -117,18 +142,7 @@ export default async function AboutCiPage() {
               headingLevel={2}
             />
             <CiLogoNarrative paragraphs={copy.lockupNarrative} />
-            <div className={ciLogoPreviewBox}>
-              <div className={ciLogoPreviewFrame}>
-                <Image
-                  fill
-                  src="/msv-lockup-navy.png"
-                  alt={copy.lockupImageAlt}
-                  unoptimized
-                  className={ciLogoFillClass}
-                  sizes={ciLogoFillSizes}
-                />
-              </div>
-            </div>
+            <CiLockupPreviewImage src="/msv-lockup-navy.png" alt={copy.lockupImageAlt} />
             <div className="mt-4 flex flex-wrap gap-3">
               <a href="/msv-lockup-navy.png" download="msv-lockup-navy.png" className={assetDownloadClass}>
                 {copy.downloadLockupPng}
@@ -145,18 +159,7 @@ export default async function AboutCiPage() {
               headingLevel={2}
             />
             <CiLogoNarrative paragraphs={copy.lockupDotsNarrative} />
-            <div className={ciLogoPreviewBox}>
-              <div className={ciLogoPreviewFrame}>
-                <Image
-                  fill
-                  src="/msv-lockup-sixdot-navy.png"
-                  alt={copy.lockupDotsImageAlt}
-                  unoptimized
-                  className={ciLogoFillClass}
-                  sizes={ciLogoFillSizes}
-                />
-              </div>
-            </div>
+            <CiLockupPreviewImage src="/msv-lockup-sixdot-navy.png" alt={copy.lockupDotsImageAlt} />
             <div className="mt-4 flex flex-wrap gap-3">
               <a
                 href="/msv-lockup-sixdot-navy.png"
@@ -177,18 +180,7 @@ export default async function AboutCiPage() {
               headingLevel={2}
             />
             <CiLogoNarrative paragraphs={copy.lockupBottomNarrative} />
-            <div className={ciLogoPreviewBox}>
-              <div className={ciLogoPreviewFrame}>
-                <Image
-                  fill
-                  src="/msv-lockup-bottomlink-navy.png"
-                  alt={copy.lockupBottomImageAlt}
-                  unoptimized
-                  className={ciLogoFillClass}
-                  sizes={ciLogoFillSizes}
-                />
-              </div>
-            </div>
+            <CiLockupPreviewImage src="/msv-lockup-bottomlink-navy.png" alt={copy.lockupBottomImageAlt} />
             <div className="mt-4 flex flex-wrap gap-3">
               <a
                 href="/msv-lockup-bottomlink-navy.png"

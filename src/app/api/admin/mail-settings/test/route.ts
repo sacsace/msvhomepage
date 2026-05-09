@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import { mergeMailSettings, parseSmtpRecipientList, readMailSettings } from "@/lib/mail-settings-store";
+import {
+  mergeMailSettings,
+  parseSmtpRecipientList,
+  readMailSettings,
+  smtpSocketIpv4Only,
+} from "@/lib/mail-settings-store";
 import { requireAdmin } from "@/lib/require-admin";
 import type { MailSettings } from "@/types/mail-settings";
 
@@ -73,6 +78,7 @@ export async function POST(request: Request) {
       host: effective.host,
       port: effective.port,
       secure: effective.secure,
+      ...smtpSocketIpv4Only,
       ...(!effective.secure && effective.port === 587 ? { requireTLS: true } : {}),
       ...(useAuth ? { auth: { user: effective.user, pass: effective.pass } } : {}),
     });

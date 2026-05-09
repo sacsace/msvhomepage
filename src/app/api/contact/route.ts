@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import { parseSmtpRecipientList, readMailSettings } from "@/lib/mail-settings-store";
+import { parseSmtpRecipientList, readMailSettings, smtpSocketIpv4Only } from "@/lib/mail-settings-store";
 
 export const runtime = "nodejs";
 
@@ -61,6 +61,7 @@ export async function POST(request: Request) {
       host: settings.host,
       port: settings.port,
       secure: settings.secure,
+      ...smtpSocketIpv4Only,
       ...(!settings.secure && settings.port === 587 ? { requireTLS: true } : {}),
       ...(useAuth ? { auth: { user: settings.user, pass: settings.pass } } : {}),
     });

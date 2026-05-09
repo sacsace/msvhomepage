@@ -12,6 +12,12 @@ const defaults: MailSettings = {
   toAddress: "lee@msventures.in, info@msventures.in",
 };
 
+/**
+ * SMTP TCP 연결을 IPv4로 고정합니다. Railway 등에서 `smtp.gmail.com`이 IPv6로만 풀리면
+ * `connect ENETUNREACH … :587` 형태로 실패하는 경우가 있어 nodemailer에 그대로 전달합니다.
+ */
+export const smtpSocketIpv4Only = { family: 4 as const };
+
 /** `toAddress` 필드에 쉼표·세미콜론 등으로 적힌 수신자 목록 */
 export function parseSmtpRecipientList(toAddress: string): string[] {
   return toAddress
