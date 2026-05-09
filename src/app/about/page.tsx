@@ -141,7 +141,8 @@ export default async function AboutPage() {
                 alt={aboutOverviewDotsImageAlt(locale)}
                 width={128}
                 height={77}
-                className="h-auto w-32 max-w-[35vw] object-contain object-left"
+                className="w-32 max-w-[35vw] object-contain object-left"
+                style={{ height: "auto" }}
                 sizes="(max-width: 640px) 35vw, 128px"
               />
             </div>

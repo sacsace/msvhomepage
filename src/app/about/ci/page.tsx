@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { MsvMark } from "@/components/brand/MsvMark";
-import { MsvWordmark } from "@/components/brand/MsvWordmark";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { SectionTitle } from "@/components/SectionTitle";
@@ -19,6 +19,30 @@ export const revalidate = 60;
 
 const card = "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8";
 const body = "text-sm leading-relaxed text-slate-600 break-keep";
+/** 심볼 설명 — 본문보다 줄간격 좁게 */
+const bodySymbolIntro = "text-sm leading-snug text-slate-600 break-keep";
+const assetDownloadClass =
+  "inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-msv-blue shadow-sm hover:bg-slate-50 sm:text-sm";
+/** 가로 로고·워드마크 미리보기: 동일 픽셀 박스 안에 contain(다운로드 원본은 변경 없음) */
+const ciLogoPreviewBox =
+  "mt-6 rounded-xl border border-slate-200 bg-white px-4 py-3 sm:px-6 sm:py-4";
+/** 네 로고 공통 표시 영역 — 높이·최대 너비 고정으로 바운딩 박스 동일 */
+const ciLogoPreviewFrame =
+  "relative mx-auto h-[4.2rem] w-full max-w-[min(100%,52rem)] sm:h-[4.8rem] md:h-[5rem]";
+const ciLogoFillClass = "object-contain object-center";
+const ciLogoFillSizes = "(max-width: 768px) 100vw, min(100%, 52rem)";
+
+function CiLogoNarrative({ paragraphs }: { paragraphs: readonly string[] }) {
+  return (
+    <>
+      {paragraphs.map((text, i) => (
+        <p key={i} className={i === 0 ? `mt-4 ${body}` : `mt-3 ${body}`}>
+          {text}
+        </p>
+      ))}
+    </>
+  );
+}
 
 export default async function AboutCiPage() {
   const locale = await getRequestLocale();
@@ -44,12 +68,15 @@ export default async function AboutCiPage() {
               density="compact"
               headingLevel={2}
             />
-            <p className={`mt-4 ${body}`}>{copy.symbolIntro}</p>
-            <div className="mt-6 flex flex-wrap items-center gap-6">
+            <p className={`mt-4 ${bodySymbolIntro}`}>{copy.symbolIntro}</p>
+            <p className={`mt-3 ${bodySymbolIntro}`}>{copy.symbolIntroSecondary}</p>
+            <div className="mt-6 flex flex-wrap items-center gap-4">
               <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-5 py-4">
                 <MsvMark className="h-14 w-14 sm:h-16 sm:w-16" />
-                <span className="text-xs text-slate-500">PNG / SVG — 소형 출력</span>
               </div>
+              <a href="/msv-mark.svg" download="msv-mark.svg" className={assetDownloadClass}>
+                {copy.downloadMarkSvg}
+              </a>
             </div>
           </section>
 
@@ -61,17 +88,116 @@ export default async function AboutCiPage() {
               density="compact"
               headingLevel={2}
             />
-            <p className={`mt-4 ${body}`}>{copy.wordmarkBody}</p>
-            <div className="mt-6 rounded-xl border border-slate-200 bg-white px-4 py-5 sm:px-6">
-              <MsvWordmark alt={wordmarkAlt} heightClass="h-10 sm:h-11" className="max-w-full" />
+            <CiLogoNarrative paragraphs={copy.wordmarkNarrative} />
+            <div className={ciLogoPreviewBox}>
+              <div className={ciLogoPreviewFrame}>
+                <Image
+                  fill
+                  src="/msv-wordmark.png"
+                  alt={wordmarkAlt}
+                  unoptimized
+                  className={ciLogoFillClass}
+                  sizes={ciLogoFillSizes}
+                />
+              </div>
             </div>
-            <p className="mt-3 text-xs text-slate-500">
-              {locale === "ko"
-                ? "원본 파일: public/msv-wordmark.png"
-                : locale === "zh"
-                  ? "源文件：public/msv-wordmark.png"
-                  : "Source asset: public/msv-wordmark.png"}
-            </p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <a href="/msv-wordmark.png" download="msv-wordmark.png" className={assetDownloadClass}>
+                {copy.downloadWordmarkPng}
+              </a>
+            </div>
+          </section>
+
+          <section className={card}>
+            <SectionTitle
+              eyebrow={copy.lockupEyebrow}
+              title={copy.lockupTitle}
+              spacing="tight"
+              density="compact"
+              headingLevel={2}
+            />
+            <CiLogoNarrative paragraphs={copy.lockupNarrative} />
+            <div className={ciLogoPreviewBox}>
+              <div className={ciLogoPreviewFrame}>
+                <Image
+                  fill
+                  src="/msv-lockup-navy.png"
+                  alt={copy.lockupImageAlt}
+                  unoptimized
+                  className={ciLogoFillClass}
+                  sizes={ciLogoFillSizes}
+                />
+              </div>
+            </div>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <a href="/msv-lockup-navy.png" download="msv-lockup-navy.png" className={assetDownloadClass}>
+                {copy.downloadLockupPng}
+              </a>
+            </div>
+          </section>
+
+          <section className={card}>
+            <SectionTitle
+              eyebrow={copy.lockupDotsEyebrow}
+              title={copy.lockupDotsTitle}
+              spacing="tight"
+              density="compact"
+              headingLevel={2}
+            />
+            <CiLogoNarrative paragraphs={copy.lockupDotsNarrative} />
+            <div className={ciLogoPreviewBox}>
+              <div className={ciLogoPreviewFrame}>
+                <Image
+                  fill
+                  src="/msv-lockup-sixdot-navy.png"
+                  alt={copy.lockupDotsImageAlt}
+                  unoptimized
+                  className={ciLogoFillClass}
+                  sizes={ciLogoFillSizes}
+                />
+              </div>
+            </div>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <a
+                href="/msv-lockup-sixdot-navy.png"
+                download="msv-lockup-sixdot-navy.png"
+                className={assetDownloadClass}
+              >
+                {copy.downloadLockupDotsPng}
+              </a>
+            </div>
+          </section>
+
+          <section className={card}>
+            <SectionTitle
+              eyebrow={copy.lockupBottomEyebrow}
+              title={copy.lockupBottomTitle}
+              spacing="tight"
+              density="compact"
+              headingLevel={2}
+            />
+            <CiLogoNarrative paragraphs={copy.lockupBottomNarrative} />
+            <div className={ciLogoPreviewBox}>
+              <div className={ciLogoPreviewFrame}>
+                <Image
+                  fill
+                  src="/msv-lockup-bottomlink-navy.png"
+                  alt={copy.lockupBottomImageAlt}
+                  unoptimized
+                  className={ciLogoFillClass}
+                  sizes={ciLogoFillSizes}
+                />
+              </div>
+            </div>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <a
+                href="/msv-lockup-bottomlink-navy.png"
+                download="msv-lockup-bottomlink-navy.png"
+                className={assetDownloadClass}
+              >
+                {copy.downloadLockupBottomPng}
+              </a>
+            </div>
           </section>
 
           <section className={card}>

@@ -81,7 +81,7 @@ export default async function RootLayout({
       className={`${noto.variable} h-full scroll-smooth`}
       data-scroll-behavior="smooth"
     >
-      <body className="flex min-h-full flex-col bg-background font-sans text-slate-900 antialiased">
+      <body className="flex min-h-full flex-col bg-background font-sans text-slate-800 antialiased">
         {isAdminRoute ? (
           <main id="main-content" className="flex-1" tabIndex={-1}>
             {children}
@@ -91,7 +91,7 @@ export default async function RootLayout({
             <OrganizationJsonLd />
             <a
               href="#main-content"
-              className="absolute left-[-9999px] top-0 z-[100] overflow-hidden whitespace-nowrap bg-slate-900 px-4 py-2 text-sm font-medium text-white focus:left-4 focus:top-4 focus:overflow-visible focus:rounded-sm focus:shadow-md"
+              className="absolute left-[-9999px] top-0 z-[100] overflow-hidden whitespace-nowrap bg-slate-900 px-4 py-2 text-sm font-medium text-white focus:left-4 focus:top-4 focus:overflow-visible focus:rounded-lg focus:shadow-lg"
             >
               {shell.skipToContent}
             </a>

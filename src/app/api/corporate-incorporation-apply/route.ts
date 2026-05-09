@@ -213,6 +213,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "입력 길이가 허용 범위를 넘었습니다." }, { status: 400 });
     }
 
+    for (let i = 0; i < directorRowCount; i++) {
+      if (!str(form, `directorName_${i}`)) {
+        return NextResponse.json(
+          {
+            error: `등기이사 ${directorRowCount}명으로 되어 있습니다. 이사 ${i + 1}의 성명(6번)이 비어 있습니다. 표시된 이사 수만큼 모두 입력해 주세요.`,
+          },
+          { status: 400 },
+        );
+      }
+    }
+
     const settings = await readMailSettings();
     const recipients = parseSmtpRecipientList(settings.toAddress);
     if (!settings.host || recipients.length === 0) {
@@ -321,7 +332,15 @@ export async function POST(request: Request) {
       `— 주주 관련 추가 메모 —\n${shareholderOtherNotes || "(없음)"}\n\n` +
       `— 첨부 관련 메모 —\n${attachmentNotes || "(없음)"}\n`;
 
-    const useAuth = Boolean(settings.user || settings.pass);
+    const hasUser = Boolean(settings.user.trim());
+    const hasPass = Boolean(String(settings.pass || "").trim());
+    if (hasUser && !hasPass) {
+      return NextResponse.json(
+        { error: "메일 서버 비밀번호가 설정되지 않았습니다. 관리자에게 문의하세요." },
+        { status: 503 },
+      );
+    }
+    const useAuth = hasUser && hasPass;
     const transporter = nodemailer.createTransport({
       host: settings.host,
       port: settings.port,

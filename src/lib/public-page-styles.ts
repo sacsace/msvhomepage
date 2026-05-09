@@ -1,14 +1,14 @@
-/** 히어로 아래 본문 — 연한 배경·좌우(맥스폭·세로 패딩은 StandardPageBody에서 조합) */
+/** 히어로 아래 본문 — 캔버스는 루트 `--background`에 맡김(순응·단일 톤) */
 export const publicPageCanvasPad =
-  "w-full bg-[#f5f6f8] px-4 py-12 sm:px-6 sm:py-14";
+  "w-full bg-transparent px-4 py-12 sm:px-6 sm:py-14";
 
-export const publicPageBodyShell = "w-full bg-[#f5f6f8] px-4 sm:px-6";
+export const publicPageBodyShell = "w-full bg-transparent px-4 sm:px-6";
 export const publicPageBodyPadDefault = "py-12 sm:py-14";
 export const publicPageBodyPadSpacious = "py-14 sm:py-16";
 
-/** 공개 내부 페이지 — 회사 소개·팀 등에서 공통 카드 셸 */
+/** 공개 내부 페이지 — 회사 소개·팀 등에서 공통 카드 셸(얇은 링 + 얕은 깊이) */
 export const publicContentCard =
-  "rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_1px_2px_rgb(15_23_42/0.04)] transition-[border-color,box-shadow] duration-200 hover:border-slate-300/90 hover:shadow-[0_4px_14px_rgb(15_23_42/0.06)] sm:p-8";
+  "rounded-3xl border border-slate-200/90 bg-white p-6 shadow-sm ring-1 ring-slate-900/[0.03] transition-[border-color,box-shadow,transform] duration-300 ease-out hover:-translate-y-px hover:border-slate-300/80 hover:shadow-md sm:p-8";
 
 /** 자료실·공지 등 리치 HTML 본문 공통 타이포(자료실 상세와 동일) */
 export const publicArticleBodyProse =

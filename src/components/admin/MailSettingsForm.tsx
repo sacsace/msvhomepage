@@ -19,10 +19,21 @@ function applyPreset(base: PublicSettings & { pass: string }, preset: MailPreset
   return base;
 }
 
+function firstListedEmail(toAddress: string): string {
+  const x = toAddress
+    .split(/[,;\n]+/)
+    .map((s) => s.trim())
+    .find(Boolean);
+  return x ?? "";
+}
+
 export function MailSettingsForm() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [testSending, setTestSending] = useState(false);
+  const [testTo, setTestTo] = useState("");
   const [msg, setMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+  const [testMsg, setTestMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
   const [preset, setPreset] = useState<MailPreset>("gmail");
   const [form, setForm] = useState<PublicSettings & { pass: string }>({
     host: "",
@@ -56,6 +67,11 @@ export function MailSettingsForm() {
           const detectedPreset: MailPreset = next.host === "smtp.gmail.com" ? "gmail" : "custom";
           setPreset(detectedPreset);
           setForm(next);
+          setTestTo(
+            firstListedEmail(next.toAddress) ||
+              String(next.fromAddress || "").trim() ||
+              String(next.user || "").trim(),
+          );
           if (!next.host) {
             setPreset("gmail");
             setForm((prev) => applyPreset(prev, "gmail"));
@@ -106,6 +122,42 @@ export function MailSettingsForm() {
       setMsg({ type: "err", text: "저장 중 오류가 발생했습니다." });
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function sendTest() {
+    setTestSending(true);
+    setTestMsg(null);
+    try {
+      const res = await fetch("/api/admin/mail-settings/test", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to: testTo.trim(),
+          settings: {
+            host: form.host,
+            port: form.port,
+            secure: form.secure,
+            user: form.user,
+            ...(form.pass.trim() ? { pass: form.pass } : {}),
+            fromAddress: form.fromAddress,
+            toAddress: form.toAddress,
+          },
+        }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) {
+        setTestMsg({ type: "err", text: data.error || "테스트 발송에 실패했습니다." });
+        return;
+      }
+      setTestMsg({
+        type: "ok",
+        text: `테스트 메일을 ${testTo.trim()} 로 보냈습니다. 수신함·스팸함을 확인해 주세요.`,
+      });
+    } catch {
+      setTestMsg({ type: "err", text: "테스트 발송 중 오류가 발생했습니다." });
+    } finally {
+      setTestSending(false);
     }
   }
 
@@ -221,13 +273,55 @@ export function MailSettingsForm() {
         />
         <p className="mt-1 text-xs text-zinc-500">여러 명이면 쉼표(,)로 구분합니다.</p>
       </div>
-      <button
-        type="submit"
-        disabled={saving}
-        className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-      >
-        {saving ? "저장 중…" : "저장"}
-      </button>
+
+      <div className="rounded-xl border border-zinc-200/90 bg-zinc-50/80 p-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">테스트 발송</p>
+        <p className="mt-1 text-xs leading-relaxed text-zinc-600">
+          아래 수신 주소로만 보냅니다(문의 수신·발신·SMTP 사용자에 적은 주소).{" "}
+          <strong className="font-medium text-zinc-800">저장하지 않은</strong> 현재 폼 값으로 연결을 시험합니다.
+          비밀번호 칸이 비어 있으면 DB에 저장된 비밀번호를 사용합니다.
+        </p>
+        <div className="mt-3">
+          <label className="block text-xs font-medium text-zinc-600">테스트 수신</label>
+          <input
+            type="email"
+            value={testTo}
+            onChange={(e) => setTestTo(e.target.value)}
+            placeholder="info@example.com"
+            className="mt-1 w-full max-w-md rounded border border-zinc-200 bg-white px-3 py-2 text-sm"
+            autoComplete="email"
+          />
+        </div>
+        {testMsg ? (
+          <p
+            className={`mt-3 rounded-md px-3 py-2 text-sm ${
+              testMsg.type === "ok"
+                ? "border border-teal-200 bg-teal-50 text-teal-900"
+                : "border border-red-200 bg-red-50 text-red-900"
+            }`}
+          >
+            {testMsg.text}
+          </p>
+        ) : null}
+        <button
+          type="button"
+          disabled={testSending || !testTo.trim()}
+          onClick={() => void sendTest()}
+          className="mt-3 rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-800 transition hover:bg-zinc-50 disabled:opacity-50"
+        >
+          {testSending ? "발송 중…" : "테스트 메일 보내기"}
+        </button>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-3 pt-1">
+        <button
+          type="submit"
+          disabled={saving}
+          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+        >
+          {saving ? "저장 중…" : "저장"}
+        </button>
+      </div>
     </form>
   );
 }

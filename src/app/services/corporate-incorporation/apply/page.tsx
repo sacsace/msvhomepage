@@ -4,9 +4,6 @@ import { CorporateIncorporationApplyForm } from "@/components/corporate-incorpor
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { getRequestLocale } from "@/lib/get-request-locale";
-import {
-  corporateIncorporationApplyFormCopy,
-} from "@/lib/i18n/corporate-incorporation-apply-form-locale";
 import { corporateIncorporationApplyShellCopy } from "@/lib/i18n/corporate-incorporation-service-locale";
 import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import { withLocalePrefix } from "@/lib/site-locale";
@@ -25,8 +22,6 @@ export default async function CorporateIncorporationApplyPage() {
   const locale = await getRequestLocale();
   const L = (path: string) => withLocalePrefix(path, locale);
   const shell = corporateIncorporationApplyShellCopy(locale);
-  const formCopy = corporateIncorporationApplyFormCopy(locale);
-
   return (
     <>
       <PageHeader title={shell.pageTitle} description={shell.pageDescription} descriptionWide />
@@ -49,7 +44,7 @@ export default async function CorporateIncorporationApplyPage() {
           </Link>
         </p>
         <div className="mt-8">
-          <CorporateIncorporationApplyForm copy={formCopy} />
+          <CorporateIncorporationApplyForm locale={locale} />
         </div>
       </StandardPageBody>
     </>

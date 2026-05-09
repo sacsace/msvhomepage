@@ -199,6 +199,11 @@ export function AnnouncementsManager({ initialItems }: Props) {
           <p className="text-xs tabular-nums text-zinc-500">총 {items.length}건</p>
         </div>
 
+        <details className={`${adminDetailsShell} mb-4`}>
+          <summary className={adminDetailsSummary}>새 공지 작성</summary>
+          {createForm}
+        </details>
+
         <div className={adminBoardCard}>
           <div className="hidden overflow-x-auto md:block">
             <table className="w-full min-w-[760px] border-collapse text-left">
@@ -412,11 +417,6 @@ export function AnnouncementsManager({ initialItems }: Props) {
           </ul>
         </div>
       </section>
-
-      <details className={adminDetailsShell}>
-        <summary className={adminDetailsSummary}>새 공지 작성</summary>
-        {createForm}
-      </details>
     </div>
   );
 }

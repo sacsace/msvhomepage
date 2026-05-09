@@ -100,6 +100,9 @@ const nextConfig: NextConfig = {
     localPatterns: [
       { pathname: "/msv-wordmark.png" },
       { pathname: "/msv-wordmark-header.png" },
+      { pathname: "/msv-lockup-navy.png" },
+      { pathname: "/msv-lockup-sixdot-navy.png" },
+      { pathname: "/msv-lockup-bottomlink-navy.png" },
       { pathname: "/about/**" },
       { pathname: "/group/**" },
       { pathname: "/uploads/**" },

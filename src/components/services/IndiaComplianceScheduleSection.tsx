@@ -5,12 +5,18 @@ import type { AccountingServicesPageCopy } from "@/lib/i18n/accounting-services-
 const columnSpine = "border-l-[3px] border-l-msv-blue";
 
 const theadRow = "border-b border-slate-200 bg-slate-100";
+/** 월별·분기별·연도별 표 공통 — 첫 열 비율 고정으로 파란 스파인 세로 정렬 */
+const thItemCol = "w-[38%] min-w-0 sm:w-[34%]";
+const thScheduleCol = "w-[62%] min-w-0 sm:w-[66%]";
+/** 포털 표 2·3열 — 합계가 thScheduleCol 과 동일(100% − 첫 열), 링크·비고 동일 너비 */
+const portalThLinkCol = "w-[31%] min-w-0 sm:w-[33%]";
+const portalThNoteCol = "w-[31%] min-w-0 sm:w-[33%]";
 const thBase =
   "px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-600 sm:px-4";
 const tdItem =
-  "border-b border-slate-200 px-3 py-2.5 align-top text-sm font-medium text-slate-900 sm:px-4";
+  "min-w-0 border-b border-slate-200 px-3 py-2.5 align-top text-sm font-medium text-slate-900 break-words sm:px-4";
 const tdSchedule =
-  `border-b border-slate-200 px-3 py-2.5 align-top text-sm leading-relaxed text-slate-700 sm:px-4 ${columnSpine}`;
+  `min-w-0 border-b border-slate-200 px-3 py-2.5 align-top text-sm leading-relaxed text-slate-700 break-words sm:px-4 ${columnSpine}`;
 
 function ComplianceTable({
   caption,
@@ -25,14 +31,14 @@ function ComplianceTable({
 }) {
   return (
     <div className="mt-3 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-      <table className="min-w-[20rem] w-full border-collapse text-left">
+      <table className="table-fixed min-w-[20rem] w-full border-collapse text-left">
         <caption className="sr-only">{caption}</caption>
         <thead>
           <tr className={theadRow}>
-            <th scope="col" className={thBase}>
+            <th scope="col" className={`${thBase} ${thItemCol}`}>
               {thItem}
             </th>
-            <th scope="col" className={`${thBase} ${columnSpine}`}>
+            <th scope="col" className={`${thBase} ${thScheduleCol} ${columnSpine}`}>
               {thSchedule}
             </th>
           </tr>
@@ -53,9 +59,10 @@ function ComplianceTable({
 const portalThBase =
   "px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-600 sm:px-4";
 const portalTdCat =
-  "border-b border-slate-200 px-3 py-2.5 align-top text-sm font-medium text-slate-900 sm:px-4";
-const portalTdLink = `border-b border-slate-200 px-3 py-2.5 align-top text-sm sm:px-4 ${columnSpine}`;
-const portalTdNote = "border-b border-slate-200 border-l border-slate-200 px-3 py-2.5 align-top text-sm text-slate-700 sm:px-4";
+  "min-w-0 border-b border-slate-200 px-3 py-2.5 align-top text-sm font-medium text-slate-900 break-words sm:px-4";
+const portalTdLink = `min-w-0 border-b border-slate-200 px-3 py-2.5 align-top text-sm break-words sm:px-4 ${columnSpine}`;
+const portalTdNote =
+  "min-w-0 border-b border-slate-200 border-l border-slate-200 px-3 py-2.5 align-top text-sm break-words text-slate-700 sm:px-4";
 
 function CompliancePortalTable({
   thCategory,
@@ -70,16 +77,16 @@ function CompliancePortalTable({
 }) {
   return (
     <div className="mt-3 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-      <table className="min-w-[22rem] w-full border-collapse text-left">
+      <table className="table-fixed min-w-[22rem] w-full border-collapse text-left">
         <thead>
           <tr className={theadRow}>
-            <th scope="col" className={portalThBase}>
+            <th scope="col" className={`${portalThBase} ${thItemCol}`}>
               {thCategory}
             </th>
-            <th scope="col" className={`${portalThBase} ${columnSpine}`}>
+            <th scope="col" className={`${portalThBase} ${portalThLinkCol} ${columnSpine}`}>
               {thLink}
             </th>
-            <th scope="col" className={`${portalThBase} border-l border-slate-200`}>
+            <th scope="col" className={`${portalThBase} ${portalThNoteCol} border-l border-slate-200`}>
               {thNote}
             </th>
           </tr>

@@ -48,7 +48,15 @@ export async function POST(request: Request) {
       );
     }
 
-    const useAuth = Boolean(settings.user || settings.pass);
+    const hasUser = Boolean(settings.user.trim());
+    const hasPass = Boolean(String(settings.pass || "").trim());
+    if (hasUser && !hasPass) {
+      return NextResponse.json(
+        { error: "SMTP 계정 비밀번호가 설정되지 않았습니다. 관리자 메일 설정을 확인하세요." },
+        { status: 503 },
+      );
+    }
+    const useAuth = hasUser && hasPass;
     const transporter = nodemailer.createTransport({
       host: settings.host,
       port: settings.port,
@@ -66,13 +74,17 @@ export async function POST(request: Request) {
       );
     }
 
-    const subjectLine = subject ? `[웹 문의] ${subject}` : `[웹 문의] ${name}님`;
-    /** 수신함에 보이는 발신자 — 문의 양식의 이메일. SMTP 인증은 `settings.user`(예: info@) 유지 */
+    const subjectLine = subject
+      ? `[MSV Website Inquiry] ${subject}`
+      : `[MSV Website Inquiry] ${name}님`;
+    /** 표시 발신자 — 문의 작성자(이름·이메일). Gmail 등은 정책에 따라 `Sender`/SMTP 계정으로 표시를 덮을 수 있음 */
     const fromHeader = `"${safeDisplayName(name)}" <${email}>`;
 
     await transporter.sendMail({
       envelope: { from: envelopeFrom, to: recipients },
       from: fromHeader,
+      /** 실제 SMTP로 제출하는 주소 — From과 다를 때 RFC 권장(일부 클라이언트가「대신 전송」으로 표시) */
+      sender: envelopeFrom,
       replyTo: email,
       to: recipients,
       subject: subjectLine,

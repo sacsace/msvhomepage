@@ -18,7 +18,8 @@ export default async function AdminLoginPage({ searchParams }: PageProps) {
   const passwordReady = await adminPasswordConfigured();
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-sm flex-col justify-center px-4 py-16">
+    <div className="min-h-screen bg-zinc-50/90 backdrop-blur-[2px]">
+      <div className="mx-auto flex min-h-screen max-w-sm flex-col justify-center px-4 py-16">
       <Link href="/" className="mb-8 inline-block self-start rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400">
         <MsvWordmark alt="Minsub Ventures" heightClass="h-9" />
       </Link>
@@ -51,6 +52,7 @@ export default async function AdminLoginPage({ searchParams }: PageProps) {
           사이트로 돌아가기
         </Link>
       </p>
+      </div>
     </div>
   );
 }

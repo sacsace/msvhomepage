@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
-import type { CorporateIncorporationApplyFormCopy } from "@/lib/i18n/corporate-incorporation-apply-form-locale";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { corporateIncorporationApplyFormCopy } from "@/lib/i18n/corporate-incorporation-apply-form-locale";
+import type { SiteLocale } from "@/lib/site-locale";
 
 type ShareholderKind = "individual" | "company";
 
@@ -24,10 +25,16 @@ const MAX_ROWS = 15;
 
 const tableWrap = "overflow-x-auto rounded-xl border border-slate-300";
 const tableBase = "w-full border-collapse text-sm";
+/** 구분 / 내용 2열 표 — 열 폭 50:50 */
+const tableBaseTwoCol = `${tableBase} table-fixed`;
 const thRow = "border-b border-slate-300 bg-slate-100 px-3 py-2 text-left font-semibold text-slate-800";
+const thHalf = "w-1/2 min-w-0";
 const tdLabel =
   "w-[min(40%,220px)] border-b border-slate-200 bg-slate-50/80 px-3 py-2 align-top font-medium text-slate-800";
+const tdLabelHalf =
+  "w-1/2 min-w-0 border-b border-slate-200 bg-slate-50/80 px-3 py-2 align-top font-medium text-slate-800";
 const tdInput = "border-b border-slate-200 px-2 py-1.5 align-top";
+const tdInputHalf = "w-1/2 min-w-0 border-b border-slate-200 px-2 py-1.5 align-top";
 
 function RowControls({
   count,
@@ -193,7 +200,8 @@ const SH_CORP_ATTACH_FIELD_KEYS = [
   "shareholdersRegister10En",
 ] as const;
 
-export function CorporateIncorporationApplyForm({ copy }: { copy: CorporateIncorporationApplyFormCopy }) {
+export function CorporateIncorporationApplyForm({ locale }: { locale: SiteLocale }) {
+  const copy = useMemo(() => corporateIncorporationApplyFormCopy(locale), [locale]);
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "err">("idle");
   const [errMsg, setErrMsg] = useState("");
@@ -349,9 +357,23 @@ export function CorporateIncorporationApplyForm({ copy }: { copy: CorporateIncor
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setStatus("loading");
     setErrMsg("");
     const form = e.currentTarget;
+    for (let i = 0; i < directorRows; i++) {
+      const el = form.elements.namedItem(`directorName_${i}`);
+      const v =
+        el instanceof HTMLInputElement ? el.value.trim() : typeof el === "string" ? el.trim() : "";
+      if (!v) {
+        setErrMsg(copy.errAllDirectorNamesRequired);
+        setStatus("err");
+        if (el instanceof HTMLInputElement) {
+          el.focus();
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        return;
+      }
+    }
+    setStatus("loading");
     const fd = new FormData(form);
     try {
       const res = await fetch("/api/corporate-incorporation-apply", {
@@ -640,11 +662,11 @@ export function CorporateIncorporationApplyForm({ copy }: { copy: CorporateIncor
         <legend className={`${labelClass} text-base`}>{copy.sec6Legend}</legend>
         <p className="text-xs text-slate-500">{copy.sec6Hint}</p>
         <div className={tableWrap}>
-          <table className={tableBase}>
+          <table className={tableBaseTwoCol}>
             <thead>
               <tr>
-                <th className={`${thRow} w-[140px]`}>{copy.thDivide}</th>
-                <th className={thRow}>{copy.thContent}</th>
+                <th className={`${thRow} ${thHalf}`}>{copy.thDivide}</th>
+                <th className={`${thRow} ${thHalf}`}>{copy.thContent}</th>
               </tr>
             </thead>
             <tbody>
@@ -652,10 +674,10 @@ export function CorporateIncorporationApplyForm({ copy }: { copy: CorporateIncor
                 const nameLocked = isDirectorLinkedAsShareholder(i);
                 return (
                   <tr key={`dir-${i}`}>
-                    <td className={tdLabel}>
+                    <td className={tdLabelHalf}>
                       {copy.directorPrefix} {i + 1}
                     </td>
-                    <td className={tdInput}>
+                    <td className={tdInputHalf}>
                       <input
                         name={`directorName_${i}`}
                         maxLength={200}
@@ -690,11 +712,11 @@ export function CorporateIncorporationApplyForm({ copy }: { copy: CorporateIncor
           <fieldset key={`dir-en-${i}`} className="space-y-0 border-0 p-0">
             <legend className="mb-2 text-sm font-semibold text-msv-navy">{copy.directorBlockLegend(i)}</legend>
             <div className={tableWrap}>
-              <table className={tableBase}>
+              <table className={tableBaseTwoCol}>
                 <thead>
                   <tr>
-                    <th className={`${thRow} w-[min(42%,260px)]`}>{copy.thDivide}</th>
-                    <th className={thRow}>{copy.thContent}</th>
+                    <th className={`${thRow} ${thHalf}`}>{copy.thDivide}</th>
+                    <th className={`${thRow} ${thHalf}`}>{copy.thContent}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -703,8 +725,8 @@ export function CorporateIncorporationApplyForm({ copy }: { copy: CorporateIncor
                     const dirNameLocked = isDirectorLinkedAsShareholder(i) && row.key === "name";
                     return (
                       <tr key={fieldName}>
-                        <td className={tdLabel}>{row.label}</td>
-                        <td className={tdInput}>
+                        <td className={tdLabelHalf}>{row.label}</td>
+                        <td className={tdInputHalf}>
                           <input
                             name={fieldName}
                             maxLength={row.max}
@@ -722,8 +744,8 @@ export function CorporateIncorporationApplyForm({ copy }: { copy: CorporateIncor
                     const name = `dirAttach_${i}_${attachKey}` as const;
                     return (
                       <tr key={name}>
-                        <td className={tdLabel}>{label}</td>
-                        <td className={tdInput}>
+                        <td className={tdLabelHalf}>{label}</td>
+                        <td className={tdInputHalf}>
                           <input
                             type="file"
                             name={name}
@@ -773,11 +795,11 @@ export function CorporateIncorporationApplyForm({ copy }: { copy: CorporateIncor
                   ) : null}
                   <div className={linked ? "sr-only" : undefined}>
                     <div className={tableWrap}>
-                      <table className={tableBase}>
+                      <table className={tableBaseTwoCol}>
                         <thead>
                           <tr>
-                            <th className={`${thRow} w-[min(42%,260px)]`}>{copy.thDivide}</th>
-                            <th className={thRow}>{copy.thContent}</th>
+                            <th className={`${thRow} ${thHalf}`}>{copy.thDivide}</th>
+                            <th className={`${thRow} ${thHalf}`}>{copy.thContent}</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -785,8 +807,8 @@ export function CorporateIncorporationApplyForm({ copy }: { copy: CorporateIncor
                             const nm = shFieldName(row.name, j);
                             return (
                               <tr key={nm}>
-                                <td className={tdLabel}>{row.label}</td>
-                                <td className={tdInput}>
+                                <td className={tdLabelHalf}>{row.label}</td>
+                                <td className={tdInputHalf}>
                                   <input
                                     name={nm}
                                     maxLength={row.max}
@@ -818,11 +840,11 @@ export function CorporateIncorporationApplyForm({ copy }: { copy: CorporateIncor
               ) : (
                 <>
                   <div className={tableWrap}>
-                    <table className={tableBase}>
+                    <table className={tableBaseTwoCol}>
                       <thead>
                         <tr>
-                          <th className={`${thRow} w-[min(42%,260px)]`}>{copy.thDivide}</th>
-                          <th className={thRow}>{copy.thContent}</th>
+                          <th className={`${thRow} ${thHalf}`}>{copy.thDivide}</th>
+                          <th className={`${thRow} ${thHalf}`}>{copy.thContent}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -830,8 +852,8 @@ export function CorporateIncorporationApplyForm({ copy }: { copy: CorporateIncor
                           const nm = shFieldName(row.name, j);
                           return (
                             <tr key={nm}>
-                              <td className={tdLabel}>{row.label}</td>
-                              <td className={tdInput}>
+                              <td className={tdLabelHalf}>{row.label}</td>
+                              <td className={tdInputHalf}>
                                 <input name={nm} maxLength={row.max} className={tableFieldClass} placeholder={row.ph} />
                               </td>
                             </tr>
@@ -842,8 +864,8 @@ export function CorporateIncorporationApplyForm({ copy }: { copy: CorporateIncor
                           const name = `shCorpAttach_${j}_${attachKey}` as const;
                           return (
                             <tr key={name}>
-                              <td className={tdLabel}>{label}</td>
-                              <td className={tdInput}>
+                              <td className={tdLabelHalf}>{label}</td>
+                              <td className={tdInputHalf}>
                                 <input
                                   type="file"
                                   name={name}

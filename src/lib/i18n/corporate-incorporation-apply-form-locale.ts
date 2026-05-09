@@ -6,6 +6,8 @@ export type CorporateIncorporationApplyFormCopy = {
   successMessage: string;
   errSendDefault: string;
   errNetwork: string;
+  /** 등기이사 수와 6번 성명 입력 불일치 */
+  errAllDirectorNamesRequired: string;
   applicantLegend: string;
   applicantHint: string;
   labelName: string;
@@ -122,6 +124,8 @@ const koBase = {
   successMessage: "신청이 접수되었습니다. 첨부하신 파일과 내용을 검토한 뒤 담당자가 연락드릴 수 있습니다.",
   errSendDefault: "전송에 실패했습니다.",
   errNetwork: "네트워크 오류가 발생했습니다.",
+  errAllDirectorNamesRequired:
+    "등기이사로 표시한 인원 수만큼, 「6. 등기이사」에서 각 이사의 성명을 모두 입력해 주세요. (이사를 추가·삭제했다면 그 수에 맞춰 전원 입력)",
   applicantLegend: "신청자 연락처",
   applicantHint: "회신·보완 요청에 사용됩니다.",
   labelName: "이름",
@@ -239,6 +243,8 @@ const en: CorporateIncorporationApplyFormCopy = {
     "Your application has been received. We may contact you after reviewing the details and attachments.",
   errSendDefault: "Submission failed.",
   errNetwork: "A network error occurred.",
+  errAllDirectorNamesRequired:
+    "Please enter every director’s name in section 6 to match the number of directors shown. If you added or removed directors, fill in all names for that count.",
   applicantLegend: "Applicant contact",
   applicantHint: "Used for replies and follow-up requests.",
   labelName: "Name",
@@ -377,6 +383,8 @@ const zh: CorporateIncorporationApplyFormCopy = {
   successMessage: "申请已收到。我们将在审阅内容与附件后与您联系。",
   errSendDefault: "提交失败。",
   errNetwork: "发生网络错误。",
+  errAllDirectorNamesRequired:
+    "请在「6. 登记董事」中为每位董事填写姓名，人数须与当前董事行数一致；若曾添加或删除董事，请按实际人数全部填写。",
   applicantLegend: "申请人联系方式",
   applicantHint: "用于回复与补件通知。",
   labelName: "姓名",

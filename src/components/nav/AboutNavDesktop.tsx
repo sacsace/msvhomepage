@@ -34,7 +34,7 @@ function isAboutSubActive(href: string, bare: string): boolean {
 }
 
 function linkClass(active: boolean) {
-  return `rounded-md px-2.5 py-1.5 text-[13px] transition ${desktopNavTopSegmentClass(active)}`;
+  return `px-3 py-1.5 text-[13px] tracking-tight transition duration-200 ease-out ${desktopNavTopSegmentClass(active)}`;
 }
 
 export function AboutNavDesktop() {

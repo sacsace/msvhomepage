@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 /*
- * Apple.com 수준의 미니멀 프리미엄 UI 토큰 & 베이스 스타일
- * 로직/컴포넌트/TS는 변경하지 않음 — CSS(@theme + 레이어)만 조정
+ * Apple Human Interface Guidelines에 가깝게 — Clarity / Deference / Depth
+ * - Clarity: 본문·라벨 대비, 여백, 가독 행간·자간
+ * - Deference: UI는 콘텐츠 뒤에; 얕은 캔버스·얇은 경계·과한 장식 없음
+ * - Depth: 아주 얕은 그림자·층만으로 구분(과한 입체감 없음)
  */
 
 :root {
@@ -16,21 +18,21 @@
   --msv-space-16: 64px;
   --msv-space-24: 96px;
 
-  --background: #ffffff;
-  --foreground: #111111;
-  --msv-navy: #111111;
+  --background: #fbfbfd;
+  --foreground: #1d1d1f;
+  --msv-navy: #1d1d1f;
   --msv-blue: #0071e3;
-  --msv-blue-soft: #f0f7ff;
+  --msv-blue-soft: #e8f4ff;
   --msv-teal: #0a7d73;
   --msv-mocha: #6e6e73;
   --msv-card: #ffffff;
-  --msv-border: #e5e5e7;
-  --msv-divider: #e5e5e7;
-  --msv-radius-card: 14px;
-  --msv-radius-control: 10px;
-  --msv-shadow-card: 0 2px 8px rgb(0 0 0 / 0.04);
-  --msv-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-  --msv-duration: 0.25s;
+  --msv-border: rgb(0 0 0 / 0.06);
+  --msv-divider: #d2d2d7;
+  --msv-radius-card: 18px;
+  --msv-radius-control: 12px;
+  --msv-shadow-card: 0 1px 3px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.04);
+  --msv-ease-standard: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --msv-duration: 0.22s;
 }
 
 @theme inline {
@@ -106,16 +108,16 @@
   --color-blue-600: #0071e3;
   --color-blue-700: #0058b0;
 
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-  --radius-2xl: 1rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 0.875rem;
+  --radius-2xl: 1.125rem;
 
-  --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.04);
-  --shadow-sm: 0 2px 8px rgb(0 0 0 / 0.04);
-  --shadow-md: 0 4px 20px rgb(0 0 0 / 0.06);
-  --shadow-lg: 0 8px 28px rgb(0 0 0 / 0.07);
-  --shadow-xl: 0 16px 40px rgb(0 0 0 / 0.08);
-  --shadow-2xl: 0 24px 48px rgb(0 0 0 / 0.1);
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.03);
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.04), 0 4px 12px rgb(0 0 0 / 0.03);
+  --shadow-md: 0 4px 16px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 8px 28px rgb(0 0 0 / 0.06);
+  --shadow-xl: 0 16px 40px rgb(0 0 0 / 0.07);
+  --shadow-2xl: 0 24px 48px rgb(0 0 0 / 0.08);
 }
 
 @layer base {
@@ -129,6 +131,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    font-feature-settings: "kern" 1, "liga" 1;
   }
 
   /* 헤드라인: 살짝 타이트한 자간(유틸리티 font-weight·크기는 그대로 유지) */
@@ -162,7 +165,7 @@
 @keyframes msv-content-reveal {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(4px);
   }
   to {
     opacity: 1;
@@ -184,12 +187,12 @@
 
 @keyframes msv-header-scroll {
   from {
-    background-color: rgb(255 255 255 / 0.72);
-    border-bottom-color: rgb(229 229 231 / 0.35);
+    background-color: rgb(255 255 255 / 0.68);
+    border-bottom-color: rgb(0 0 0 / 0.04);
   }
   to {
-    background-color: rgb(255 255 255 / 0.96);
-    border-bottom-color: rgb(229 229 231 / 1);
+    background-color: rgb(255 255 255 / 0.9);
+    border-bottom-color: rgb(0 0 0 / 0.07);
   }
 }
 
@@ -219,8 +222,8 @@
 }
 
 :focus-visible {
-  outline: 2px solid var(--msv-blue);
-  outline-offset: 2px;
+  outline: 3px solid color-mix(in srgb, var(--msv-blue) 55%, transparent);
+  outline-offset: 3px;
   border-radius: var(--msv-radius-control);
 }
 

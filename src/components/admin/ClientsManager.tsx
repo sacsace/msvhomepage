@@ -318,6 +318,10 @@ export function ClientsManager({ initialItems }: Props) {
             총 {displayItems.length}건 · 메인 <span className="font-medium text-zinc-700">{homeCount}</span>/12
           </p>
         </div>
+        <details className={`${adminDetailsShell} mb-4`}>
+          <summary className={adminDetailsSummary}>고객사 추가</summary>
+          {createForm}
+        </details>
         <div className={adminBoardCard}>
           <div className="hidden overflow-x-auto md:block">
             <table className="w-full min-w-[880px] border-collapse text-left">
@@ -516,11 +520,6 @@ export function ClientsManager({ initialItems }: Props) {
           </ul>
         </div>
       </section>
-
-      <details className={adminDetailsShell}>
-        <summary className={adminDetailsSummary}>고객사 추가</summary>
-        {createForm}
-      </details>
     </div>
   );
 }

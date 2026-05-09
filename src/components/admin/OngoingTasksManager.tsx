@@ -157,6 +157,11 @@ export function OngoingTasksManager({ initialItems }: Props) {
           <p className="text-xs tabular-nums text-zinc-500">총 {items.length}건</p>
         </div>
 
+        <details className={`${adminDetailsShell} mb-4`}>
+          <summary className={adminDetailsSummary}>새 업무 등록</summary>
+          {createForm}
+        </details>
+
         <div className={adminBoardCard}>
           <div className="hidden overflow-x-auto md:block">
             <table className="w-full min-w-[700px] border-collapse text-left">
@@ -337,11 +342,6 @@ export function OngoingTasksManager({ initialItems }: Props) {
           </ul>
         </div>
       </section>
-
-      <details className={adminDetailsShell}>
-        <summary className={adminDetailsSummary}>새 업무 등록</summary>
-        {createForm}
-      </details>
     </div>
   );
 }

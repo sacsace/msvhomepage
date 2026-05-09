@@ -1,5 +1,5 @@
 /**
- * 공식 CI: 네이비 원형 필드 위 흰색 6점(2×3) 마크 — 파비콘 등 소형 마크용 (`src/app/icon.svg`와 동기).
+ * 공식 CI: 네이비 원형 필드 위 흰색 6점(2×3) 마크 — 파비콘 등 소형 마크용 (`src/app/icon.svg`·`public/msv-mark.svg`와 동기).
  * 가로 워드마크는 `MsvWordmark` + `public/msv-wordmark.png` 사용.
  */
 export function MsvMark({ className = "h-9 w-9 shrink-0" }: { className?: string }) {
