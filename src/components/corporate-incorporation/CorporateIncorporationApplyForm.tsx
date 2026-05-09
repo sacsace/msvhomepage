@@ -362,7 +362,11 @@ export function CorporateIncorporationApplyForm({ locale }: { locale: SiteLocale
     for (let i = 0; i < directorRows; i++) {
       const el = form.elements.namedItem(`directorName_${i}`);
       const v =
-        el instanceof HTMLInputElement ? el.value.trim() : typeof el === "string" ? el.trim() : "";
+        el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement
+          ? el.value.trim()
+          : el instanceof RadioNodeList && el[0] instanceof HTMLInputElement
+            ? el[0].value.trim()
+            : "";
       if (!v) {
         setErrMsg(copy.errAllDirectorNamesRequired);
         setStatus("err");
