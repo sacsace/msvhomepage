@@ -164,15 +164,8 @@ export function glossaryPhraseHeaders(
 }
 
 /** phrase + phraseIntro: 표 위 안내(섹션별 다국어 가능) */
-export function glossaryPhraseIntro(section: GlossarySection, locale: SiteLocale): string | undefined {
+export function glossaryPhraseIntro(section: GlossarySection, _locale: SiteLocale): string | undefined {
   if (section.variant !== "phrase" || !section.phraseIntro) return undefined;
-  if (section.id === "india-unique-concepts") {
-    return pickLocale(locale, {
-      ko: section.phraseIntro,
-      en: "India-focused topics that Korean teams often overlook in day-to-day work.",
-      zh: "以下主题在印度非常典型，韩国团队在日常工作中却常常忽略。",
-    });
-  }
   return section.phraseIntro;
 }
 

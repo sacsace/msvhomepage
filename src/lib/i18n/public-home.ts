@@ -30,7 +30,7 @@ export const homeAccountingHeroEn = {
   headline:
     "India entity accounting and tax: from bookkeeping through statutory filings, one team owns your deadlines.",
   lead:
-    "Built around a resident CPA practice, we run GST, TDS, corporate tax, FDI and FEMA reporting as one operating rhythm, and connect capital remittances, equity increases, ECB and shareholder changes with tax execution. We also coordinate company formation, HR, import/export and other hands-on consulting within the same professional team.",
+    "Built around a resident CPA practice, we run GST, TDS, corporate tax, FDI and FEMA filings as one operating rhythm.\nWe integrate capital remittances, equity events, ECB, DTAA, securities and Demat accounts, and day-to-day India entity operations in a single accountable team.",
   badge: "CPA-led · Bangalore",
 } as const;
 
@@ -115,12 +115,19 @@ export const strengthsEn = [
   "Fast decisions and accountable follow-through",
 ] as const;
 
+/** 홈 고객사 리드 — `clientsShowcaseLead`(한국어)와 톤 맞춤 */
+export const clientsShowcaseLeadEn =
+  "We support 80+ companies from India market entry through operations, accounting, tax and compliance as an integrated practice, with service churn at 7% or below—reflecting stable, long-term partnerships.";
+
+export const clientsShowcaseLeadZh =
+  "我们以运营、会计、税务与合规的一体化实务支持 80 余家客户进入印度市场，服务流失率控制在 7% 及以下，体现稳定、长期的合作关系。";
+
 export const valuesEn = [
   "Execution-led tailored consulting",
   "Transparent, verifiable accounting and tax operations",
   "Practical communication support between Korea and India",
   "Industry-grounded problem solving from field experience",
-  "Direct one-stop delivery from incorporation through operations",
+  "Direct integrated delivery from incorporation through operations",
   "India regulatory and licensing expertise",
 ] as const;
 
@@ -128,7 +135,7 @@ export const homeAccountingHeroZh = {
   headline:
     "印度实体会计与税务：从记账到法定申报，由同一团队把控您的截止期限。",
   lead:
-    "围绕常驻注册会计师实践，我们将 GST、TDS、法人税、FDI 与 FEMA 报告纳入同一运营节奏，并把资本汇回、增资、ECB 与股东变更与税务执行衔接。公司设立、人力、进出口等落地咨询也由同一专业团队协同完成。",
+    "围绕常驻注册会计师实践，我们将 GST、TDS、法人税、FDI 与 FEMA 申报纳入同一运营节奏。\n资本汇回、增资、ECB、DTAA、证券与 Demat 账户及印度法人日常运营所需实务，由同一团队整合支持。",
   badge: "CPA 主导 · 班加罗尔",
 } as const;
 
@@ -218,7 +225,7 @@ export const valuesZh = [
   "透明且可验证的会计与税务运营",
   "支持韩国与印度之间的实务沟通",
   "基于行业实战经验的问题解决",
-  "从设立到运营的一站式直接执行",
+  "从设立到运营的整合直接执行",
   "印度监管与许可应对专业能力",
 ] as const;
 
@@ -235,7 +242,7 @@ export function homeMidServicesSection(locale: SiteLocale) {
     return {
       kicker: "Services",
       title: "회계를 중심으로 한 실행형 서비스",
-      lead: "회계·세무·감사를 기반으로, 설립·HR·수출입 등 확장 업무를 동일 팀 또는 협업 조직과 연계하여 제공합니다.",
+      lead: "회계·세무·감사를 기반으로, 법인설립·HR·수출입 등 확장 업무를 동일 팀 또는 협업 조직과 연계하여 제공합니다.",
       cta: "회계·세무 라인업 보기",
     };
   }

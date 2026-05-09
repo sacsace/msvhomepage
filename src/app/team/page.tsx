@@ -68,12 +68,12 @@ export default async function TeamPage() {
         <section className={cardSection}>
           <SectionTitle
             eyebrow="Sectors"
-            title="고객 산업 (예시)"
+            title="고객 산업"
             spacing="tight"
             density="compact"
             contentWidth="full"
           />
-          <p className={`mt-4 ${bodyText}`}>프로필 기준 분야 예시입니다.</p>
+          <p className={`mt-4 ${bodyText}`}>프로필 기준 분야입니다.</p>
           <ul className="mt-4 list-inside list-disc space-y-2 text-sm leading-relaxed text-slate-600">
             {clientSectors.map((c) => (
               <li key={c}>{c}</li>

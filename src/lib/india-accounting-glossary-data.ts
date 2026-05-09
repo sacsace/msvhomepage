@@ -158,7 +158,6 @@ export const indiaGlossarySections: GlossarySection[] = [
     titleKo: "5. 놓치기 쉬운 인도 고유 개념",
     variant: "phrase",
     phraseColumns: ["용어", "설명"],
-    phraseIntro: "이건 한국인이 잘 모르는 인도 특화 영역입니다.",
     rows: [
       p("LUT", "수출 GST 면세 등록"),
       p("MSME compliance", "중소기업 대금 규정"),

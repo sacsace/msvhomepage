@@ -11,9 +11,9 @@ const cardSection = "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm 
 function StrengthCard({ index, text }: { index: number; text: string }) {
   const label = String(index).padStart(2, "0");
   return (
-    <article className="flex gap-4 rounded-xl border border-slate-200 bg-slate-50/40 p-5 shadow-sm sm:gap-5 sm:p-6">
+    <article className="flex items-center gap-4 rounded-xl border border-slate-200 bg-slate-50/40 px-5 py-6 shadow-sm sm:gap-5 sm:px-6 sm:py-7">
       <div
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-xs font-medium tabular-nums text-slate-500 sm:h-10 sm:w-10"
+        className="flex h-9 w-9 shrink-0 items-center justify-center self-center rounded-full border border-slate-200 bg-white text-xs font-medium tabular-nums text-slate-500 sm:h-10 sm:w-10"
         aria-hidden
       >
         {label}

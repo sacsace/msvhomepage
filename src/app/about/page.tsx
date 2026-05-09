@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
   return staticPageSeo("/about", {
     title: "회사 소개",
-    description: `${company.legalName}(${company.shortName}) 인도 법인 설립·회계·세무·운영 지원 및 비전·사업 소개`,
+    description: `${company.shortName} — 법인 설립·회계·세무·운영까지 현장 실행형 원스톱 파트너, 비전·사업 소개`,
   });
 }
 
@@ -115,12 +115,12 @@ export default async function AboutPage() {
         title={copy?.pageTitle ?? "회사 소개"}
         description={
           copy?.pageDescription ??
-          `${company.legalName}(${company.shortName}) 인도 법인 설립·회계·세무·운영까지, 현장에서 직접 실행하는 원스톱 비즈니스 파트너입니다.`
+          "법인 설립·회계·세무·운영까지,\n현장에서 직접 실행하는 원스톱 비즈니스 파트너입니다."
         }
         descriptionWide
       />
 
-      <StandardPageBody className="space-y-12 sm:space-y-14">
+      <StandardPageBody className="space-y-[4.75rem] sm:space-y-[5.5rem]">
         <section className={cardSection}>
           <SectionTitle
             eyebrow="About"
@@ -129,11 +129,15 @@ export default async function AboutPage() {
             density="compact"
             contentWidth="full"
           />
-          <p
-            className={`mt-4 max-w-none ${bodyText} [text-align:justify] [text-align-last:start] [text-justify:inter-character]`}
+          <div
+            className={`mt-4 max-w-none space-y-4 ${bodyText} [text-align:justify] [text-align-last:start] [text-justify:inter-character]`}
           >
-            {overviewBlock.body}
-          </p>
+            {overviewBlock.paragraphs.map((para, i) => (
+              <p key={i} className="m-0">
+                {para}
+              </p>
+            ))}
+          </div>
           <div className="mt-8 w-full max-w-none">
             <div className="flex justify-start">
               <Image
@@ -147,7 +151,7 @@ export default async function AboutPage() {
               />
             </div>
             <div className="mt-6 max-w-none space-y-4 [text-align:justify] [text-align-last:start] [text-justify:inter-character]">
-              <h3 className="text-left text-base font-semibold tracking-tight text-msv-navy sm:text-lg">
+              <h3 className="whitespace-pre-line text-left text-base font-semibold tracking-tight text-msv-navy sm:text-lg">
                 {dotsCopy.title}
               </h3>
               <p className={`m-0 ${bodyText}`}>{dotsCopy.intro}</p>

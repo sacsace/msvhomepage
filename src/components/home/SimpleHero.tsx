@@ -34,10 +34,14 @@ export function SimpleHero({ locale }: Props) {
               {badge}
             </span>
           </div>
-          <h1 className="mt-4 max-w-4xl text-pretty break-keep text-3xl font-semibold leading-[1.12] tracking-[-0.035em] text-white sm:text-4xl lg:text-[2.65rem] lg:leading-[1.08]">
+          <h1 className="mt-4 max-w-4xl text-pretty break-keep text-3xl font-semibold leading-[1.1] tracking-[-0.035em] text-white sm:text-4xl sm:leading-[1.1] lg:text-[2.65rem] lg:leading-[1.1]">
             {headline}
           </h1>
-          <p className={`mt-6 max-w-3xl text-pretty break-keep ${homeTypo.bodyOnDark}`}>{lead}</p>
+          <p
+            className={`mt-6 max-w-[760px] whitespace-pre-line text-pretty break-keep leading-[1.7] ${homeTypo.bodyOnDark}`}
+          >
+            {lead}
+          </p>
           <div className="mt-10 flex flex-wrap gap-3 sm:gap-4">
             <Link
               href={L("/services")}

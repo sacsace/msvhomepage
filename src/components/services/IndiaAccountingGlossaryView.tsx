@@ -54,49 +54,32 @@ function SectionTable({
     const [c1, c2] = glossaryPhraseHeaders(section, locale);
     const intro = glossaryPhraseIntro(section, locale);
     return (
-      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm ring-1 ring-slate-900/[0.04]">
+      <div className="overflow-x-auto rounded-lg border border-slate-200">
         {intro ? (
-          <p className="border-b border-slate-100 bg-gradient-to-br from-slate-50 via-white to-msv-blue-soft/30 px-4 py-3.5 text-sm leading-relaxed text-slate-700 sm:px-5 sm:py-4">
+          <p className="border-b border-slate-200 bg-slate-50 px-3 py-3 text-sm leading-relaxed text-slate-700 sm:px-4 sm:py-3.5">
             {intro}
           </p>
         ) : null}
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[22rem] table-fixed border-collapse text-left text-sm sm:min-w-[28rem]">
-            <colgroup>
-              <col className="w-[34%] sm:w-[32%]" />
-              <col />
-            </colgroup>
-            <thead>
-              <tr className="border-b border-slate-200 bg-slate-50/95">
-                <th
-                  scope="col"
-                  className="px-4 py-3 text-left text-xs font-semibold tracking-tight text-msv-navy sm:px-5"
-                >
-                  {c1}
-                </th>
-                <th
-                  scope="col"
-                  className="border-l border-slate-200/80 px-4 py-3 text-left text-xs font-semibold tracking-tight text-msv-navy sm:px-5"
-                >
-                  {c2}
-                </th>
+        <table className="w-full min-w-[28rem] border-collapse text-left text-sm sm:min-w-[36rem]">
+          <thead>
+            <tr className="border-b border-slate-200 bg-slate-50 text-xs font-semibold text-msv-navy">
+              <th scope="col" className="px-3 py-2 sm:w-[28%]">
+                {c1}
+              </th>
+              <th scope="col" className="px-3 py-2">
+                {c2}
+              </th>
+            </tr>
+          </thead>
+          <tbody className="text-slate-700">
+            {section.rows.map((row) => (
+              <tr key={`${section.id}-${row.en}`} className="border-b border-slate-100 last:border-0">
+                <td className="px-3 py-2 align-top font-medium text-msv-navy">{row.en}</td>
+                <td className="px-3 py-2 align-top leading-relaxed text-slate-600">{row.ko}</td>
               </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {section.rows.map((row) => (
-                <tr
-                  key={`${section.id}-${row.en}`}
-                  className="transition-colors odd:bg-white even:bg-slate-50/40 hover:bg-msv-blue-soft/25"
-                >
-                  <td className="px-4 py-3 align-top font-semibold text-msv-navy sm:px-5">{row.en}</td>
-                  <td className="border-l border-slate-100 px-4 py-3 align-top leading-relaxed text-slate-600 sm:px-5">
-                    {row.ko}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }

@@ -61,7 +61,7 @@ export async function SiteFooter() {
               <Link href={L("/software")} className="text-slate-300 transition hover:text-white hover:underline">
                 {shell.software}
               </Link>
-              <ul className="mt-2 space-y-1.5 border-l border-white/15 pl-3">
+              <ul className="mt-2 space-y-2.5 border-l border-white/15 pl-3 leading-[1.9]">
                 <li>
                   <Link
                     href={L("/software/mvs")}
@@ -92,7 +92,7 @@ export async function SiteFooter() {
               <Link href={L("/group")} className="text-slate-300 transition hover:text-white hover:underline">
                 {shell.group}
               </Link>
-              <ul className="mt-2 space-y-1.5 border-l border-white/15 pl-3">
+              <ul className="mt-2 space-y-2.5 border-l border-white/15 pl-3 leading-[1.9]">
                 {groupCompanies.map((g) => (
                   <li key={g.slug}>
                     <Link
@@ -107,7 +107,7 @@ export async function SiteFooter() {
             </li>
             <li>
               <span className="text-slate-300">{shell.news}</span>
-              <ul className="mt-2 space-y-1.5 border-l border-white/15 pl-3">
+              <ul className="mt-2 space-y-2.5 border-l border-white/15 pl-3 leading-[1.9]">
                 <li>
                   <Link href={L("/notice")} className="text-xs text-slate-400 transition hover:text-white hover:underline">
                     {pickLocale(locale, { ko: "공지사항", en: "Announcements", zh: "公告" })}

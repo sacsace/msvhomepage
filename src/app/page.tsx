@@ -92,10 +92,10 @@ export default async function HomePage() {
             {svcList.map((s, i) => (
               <li
                 key={s.title}
-                className="group rounded-2xl bg-white p-5 shadow-[0_2px_14px_rgba(15,23,42,0.05)] transition duration-300 hover:shadow-[0_8px_28px_rgba(15,23,42,0.08)] sm:p-5"
+                className="group rounded-2xl bg-white p-5 shadow-[0_2px_14px_rgba(15,23,42,0.05)] transition duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(15,23,42,0.08)] sm:p-5"
               >
                 <div className="flex items-start gap-3.5">
-                  <span className="font-mono text-base font-semibold tabular-nums text-msv-blue/50" aria-hidden>
+                  <span className="font-mono text-base font-semibold tabular-nums text-msv-blue/65" aria-hidden>
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div className="min-w-0 flex-1 pl-0.5">

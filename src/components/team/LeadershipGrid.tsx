@@ -14,7 +14,7 @@ type Props = {
 
 export function LeadershipGrid({ members, compactSummary }: Props) {
   return (
-    <ul className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:items-start">
+    <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:items-start">
       {members.map((m) => {
         const showPhoto = Boolean(m.photoSrc && publicFileExists(m.photoSrc));
         const summaryText =

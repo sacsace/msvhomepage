@@ -3,6 +3,8 @@ import Link from "next/link";
 
 type Props = {
   title: string;
+  /** 히어로 제목 위 소형 라벨(서비스 랜딩 등, 선택) */
+  eyebrow?: string;
   description?: string;
   /** true면 설명을 줄바꿈 없이 한 줄로 표시하고, 넘치면 가로 스크롤합니다. */
   descriptionSingleLine?: boolean;
@@ -24,6 +26,7 @@ type Props = {
 
 export function PageHeader({
   title,
+  eyebrow,
   description,
   descriptionSingleLine,
   descriptionWide,
@@ -33,6 +36,8 @@ export function PageHeader({
 }: Props) {
   const homeHero = surface === "homeHero";
   const editorial = tone === "editorial" && !homeHero;
+  const showEyebrow = Boolean(eyebrow) && !editorial;
+  const titleTopMargin = showEyebrow ? "mt-2.5" : "mt-4";
 
   const descriptionClassName = (() => {
     if (descriptionSingleLine) {
@@ -118,13 +123,24 @@ export function PageHeader({
           </Link>
         </p>
       )}
+      {showEyebrow ? (
+        <p
+          className={
+            homeHero
+              ? "mt-4 text-[10px] font-semibold uppercase tracking-[0.28em] text-white/50 sm:text-[11px]"
+              : "mt-4 text-[10px] font-semibold uppercase tracking-[0.28em] text-slate-500 sm:text-[11px]"
+          }
+        >
+          {eyebrow}
+        </p>
+      ) : null}
       <h1
         className={
           editorial
             ? "mx-auto mt-6 max-w-3xl text-[2.5rem] font-semibold leading-[1.06] tracking-[-0.045em] text-slate-900 sm:mt-7 sm:text-5xl sm:leading-[1.05] lg:text-[3.25rem] lg:leading-[1.02]"
             : homeHero
-              ? "mt-4 text-[1.875rem] font-semibold leading-tight tracking-[-0.03em] text-white sm:text-[2.125rem]"
-              : "mt-4 text-[1.875rem] font-semibold leading-tight tracking-[-0.03em] text-slate-900 sm:text-[2.125rem]"
+              ? `${titleTopMargin} text-[1.875rem] font-semibold leading-tight tracking-[-0.03em] text-white sm:text-[2.125rem]`
+              : `${titleTopMargin} text-[1.875rem] font-semibold leading-tight tracking-[-0.03em] text-slate-900 sm:text-[2.125rem]`
         }
       >
         {title}
@@ -187,11 +203,16 @@ export function PageHeader({
             </Link>
           </p>
         )}
+        {showEyebrow ? (
+          <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.28em] text-slate-500 sm:text-[11px]">
+            {eyebrow}
+          </p>
+        ) : null}
         <h1
           className={
             editorial
               ? "mx-auto mt-6 max-w-3xl text-[2.5rem] font-semibold leading-[1.06] tracking-[-0.045em] text-slate-900 sm:mt-7 sm:text-5xl sm:leading-[1.05] lg:text-[3.25rem] lg:leading-[1.02]"
-              : "mt-4 text-[1.875rem] font-semibold leading-tight tracking-[-0.03em] text-slate-900 sm:text-[2.125rem]"
+              : `${titleTopMargin} text-[1.875rem] font-semibold leading-tight tracking-[-0.03em] text-slate-900 sm:text-[2.125rem]`
           }
         >
           {title}

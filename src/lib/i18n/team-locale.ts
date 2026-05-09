@@ -74,7 +74,7 @@ export function aboutTeamPageCopy(locale: SiteLocale): AboutTeamPageCopy {
       messagesTitle: "인사말",
       teamGreetingLead:
         "고객과 함께 성장하는 파트너로서, 정확한 회계와 투명한 경영을 기반으로 신뢰를 만들어가고 있습니다. 한국과 인도를 잇는 실무 중심의 전문성을 바탕으로, 기업 운영 전반에 실질적인 가치를 제공하겠습니다.",
-      teamIntroBody: `현장에서 회계·세무·법인 지원을 함께하는 구성원을 소개합니다. 80여 개 이상의 기업에 인도 진출부터 운영·회계·세무·컴플라이언스까지 One-stop 서비스를 제공하고 있으며, 서비스 종료율 7% 이하로 안정적인 파트너십을 유지하고 있습니다.`,
+      teamIntroBody: `현장에서 회계·세무·법인 지원을 함께하는 구성원을 소개합니다. 80여 개 이상의 기업에 인도 진출부터 운영·회계·세무·컴플라이언스까지 실무를 통합 지원하고 있으며, 서비스 종료율 7% 이하로 안정적인 파트너십을 유지하고 있습니다.`,
       ceoEyebrow: "CEO Statement",
       ceoTitle: (name) => `대표이사 · ${name}`,
       vpEyebrow: "Vice President",
@@ -99,7 +99,7 @@ export function aboutTeamPageCopy(locale: SiteLocale): AboutTeamPageCopy {
       messagesTitle: "Leadership messages",
       teamGreetingLead:
         "As a partner that grows with our clients, we build trust on accurate accounting and transparent operations. Grounded in practical expertise bridging Korea and India, we aim to deliver real value across your business operations.",
-      teamIntroBody: `Meet the people who support accounting, tax and corporate operations in the field. We serve 80+ companies with one-stop services from India entry through operations, accounting, tax and compliance, with a churn rate of about 7% or lower—reflecting stable, long-term partnerships.`,
+      teamIntroBody: `Meet the people who support accounting, tax and corporate operations in the field. We support 80+ companies from India entry through operations, accounting, tax and compliance as an integrated practice, with churn at about 7% or lower—reflecting stable, long-term partnerships.`,
       ceoEyebrow: "CEO Statement",
       ceoTitle: (name) => `CEO · ${name}`,
       vpEyebrow: "Vice President",
@@ -124,7 +124,7 @@ export function aboutTeamPageCopy(locale: SiteLocale): AboutTeamPageCopy {
       messagesTitle: "领导致辞",
       teamGreetingLead:
         "作为与客户共同成长的伙伴，我们以准确、透明的经营与会计工作建立信任。依托连接韩国与印度的实务专长，我们致力于在企业运营各环节创造可衡量的价值。",
-      teamIntroBody: `介绍在现场共同参与会计、税务与法人支持工作的同事。我们向 80 余家客户提供从印度进入到运营、会计、税务与合规的一站式服务，服务终止率约 7% 以下，保持稳定的长期合作关系。`,
+      teamIntroBody: `介绍在现场共同参与会计、税务与法人支持工作的同事。我们以运营、会计、税务与合规的一体化实务支持 80 余家客户进入印度市场，服务终止率约 7% 以下，保持稳定的长期合作关系。`,
       ceoEyebrow: "CEO Statement",
       ceoTitle: (name) => `首席执行官 · ${name}`,
       vpEyebrow: "Vice President",

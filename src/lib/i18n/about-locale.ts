@@ -22,7 +22,7 @@ export type AboutOverviewDotsCopy = {
 export function aboutOverviewDotsCopy(locale: SiteLocale): AboutOverviewDotsCopy {
   return pickLocale(locale, {
     ko: {
-      title: "System & Stability",
+      title: "System & Stability\n시스템과 안정성",
       intro: `${company.shortName}의 로고는 2×3 구조의 여섯 개 점으로 구성되어 있으며, 체계성과 안정성을 상징합니다. 각 점은 다음과 같은 ${company.shortName}의 핵심 가치를 의미합니다.`,
       values: [
         "체계적 운영",
@@ -92,7 +92,11 @@ export const milestonesEn = [
 
 export const overviewEn = {
   title: "Company overview",
-  body: `${company.shortName} is an execution-led partner for India entities, centered on accounting, tax and compliance. Monthly, quarterly and annual bookkeeping, GST, TDS, corporate tax and FDI filings, audit and transfer-pricing responses are delivered by a resident CPA-led team in Bangalore. Company formation, licensing, HR, import/export and expatriate support, plus Wilmat entrance-mat supply and Lotus Korean Hotel, are coordinated with group brands so accounting data and operations stay connected. Headquartered at ${company.address}, we integrate incorporation, accounting, tax, licensing and HR in one organization. Accounting and tax are led on a day-to-day basis by Vice President Ha Heon-beom (Korean CPA) and Kashul Sharma (Indian CA), aligning IFRS with India regulatory practice.`,
+  paragraphs: [
+    `${company.shortName} is an execution-led partner for India entities, centered on accounting, tax and compliance.`,
+    `Monthly, quarterly and annual bookkeeping, GST, TDS, corporate tax and FDI filings, audit and transfer-pricing responses are delivered by a resident CPA-led team in Bangalore. Accounting and tax are led on a day-to-day basis by Vice President Ha Heon-beom (Korean CPA) and Kashul Sharma (Indian CA), aligning IFRS with India regulatory practice.`,
+    `Company formation, licensing, HR, import/export and expatriate support, plus Wilmat entrance-mat supply and Lotus Korean Hotel, are coordinated with group brands so accounting data and operations stay connected. Headquartered at ${company.address}, we integrate incorporation, accounting, tax, licensing and HR in one organization.`,
+  ] as const,
 } as const;
 
 export const visionEn = {
@@ -144,7 +148,11 @@ export const milestonesZh = [
 
 export const overviewZh = {
   title: "公司简介",
-  body: `${company.shortName} 是面向印度实体的执行型合作伙伴，以会计、税务与合规为核心。由常驻班加罗尔的注册会计师团队负责月度、季度与年度账务、GST、TDS、法人税与外商投资申报、审计及转让定价应对。公司设立、许可、人力、进出口与外籍支持，以及 Wilmat 入口地垫与 Lotus Korean Hotel 等业务，与集团品牌协同衔接，使会计数据与运营保持一致。总部位于 ${company.address}，将设立、会计、税务、许可与人力整合在同一组织内。会计与税务日常工作由副总裁河宪范（韩国注册会计师）与 Kashul Sharma（印度特许会计师）牵头，在 IFRS 与印度监管实践之间对齐。`,
+  paragraphs: [
+    `${company.shortName} 是面向印度实体的执行型合作伙伴，以会计、税务与合规为核心。`,
+    `由常驻班加罗尔的注册会计师团队负责月度、季度与年度账务、GST、TDS、法人税与外商投资申报、审计及转让定价应对。会计与税务日常工作由副总裁河宪范（韩国注册会计师）与 Kashul Sharma（印度特许会计师）牵头，在 IFRS 与印度监管实践之间对齐。`,
+    `公司设立、许可、人力、进出口与外籍支持，以及 Wilmat 入口地垫与 Lotus Korean Hotel 等业务，与集团品牌协同衔接，使会计数据与运营保持一致。总部位于 ${company.address}，将设立、会计、税务、许可与人力整合在同一组织内。`,
+  ] as const,
 } as const;
 
 export const visionZh = {

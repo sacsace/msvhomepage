@@ -33,7 +33,7 @@ export function ContentPreviews({ announcements, calendarEvents, locale }: Props
           <div className="flex items-end justify-between gap-3">
             <div>
               <p className={`${homeTypo.kickerBlue} text-[9px] sm:text-[10px]`}>{c.noticeKicker}</p>
-              <h2 className="mt-0.5 text-base font-semibold tracking-[-0.02em] text-slate-900 sm:text-lg sm:leading-snug">
+              <h2 className="mt-1 text-base font-semibold tracking-[-0.02em] text-slate-900 sm:text-lg sm:leading-snug">
                 {c.noticeTitle}
               </h2>
             </div>
@@ -56,11 +56,11 @@ export function ContentPreviews({ announcements, calendarEvents, locale }: Props
                       href={L(`/notice/${a.id}`)}
                       className="group flex items-center gap-4 py-3.5 transition first:pt-0 hover:bg-slate-50/60 sm:gap-5 sm:rounded-lg sm:px-1 sm:py-4"
                     >
-                      <div className="flex w-[3.25rem] shrink-0 flex-col items-center self-center pr-2 text-center sm:w-14 sm:pr-3">
-                        <span className="text-base font-semibold tabular-nums leading-none text-slate-900 sm:text-lg">
+                      <div className="flex w-[3.5rem] shrink-0 flex-col items-center justify-center self-center pr-2 text-center opacity-90 sm:w-[3.75rem] sm:pr-3">
+                        <span className="text-base font-semibold tabular-nums leading-none text-slate-600 sm:text-lg">
                           {day}
                         </span>
-                        <span className="mt-0.5 text-[8px] font-medium tabular-nums text-slate-400 sm:text-[9px]">
+                        <span className="mt-0.5 text-[8px] font-medium tabular-nums text-slate-500/70 sm:text-[9px]">
                           {ym}
                         </span>
                       </div>
@@ -93,12 +93,12 @@ export function ContentPreviews({ announcements, calendarEvents, locale }: Props
             className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(160deg,rgba(15,39,68,0.35)_0%,transparent_45%)]"
             aria-hidden
           />
-          <div className="relative z-10">
+          <div className="relative z-10 shrink-0">
             <p className={homeTypo.kickerOnNavy}>{c.calendarKicker}</p>
             <h2 className={`mt-1 ${homeTypo.cardHeadingWhite}`}>{c.calendarTitle}</h2>
             <p className={`mt-1 max-w-2xl text-pretty break-keep ${homeTypo.bodyWhiteMuted}`}>{c.calendarLead}</p>
           </div>
-          <div className="relative z-10">
+          <div className="relative z-10 mt-6 flex min-h-0 flex-1 flex-col sm:mt-8">
             <ComplianceCalendarWidget events={calendarEvents} locale={locale} />
           </div>
         </section>
