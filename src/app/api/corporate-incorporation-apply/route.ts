@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import { parseSmtpRecipientList, readMailSettings, smtpSocketIpv4Only } from "@/lib/mail-settings-store";
+import {
+  parseSmtpRecipientList,
+  readMailSettings,
+  smtpConnectTarget,
+  smtpSocketIpv4Only,
+} from "@/lib/mail-settings-store";
 
 export const runtime = "nodejs";
 
@@ -341,8 +346,10 @@ export async function POST(request: Request) {
       );
     }
     const useAuth = hasUser && hasPass;
+    const tcp = await smtpConnectTarget(settings.host);
     const transporter = nodemailer.createTransport({
-      host: settings.host,
+      host: tcp.host,
+      ...(tcp.servername ? { servername: tcp.servername } : {}),
       port: settings.port,
       secure: settings.secure,
       ...smtpSocketIpv4Only,

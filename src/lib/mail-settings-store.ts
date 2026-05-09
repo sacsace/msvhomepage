@@ -1,3 +1,5 @@
+import dns from "node:dns/promises";
+import net from "node:net";
 import type { MailSettings } from "@/types/mail-settings";
 import { prisma } from "@/lib/prisma";
 import { withRecoverableDbRead } from "@/lib/prisma-read-fallback";
@@ -13,10 +15,27 @@ const defaults: MailSettings = {
 };
 
 /**
- * SMTP TCP 연결을 IPv4로 고정합니다. Railway 등에서 `smtp.gmail.com`이 IPv6로만 풀리면
- * `connect ENETUNREACH … :587` 형태로 실패하는 경우가 있어 nodemailer에 그대로 전달합니다.
+ * SMTP TCP 연결 힌트. nodemailer DNS 단계에서 IPv6가 먼저/무작위로 선택되면 `ENETUNREACH`가 날 수 있어
+ * 함께 씁니다. 실제 IPv4 강제는 `smtpConnectTarget`으로 호스트를 A 레코드로 풀어 쓰는 편이 확실합니다.
  */
 export const smtpSocketIpv4Only = { family: 4 as const };
+
+/**
+ * `smtp.gmail.com` 등이 AAAA(IPv6)로 연결되다 실패하는 호스팅 대비: 호스트명이면 IPv4 주소로 풀고,
+ * TLS SNI·인증서 검증을 위해 `servername`에 원래 호스트명을 넘깁니다.
+ */
+export async function smtpConnectTarget(smtpHost: string): Promise<{ host: string; servername?: string }> {
+  const h = String(smtpHost ?? "").trim();
+  if (!h) return { host: h };
+  if (net.isIP(h)) return { host: h };
+  try {
+    const v4 = await dns.resolve4(h);
+    if (!v4.length) return { host: h };
+    return { host: v4[0]!, servername: h };
+  } catch {
+    return { host: h };
+  }
+}
 
 /** `toAddress` 필드에 쉼표·세미콜론 등으로 적힌 수신자 목록 */
 export function parseSmtpRecipientList(toAddress: string): string[] {

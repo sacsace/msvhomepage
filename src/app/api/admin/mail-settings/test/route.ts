@@ -4,6 +4,7 @@ import {
   mergeMailSettings,
   parseSmtpRecipientList,
   readMailSettings,
+  smtpConnectTarget,
   smtpSocketIpv4Only,
 } from "@/lib/mail-settings-store";
 import { requireAdmin } from "@/lib/require-admin";
@@ -74,8 +75,10 @@ export async function POST(request: Request) {
 
     /** 사용자·비밀번호가 둘 다 있을 때만 PLAIN 인증(한쪽만 있으면 EAUTH / Missing credentials) */
     const useAuth = hasUser && hasPass;
+    const tcp = await smtpConnectTarget(effective.host);
     const transporter = nodemailer.createTransport({
-      host: effective.host,
+      host: tcp.host,
+      ...(tcp.servername ? { servername: tcp.servername } : {}),
       port: effective.port,
       secure: effective.secure,
       ...smtpSocketIpv4Only,
