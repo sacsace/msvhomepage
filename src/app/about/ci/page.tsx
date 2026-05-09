@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { SectionTitle } from "@/components/SectionTitle";
 import { aboutCiPageCopy } from "@/lib/i18n/about-ci-locale";
+import { company } from "@/lib/site-content";
 import { getRequestLocale } from "@/lib/get-request-locale";
 import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import { withLocalePrefix } from "@/lib/site-locale";
@@ -23,41 +24,24 @@ const body = "text-sm leading-relaxed text-slate-600 break-keep";
 const bodySymbolIntro = "text-sm leading-snug text-slate-600 break-keep";
 const assetDownloadClass =
   "inline-flex items-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-msv-blue shadow-sm hover:bg-slate-50 sm:text-sm";
+const ciInlineLinkClass = "font-medium text-msv-blue underline-offset-4 hover:underline";
 /** 가로 로고·워드마크 미리보기: 동일 픽셀 박스 안에 contain(다운로드 원본은 변경 없음) */
 const ciLogoPreviewBox =
-  "mt-6 rounded-xl border border-slate-200 bg-white px-4 py-3 sm:px-6 sm:py-4";
-/** 네 로고 공통 표시 영역 — 동일 박스, 화면 표시만 이전 대비 약 70%(−30%) */
+  "mt-6 flex justify-start rounded-xl border border-slate-200 bg-white px-4 py-3 sm:px-6 sm:py-4";
+/**
+ * 락업 PNG 세로 픽셀(79~112)이 달라도 동일 배율로 보이도록, 가장 높은 원본(112px) 기준 가로세로비로
+ * 프레임 너비를 정함. 고정 높이만 쓰면 짧은 PNG가 더 크게 확대됨.
+ */
 const ciLogoPreviewFrame =
-  "relative h-[2.94rem] w-full max-w-[min(100%,52rem)] sm:h-[3.36rem] md:h-[3.5rem]";
+  "relative h-[2.94rem] min-w-0 w-auto max-w-full aspect-[1024/112] sm:h-[3.36rem] md:h-[3.5rem]"; /* `fill` 이미지 부모 */
 const ciLogoFillClass = "object-contain object-left";
 const ciLogoFillSizes = "(max-width: 768px) 100vw, min(100%, 52rem)";
 
-/**
- * 미리보기만: 합성 PNG마다 심볼 가로 비율이 달라 동일 박스에서 심볼 크기가 달라 보임.
- * `transform: scale`로 보정(1=원본). PNG 교체 시 값만 조정.
- */
-const ciLockupPreviewViewScale: Record<string, number> = {
-  "/msv-lockup-navy.png": 0.72,
-  "/msv-wordmark.png": 1,
-  "/msv-lockup-sixdot-navy.png": 1,
-  "/msv-lockup-bottomlink-navy.png": 1,
-};
-
 function CiLockupPreviewImage({ src, alt }: { src: string; alt: string }) {
-  const viewScale = ciLockupPreviewViewScale[src] ?? 1;
   return (
     <div className={ciLogoPreviewBox}>
       <div className={ciLogoPreviewFrame}>
-        <div
-          className="relative h-full w-full"
-          style={
-            viewScale !== 1
-              ? { transform: `scale(${viewScale})`, transformOrigin: "left center" }
-              : undefined
-          }
-        >
-          <Image fill src={src} alt={alt} unoptimized className={ciLogoFillClass} sizes={ciLogoFillSizes} />
-        </div>
+        <Image fill src={src} alt={alt} unoptimized className={ciLogoFillClass} sizes={ciLogoFillSizes} />
       </div>
     </div>
   );
@@ -135,17 +119,21 @@ export default async function AboutCiPage() {
 
           <section className={card}>
             <SectionTitle
-              eyebrow={copy.lockupEyebrow}
-              title={copy.lockupTitle}
+              eyebrow={copy.lockupBottomEyebrow}
+              title={copy.lockupBottomTitle}
               spacing="tight"
               density="compact"
               headingLevel={2}
             />
-            <CiLogoNarrative paragraphs={copy.lockupNarrative} />
-            <CiLockupPreviewImage src="/msv-lockup-navy.png" alt={copy.lockupImageAlt} />
+            <CiLogoNarrative paragraphs={copy.lockupBottomNarrative} />
+            <CiLockupPreviewImage src="/msv-lockup-bottomlink-navy.png" alt={copy.lockupBottomImageAlt} />
             <div className="mt-4 flex flex-wrap gap-3">
-              <a href="/msv-lockup-navy.png" download="msv-lockup-navy.png" className={assetDownloadClass}>
-                {copy.downloadLockupPng}
+              <a
+                href="/msv-lockup-bottomlink-navy.png"
+                download="msv-lockup-bottomlink-navy.png"
+                className={assetDownloadClass}
+              >
+                {copy.downloadLockupBottomPng}
               </a>
             </div>
           </section>
@@ -173,21 +161,17 @@ export default async function AboutCiPage() {
 
           <section className={card}>
             <SectionTitle
-              eyebrow={copy.lockupBottomEyebrow}
-              title={copy.lockupBottomTitle}
+              eyebrow={copy.lockupEyebrow}
+              title={copy.lockupTitle}
               spacing="tight"
               density="compact"
               headingLevel={2}
             />
-            <CiLogoNarrative paragraphs={copy.lockupBottomNarrative} />
-            <CiLockupPreviewImage src="/msv-lockup-bottomlink-navy.png" alt={copy.lockupBottomImageAlt} />
+            <CiLogoNarrative paragraphs={copy.lockupNarrative} />
+            <CiLockupPreviewImage src="/msv-lockup-navy.png" alt={copy.lockupImageAlt} />
             <div className="mt-4 flex flex-wrap gap-3">
-              <a
-                href="/msv-lockup-bottomlink-navy.png"
-                download="msv-lockup-bottomlink-navy.png"
-                className={assetDownloadClass}
-              >
-                {copy.downloadLockupBottomPng}
+              <a href="/msv-lockup-navy.png" download="msv-lockup-navy.png" className={assetDownloadClass}>
+                {copy.downloadLockupPng}
               </a>
             </div>
           </section>
@@ -233,6 +217,36 @@ export default async function AboutCiPage() {
                 <li key={line}>{line}</li>
               ))}
             </ul>
+          </section>
+
+          <section className={card}>
+            <SectionTitle
+              eyebrow={copy.supplementEyebrow}
+              title={copy.supplementTitle}
+              spacing="tight"
+              density="compact"
+              headingLevel={2}
+            />
+            <div className="mt-6 space-y-8">
+              <div>
+                <h3 className="text-sm font-semibold tracking-tight text-slate-900">{copy.contactHeading}</h3>
+                <p className={`mt-2 ${body}`}>
+                  {copy.contactBeforeEmail}
+                  <a href={`mailto:${company.infoEmail}`} className={ciInlineLinkClass}>
+                    {company.infoEmail}
+                  </a>
+                  {copy.contactAfterEmail}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold tracking-tight text-slate-900">{copy.legalHeading}</h3>
+                <p className={`mt-2 ${body}`}>{copy.legalBody}</p>
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold tracking-tight text-slate-900">{copy.typographyHeading}</h3>
+                <p className={`mt-2 ${body}`}>{copy.typographyBody}</p>
+              </div>
+            </div>
           </section>
 
           <p className={`text-center text-sm text-slate-500`}>

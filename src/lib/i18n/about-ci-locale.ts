@@ -42,6 +42,15 @@ export type AboutCiPageCopy = {
   usageEyebrow: string;
   usageTitle: string;
   usageBullets: readonly string[];
+  supplementEyebrow: string;
+  supplementTitle: string;
+  contactHeading: string;
+  contactBeforeEmail: string;
+  contactAfterEmail: string;
+  legalHeading: string;
+  legalBody: string;
+  typographyHeading: string;
+  typographyBody: string;
 };
 
 export function aboutCiPageCopy(locale: SiteLocale): AboutCiPageCopy {
@@ -66,7 +75,7 @@ export function aboutCiPageCopy(locale: SiteLocale): AboutCiPageCopy {
       downloadMarkSvg: "심볼 SVG 다운로드",
       downloadWordmarkPng: "워드마크 PNG 다운로드",
       lockupEyebrow: "가로 조합",
-      lockupTitle: "02. 기하형 심볼 + 워드마크",
+      lockupTitle: "04. 기하형 심볼 + 워드마크",
       lockupNarrative: [
         "사선 형태의 심볼은 앞으로 나아가는 방향성과 빠른 실행력을 의미합니다.",
         "두 개의 흐름이 하나의 방향으로 이어지는 구조는 고객과 시장을 연결하며 함께 성장하는 파트너십을 상징합니다.",
@@ -84,7 +93,7 @@ export function aboutCiPageCopy(locale: SiteLocale): AboutCiPageCopy {
       lockupDotsImageAlt: "Minsub Ventures 점·상단 연결형 Navy 가로 로고",
       downloadLockupDotsPng: "점·상단 연결형 가로 로고 PNG 다운로드",
       lockupBottomEyebrow: "가로 조합",
-      lockupBottomTitle: "04. 점·하단 연결형 심볼 + 워드마크",
+      lockupBottomTitle: "02. 점·하단 연결형 심볼 + 워드마크",
       lockupBottomNarrative: [
         "하단 연결 구조는 안정적인 기반과 지속 가능한 운영 시스템을 상징합니다.",
         "눈에 보이지 않는 기반을 단단히 연결하듯, 고객사의 운영·컴플라이언스·재무 구조를 안정적으로 지원하는 MS Ventures의 역할을 표현했습니다.",
@@ -107,6 +116,17 @@ export function aboutCiPageCopy(locale: SiteLocale): AboutCiPageCopy {
         "단색 배경에서는 공식 컬러 대비를 유지하며, 필요 시 단색 반전 버전을 사용합니다.",
         "외부 제작물에는 공식 PDF·SVG·PNG 파일 사용을 권장합니다.",
       ],
+      supplementEyebrow: "기타 안내",
+      supplementTitle: "문의·권리·타이포",
+      contactHeading: "문의",
+      contactBeforeEmail: "CI, 로고 활용 및 공식 파일 제공 관련 문의는 ",
+      contactAfterEmail: " 으로 연락해 주시기 바랍니다.",
+      legalHeading: "저작권·상표",
+      legalBody:
+        "로고, 워드마크 및 심볼을 포함한 모든 브랜드 자산은 Minsub Ventures의 자산입니다. 사전 승인 없이 형태를 변경하거나 상업적 목적으로 재배포·재사용할 수 없습니다. 보도자료, 협력사 자료 등 사용 범위가 명확하지 않은 경우에는 위 이메일을 통해 사전 확인을 요청해 주시기 바랍니다.",
+      typographyHeading: "타이포그래피 (Web)",
+      typographyBody:
+        "본 웹사이트의 본문 및 UI는 시스템 산세리프 스택(예: Apple SD Gothic Neo, SF Pro Display, Segoe UI, Roboto)과 한글 보조 글꼴(Noto Sans KR 계열)을 기준으로 구성되어 있습니다. 외부 제작물에서도 가독성과 중립적인 브랜드 톤을 유지할 수 있는 산세리프 계열 서체 사용을 권장합니다.",
     },
     en: {
       metaTitle: "Brand & CI",
@@ -129,7 +149,7 @@ export function aboutCiPageCopy(locale: SiteLocale): AboutCiPageCopy {
       downloadMarkSvg: "Download symbol (SVG)",
       downloadWordmarkPng: "Download wordmark (PNG)",
       lockupEyebrow: "Horizontal lock-ups",
-      lockupTitle: "02. Geometric mark + wordmark",
+      lockupTitle: "04. Geometric mark + wordmark",
       lockupNarrative: [
         "The diagonal mark conveys forward direction and fast execution.",
         "Two flows converging in one direction symbolise a partnership that links customers and markets and grows together.",
@@ -147,7 +167,7 @@ export function aboutCiPageCopy(locale: SiteLocale): AboutCiPageCopy {
       lockupDotsImageAlt: "Minsub Ventures horizontal logo with top-linked dots in navy",
       downloadLockupDotsPng: "Download top-link lock-up (PNG)",
       lockupBottomEyebrow: "Horizontal lock-ups",
-      lockupBottomTitle: "04. Dot mark (bottom link) + wordmark",
+      lockupBottomTitle: "02. Dot mark (bottom link) + wordmark",
       lockupBottomNarrative: [
         "The bottom-linked structure stands for a stable foundation and a sustainable operating system.",
         "Like an invisible base firmly joined, it expresses how Minsub Ventures supports clients’ operations, compliance and financial structures.",
@@ -170,6 +190,17 @@ export function aboutCiPageCopy(locale: SiteLocale): AboutCiPageCopy {
         "On solid backgrounds, keep official colour contrast; use a solid inverted version when needed.",
         "For external productions, use the official PDF, SVG and PNG files.",
       ],
+      supplementEyebrow: "More",
+      supplementTitle: "Contact, rights & type",
+      contactHeading: "Contact",
+      contactBeforeEmail: "For CI/logo usage questions or official asset requests, email ",
+      contactAfterEmail: " and we’ll respond as soon as we can.",
+      legalHeading: "Copyright & trade marks",
+      legalBody:
+        "The logos, wordmarks and symbols are brand assets of Minsub Ventures. Do not distort them or redistribute/reuse them for commercial purposes without prior agreement. If the scope of use is unclear (press, partner materials, etc.), please confirm via the address above.",
+      typographyHeading: "Typography (web)",
+      typographyBody:
+        "This public site uses a system sans-serif stack (e.g. -apple-system, Segoe UI, Roboto) with Noto-style fonts for Korean text. For external materials, prefer a readable, neutral sans-serif to stay close to the on-site tone.",
     },
     zh: {
       metaTitle: "CI 介绍",
@@ -191,7 +222,7 @@ export function aboutCiPageCopy(locale: SiteLocale): AboutCiPageCopy {
       downloadMarkSvg: "下载符号（SVG）",
       downloadWordmarkPng: "下载横排标识（PNG）",
       lockupEyebrow: "横向组合",
-      lockupTitle: "02. 几何符号 + 横排标识",
+      lockupTitle: "04. 几何符号 + 横排标识",
       lockupNarrative: [
         "斜线形态的符号代表前进方向与快速执行力。",
         "两股力量汇向同一方向，象征连接客户与市场、共同成长的伙伴关系。",
@@ -209,7 +240,7 @@ export function aboutCiPageCopy(locale: SiteLocale): AboutCiPageCopy {
       lockupDotsImageAlt: "Minsub Ventures 顶部连接点阵海军蓝横向标识",
       downloadLockupDotsPng: "下载顶部连接型横向标识（PNG）",
       lockupBottomEyebrow: "横向组合",
-      lockupBottomTitle: "04. 点阵·底部连接 + 横排标识",
+      lockupBottomTitle: "02. 点阵·底部连接 + 横排标识",
       lockupBottomNarrative: [
         "底部连接结构象征稳固基础与可持续的运营体系。",
         "如同将看不见的基础牢牢衔接，表达 Minsub Ventures 对客户运营、合规与财务结构的稳定支持。",
@@ -232,6 +263,17 @@ export function aboutCiPageCopy(locale: SiteLocale): AboutCiPageCopy {
         "在纯色背景上保持官方色彩对比度；必要时可使用纯色反白版本。",
         "对外部制作物，建议使用官方 PDF、SVG、PNG 文件。",
       ],
+      supplementEyebrow: "其他说明",
+      supplementTitle: "联系·权利与字体",
+      contactHeading: "联系",
+      contactBeforeEmail: "有关 CI/标识使用或官方文件索取，请发送邮件至 ",
+      contactAfterEmail: "，我们会尽快回复。",
+      legalHeading: "版权与商标",
+      legalBody:
+        "标识、横排组合与符号等均为 Minsub Ventures 的品牌资产。未经事先约定，请勿擅自变形，亦不得以商业目的再分发或再使用。若用途不明确（媒体报道、合作方物料等），请通过上述邮箱确认。",
+      typographyHeading: "字体（网站）",
+      typographyBody:
+        "本公开网站正文与界面采用系统无衬线字体栈（如 -apple-system、Segoe UI、Roboto），并为中文/韩文等配置 Noto 系辅助字体。对外物料亦建议使用易读、风格中性的无衬线字体，以贴近本站观感。",
     },
   });
 }
