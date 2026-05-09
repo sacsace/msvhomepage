@@ -164,20 +164,24 @@ export function SiteHeader({ locale }: Props) {
                       {pickLocale(locale, { ko: "FRRO 서비스", en: "FRRO services", zh: "FRRO 服务" })}
                     </MobileNavLink>
                     <MobileNavLink href="/services/ecb">
-                      {pickLocale(locale, { ko: "ECB 안내", en: "ECB guide", zh: "ECB 说明" })}
+                      {pickLocale(locale, {
+                        ko: "ECB·FEMA 실무 안내",
+                        en: "ECB / FEMA guide",
+                        zh: "ECB·FEMA 实务指南",
+                      })}
                     </MobileNavLink>
                     <MobileNavLink href="/services/form-41-registration">
                       {pickLocale(locale, {
-                        ko: "Form 41(구 Form 10F) 등록 서비스",
-                        en: "Form 41 registration (formerly Form 10F)",
-                        zh: "Form 41 注册（原 Form 10F）",
+                        ko: "Form 41 / Form 10F 등록·신고",
+                        en: "Form 41 / Form 10F registration",
+                        zh: "Form 41 / Form 10F 登记与申报",
                       })}
                     </MobileNavLink>
                     <MobileNavLink href="/services/personal-income-tax-calculator">
                       {pickLocale(locale, {
-                        ko: "개인 소득세 계산기",
-                        en: "Personal income tax calculator",
-                        zh: "个人所得税计算器",
+                        ko: "인도 급여 TDS 계산기",
+                        en: "India salary TDS calculator",
+                        zh: "印度工资 TDS 计算器",
                       })}
                     </MobileNavLink>
                     <MobileNavLink href="/services/corporate-tax-calculator">
@@ -189,9 +193,9 @@ export function SiteHeader({ locale }: Props) {
                     </MobileNavLink>
                     <MobileNavLink href="/services/professional-tax-calculator">
                       {pickLocale(locale, {
-                        ko: "Professional Tax 계산기",
-                        en: "Professional tax calculator",
-                        zh: "职业税计算器",
+                        ko: "Professional Tax (PT) 계산기",
+                        en: "Professional Tax (PT) calculator",
+                        zh: "Professional Tax（PT）计算器",
                       })}
                     </MobileNavLink>
                   </div>

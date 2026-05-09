@@ -34,7 +34,7 @@ export const investmentRemittanceSpotlight = {
   title: "해외 투자 / 송금과 신고",
   body: `인도 법인 설립·운영 과정에서는 외국인 투자(FDI) 규정, 자본금 유치·증자, 주주 구조 변경, 비거주자 송금 시 세무·환율 신고를 동시에 맞춰야 합니다. MSV는 법인 컨설팅·회계·세무를 한 조직에서 다루며, 방갈로르 현장에서 서류·은행·세무 실행까지 일관되게 지원합니다.`,
   highlights: [
-    "Form 41(구 Form 10F)·DTAA(이중과세 방지)·소득세 신고",
+    "Form 41 / Form 10F·DTAA(이중과세 방지)·소득세 신고",
     "주식 계좌 개설",
     "Demat 계좌 개설",
     "자본금 송금·증자",
@@ -115,6 +115,11 @@ export const groupCompanies = [
     intro: `Neocle International Private Limited는 인도 현지에서 수출입을 전문으로 하는 법인으로, 스크랩(scrap) 수출·수입 대행·창고 운영 등을 통해 물류·통관 실행력을 제공합니다.
 
 MSV의 법인 설립·운영 고객과 연계해, 견적·선적·문서·현지 창고까지 실무 단에서 이어지는 수출입 지원을 강화하는 역할을 합니다.`,
+    location: {
+      /** Google Maps 단축 링크가 가리키는 좌표(13.0498988, 79.9621672) 기준 embed */
+      embedSrc: "https://www.google.com/maps?q=13.0498988%2C79.9621672&z=16&output=embed",
+      mapUrl: "https://maps.app.goo.gl/2Mei8zZ8QUSZmGwF7",
+    },
   },
   {
     slug: "seda-engineering-india",
@@ -124,6 +129,11 @@ MSV의 법인 설립·운영 고객과 연계해, 견적·선적·문서·현지
     logoSrc: `/group/seda-engineering-india/deers-seda-logo.png${GROUP_LOGO_VER}`,
     highlights: ["산업용 장비·압축기 엔지니어링", "플랜트·공장 설비 도입 및 유지보수"],
     intro: `Seda Engineering India Private Limited는 산업용 장비·압축기 등 엔지니어링 분야에서 제조·플랜트 현장의 설비 도입·유지보수와 관련된 기술·공급 체계를 바탕으로, 인도 내 공장·설비 프로젝트에 실질적인 엔지니어링 파트너로 기여합니다.`,
+    location: {
+      /** Google Maps 단축 링크가 가리키는 좌표(13.9534786, 77.6610694) 기준 embed */
+      embedSrc: "https://www.google.com/maps?q=13.9534786%2C77.6610694&z=16&output=embed",
+      mapUrl: "https://maps.app.goo.gl/3M3sdACigqNEKqbZ6",
+    },
   },
   {
     slug: "lotus-korean-hotel",
@@ -136,6 +146,11 @@ MSV의 법인 설립·운영 고객과 연계해, 견적·선적·문서·현지
     intro: `Lotus Korean Hotel은 방갈로르에서 비즈니스·장기 체류에 맞춘 한국형 호텔·숙박 서비스를 제공합니다.
 
 MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등을 함께 지원하며, 현지 업무와 연계된 숙박 옵션을 제공합니다.`,
+    location: {
+      /** Google Maps 단축 링크가 가리키는 좌표(12.9785591, 77.6974959) 기준 embed */
+      embedSrc: "https://www.google.com/maps?q=12.9785591%2C77.6974959&z=16&output=embed",
+      mapUrl: "https://maps.app.goo.gl/JueFi9TdfD7cHec2A",
+    },
   },
   {
     slug: "wilmat",
@@ -159,11 +174,12 @@ MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등�
       "Sheraton Grand Hotel",
       "Hilton Hotel Convention Center",
       "Lido Mall, MG Road",
-      "Brigade Group — Uptown Mall",
-      "Brigade Senate",
-      "Brigade Southfield",
-      "Brigade 7 Gardens",
-      "Brigade Parkside",
+      "Kia Motors India",
+      "Brigade Group",
+      "Hyatt",
+      "Kia Motors Showroom",
+      "Marriott Hotel",
+      "Prestige Group",
     ] as const,
     intro: `Wilmat은 건물 입구용 프리미엄 매트팅(Entrance Matting) 시스템입니다. 한국 Ecosys의 연구·개발을 바탕으로 하며, 신발에 붙은 먼지를 걸러 실내를 깨끗이 유지하고 미끄럼·넘어짐 위험을 줄입니다. 대리석·타일 등 마감과 조화를 이루는 색·패턴을 선택할 수 있습니다.
 
@@ -196,6 +212,18 @@ MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등�
 
 페이지 상단의 PDF는 2025년 8월 기준 영문 비즈니스 소개 자료입니다. 실적·조직·거점·주요 고객사 등이 수록되어 있으니, 대외 공유 시에는 최신본과 맞춰 주세요.`,
     profilePdf: "/jwits-business-intro-20250815.pdf",
+    location: {
+      /**
+       * 공식 Google Maps 핀(단축 URL)이 확보되면 Neocle/Seda/Lotus와 동일하게 좌표 embed로 교체 권장.
+       * 현재는 법인명 검색 기준 지도·외부 링크.
+       */
+      embedSrc: `https://maps.google.com/maps?q=${encodeURIComponent(
+        "JW Industrial Tech Service Private Limited, Karnataka, India",
+      )}&z=9&output=embed`,
+      mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        "JW Industrial Tech Service Private Limited",
+      )}`,
+    },
   },
 ] satisfies readonly GroupCompany[];
 
@@ -423,7 +451,7 @@ export const accountingServiceBlocks: readonly AccountingServiceBlock[] = [
     items: [
       "이사 등록·삭제(1인 단위)",
       "Form 15CA/CB(비거주자 송금 관련 세무 인증, 건별)",
-      "ECB(대외상업차입), 해외 송금 Form 41(구 Form 10F)·DTAA(이중과세 방지) 관련 지원(해당 시)",
+      "ECB(대외상업차입), 해외 송금 Form 41 / Form 10F·DTAA(이중과세 방지) 관련 지원(해당 시)",
       "DIR-3 KYC(이사 식별번호 연간 갱신, 1인 단위)",
       "공인회계사 서명 필요 문서(서류 건별)",
     ],

@@ -362,6 +362,7 @@ export function CorporateTaxCalculator({ locale }: { locale: SiteLocale }) {
             </tbody>
           </table>
         </div>
+        <p className="mt-3 text-xs leading-relaxed text-slate-600">{t.tableBelowNote}</p>
       </div>
     </div>
   );

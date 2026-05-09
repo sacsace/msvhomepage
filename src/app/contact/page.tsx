@@ -41,12 +41,13 @@ export default async function ContactPage() {
                   contentWidth="full"
                 />
                 <p className="mt-2 text-sm font-semibold text-msv-navy">{company.legalName}</p>
+                <p className="mt-1 text-xs leading-relaxed text-slate-500 sm:text-[13px]">{c.cardTagline}</p>
                 <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{company.address}</p>
                 <div className="mt-4 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
                   <iframe
                     title={c.mapIframeTitle}
                     src={mapEmbedSrc}
-                    className="h-52 w-full border-0 sm:h-56 lg:h-[15.5rem]"
+                    className="h-[200px] w-full border-0 sm:h-[240px] lg:h-[260px]"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     allowFullScreen
@@ -78,7 +79,7 @@ export default async function ContactPage() {
                 <p className="mt-2">
                   <a
                     href={`mailto:${company.infoEmail}`}
-                    className="break-all text-sm font-semibold text-msv-blue underline-offset-2 hover:underline sm:text-base"
+                    className="break-all text-sm font-semibold text-msv-blue underline-offset-2 decoration-msv-blue/60 transition-colors duration-200 hover:text-msv-navy hover:underline sm:text-base"
                   >
                     {company.infoEmail}
                   </a>

@@ -99,6 +99,8 @@ export default async function Form41RegistrationPage() {
             </dl>
           </section>
 
+          <p className="text-center text-[11px] leading-relaxed text-slate-500">{c.legalMicroCopy}</p>
+
           <div className="flex flex-wrap gap-3">
             <Link
               href={L("/services")}

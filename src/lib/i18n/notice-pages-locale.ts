@@ -11,7 +11,8 @@ export type NoticePagesCopy = {
   colNo: string;
   colDate: string;
   colPinned: string;
-  colTitleSummary: string;
+  colTitle: string;
+  colSummary: string;
   pinnedBadge: string;
   /** 상세 상단·하단 목록 링크 */
   listNavLabel: string;
@@ -32,7 +33,8 @@ const ko: NoticePagesCopy = {
   colNo: "번호",
   colDate: "등록일",
   colPinned: "고정",
-  colTitleSummary: "제목 · 요약",
+  colTitle: "제목",
+  colSummary: "요약",
   pinnedBadge: "고정",
   listNavLabel: "공지사항 목록",
   backToList: "← 목록",
@@ -49,7 +51,8 @@ const en: NoticePagesCopy = {
   colNo: "No.",
   colDate: "Date",
   colPinned: "Pin",
-  colTitleSummary: "Title · summary",
+  colTitle: "Title",
+  colSummary: "Summary",
   pinnedBadge: "Pinned",
   listNavLabel: "All announcements",
   backToList: "← Back to list",
@@ -66,7 +69,8 @@ const zh: NoticePagesCopy = {
   colNo: "序号",
   colDate: "发布日期",
   colPinned: "置顶",
-  colTitleSummary: "标题 · 摘要",
+  colTitle: "标题",
+  colSummary: "摘要",
   pinnedBadge: "置顶",
   listNavLabel: "公告列表",
   backToList: "← 返回列表",

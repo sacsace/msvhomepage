@@ -28,11 +28,20 @@ export type MvsSoftwarePageCopy = {
   screenshotsLead: string;
   screenshots: readonly MvsScreenshotCopy[];
   ctaLead: string;
+  /** 상단 바로가기 카드 */
+  shortcutsHeading: string;
+  shortcutWebsite: string;
+  shortcutBusinessPdf: string;
+  /** 비어 있으면 PDF 버튼 미표시. 예: "/documents/mvs-intro.pdf" */
+  businessIntroPdfUrl: string;
   linkSoftware: string;
   linkAbout: string;
   linkServices: string;
   linkContact: string;
 };
+
+/** 그룹웨어(MVS) 제품 사이트 — 외부 링크. */
+export const MVS_PRODUCT_SITE_URL = "https://www.mvsystem.in";
 
 const SHOTS = [
   "/software/mvs/inventory-status.png",
@@ -60,7 +69,7 @@ const ko: MvsSoftwarePageCopy = {
     {
       eyebrow: "Name",
       title: "Minsub Ventus System",
-      body: "MVS는 MS Ventures System·Minsub Ventus System을 아우르는 제품 브랜드로, Ventus(라틴어 ‘바람’)에 담긴 실행·순환의 이미지를 바탕으로 합니다. 그룹웨어로서 사내 업무 흐름을 한데 묶는 것을 목표로 합니다.",
+      body: "MVS는 Minsub Ventus System을 아우르는 제품 브랜드로, Ventus(라틴어 ‘바람’)에 담긴 실행·순환의 이미지를 바탕으로 합니다. 그룹웨어로서 사내 업무 흐름을 한데 묶는 것을 목표로 합니다.",
     },
     {
       eyebrow: "Scope",
@@ -122,6 +131,10 @@ const ko: MvsSoftwarePageCopy = {
     },
   ],
   ctaLead: "소프트웨어·서비스 소개로 이동하시거나, 도입·연동 문의를 남겨 주세요.",
+  shortcutsHeading: "바로가기",
+  shortcutWebsite: "웹사이트",
+  shortcutBusinessPdf: "비즈니스 소개 PDF",
+  businessIntroPdfUrl: "",
   linkSoftware: "소프트웨어",
   linkAbout: "회사 소개",
   linkServices: "서비스",
@@ -144,7 +157,7 @@ Company profile, vision and milestones are on the About page.`,
     {
       eyebrow: "Name",
       title: "Minsub Ventus System",
-      body: "MVS spans MS Ventures System and Minsub Ventus System as the product brand, drawing on Ventus (Latin for ‘wind’) as a symbol of motion and cycle. As groupware, it aims to bring internal workflows together in one place.",
+      body: "MVS is the product brand encompassing Minsub Ventus System, drawing on Ventus (Latin for ‘wind’) as a symbol of motion and cycle. As groupware, it aims to bring internal workflows together in one place.",
     },
     {
       eyebrow: "Scope",
@@ -206,6 +219,10 @@ Company profile, vision and milestones are on the About page.`,
     },
   ],
   ctaLead: "Go to software and services, or leave a message about adoption and integrations.",
+  shortcutsHeading: "Shortcuts",
+  shortcutWebsite: "Website",
+  shortcutBusinessPdf: "Business overview (PDF)",
+  businessIntroPdfUrl: "",
   linkSoftware: "Software",
   linkAbout: "About",
   linkServices: "Services",
@@ -228,7 +245,7 @@ const zh: MvsSoftwarePageCopy = {
     {
       eyebrow: "Name",
       title: "Minsub Ventus System",
-      body: "MVS 涵盖 MS Ventures System 与 Minsub Ventus System 作为产品品牌，Ventus（拉丁语「风」）寓意流动与循环，集团办公旨在把内部业务流程集中在一处。",
+      body: "MVS 以 Minsub Ventus System 为所属产品品牌，Ventus（拉丁语「风」）寓意流动与循环，集团办公旨在把内部业务流程集中在一处。",
     },
     {
       eyebrow: "Scope",
@@ -290,6 +307,10 @@ const zh: MvsSoftwarePageCopy = {
     },
   ],
   ctaLead: "可前往软件与服务介绍页面，或留下采购与对接集成的咨询。",
+  shortcutsHeading: "快捷入口",
+  shortcutWebsite: "网站",
+  shortcutBusinessPdf: "业务介绍 PDF",
+  businessIntroPdfUrl: "",
   linkSoftware: "软件",
   linkAbout: "公司介绍",
   linkServices: "服务",

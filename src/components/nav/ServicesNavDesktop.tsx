@@ -13,11 +13,11 @@ const subKo = [
   { href: "/services/license-registration", label: "라이센스 등록 서비스" },
   { href: "/services/recruitment-support", label: "채용지원 서비스" },
   { href: "/services/frro", label: "FRRO 서비스" },
-  { href: "/services/ecb", label: "ECB 안내" },
-  { href: "/services/form-41-registration", label: "Form 41(구 Form 10F) 등록 서비스" },
-  { href: "/services/personal-income-tax-calculator", label: "개인 소득세 계산기" },
+  { href: "/services/ecb", label: "ECB·FEMA 실무 안내" },
+  { href: "/services/form-41-registration", label: "Form 41 / Form 10F 등록·신고" },
+  { href: "/services/personal-income-tax-calculator", label: "인도 급여 TDS 계산기" },
   { href: "/services/corporate-tax-calculator", label: "법인세 계산기" },
-  { href: "/services/professional-tax-calculator", label: "Professional Tax 계산기" },
+  { href: "/services/professional-tax-calculator", label: "Professional Tax (PT) 계산기" },
 ] as const;
 
 const subEn = [
@@ -27,14 +27,14 @@ const subEn = [
   { href: "/services/license-registration", label: "License registration" },
   { href: "/services/recruitment-support", label: "Recruitment support" },
   { href: "/services/frro", label: "FRRO services" },
-  { href: "/services/ecb", label: "ECB guide" },
+  { href: "/services/ecb", label: "ECB / FEMA guide" },
   {
     href: "/services/form-41-registration",
-    label: "Form 41 registration (formerly Form 10F)",
+    label: "Form 41 / Form 10F registration",
   },
-  { href: "/services/personal-income-tax-calculator", label: "Personal income tax calculator" },
+  { href: "/services/personal-income-tax-calculator", label: "India salary TDS calculator" },
   { href: "/services/corporate-tax-calculator", label: "Corporate tax calculator" },
-  { href: "/services/professional-tax-calculator", label: "Professional tax calculator" },
+  { href: "/services/professional-tax-calculator", label: "Professional Tax (PT) calculator" },
 ] as const;
 
 const subZh = [
@@ -44,11 +44,11 @@ const subZh = [
   { href: "/services/license-registration", label: "许可证注册" },
   { href: "/services/recruitment-support", label: "招聘支持" },
   { href: "/services/frro", label: "FRRO 服务" },
-  { href: "/services/ecb", label: "ECB 说明" },
-  { href: "/services/form-41-registration", label: "Form 41 注册（原 Form 10F）" },
-  { href: "/services/personal-income-tax-calculator", label: "个人所得税计算器" },
+  { href: "/services/ecb", label: "ECB·FEMA 实务指南" },
+  { href: "/services/form-41-registration", label: "Form 41 / Form 10F 登记与申报" },
+  { href: "/services/personal-income-tax-calculator", label: "印度工资 TDS 计算器" },
   { href: "/services/corporate-tax-calculator", label: "企业所得税计算器" },
-  { href: "/services/professional-tax-calculator", label: "职业税计算器" },
+  { href: "/services/professional-tax-calculator", label: "Professional Tax（PT）计算器" },
 ] as const;
 
 function linkClass(active: boolean) {

@@ -74,7 +74,7 @@ export default async function EcbGuidePage() {
                 <div key={block.title}>
                   <h3 className="text-sm font-semibold text-msv-navy">{block.title}</h3>
                   <p className="mt-2 text-sm font-medium text-slate-800">{block.question}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-700">{block.answer}</p>
+                  <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-slate-700">{block.answer}</p>
                 </div>
               ))}
             </div>
@@ -92,6 +92,9 @@ export default async function EcbGuidePage() {
           <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <h2 className="text-lg font-bold text-msv-navy">{c.penalties.title}</h2>
             <p className="mt-3 text-sm leading-relaxed text-slate-700">{c.penalties.intro}</p>
+            <p className="mt-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-center text-base font-bold tracking-tight text-amber-950">
+              {c.penalties.exampleLabel}
+            </p>
             <div className="mt-4 overflow-x-auto rounded-lg border border-slate-200">
               <table className="w-full min-w-[16rem] border-collapse text-left text-sm">
                 <thead>
@@ -110,6 +113,7 @@ export default async function EcbGuidePage() {
                 </tbody>
               </table>
             </div>
+            <p className="mt-4 text-xs leading-relaxed text-slate-600">{c.penalties.footnote}</p>
           </section>
 
           <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
@@ -157,6 +161,22 @@ export default async function EcbGuidePage() {
             </p>
             <p className="mt-6 text-xs leading-relaxed text-slate-500">{c.references.disclaimer}</p>
           </section>
+
+          <nav aria-label={c.relatedPractice.title} className="rounded-xl border border-slate-200/80 bg-slate-50/80 px-4 py-3 sm:px-5">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">{c.relatedPractice.title}</p>
+            <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-sm">
+              {c.relatedPractice.links.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={L(item.path)}
+                    className="font-medium text-msv-navy underline-offset-2 transition-colors hover:text-msv-blue hover:underline"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
           <div className="flex flex-wrap gap-3">
             <Link

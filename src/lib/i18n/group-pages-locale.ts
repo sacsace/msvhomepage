@@ -1,6 +1,7 @@
 import type { SiteLocale } from "@/lib/site-locale";
 import { pickLocale } from "@/lib/site-locale";
 import { company } from "@/lib/site-content";
+import { jwitsMajorCustomerDisplayRows } from "@/lib/jwits-major-customers";
 import { wilmatMajorCustomerDisplayRows, type WilmatMajorCustomerDisplayRow } from "@/lib/wilmat-major-customers";
 
 /** `groupCompanies` 슬러그와 동일 순서로 유지 */
@@ -97,6 +98,9 @@ export type GroupCompanyPageChrome = {
   galleryTitle: string;
   majorCustomersEyebrow: string;
   majorCustomersTitle: string;
+  locationEyebrow: string;
+  locationTitle: string;
+  openInGoogleMaps: string;
   footerLead: string;
   linkGroupList: string;
   linkAbout: string;
@@ -114,7 +118,10 @@ const chromeKo: GroupCompanyPageChrome = {
   galleryEyebrow: "Gallery",
   galleryTitle: "사진",
   majorCustomersEyebrow: "Major customers",
-  majorCustomersTitle: "주요 고객",
+  majorCustomersTitle: "주요 고객사",
+  locationEyebrow: "Location",
+  locationTitle: "위치",
+  openInGoogleMaps: "Google 지도에서 크게 보기 →",
   footerLead: "그룹사 목록으로 돌아가거나 회사 소개를 이어서 보실 수 있습니다.",
   linkGroupList: "그룹사 목록",
   linkAbout: "회사 소개",
@@ -133,6 +140,9 @@ const chromeEn: GroupCompanyPageChrome = {
   galleryTitle: "Photos",
   majorCustomersEyebrow: "Major customers",
   majorCustomersTitle: "Key customers",
+  locationEyebrow: "Location",
+  locationTitle: "Office location",
+  openInGoogleMaps: "Open in Google Maps →",
   footerLead: "Return to the group companies list or continue to the company profile.",
   linkGroupList: "Group companies",
   linkAbout: "About us",
@@ -151,6 +161,9 @@ const chromeZh: GroupCompanyPageChrome = {
   galleryTitle: "图片",
   majorCustomersEyebrow: "Major customers",
   majorCustomersTitle: "主要客户",
+  locationEyebrow: "Location",
+  locationTitle: "位置",
+  openInGoogleMaps: "在 Google 地图中放大查看 →",
   footerLead: "返回集团公司列表，或继续查看公司简介。",
   linkGroupList: "集团公司",
   linkAbout: "公司介绍",
@@ -184,6 +197,11 @@ const bodies: Record<GroupCompanySlug, { ko: GroupCompanyContentCopy; en: GroupC
 MSV의 법인 설립·운영 고객과 연계해, 견적·선적·문서·현지 창고까지 실무 단에서 이어지는 수출입 지원을 강화하는 역할을 합니다.`,
       highlights: ["스크랩(scrap) 수출", "수출입 대행", "창고 운영"],
       logoAlt: "Neocle International 로고",
+      majorCustomers: [
+        "Minsub Ventures 법인 고객(물류·수출입·창고 연계)",
+        "인도·인근 지역 스크랩·자원 수출 거래처",
+        "한국계 및 인도 현지 제조·유통사(수입 대행)",
+      ],
     },
     en: {
       metaDescription:
@@ -194,6 +212,11 @@ MSV의 법인 설립·운영 고객과 연계해, 견적·선적·문서·현지
 It strengthens hands-on export/import support—quotations, shipments, documentation and local warehouses—for MSV clients in company formation and ongoing operations.`,
       highlights: ["Scrap exports", "Import/export agency", "Warehouse operations"],
       logoAlt: "Neocle International logo",
+      majorCustomers: [
+        "Minsub Ventures incorporated clients (logistics, trade & warehousing)",
+        "Scrap and secondary-material buyers in India and nearby regions",
+        "Korean and India-based manufacturers and distributors (import agency)",
+      ],
     },
     zh: {
       metaDescription:
@@ -204,6 +227,11 @@ It strengthens hands-on export/import support—quotations, shipments, documenta
 与 MSV 法人设立及运营客户衔接，在报价、出运、单证及当地仓库等实务层面强化进出口支持。`,
       highlights: ["废料（scrap）出口", "进出口代理", "仓储运营"],
       logoAlt: "Neocle International 标志",
+      majorCustomers: [
+        "Minsub Ventures 法人客户（物流、进出口与仓储衔接）",
+        "印度及周边地区的废料与次生资源买方",
+        "韩国及印度本土制造与流通企业（进口代理）",
+      ],
     },
   },
   "seda-engineering-india": {
@@ -214,6 +242,11 @@ It strengthens hands-on export/import support—quotations, shipments, documenta
       intro: `Seda Engineering India Private Limited는 산업용 장비·압축기 등 엔지니어링 분야에서 제조·플랜트 현장의 설비 도입·유지보수와 관련된 기술·공급 체계를 바탕으로, 인도 내 공장·설비 프로젝트에 실질적인 엔지니어링 파트너로 기여합니다.`,
       highlights: ["산업용 장비·압축기 엔지니어링", "플랜트·공장 설비 도입 및 유지보수"],
       logoAlt: "Seda Engineering India 로고",
+      majorCustomers: [
+        "인도 내 공장·플랜트 설비 도입·유지보수 프로젝트",
+        "산업용 장비·압축기 OEM·공급사와 협력하는 제조 현장",
+        "제조·에너지·화학 등 설비 투자·증설 수요 기업",
+      ],
     },
     en: {
       metaDescription:
@@ -222,6 +255,11 @@ It strengthens hands-on export/import support—quotations, shipments, documenta
       intro: `Seda Engineering India Private Limited contributes as an engineering partner to factory and plant projects in India, drawing on technical and supply capabilities for industrial equipment and compressors—including installation and maintenance at manufacturing and plant sites.`,
       highlights: ["Industrial equipment & compressor engineering", "Plant/factory installation and maintenance"],
       logoAlt: "Seda Engineering India logo",
+      majorCustomers: [
+        "Plant and factory equipment installation & maintenance projects across India",
+        "Manufacturing sites with industrial equipment and compressor OEM/supplier partners",
+        "Manufacturing, energy and process industries investing in capacity and upgrades",
+      ],
     },
     zh: {
       metaDescription:
@@ -230,6 +268,11 @@ It strengthens hands-on export/import support—quotations, shipments, documenta
       intro: `Seda Engineering India Private Limited 依托工业设备、压缩机等工程领域的技术与供应体系，在印度工厂与设施项目中承担设备导入与维护相关工作，作为工程侧合作伙伴提供支持。`,
       highlights: ["工业设备与压缩机工程", "工厂与产线设备安装及维护"],
       logoAlt: "Seda Engineering India 标志",
+      majorCustomers: [
+        "印度境内工厂与产线设备安装及维护项目",
+        "与工业设备、压缩机 OEM/供应商协同的制造现场",
+        "制造、能源及流程工业等具备设备投资与扩产需求的企业",
+      ],
     },
   },
   "lotus-korean-hotel": {
@@ -242,6 +285,11 @@ It strengthens hands-on export/import support—quotations, shipments, documenta
 MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등을 함께 지원하며, 현지 업무와 연계된 숙박 옵션을 제공합니다.`,
       highlights: ["비즈니스·장기 숙박", "온라인: hotellotus.in"],
       logoAlt: "Lotus Korean Hotel 로고",
+      majorCustomers: [
+        "Minsub Ventures 고객사 및 협력사 방문·체류 인력",
+        "인도 장기 출장·프로젝트 기간 체류 팀",
+        "한국계·국제 기업 비즈니스·장기 숙박 고객",
+      ],
     },
     en: {
       metaDescription:
@@ -252,6 +300,11 @@ MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등�
 Together with MSV we support base lodging for client teams and visitors, project-duration stays and options linked to local operations.`,
       highlights: ["Business & extended stays", "Online: hotellotus.in"],
       logoAlt: "Lotus Korean Hotel logo",
+      majorCustomers: [
+        "Minsub Ventures clients, partners and visiting teams",
+        "Long-assignment and project-duration stays in India",
+        "Korean and international corporate guests on business and extended stays",
+      ],
     },
     zh: {
       metaDescription:
@@ -262,6 +315,11 @@ Together with MSV we support base lodging for client teams and visitors, project
 与 MSV 协同支持客户与来访人员的驻地住宿、项目期停留及与当地业务衔接的住宿方案。`,
       highlights: ["商务与长住", "线上：hotellotus.in"],
       logoAlt: "Lotus Korean Hotel 标志",
+      majorCustomers: [
+        "Minsub Ventures 客户、合作伙伴及来访与驻留人员",
+        "印度长期外派与项目周期住宿团队",
+        "韩国及国际企业商务与长住宾客",
+      ],
     },
   },
   wilmat: {
@@ -356,6 +414,7 @@ The PDF at the top of the page is the English product catalogue as of December 2
         "차량 생산 설비 관련 한국산 산업 소모품 공급",
         "현장 공정 개발·양산 대응, 엔지니어링 AMC",
       ],
+      majorCustomerRows: jwitsMajorCustomerDisplayRows("ko"),
       logoAlt: "JW Industrial Tech Service 로고",
     },
     en: {
@@ -375,6 +434,7 @@ The PDF at the top is the English business introduction as of August 2025 (track
         "Korean industrial consumables for vehicle production equipment",
         "On-site process development, ramp-up support, engineering AMC",
       ],
+      majorCustomerRows: jwitsMajorCustomerDisplayRows("en"),
       logoAlt: "JW Industrial Tech Service logo",
     },
     zh: {
@@ -394,6 +454,7 @@ The PDF at the top is the English business introduction as of August 2025 (track
         "车辆产线用韩国工业耗材供应",
         "现场工艺开发与量产支持、工程 AMC",
       ],
+      majorCustomerRows: jwitsMajorCustomerDisplayRows("zh"),
       logoAlt: "JW Industrial Tech Service 标志",
     },
   },

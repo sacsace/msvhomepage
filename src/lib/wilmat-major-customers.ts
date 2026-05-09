@@ -15,11 +15,12 @@ export const WILMAT_MAJOR_CUSTOMERS: readonly WilmatMajorCustomerSource[] = [
   { name: "Sheraton Grand Hotel", faviconDomain: "marriott.com" },
   { name: "Hilton Hotel Convention Center", faviconDomain: "hilton.com" },
   { name: "Lido Mall, MG Road" },
-  { name: "Brigade Group — Uptown Mall", faviconDomain: "brigadegroup.com" },
-  { name: "Brigade Senate", faviconDomain: "brigadegroup.com" },
-  { name: "Brigade Southfield", faviconDomain: "brigadegroup.com" },
-  { name: "Brigade 7 Gardens", faviconDomain: "brigadegroup.com" },
-  { name: "Brigade Parkside", faviconDomain: "brigadegroup.com" },
+  { name: "Kia Motors India", faviconDomain: "kia.in" },
+  { name: "Brigade Group", faviconDomain: "brigadegroup.com" },
+  { name: "Hyatt", faviconDomain: "hyatt.com" },
+  { name: "Kia Motors Showroom", faviconDomain: "kia.in" },
+  { name: "Marriott Hotel", faviconDomain: "marriott.com" },
+  { name: "Prestige Group", faviconDomain: "prestigeconstructions.com" },
 ] as const;
 
 export function wilmatMajorCustomerFaviconUrl(domain: string): string {

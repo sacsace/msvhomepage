@@ -42,7 +42,10 @@ export default async function NoticeListPage() {
               <span className="text-center">{c.colNo}</span>
               <span>{c.colDate}</span>
               <span className="text-center">{c.colPinned}</span>
-              <span>{c.colTitleSummary}</span>
+              <div className="flex min-w-0 items-baseline justify-between gap-2 normal-case sm:gap-4">
+                <span className="min-w-0 flex-1 text-left">{c.colTitle}</span>
+                <span className="max-w-[42%] shrink-0 text-right sm:max-w-[48%] md:max-w-[50%]">{c.colSummary}</span>
+              </div>
             </div>
             <ul role="list">
               {list.map((a, i) => (

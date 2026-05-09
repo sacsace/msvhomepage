@@ -209,7 +209,7 @@ export default async function GroupCompanyPage({ params }: Props) {
 
         {majorCustomerRows && majorCustomerRows.length > 0 ? (
           <section className={cardSection}>
-            <div className={introColumn}>
+            <div className={introColumnFullWidth}>
               <SectionTitle
                 eyebrow={chrome.majorCustomersEyebrow}
                 title={chrome.majorCustomersTitle}
@@ -218,11 +218,11 @@ export default async function GroupCompanyPage({ params }: Props) {
                 headingLevel={3}
                 contentWidth="full"
               />
-              <ul className="mt-4 grid list-none gap-2.5 sm:grid-cols-2 sm:gap-3">
+              <ul className="mt-4 grid w-full list-none grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-3.5">
                 {majorCustomerRows.map((row) => (
                   <li
                     key={row.name}
-                    className="flex min-h-[3rem] items-center gap-3 rounded-lg border border-slate-200 bg-slate-50/60 px-3 py-2.5 sm:px-3.5"
+                    className="flex min-h-[4.25rem] items-start gap-2.5 rounded-lg border border-slate-200 bg-white px-3 py-3 sm:min-h-[4.5rem] sm:gap-3 sm:px-3.5 sm:py-3.5"
                   >
                     {row.logoSrc ? (
                       <Image
@@ -231,18 +231,20 @@ export default async function GroupCompanyPage({ params }: Props) {
                         width={32}
                         height={32}
                         unoptimized
-                        className="size-8 shrink-0 rounded object-contain"
+                        className="mt-0.5 size-8 shrink-0 rounded object-contain"
                         aria-hidden
                       />
                     ) : (
                       <span
-                        className="flex size-8 shrink-0 items-center justify-center rounded border border-dashed border-slate-300 bg-white text-[10px] font-medium text-slate-400"
+                        className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded border border-dashed border-slate-300 bg-slate-50 text-[10px] font-medium text-slate-400"
                         aria-hidden
                       >
                         —
                       </span>
                     )}
-                    <span className="min-w-0 text-sm font-medium leading-snug text-slate-800">{row.name}</span>
+                    <span className="min-w-0 flex-1 text-pretty text-left text-xs font-medium leading-snug text-slate-800 sm:text-[13px] sm:leading-snug">
+                      {row.name}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -266,6 +268,44 @@ export default async function GroupCompanyPage({ params }: Props) {
                   </li>
                 ))}
               </ul>
+            </div>
+          </section>
+        ) : null}
+
+        {g.location ? (
+          <section className={cardSection}>
+            <div className={introColumnFullWidth}>
+              <SectionTitle
+                eyebrow={chrome.locationEyebrow}
+                title={chrome.locationTitle}
+                spacing="tight"
+                density="compact"
+                headingLevel={3}
+                contentWidth="full"
+              />
+              {g.location.addressLine ? (
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{g.location.addressLine}</p>
+              ) : null}
+              <div className="mt-4 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+                <iframe
+                  title={`${g.legalName} (Google Maps)`}
+                  src={g.location.embedSrc}
+                  className="h-[200px] w-full border-0 sm:h-[220px] lg:h-[240px]"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
+              </div>
+              <p className="mt-2.5">
+                <a
+                  href={g.location.mapUrl}
+                  className="text-xs font-medium text-msv-blue underline-offset-2 transition-colors duration-200 hover:text-msv-navy hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {chrome.openInGoogleMaps}
+                </a>
+              </p>
             </div>
           </section>
         ) : null}

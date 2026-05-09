@@ -1,10 +1,24 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { INQUIRY_TYPE_VALUES } from "@/lib/i18n/contact-locale";
 import { parseSmtpRecipientList, readMailSettings, smtpSocketIpv4Only } from "@/lib/mail-settings-store";
 
 export const runtime = "nodejs";
 
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const INQUIRY_ALLOWED = new Set<string>(INQUIRY_TYPE_VALUES);
+
+/** 메일 본문용(운영자 참고) — 값은 클라이언트와 동일 키 */
+const INQUIRY_MAIL_LINE: Record<string, string> = {
+  incorporation: "법인 설립 / Incorporation",
+  accounting_tax: "회계·세무 / Accounting & Tax",
+  gst_tds: "GST / TDS",
+  visa_frro: "비자·FRRO / Visa & FRRO",
+  import_export_iec: "수출입·IEC / Import-export & IEC",
+  groupware_mvs: "그룹웨어(MVS) / Groupware (MVS)",
+  other: "기타 / Other",
+};
 
 function safeDisplayName(name: string): string {
   return name.replace(/[\r\n\x00-\x1f"]/g, " ").trim() || "문의";
@@ -15,6 +29,7 @@ export async function POST(request: Request) {
     const json = (await request.json()) as {
       name?: string;
       email?: string;
+      inquiryType?: string;
       subject?: string;
       message?: string;
       /** 스팸 방지용 숨김 필드 — 값이 있으면 무시 */
@@ -26,11 +41,15 @@ export async function POST(request: Request) {
 
     const name = String(json.name || "").trim();
     const email = String(json.email || "").trim();
+    const inquiryType = String(json.inquiryType || "").trim();
     const subject = String(json.subject || "").trim();
     const message = String(json.message || "").trim();
 
     if (!name || !email || !message) {
       return NextResponse.json({ error: "이름, 이메일, 문의 내용은 필수입니다." }, { status: 400 });
+    }
+    if (!inquiryType || !INQUIRY_ALLOWED.has(inquiryType)) {
+      return NextResponse.json({ error: "문의 유형이 올바르지 않습니다." }, { status: 400 });
     }
     if (name.length > 120 || email.length > 254 || subject.length > 200 || message.length > 20000) {
       return NextResponse.json({ error: "입력 길이가 허용 범위를 넘었습니다." }, { status: 400 });
@@ -75,6 +94,7 @@ export async function POST(request: Request) {
       );
     }
 
+    const typeLine = INQUIRY_MAIL_LINE[inquiryType] || inquiryType;
     const subjectLine = subject
       ? `[MSV Website Inquiry] ${subject}`
       : `[MSV Website Inquiry] ${name}님`;
@@ -89,7 +109,7 @@ export async function POST(request: Request) {
       replyTo: email,
       to: recipients,
       subject: subjectLine,
-      text: `보낸 사람: ${name}\n이메일: ${email}\n\n${message}`,
+      text: `문의 유형: ${typeLine}\n보낸 사람: ${name}\n이메일: ${email}\n\n${message}`,
     });
 
     return NextResponse.json({ ok: true });

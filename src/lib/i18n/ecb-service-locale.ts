@@ -26,33 +26,39 @@ export type EcbGuideCopy = {
   penalties: {
     title: string;
     intro: string;
+    /** 표 상단에 강조 표시(예시임을 명확히) */
+    exampleLabel: string;
     colDelay: string;
     colFine: string;
     rows: readonly { delay: string; fine: string }[];
+    /** 표 하단: 실제 금액은 규정에 따름 */
+    footnote: string;
   };
   firc: { title: string; paragraphs: readonly string[] };
   prosCons: { title: string; items: readonly string[] };
   glossary: { title: string; entries: readonly { term: string; desc: string }[] };
   references: { title: string; firmsLead: string; disclaimer: string };
+  /** 내부 링크(관련 실무) */
+  relatedPractice: { title: string; links: readonly { label: string; path: string }[] };
   backToServices: string;
   contactCta: string;
 };
 
 const ko: EcbGuideCopy = {
-  metaTitle: "ECB 안내",
-  metaDescription: `${company.shortName} — 인도 ECB(대외상업차입) 개념·자동승인·RBI 신고·Form 83·LRN·ECB-2·FIRMS·협력 은행 안내`,
-  pageTitle: "ECB 안내",
+  metaTitle: "ECB(FEMA 외화차입) 실무 안내",
+  metaDescription: `${company.shortName} — 인도 ECB(대외상업차입·FEMA) 개념·자동승인·RBI 신고·Form 83·LRN·ECB-2·FIRMS·협력 은행 안내`,
+  pageTitle: "ECB(FEMA 외화차입) 실무 안내",
   pageDescription:
-    "대외상업차입(ECB)은 RBI·FEMA 하에서 한도·만기·용도·통화·신고가 관리되는 대표적인 외화 조달 수단입니다. 아래는 실무 절차와 컴플라이언스 포인트를 정리한 참고 안내이며, 실행·신고는 최신 Master Direction·고시 및 개별 사안을 따릅니다.",
+    "대외상업차입(ECB)은 RBI·FEMA 규정에 따라 차입 가능 주체(Borrower), 대주(Lender), 자금 용도(End-use), 만기(MAMP), 통화 및 보고 체계가 관리되는 대표적인 외화 조달 방식입니다. 아래는 실무 절차와 컴플라이언스 포인트를 정리한 참고 안내이며, 실행·신고는 최신 Master Direction·고시 및 개별 사안을 따릅니다.",
   bankChannel: {
     title: "은행 채널 및 전국 서비스",
     body:
-      "MSV는 기업 뱅킹·ECB·FEMA 연계 업무를 주로 KEB Hana Bank, ICICI Bank, Kotak Mahindra Bank 등과 협력하며 안내·조율을 지원합니다. 인도 전역의 AD Bank(Authorized Dealer Bank, 지정 외국환은행) 네트워크를 통한 자금 수취·환전·신고 연계 지원도 가능합니다(은행별 취급 조건·KYC 상이).",
+      "MSV는 기업 뱅킹·ECB·FEMA 연계 업무를 주로 KEB Hana Bank, ICICI Bank, Kotak Mahindra Bank 등과 협력하며 실무 협의 및 신고 절차 조율을 지원합니다. 인도 전역의 AD Bank(Authorized Dealer Bank, 지정 외국환은행) 네트워크를 통한 자금 수취·환전·신고 연계 지원도 가능합니다(은행별 취급 조건·KYC 상이).",
   },
   whatEcb: {
     title: "1. ECB란",
     body:
-      "ECB(External Commercial Borrowing)는 인도 거주자(법인 등)가 비거주자로부터 조달하는 상업적 외화 차입입니다. 대출, 비전환사채(NCD), 선택적 전환 우선주(OCCPS) 등 발행 증권이 규정 범위에 포함될 수 있으며, FEMA (Borrowing and Lending in Foreign Exchange) Regulations 및 RBI Master Direction — External Commercial Borrowings, Trade Credit… 등에 따라 승인, 한도 및 보고 의무 등이 관리됩니다.",
+      "ECB(External Commercial Borrowing)는 인도 거주자(법인 등)가 비거주자로부터 조달하는 상업적 외화 차입입니다. 대출, 비전환사채(NCD) 등 전통적 차입 외에도 일부 전환형 금융상품 및 외화차입 구조는 관련 규정에 따라 ECB 범위 검토 대상이 될 수 있습니다. FEMA (Borrowing and Lending in Foreign Exchange) Regulations 및 RBI Master Direction — External Commercial Borrowings, Trade Credit… 등에 따라 승인, 한도 및 보고 의무 등이 관리됩니다.",
   },
   types: {
     title: "2. ECB의 주요 유형·대주",
@@ -65,7 +71,7 @@ const ko: EcbGuideCopy = {
   autoRoute: {
     title: "3. 자동승인(Automatic route) 개요",
     intro:
-      "차입은 자동승인 루트와 사전승인(Approval) 루트로 나뉩니다. 자격요건, 차입한도, 최소 평균만기(MAMP), 통화(FCY/INR), 레버리지, 금리 상한(All-in-cost), 자금 사용 목적 등을 우선 검토해야 하며, 조건을 충족하지 못하면 용도가 적합해도 차입이 불가하거나 RBI 사전 승인이 필요할 수 있습니다.",
+      "차입은 자동승인 루트와 사전승인(Approval) 루트로 나뉩니다. 자격요건, 차입한도, 최소 평균만기(MAMP), 통화(FCY/INR), 레버리지, 금리 상한(All-in-cost), 자금 사용 목적 등을 우선 검토해야 하며, 조건 미충족 시 사전 승인(Approval Route) 검토 또는 구조 조정이 필요할 수 있습니다.",
     limitsTitle: "3.1. 한도·만기·통화(요지)",
     limitsItems: [
       "FCY ECB / INR ECB: 허용 통화 및 업종별 제한 요건이 상이합니다(제조·소프트웨어·해운·항공 등이 FCY에서 흔한 예시).",
@@ -75,14 +81,14 @@ const ko: EcbGuideCopy = {
     ],
     useTitle: "3.2. 자금용도(요지)",
     useBody:
-      "기본적으로 시설자금(Capex) 성격이 중심입니다. 건물·기계 취득 등은 일반적으로 허용되는 반면, 부동산 투기 목적 부지, 자본시장 투자, 일부 운전자금 용도는 차입 경로(Route) 및 차주 유형에 따라 제한될 수 있습니다(해외 모회사·주주 대여금으로 운전자금은 별도 만기 요건 등).",
+      "기본적으로 시설자금(Capex) 성격이 중심입니다. 건물·기계 취득 등은 일반적으로 허용되는 반면, 부동산 투기 목적 부지·자본시장 투자 등은 제한되는 경우가 많습니다. 운전자금 등 일부 용도는 차입 구조·차입 주체·만기(MAMP) 조건에 따라 제한되거나 별도 조건이 적용될 수 있습니다(해외 모회사·주주 대여금 등 별도 루트는 만기·한도 규정이 상이).",
   },
   procedure: {
     title: "4. ECB 실행 및 RBI 신고 절차 (AD Bank 기준)",
     steps: [
       "AD Bank 지정 후 차주(Borrower)·대주(Lender) 간 Loan Agreement 체결",
       "법률·회계 검토를 거쳐 Form 83 등 신청서류를 작성하고, 은행 심사(평균만기 산출 포함)를 진행합니다.",
-      "AD Bank가 RBI에 서류 제출 후 LRN(Loan Registration Number) 발급 — 실질적인 승인 및 등록 절차에 해당합니다.",
+      "AD Bank가 RBI에 서류 제출 후 ECB 등록번호(LRN, Loan Registration Number) 발급 및 RBI 등록 절차를 진행합니다.",
       "LRN 발급 후 인출(Drawdown) 가능. 이후 사후보고(ECB-2 등)를 FIRMS 등 전자 채널로 제출합니다. 제출 기한 및 보고 항목은 RBI 고시 및 등록 조건에 따라 달라질 수 있습니다.",
     ],
     note:
@@ -103,13 +109,13 @@ const ko: EcbGuideCopy = {
         title: "5.2. 차입(회수) 가능 한도",
         question: "ECB로 조달 가능한 규모는 어느 정도인가요?",
         answer:
-          "자동승인 루트 등에서 논의되던 예시로, 연간 한도 상한이 USD 7억 5천만(USD 750,000,000) 수준으로 안내된 바 있습니다. 또한 인도 법인이 투자사와 특수관계에 해당하는 등의 경우에는 자기자본 대비 최대 7배 수준까지 차입이 허용되는 사례도 있습니다(모회사·주주 대여 등, 소액 예외·업종·통화별로 상이 — 최신 Master Direction 확인).",
+          "차입 가능 규모는 차입 주체·업종·자동승인(Automatic route) 적용 여부·인프라 등 트랙 구분 및 당시 RBI Master Direction·고시에 따라 달라집니다. 관련 배수·한도·예외 규정은 수시로 개정되므로, 접수 전 최신 규정과 개별 재무·거래 구조를 함께 검토하는 것이 안전합니다.\n※ 참고: 과거 일부 ECB Track 기준으로 Automatic Route 연간 한도 및 순자산 연계 규정이 운영된 사례가 있으나, 실제 적용은 당시 RBI 공지·차입 구조 기준에 따라 달라질 수 있습니다.",
       },
       {
         title: "5.3. 이자율(상환 시 부담)",
         question: "상환해야 할 이자(수익금)에 적용될 금리는 어느 범위까지 가능한가요?",
         answer:
-          "일반적으로 시장금리 수준을 기준으로 하되, RBI가 정하는 All-in-cost 상한(예: 벤치마크 + 일정 %p) 범위 내에서 약정하는 구조가 일반적입니다(자료 예시에서 상한을 약 4.5%p 등으로 설명한 바 있음). 이자는 원금 상환 흐름과 맞추어 원금과 함께 송금·결제되는 구조가 일반적입니다.",
+          "ECB 금리는 RBI가 허용하는 All-in-cost 범위 내에서 시장 금리·벤치마크·스프레드 구조에 따라 결정됩니다. (참고·예시: 일부 자료에서 벤치마크 대비 약 4.5%p 수준의 상한을 들어 설명한 바 있으나, 시기·통화·상품에 따라 달라지며 현행 고시를 반드시 확인해야 합니다.) 이자는 원금 상환 흐름과 맞추어 원금과 함께 송금·결제되는 구조가 일반적입니다.",
       },
       {
         title: "5.4. 상환 금액·상환 기간",
@@ -140,19 +146,22 @@ const ko: EcbGuideCopy = {
   penalties: {
     title: "7. 지연 제재(보고·예시)",
     intro:
-      "보고 지연에 따른 과태료 규정이 있을 수 있습니다. 참고 자료 기준 예시는 아래와 같으며, 실제 벌금 금액 및 적용 여부는 당시 RBI 고시 및 은행 지침을 확인해야 합니다.",
+      "보고 지연에 따른 과태료·복합(Compounding) 등 구조는 RBI 규정에 따라 변경될 수 있습니다. 아래 표는 과거 자료에서 인용한 참고용 예시일 뿐이며, 실제 적용 금액·절차는 당시 RBI 규정 및 지연 유형에 따라 달라질 수 있습니다.",
+    exampleLabel: "예시 기준(참고용)",
     colDelay: "지연 기간(예시)",
-    colFine: "벌금(예시)",
+    colFine: "금액(예시)",
     rows: [
       { delay: "30일 이하", fine: "INR 5,000" },
       { delay: "3년 이하", fine: "INR 50,000" },
       { delay: "3년 초과", fine: "INR 100,000" },
     ],
+    footnote:
+      "상기 금액·구간은 교육용 예시이며 법적 구속력이 없습니다. 실제 부과·복합 여부는 접수 시점의 RBI 고시, 은행 안내 및 개별 사안을 반드시 확인하시기 바랍니다.",
   },
   firc: {
     title: "8. FIRC·전자신고(FIRMS)",
     paragraphs: [
-      "FIRC(Foreign Inward Remittance Certificate)는 AD Bank가 발행하는 송금 증빙으로, 자본금 납입, ECB 인출 등 외화 유입 사실을 확인하는 데 사용됩니다. FDI·ECB 등의 외화 착금 이후 RBI 보고(예: Advance Reporting 등)와 연계되는 경우가 많습니다.",
+      "FIRC(Foreign Inward Remittance Certificate)는 AD Bank가 발행하는 송금 증빙으로, 자본금 납입, ECB 인출 등 외화 유입 사실을 확인하는 데 사용됩니다. ECB·FDI 관련 외화 유입 및 보고 절차는 FIRMS 포털과 연계되는 경우가 많습니다.",
       "전자 신고가 보편화되면서 FIRMS 등 포털 업로드·UIN 발급 절차가 사용됩니다. 양식 작성, 첨부서류 스캔 및 등록 업무는 일반적으로 전문가 검토를 거쳐 진행됩니다.",
     ],
   },
@@ -183,25 +192,35 @@ const ko: EcbGuideCopy = {
     disclaimer:
       "본 페이지는 MSV 내부 자료(자금조달·ECB 개요, 2020) 및 업계 안내(ECB 주요 안내사항 등)를 바탕으로 재편집한 참고용 요약입니다. RBI Master Direction·고시·환율·세법은 수시로 개정되므로 실행·신고·원천징수(예: Form 15CA/CB) 일정은 MSV와 상담 후 확정하시기 바랍니다.",
   },
+  relatedPractice: {
+    title: "관련 실무",
+    links: [
+      { label: "FC-GPR", path: "/services/corporate-incorporation" },
+      { label: "Form 15CA / Form 15CB", path: "/services/form-41-registration" },
+      { label: "DTAA", path: "/services/form-41-registration" },
+      { label: "TRC", path: "/services/form-41-registration" },
+      { label: "ODI", path: "/services/india-accounting-glossary" },
+    ],
+  },
   backToServices: "회계 서비스로 돌아가기",
   contactCta: "문의하기",
 };
 
 const en: EcbGuideCopy = {
-  metaTitle: "ECB guide",
-  metaDescription: `${company.shortName} — India ECB (external commercial borrowing): concepts, automatic route, RBI filings, Form 83, LRN, ECB-2, FIRMS and banking partners.`,
-  pageTitle: "ECB guide",
+  metaTitle: "ECB (FEMA external borrowing) — practical guide",
+  metaDescription: `${company.shortName} — India ECB / FEMA external commercial borrowing: concepts, automatic route, RBI filings, Form 83, LRN, ECB-2, FIRMS and banking partners.`,
+  pageTitle: "ECB (External Commercial Borrowing) — practical guide",
   pageDescription:
-    "External commercial borrowing (ECB) is a key foreign-currency funding route governed by RBI and FEMA limits, tenors, use-of-funds and reporting. This page summarises practical steps and compliance points for reference only; execution and filings must follow the latest Master Directions, circulars and your facts.",
+    "External commercial borrowing (ECB) is a regulated foreign-currency funding path under RBI and FEMA where borrower category, lender eligibility, end-use, maturity (MAMP), currency and reporting are managed together. This page summarises practical steps and compliance points for reference only; execution and filings must follow the latest Master Directions, circulars and your facts.",
   bankChannel: {
     title: "Banking channels and nationwide coverage",
     body:
-      "For corporate banking, ECB and FEMA-linked work MSV typically coordinates with institutions such as KEB Hana Bank, ICICI Bank and Kotak Mahindra Bank. We can also support receipt, conversion and reporting through the nationwide AD Bank (authorised dealer) network, subject to each bank’s policies and KYC.",
+      "For corporate banking, ECB and FEMA-linked work MSV typically coordinates with institutions such as KEB Hana Bank, ICICI Bank and Kotak Mahindra Bank on day-to-day discussions and reporting timelines. We can also support receipt, conversion and reporting through the nationwide AD Bank (authorised dealer) network, subject to each bank’s policies and KYC.",
   },
   whatEcb: {
     title: "1. What is ECB?",
     body:
-      "ECB (External Commercial Borrowing) is commercial foreign-currency borrowing by Indian residents (e.g. companies) from non-residents. Instruments may include loans, non-convertible debentures (NCDs), optionally convertible preference shares (OCCPS) and others where permitted. Approvals, caps and reporting are governed by the FEMA (Borrowing and Lending in Foreign Exchange) Regulations and RBI Master Direction — External Commercial Borrowings, Trade Credit, etc.",
+      "ECB (External Commercial Borrowing) is commercial foreign-currency borrowing by Indian residents (e.g. companies) from non-residents. Besides traditional loans and non-convertible debentures (NCDs), certain convertible-style instruments and foreign-currency structures may fall within ECB review depending on the rules in force. Approvals, caps and reporting are governed by the FEMA (Borrowing and Lending in Foreign Exchange) Regulations and RBI Master Direction — External Commercial Borrowings, Trade Credit, etc.",
   },
   types: {
     title: "2. Main ECB types and lenders",
@@ -214,7 +233,7 @@ const en: EcbGuideCopy = {
   autoRoute: {
     title: "3. Automatic route — overview",
     intro:
-      "Borrowings are split between the automatic route and the prior-approval route. You should first assess eligibility, borrowing caps, minimum average maturity (MAMP), currency (FCY/INR), leverage, all-in-cost ceilings and permitted end-uses. If conditions are not met, borrowing may be blocked or RBI prior approval may be required even where the use of funds looks acceptable.",
+      "Borrowings are split between the automatic route and the prior-approval route. You should first assess eligibility, borrowing caps, minimum average maturity (MAMP), currency (FCY/INR), leverage, all-in-cost ceilings and permitted end-uses. If conditions are not fully met, you may need the approval route or a structural rethink rather than assuming automatic-route access.",
     limitsTitle: "3.1. Caps, maturity and currency (headlines)",
     limitsItems: [
       "FCY ECB vs INR ECB: permitted currencies and sector-specific conditions differ (manufacturing, software, shipping and aviation are common FCY examples).",
@@ -224,14 +243,14 @@ const en: EcbGuideCopy = {
     ],
     useTitle: "3.2. End-use (headlines)",
     useBody:
-      "End-use is generally capex-led. Acquiring plant and machinery is typically permitted, while speculative land purchases, capital-market investments and certain working-capital uses may be restricted depending on route and borrower type (foreign parent/equity-holder working-capital loans have separate maturity rules).",
+      "End-use is generally capex-led. Plant and machinery acquisition is typically permitted, while speculative land and capital-market uses are often restricted. Certain working-capital purposes may be limited or subject to extra conditions depending on borrower category, structure, maturity (MAMP) and the track you rely on (foreign parent/equity-holder facilities can carry different maturity and cap rules).",
   },
   procedure: {
     title: "4. Execution and RBI reporting (AD Bank perspective)",
     steps: [
       "Appoint an AD Bank and execute a loan agreement between borrower and lender.",
       "After legal and accounting review, prepare Form 83 and supporting papers and complete the bank’s credit process (including MAMP calculations).",
-      "The AD Bank files with RBI and obtains an LRN (Loan Registration Number) — this is the substantive registration/approval step.",
+      "The AD Bank files with RBI to obtain an ECB loan registration number (LRN) and complete the RBI registration steps (an LRN is not the same thing as a standalone “regulatory approval” in every sense).",
       "After the LRN, drawdowns are permitted. Post-filing reports (e.g. ECB-2) are submitted electronically via FIRMS or other channels; deadlines and fields follow RBI circulars and registration conditions.",
     ],
     note:
@@ -253,13 +272,13 @@ const en: EcbGuideCopy = {
         title: "5.2. Borrowing capacity",
         question: "How large can an ECB be?",
         answer:
-          "Illustrative automatic-route discussions have referenced an annual cap around USD 750 million. Where an Indian borrower is in a “related party” relationship with the investor, examples discuss up to about seven times net worth (foreign parent/equity-holder loans, small-ticket routes, currency and sector rules differ — confirm the latest Master Direction).",
+          "Borrowing headroom depends on the borrower’s sector, category, whether you rely on the automatic or approval route, infrastructure track and the RBI Master Direction in force at the time. Multiples, caps and carve-outs change with circulars—validate the latest rules against your audited financials and deal structure before filing.\n※ Note: Some historical ECB tracks operated automatic-route annual limits and net-worth-linked rules, but what actually applies will follow the RBI notices in force and your borrowing structure.",
       },
       {
         title: "5.3. Interest pricing",
         question: "What interest range typically applies on interest/profit remittances?",
         answer:
-          "Pricing is generally market-based but must fit within RBI all-in-cost ceilings (benchmark plus a capped spread; illustrative materials have cited spreads in the ~4.5%p range). Interest is usually remitted together with principal according to the repayment schedule.",
+          "ECB pricing is negotiated within RBI’s permitted all-in-cost framework, driven by market levels, benchmark selection and spread structure. (Illustrative only: some training decks once illustrated all-in-cost caps using spreads in the ~4.5%p over benchmark range—always confirm the benchmark and circular in force.) Interest is usually remitted together with principal according to the repayment schedule.",
       },
       {
         title: "5.4. Repayment amounts and tenor",
@@ -290,19 +309,22 @@ const en: EcbGuideCopy = {
   penalties: {
     title: "7. Late-filing penalties (illustrative)",
     intro:
-      "Penalties may apply for late reporting. The table below is illustrative only; confirm amounts and applicability against current RBI circulars and bank guidance.",
+      "Compounding, late submission fees and similar mechanics can change with RBI regulations. The grid below is a non-binding illustration drawn from older reference materials; actual amounts depend on the rules in force and the nature of the delay.",
+    exampleLabel: "Illustrative only — not legal advice",
     colDelay: "Delay (illustrative)",
-    colFine: "Penalty (illustrative)",
+    colFine: "Amount (illustrative)",
     rows: [
       { delay: "Up to 30 days", fine: "INR 5,000" },
       { delay: "Up to 3 years", fine: "INR 50,000" },
       { delay: "Beyond 3 years", fine: "INR 100,000" },
     ],
+    footnote:
+      "These figures and bands are training examples only. Confirm compounding, LSF or other charges with RBI circulars, FIRMS guidance and your AD Bank for the filing date in question.",
   },
   firc: {
     title: "8. FIRC and e-filing (FIRMS)",
     paragraphs: [
-      "A FIRC (Foreign Inward Remittance Certificate) is the AD Bank’s inward-remittance evidence and supports proof of foreign-currency inflows such as capital subscriptions and ECB drawdowns. It often ties into RBI reporting (e.g. advance reporting) after FDI or ECB receipts.",
+      "A FIRC (Foreign Inward Remittance Certificate) is the AD Bank’s inward-remittance evidence and supports proof of foreign-currency inflows such as capital subscriptions and ECB drawdowns. ECB- and FDI-related inflows and filings are commonly coordinated through the FIRMS portal ecosystem.",
       "E-filing via FIRMS and similar portals (uploads, UIN issuance) is now common; forms and scans are usually prepared with professional review.",
     ],
   },
@@ -333,25 +355,35 @@ const en: EcbGuideCopy = {
     disclaimer:
       "This page is a reference summary reorganised from MSV internal materials (funding/ECB overview, 2020) and industry ECB notes. RBI Master Directions, circulars, FX and tax law change frequently — confirm execution, reporting and withholding (e.g. Form 15CA/CB) timelines with MSV before relying on this content.",
   },
+  relatedPractice: {
+    title: "Related practice areas",
+    links: [
+      { label: "FC-GPR", path: "/services/corporate-incorporation" },
+      { label: "Form 15CA / Form 15CB", path: "/services/form-41-registration" },
+      { label: "DTAA", path: "/services/form-41-registration" },
+      { label: "TRC", path: "/services/form-41-registration" },
+      { label: "ODI", path: "/services/india-accounting-glossary" },
+    ],
+  },
   backToServices: "Back to services",
   contactCta: "Contact us",
 };
 
 const zh: EcbGuideCopy = {
-  metaTitle: "ECB 指南",
-  metaDescription: `${company.shortName} — 印度 ECB（对外商业借款）概念、自动路径、RBI 申报、Form 83、LRN、ECB-2、FIRMS 及合作银行说明。`,
-  pageTitle: "ECB 指南",
+  metaTitle: "ECB·FEMA 对外借款实务指南",
+  metaDescription: `${company.shortName} — 印度 ECB / FEMA 对外商业借款：概念、自动路径、RBI 申报、Form 83、LRN、ECB-2、FIRMS 及合作银行说明。`,
+  pageTitle: "ECB·FEMA 对外借款实务指南",
   pageDescription:
-    "对外商业借款（ECB）是在 RBI 与 FEMA 框架下管理额度、期限、用途、币种与申报的代表性外币融资方式。本文为实务与合规要点的参考摘要；实际执行与申报须遵循最新 Master Direction、通告及个案情况。",
+    "对外商业借款（ECB）在 RBI 与 FEMA 规则下，对可借款主体、贷款人资格、资金用途（End-use）、期限（MAMP）、币种及报告体系一并管理，是常见的外币筹资路径。本文为实务与合规要点的参考摘要；实际执行与申报须遵循最新 Master Direction、通告及个案情况。",
   bankChannel: {
     title: "银行渠道与全国服务",
     body:
-      "MSV 在企业银行、ECB 及 FEMA 相关事务上，主要与 KEB Hana Bank、ICICI Bank、Kotak Mahindra Bank 等机构协作并协调办理。也可通过印度全境 AD Bank（指定外汇银行）网络协助收款、换汇与申报衔接（具体以各行政策及 KYC 为准）。",
+      "MSV 在企业银行、ECB 及 FEMA 相关事务上，主要与 KEB Hana Bank、ICICI Bank、Kotak Mahindra Bank 等机构开展实务沟通并协调申报节奏。也可通过印度全境 AD Bank（指定外汇银行）网络协助收款、换汇与申报衔接（具体以各行政策及 KYC 为准）。",
   },
   whatEcb: {
     title: "1. 何为 ECB",
     body:
-      "ECB（External Commercial Borrowing）指印度居民（如公司）向非居民筹措的商业性外币借款。可包括贷款、不可转换债券（NCD）、可选可转换优先股（OCCPS）等在规则允许范围内的工具。审批、额度与报告义务受 FEMA（Borrowing and Lending in Foreign Exchange）及 RBI《Master Direction — External Commercial Borrowings, Trade Credit…》等约束。",
+      "ECB（External Commercial Borrowing）指印度居民（如公司）向非居民筹措的商业性外币借款。除传统贷款与不可转换债券（NCD）外，部分可转换类金融工具及外币融资结构亦可能纳入 ECB 适用范围，视当时规则而定。审批、额度与报告义务受 FEMA（Borrowing and Lending in Foreign Exchange）及 RBI《Master Direction — External Commercial Borrowings, Trade Credit…》等约束。",
   },
   types: {
     title: "2. 主要 ECB 类型与贷款人",
@@ -364,7 +396,7 @@ const zh: EcbGuideCopy = {
   autoRoute: {
     title: "3. 自动路径（Automatic route）概览",
     intro:
-      "借款分为自动路径与事先批准路径。需先评估资格条件、借款上限、最低平均期限（MAMP）、币种（FCY/INR）、杠杆、全成本利率上限及资金用途等；若不满足条件，即使用途看似合理也可能无法借款或需 RBI 事先批准。",
+      "借款分为自动路径与事先批准路径。需先评估资格条件、借款上限、最低平均期限（MAMP）、币种（FCY/INR）、杠杆、全成本利率上限及资金用途等；若条件未充分满足，可能需要转入事先批准路径或调整交易结构，而非当然适用自动路径。",
     limitsTitle: "3.1. 额度、期限与币种（要点）",
     limitsItems: [
       "FCY ECB 与 INR ECB：可接受币种及行业限制不同（制造业、软件、航运、航空等常见于 FCY）。",
@@ -374,14 +406,14 @@ const zh: EcbGuideCopy = {
     ],
     useTitle: "3.2. 资金用途（要点）",
     useBody:
-      "原则上以资本性支出（Capex）为主。购置厂房设备等通常允许；投机性购地、资本市场投资及部分营运资金用途可能受路径与借款人类型限制（海外母公司/股东营运资金借款另有期限等要求）。",
+      "原则上以资本性支出（Capex）为主，购置厂房设备等通常允许；投机性购地、资本市场投资等往往受限。营运资金等部分用途可能因借款结构、主体类别及 MAMP 等条件而受到限制或附加要求（海外母公司/股东借款路径另有期限与额度规则）。",
   },
   procedure: {
     title: "4. ECB 执行与 RBI 申报流程（以 AD Bank 为主）",
     steps: [
       "指定 AD Bank，并由借款人与贷款人签署 Loan Agreement。",
       "经法律与会计审阅后编制 Form 83 等申请材料并完成银行审核（含平均期限测算）。",
-      "AD Bank 向 RBI 报送材料并取得 LRN（Loan Registration Number）——属实质登记/批准环节。",
+      "AD Bank 向 RBI 报送材料并取得 ECB 借款登记号（LRN），并完成 RBI 侧登记流程（LRN 并不等同于所有语境下的“监管批复”本身）。",
       "取得 LRN 后可提款（Drawdown）；其后须通过 FIRMS 等电子渠道提交事后报告（如 ECB-2 等）。提交期限与字段以 RBI 通告及登记条件为准。",
     ],
     note:
@@ -402,13 +434,13 @@ const zh: EcbGuideCopy = {
         title: "5.2. 可借规模",
         question: "ECB 可筹措的规模大约多少？",
         answer:
-          "自动路径讨论中曾出现年度上限约 USD 7.5 亿的示例。若印度法人与投资方构成关联方等情形，亦有净资产约 7 倍以内的示例（母公司/股东借款、小额路径、行业与币种等条件不同——请以最新 Master Direction 为准）。",
+          "可借规模取决于借款主体行业、类别、是否适用自动路径、基础设施类通道及当时有效的 RBI Master Direction。倍数、上限与例外会随通告调整，建议在申报前以最新规则结合经审计财报与交易结构核对。\n※ 参考：历史上部分 ECB Track 曾按自动路径（Automatic Route）设置年度上限及与净资产挂钩的规则，但实际适用仍取决于当时的 RBI 公告及具体借款结构。",
       },
       {
         title: "5.3. 利率负担",
         question: "偿还利息（收益）适用的利率大致可在什么范围？",
         answer:
-          "一般参考市场利率，但须在 RBI 规定的全成本上限（如基准+一定百分点）内约定（示例材料曾出现约 4.5 个百分点等表述）。利息通常随本金偿还节奏一并汇付结算。",
+          "ECB 利率通常在 RBI 允许的 All-in-cost 框架内，由市场利率、基准及利差结构共同决定。（参考示例：部分培训材料曾以基准+约 4.5 个百分点等说明利差上限，惟须以当时通告与基准为准。）利息一般随本金偿还节奏一并汇付结算。",
       },
       {
         title: "5.4. 偿还金额与期限",
@@ -439,19 +471,22 @@ const zh: EcbGuideCopy = {
   penalties: {
     title: "7. 迟延申报处罚（示例）",
     intro:
-      "迟延申报可能面临罚款。下表仅为示例，实际金额及适用以当时 RBI 通告及银行指引为准。",
+      "迟延申报、复合（Compounding）等机制可能随 RBI 规则调整。下表摘自历史参考材料，仅供示意，不构成法律意见；实际金额与程序取决于当时规则及迟延性质。",
+    exampleLabel: "示例基准（仅供参考）",
     colDelay: "迟延期间（示例）",
-    colFine: "罚款（示例）",
+    colFine: "金额（示例）",
     rows: [
       { delay: "30 日以内", fine: "INR 5,000" },
       { delay: "3 年以内", fine: "INR 50,000" },
       { delay: "超过 3 年", fine: "INR 100,000" },
     ],
+    footnote:
+      "上表金额与区间仅为培训用示例，不具有约束力。是否复合、LSF 或其他收费，请以申报时点的 RBI 通告、FIRMS 说明及 AD Bank 指引为准。",
   },
   firc: {
     title: "8. FIRC 与电子申报（FIRMS）",
     paragraphs: [
-      "FIRC（Foreign Inward Remittance Certificate）由 AD Bank 出具，用于证明资本金汇入、ECB 提款等外币流入事实，常与 FDI、ECB 入账后的 RBI 申报（如 Advance Reporting 等）衔接。",
+      "FIRC（Foreign Inward Remittance Certificate）由 AD Bank 出具，用于证明资本金汇入、ECB 提款等外币流入事实。ECB 与 FDI 相关的外币流入及报送，多与 FIRMS 门户体系联动办理。",
       "电子化申报普及后，多通过 FIRMS 等门户上传资料及取得 UIN；表格与扫描件通常经专业人士复核后提交。",
     ],
   },
@@ -481,6 +516,16 @@ const zh: EcbGuideCopy = {
     firmsLead: "RBI FIRMS：",
     disclaimer:
       "本页基于 MSV 内部资料（资金筹措·ECB 概述，2020）及行业 ECB 说明整理，仅供参考。RBI Master Direction、通告、汇率及税法随时可能修订；执行、申报及预扣税（如 Form 15CA/CB）时间安排请与 MSV 确认后再定。",
+  },
+  relatedPractice: {
+    title: "相关实务",
+    links: [
+      { label: "FC-GPR", path: "/services/corporate-incorporation" },
+      { label: "Form 15CA / Form 15CB", path: "/services/form-41-registration" },
+      { label: "DTAA", path: "/services/form-41-registration" },
+      { label: "TRC", path: "/services/form-41-registration" },
+      { label: "ODI", path: "/services/india-accounting-glossary" },
+    ],
   },
   backToServices: "返回服务页",
   contactCta: "联系我们",

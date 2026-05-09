@@ -64,7 +64,7 @@ export const investmentRemittanceSpotlightEn = {
   title: "Foreign investment / remittance and reporting",
   body: `Setting up and running an India subsidiary often means aligning FDI rules, equity inflows, shareholder changes and non-resident remittances with tax and FX reporting at the same time. MSV keeps company consulting, accounting and tax in one organization and executes paperwork, banks and revenue authorities from Bangalore with a single accountable team.`,
   highlights: [
-    "Form 41 (ex Form 10F), DTAA, income-tax filings",
+    "Form 41 / Form 10F, DTAA, income-tax filings",
     "Securities account opening",
     "Demat account opening",
     "Equity remittance & increases",
@@ -169,7 +169,7 @@ export const investmentRemittanceSpotlightZh = {
   title: "外商投资 / 汇出与申报",
   body: `设立并运营印度子公司往往需要在同一节奏下协调 FDI 规则、股本流入、股东变更与非居民汇出，以及税务与外汇申报。MSV 在同一组织内统筹公司咨询、会计与税务，并由班加罗尔单一负责团队对接文书、银行与税务机关。`,
   highlights: [
-    "Form 41（原 Form 10F）、DTAA、所得税申报",
+    "Form 41 / Form 10F、DTAA、所得税申报",
     "证券账户开立",
     "Demat 账户开立",
     "股本汇回与增资",

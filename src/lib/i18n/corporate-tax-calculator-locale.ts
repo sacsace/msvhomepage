@@ -55,6 +55,7 @@ export type CorporateTaxCalculatorCopy = {
   workingLeadAfterL: string;
   workingLeadGrossStrong: string;
   workingLeadEnd: string;
+  tableBelowNote: string;
   tableColItem: string;
   tableColAmount: string;
   groupGrossCredits: string;
@@ -93,40 +94,42 @@ const KO: CorporateTaxCalculatorCopy = {
   metaDescription: `${company.shortName} — §115BAA 기준 법인세·일반 국내법인 ₹400 Crore 기준 25%/30%·surcharge·cess 안내, 매출·매입·비용·TDS·선납세 참고 계산`,
   pageHeaderTitle: "법인세 계산기",
   pageHeaderDescription:
-    "매출·매입·비용 및 TDS·선납세를 입력하면 과세소득과 §115BAA 기준 법인세(22%+surcharge(추가세)+cess, 실효세율 약 25.168%)를 계산합니다. 일반 국내법인의 직전 연도 매출 ₹400 Crore 기준 기본세율(25%/30%)과 surcharge·cess 적용에 따른 실효세율도 함께 안내합니다. MAT/AMT, §115BAB 적용 여부 및 세법 개정 사항은 별도 검토가 필요합니다.",
+    "매출·매입·비용 및 TDS·선납세를 입력하면 과세소득과 §115BAA 기준 법인세(22%+surcharge(추가세)+cess, 실효세율 약 25.168%)를 계산합니다. 일반 국내법인의 기본세율 적용 여부는 직전 회계연도 turnover/gross receipts 기준에 따라 달라질 수 있으며, 통상 ₹400 Crore를 경계로 한 25%/30% 및 surcharge·cess에 따른 실효세율도 함께 안내합니다. MAT/AMT, §115BAB 적용 여부 및 세법 개정 사항은 별도 검토가 필요합니다.",
   sectionRefCalc: "참고 계산",
   disclaimer:
     "본 도구는 참고용이며 법적·세무 자문을 대체하지 않습니다. 실제 과세소득·세율·surcharge·이자·가산세는 법인별 상황에 따라 달라질 수 있으므로 확정 신고·납부는 MSV와 상담해 주세요.",
   linkServices: "회계 서비스로 돌아가기",
   linkContact: "문의하기",
-  linkPersonalTax: "개인 소득세 계산기",
+  linkPersonalTax: "인도 급여 TDS 계산기",
   section1Title: "1. 본 계산기에 적용한 세율 (§115BAA 기준 예시 계산)",
   section1LeadBeforeRows: "아래 표의 ",
   section1LeadRowsStrong: "(i)~(l)",
   section1LeadAfterRows: "은 소득세법 ",
   section1LeadActStrong: "제115BAA조",
   section1LeadTail:
-    "의 선택 과세(기본세율 22%) 구조를 단순화하여 계산한 예시입니다. 일부 공제 제한, 이월결손금 처리 등 실제 적용 조건은 관련 세법 및 해석에 따릅니다.",
+    "의 선택 과세(Section 115BAA) 기준으로, 본 계산 예시는 22% base tax + surcharge 10% + cess 4% 흐름을 단순화하여 표시한 참고 예시입니다. 일부 공제 제한, 이월결손금 처리 등 실제 적용 조건은 관련 세법 및 해석에 따릅니다.",
   section1LiIStrong: "(i) 법인세",
   section1LiIRest: " = 과세소득(음수는 0) × 22%",
   section1LiJStrong: "(j) surcharge(추가세)",
   section1LiJNote:
-    " (실제 신고 시에는 과세소득 구간에 따라 surcharge 비율이 달라질 수 있으나, 본 계산에서는 예시 목적으로 10%를 고정 적용하였습니다.)",
+    " 실제 surcharge 적용 여부·비율은 과세소득·총소득 구간 및 법인 유형 등에 따라 달라질 수 있습니다. (본 표에서는 §115BAA 예시를 위해 법인세(i)에 대해 surcharge를 10%로 고정 적용하였습니다.)",
   section1LiK: "(k) 교육·건강 cess = ((i) + (j)) × 4%",
   section1LiLBeforeRate:
     "(l) 총 세액 = (i) + (j) + (k). 과세소득 한 단위(₹1)당 부담은 ",
   section1LiLRate: (rate) => `22% × 1.10 × 1.04 ≈ ${rate}%`,
-  section1LiLNote: " (즉 22%에 surcharge 10%를 곱한 뒤, 해당 합계에 추가로 cess 4%가 적용되는 구조입니다.)",
-  section2Title: "2. 일반 국내법인 기본세율 — 직전 연도 매출 ₹400 Crore 기준",
+  section1LiLNote:
+    " (22% × 1.10 × 1.04는 위 가정(§115BAA 선택 과세·법인세에 surcharge 10%·이후 cess 4%)을 한 줄로 압축한 참고식이며, 실제 실효세율은 surcharge 적용 여부에 따라 달라질 수 있습니다.)",
+  section2Title: "2. 일반 국내법인 기본세율 — 직전 회계연도 turnover / gross receipts (₹400 Crore 기준)",
   section2P1Before: "",
   section2P1Strong: "§115BAA를 선택하지 않은",
-  section2P1After: " 일반 과세 체계에서, 직전 연도의 총매출액(turnover 또는 gross receipts)이 기준입니다. 관련 세법 개정 및 해석에 따라 달라질 수 있으므로 확정 세율은 ",
+  section2P1After:
+    " 일반 과세 체계에서, 일반 국내법인의 기본세율 적용 여부는 직전 회계연도 turnover/gross receipts 기준에 따라 달라질 수 있습니다. 관련 세법 개정 및 해석에 따라 달라질 수 있으므로 확정 세율은 ",
   section2P1Msv: "MSV",
   section2P1End: "와 상담하여 확인하세요.",
-  section2Ul1Strong: "매출(직전 연) ≤ ₹400 Crore",
+  section2Ul1Strong: "직전 회계연도 turnover/gross receipts ≤ ₹400 Crore",
   section2Ul1Rest: "인 경우, 통상 기본 법인세 25%가 일반적으로 적용됩니다.",
-  section2Ul2Strong: "매출(직전 연)이 ₹400 Crore를 초과",
-  section2Ul2Rest: "하는 경우, 통상 기본 법인세 30%가 일반적으로 적용됩니다.",
+  section2Ul2Strong: "직전 회계연도 turnover/gross receipts > ₹400 Crore",
+  section2Ul2Rest: "인 경우, 통상 기본 법인세 30%가 일반적으로 적용됩니다.",
   section2Ul3:
     "위 25% 또는 30% 법인세에 더해, 총소득(total income) 규모에 따라 법인세액에 surcharge가 가산됩니다(예: 과세소득이 ₹1 Crore 초과~₹10 Crore 이하인 경우 7%, 과세소득이 ₹10 Crore 초과 시 12% 등이 적용됩니다 — 연도·법령별로 확인).",
   section2Ul4:
@@ -150,6 +153,8 @@ const KO: CorporateTaxCalculatorCopy = {
   workingLeadAfterL: "은 세액공제(TDS·선납세) 차감 전 ",
   workingLeadGrossStrong: "gross tax liability(총 법인세 부담)",
   workingLeadEnd: "에 해당합니다.",
+  tableBelowNote:
+    "실제 법인세 신고는 Tax Audit·Schedule BP·MAT/AMT·세무조정·이월결손금·감가상각 차이·관련자 거래·GST reconciliation 등을 함께 검토해야 합니다.",
   tableColItem: "항목 (EN / KO)",
   tableColAmount: "금액 (INR)",
   groupGrossCredits: "Gross tax liability & credits / 총 세액·세액공제",
@@ -188,40 +193,41 @@ const EN: CorporateTaxCalculatorCopy = {
   metaDescription: `${company.shortName} — §115BAA corporate tax, domestic company ₹400 Cr slab 25%/30%, surcharge & cess; illustrative calculation with sales, purchases, expenses, TDS & advance tax`,
   pageHeaderTitle: "Corporate tax calculator",
   pageHeaderDescription:
-    "Enter sales, purchases, expenses, TDS and advance tax to compute taxable income and corporate tax under §115BAA (22% + surcharge + cess, effective rate about 25.168%). We also outline effective rates for domestic companies with prior-year turnover ₹400 Crore (25%/30% base rates plus surcharge and cess). MAT/AMT, §115BAB applicability and legislative changes need separate review.",
+    "Enter sales, purchases, expenses, TDS and advance tax to compute taxable income and corporate tax under §115BAA (22% + surcharge + cess, effective rate about 25.168%). For domestic companies, whether the 25%/30% base rates apply depends on prior financial year turnover or gross receipts (commonly tested against the ₹400 Crore threshold), plus surcharge and cess. MAT/AMT, §115BAB applicability and legislative changes need separate review.",
   sectionRefCalc: "Illustrative calculation",
   disclaimer:
     "This tool is for reference only and does not replace legal or tax advice. Actual taxable income, rates, surcharge, interest and penalties vary by taxpayer—please consult MSV for filings and payments.",
   linkServices: "Back to accounting services",
   linkContact: "Contact us",
-  linkPersonalTax: "Personal income tax calculator",
+  linkPersonalTax: "India salary TDS calculator",
   section1Title: "1. Rates used in this calculator (illustration under §115BAA)",
   section1LeadBeforeRows: "Rows ",
   section1LeadRowsStrong: "(i)–(l)",
   section1LeadAfterRows: " simplify the optional regime under the Income-tax Act ",
   section1LeadActStrong: "Section 115BAA",
   section1LeadTail:
-    " (22% base rate). Real-world limits on deductions and brought-forward losses follow the statute and official guidance.",
+    " (22% base rate). This page illustrates that regime with a simplified stack: 22% base tax + 10% surcharge on that tax + 4% cess on tax plus surcharge. Real-world limits on deductions and brought-forward losses follow the statute and official guidance.",
   section1LiIStrong: "(i) Corporate tax",
   section1LiIRest: " = max(0, taxable income) × 22%",
   section1LiJStrong: "(j) Surcharge",
   section1LiJNote:
-    " (In practice surcharge rates vary by taxable-income slabs; here we fix 10% for illustration.)",
+    " Whether surcharge applies, and at what rate, depends on taxable income, total-income slabs and company characteristics. (For this §115BAA illustration we fix surcharge at 10% of corporate tax (i).)",
   section1LiK: "(k) Health & education cess = ((i) + (j)) × 4%",
   section1LiLBeforeRate:
     "(l) Gross tax = (i) + (j) + (k). Per rupee of taxable income the combined burden is about ",
   section1LiLRate: (rate) => `22% × 1.10 × 1.04 ≈ ${rate}%`,
-  section1LiLNote: " (i.e. 22% with 10% surcharge on tax, then 4% cess on tax plus surcharge).",
-  section2Title: "2. Domestic company base rates — prior-year turnover ₹400 Crore threshold",
+  section1LiLNote:
+    " (22% × 1.10 × 1.04 compresses the same illustration—22% base, 10% surcharge on that tax, then 4% cess on tax plus surcharge; your effective rate will differ if surcharge does not apply.)",
+  section2Title: "2. Domestic company base rates — prior financial year turnover / gross receipts (₹400 Crore threshold)",
   section2P1Before: "Under the general regime where ",
   section2P1Strong: "§115BAA is not opted for",
   section2P1After:
-    ", prior-year gross receipts or turnover is the key benchmark. Rates may change with amendments and interpretation—confirm with ",
+    ", whether the 25%/30% base rates apply depends on the prior financial year’s turnover or gross receipts. Rates may change with amendments and interpretation—confirm with ",
   section2P1Msv: "MSV",
   section2P1End: ".",
-  section2Ul1Strong: "Prior-year turnover ≤ ₹400 Crore",
+  section2Ul1Strong: "Prior financial year turnover / gross receipts ≤ ₹400 Crore",
   section2Ul1Rest: ": the 25% corporate tax rate commonly applies.",
-  section2Ul2Strong: "Prior-year turnover > ₹400 Crore",
+  section2Ul2Strong: "Prior financial year turnover / gross receipts > ₹400 Crore",
   section2Ul2Rest: ": the 30% rate commonly applies.",
   section2Ul3:
     "In addition to the 25% or 30% tax, surcharge applies to the tax amount depending on total income (e.g. roughly 7% if taxable income is between ₹1 Cr and ₹10 Cr, and 12% above ₹10 Cr—verify for the relevant year).",
@@ -246,6 +252,8 @@ const EN: CorporateTaxCalculatorCopy = {
   workingLeadAfterL: " is your ",
   workingLeadGrossStrong: "gross tax liability",
   workingLeadEnd: " before netting TDS and advance-tax credits.",
+  tableBelowNote:
+    "In practice, corporate tax filings should be reviewed together with tax audit, Schedule BP, MAT/AMT, tax adjustments, brought-forward losses, depreciation differences, related-party transactions, GST reconciliation, and similar items.",
   tableColItem: "Line item",
   tableColAmount: "Amount (INR)",
   groupGrossCredits: "Gross tax liability & credits",
@@ -284,39 +292,41 @@ const ZH: CorporateTaxCalculatorCopy = {
   metaDescription: `${company.shortName} — §115BAA 企业所得税、印度本土公司 ₹400 亿卢比档 25%/30%、surcharge 与 cess；含销售、采购、费用、TDS 与预缴示例`,
   pageHeaderTitle: "企业所得税计算器",
   pageHeaderDescription:
-    "输入销售、采购、费用、TDS 与预缴税款，可计算应税所得及 §115BAA 制度下的企业所得税（22%+surcharge+cess，有效税率约 25.168%）。亦说明一般本土公司上一营业年度营业额 ₹400 Crore 为界时的 25%/30% 基准税率及 surcharge、cess 下的有效税负。MAT/AMT、§115BAB 适用及税法修订需另行研判。",
+    "输入销售、采购、费用、TDS 与预缴税款，可计算应税所得及 §115BAA 制度下的企业所得税（22%+surcharge+cess，有效税率约 25.168%）。一般本土公司是否适用 25%/30% 基准税率，取决于上一会计年度的 turnover / gross receipts（通常以 ₹400 Crore 为界），并叠加 surcharge、cess 后的有效税负。MAT/AMT、§115BAB 适用及税法修订需另行研判。",
   sectionRefCalc: "参考计算",
   disclaimer:
     "本工具仅供参考，不构成法律或税务意见。实际应税所得、税率、surcharge、利息与罚款因企业情况而异，正式申报与缴纳请咨询 MSV。",
   linkServices: "返回会计服务",
   linkContact: "联系我们",
-  linkPersonalTax: "个人所得税计算器",
+  linkPersonalTax: "印度工资 TDS 计算器",
   section1Title: "1. 本计算器采用的税率（§115BAA 示例）",
   section1LeadBeforeRows: "下表中 ",
   section1LeadRowsStrong: "(i)~(l)",
   section1LeadAfterRows: " 行是对《所得税法》",
   section1LeadActStrong: "第 115BAA 条",
   section1LeadTail:
-    " 可选税制（基准税率 22%）的简化演示。扣除限制、亏损结转等实际条件以相关法律及解释为准。",
+    " 可选税制（Section 115BAA）。本页示例将 22% 基准税 + 对税额 10% 的 surcharge + 对「税 + surcharge」4% 的 cess 作简化列示。扣除限制、亏损结转等实际条件以相关法律及解释为准。",
   section1LiIStrong: "(i) 企业所得税",
   section1LiIRest: " = max(0, 应税所得) × 22%",
   section1LiJStrong: "(j) surcharge（附加费）",
-  section1LiJNote: "（实务中 surcharge 随应税所得区间变化；此处示例固定为 10%。）",
+  section1LiJNote:
+    " 实务中 surcharge 是否适用及税率随应税所得、总所得区间及企业类型等而异。（本表为 §115BAA 示例，将 surcharge 固定为对企业所得税额 (i) 的 10%。）",
   section1LiK: "(k) 教育与健康 cess = ((i) + (j)) × 4%",
   section1LiLBeforeRate:
     "(l) 应纳税总额 = (i) + (j) + (k)。每 ₹1 应税所得的大致综合税负约为 ",
   section1LiLRate: (rate) => `22% × 1.10 × 1.04 ≈ ${rate}%`,
-  section1LiLNote: "（即对 22% 税额按 10% 计 surcharge，再对「税 + surcharge」按 4% 计 cess。）",
-  section2Title: "2. 一般本土公司基准税率 — 上一营业年度营业额 ₹400 Crore 为界",
+  section1LiLNote:
+    "（22% × 1.10 × 1.04 为上述假设的压缩表达：22% 基准税、对税额 10% surcharge、再对「税 + surcharge」计 4% cess；若 surcharge 不适用，则实际有效税率会不同。）",
+  section2Title: "2. 一般本土公司基准税率 — 上一会计年度 turnover / gross receipts（₹400 Crore 为界）",
   section2P1Before: "在 ",
   section2P1Strong: "未选择 §115BAA",
   section2P1After:
-    " 的一般税制下，以上一营业年度的总营业额（turnover / gross receipts）为判断依据。具体税率可能随修法与解释调整，请与 ",
+    " 的一般税制下，是否适用 25%/30% 基准税率取决于上一会计年度的 turnover / gross receipts。具体税率可能随修法与解释调整，请与 ",
   section2P1Msv: "MSV",
   section2P1End: " 确认。",
-  section2Ul1Strong: "上一营业年度营业额 ≤ ₹400 Crore",
+  section2Ul1Strong: "上一会计年度 turnover / gross receipts ≤ ₹400 Crore",
   section2Ul1Rest: " 时，通常适用 25% 企业所得税。",
-  section2Ul2Strong: "上一营业年度营业额 > ₹400 Crore",
+  section2Ul2Strong: "上一会计年度 turnover / gross receipts > ₹400 Crore",
   section2Ul2Rest: " 时，通常适用 30% 企业所得税。",
   section2Ul3:
     "在上述 25% 或 30% 税额之外，还可能按总所得（total income）对税额加征 surcharge（例如应税所得约 ₹1–10 Crore 档约 7%，超过 ₹10 Crore 约 12% 等，以当年法规为准）。",
@@ -340,6 +350,8 @@ const ZH: CorporateTaxCalculatorCopy = {
   workingLeadAfterL: "指尚未扣减 TDS、预缴等抵免前的 ",
   workingLeadGrossStrong: "应纳税总额（gross tax liability）",
   workingLeadEnd: "。",
+  tableBelowNote:
+    "实际企业所得税申报应结合税务审计、Schedule BP、MAT/AMT、税务调整、亏损结转、折旧差异、关联方交易、GST 对账等事项一并审查。",
   tableColItem: "项目",
   tableColAmount: "金额（INR）",
   groupGrossCredits: "应纳税额与税款抵免",

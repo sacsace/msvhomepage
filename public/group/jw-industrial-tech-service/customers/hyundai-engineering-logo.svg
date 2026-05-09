@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 26" role="img" aria-label="Hyundai Engineering">
+  <title>Hyundai Engineering</title>
+  <!-- ¼ Èl: ¤ èÜ + ^ ø° (HEC Äô ÝÄ© èT) -->
+  <polygon points="2,20 10,6 18,20" fill="#e4b122" />
+  <polygon points="5,21 13,4 21,21" fill="#00b050" />
+  <text
+    x="26"
+    y="11"
+    font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+    font-size="9.5"
+    font-weight="800"
+    letter-spacing="0.04em"
+    fill="#003d7a"
+  >
+    HYUNDAI
+  </text>
+  <text
+    x="26"
+    y="21"
+    font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+    font-size="6.2"
+    font-weight="600"
+    letter-spacing="0.06em"
+    fill="#003d7a"
+  >
+    ENGINEERING
+  </text>
+</svg>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { SectionTitle } from "@/components/SectionTitle";
-import { mvsSoftwarePageCopy } from "@/lib/i18n/mvs-software-page-locale";
+import { MVS_PRODUCT_SITE_URL, mvsSoftwarePageCopy } from "@/lib/i18n/mvs-software-page-locale";
 import { getRequestLocale } from "@/lib/get-request-locale";
 import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import { company } from "@/lib/site-content";
@@ -41,6 +41,30 @@ export default async function SoftwareMvsPage() {
     <>
       <PageHeader title={c.pageTitle} description={c.pageHeaderDescription} descriptionWide />
       <StandardPageBody className="space-y-12 sm:space-y-14">
+        <section className="rounded-2xl border border-slate-200 bg-white px-5 py-5 shadow-sm sm:px-6 sm:py-6">
+          <p className="text-xs font-medium tracking-wide text-slate-500">{c.shortcutsHeading}</p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <a
+              href={MVS_PRODUCT_SITE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-[2.5rem] items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
+            >
+              {c.shortcutWebsite}
+            </a>
+            {c.businessIntroPdfUrl ? (
+              <a
+                href={c.businessIntroPdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-[2.5rem] items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-800 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
+              >
+                {c.shortcutBusinessPdf}
+              </a>
+            ) : null}
+          </div>
+        </section>
+
         <section className={cardSection}>
           <SectionTitle
             eyebrow={c.overviewEyebrow}

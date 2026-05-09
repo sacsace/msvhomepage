@@ -7,6 +7,15 @@ export type GroupCompanyImage = {
   caption?: string;
 };
 
+/** 그룹사 상세에 지도·외부 링크를 넣을 때(선택) — `embedSrc`는 `output=embed` 등 iframe용 URL */
+export type GroupCompanyLocation = {
+  embedSrc: string;
+  /** Google Maps 앱/웹에서 열 링크(단축 URL 가능) */
+  mapUrl: string;
+  /** 선택. 지도 위에 표시할 주소 한 줄 */
+  addressLine?: string;
+};
+
 /** `site-content.ts`의 `groupCompanies` 항목 형태 */
 export type GroupCompany = {
   slug: string;
@@ -26,4 +35,6 @@ export type GroupCompany = {
   profilePdf?: string;
   /** 선택. 제품·현장 사진 등 — 있으면 소개 페이지에 그리드로 표시 */
   gallery?: readonly GroupCompanyImage[];
+  /** 선택. 본사·사무실 등 위치(지도 iframe + 외부 링크) */
+  location?: GroupCompanyLocation;
 };

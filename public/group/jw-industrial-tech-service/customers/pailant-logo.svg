@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 24" role="img" aria-label="Pailant">
+  <title>Pailant</title>
+  <text
+    x="0"
+    y="18"
+    font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+    font-size="16"
+    font-weight="800"
+    font-style="italic"
+    letter-spacing="-0.02em"
+  >
+    <tspan fill="#1e3a8a">PAI</tspan><tspan fill="#16a34a">LANT</tspan>
+  </text>
+</svg>

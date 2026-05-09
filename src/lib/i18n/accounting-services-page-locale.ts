@@ -79,11 +79,11 @@ const koMenuLinks: readonly ServicesMenuLink[] = [
   { path: "/services/license-registration", label: "라이센스 등록 서비스" },
   { path: "/services/recruitment-support", label: "채용지원 서비스" },
   { path: "/services/frro", label: "FRRO 서비스" },
-  { path: "/services/ecb", label: "ECB 안내" },
-  { path: "/services/form-41-registration", label: "Form 41(구 Form 10F) 등록 서비스" },
-  { path: "/services/personal-income-tax-calculator", label: "개인 소득세 계산기" },
+  { path: "/services/ecb", label: "ECB·FEMA 실무 안내" },
+  { path: "/services/form-41-registration", label: "Form 41 / Form 10F 등록·신고" },
+  { path: "/services/personal-income-tax-calculator", label: "인도 급여 TDS 계산기" },
   { path: "/services/corporate-tax-calculator", label: "법인세 계산기" },
-  { path: "/services/professional-tax-calculator", label: "Professional Tax 계산기" },
+  { path: "/services/professional-tax-calculator", label: "Professional Tax (PT) 계산기" },
 ];
 
 const koProcessSteps = [
@@ -165,11 +165,11 @@ const enMenuLinks: readonly ServicesMenuLink[] = [
   { path: "/services/license-registration", label: "Licence registration" },
   { path: "/services/recruitment-support", label: "Recruitment support" },
   { path: "/services/frro", label: "FRRO services" },
-  { path: "/services/ecb", label: "ECB guide" },
-  { path: "/services/form-41-registration", label: "Form 41 (ex Form 10F) registration" },
-  { path: "/services/personal-income-tax-calculator", label: "Personal income tax calculator" },
+  { path: "/services/ecb", label: "ECB / FEMA guide" },
+  { path: "/services/form-41-registration", label: "Form 41 / Form 10F registration" },
+  { path: "/services/personal-income-tax-calculator", label: "India salary TDS calculator" },
   { path: "/services/corporate-tax-calculator", label: "Corporate tax calculator" },
-  { path: "/services/professional-tax-calculator", label: "Professional tax calculator" },
+  { path: "/services/professional-tax-calculator", label: "Professional Tax (PT) calculator" },
 ];
 
 const enProcessSteps = [
@@ -270,7 +270,7 @@ const enAccountingBlocks: readonly AccountingServiceBlock[] = [
     items: [
       "Director addition/removal (per person)",
       "Form 15CA/CB certification for non-resident remittances (per transaction)",
-      "ECB, Form 41 (ex Form 10F) and DTAA support (where applicable)",
+      "ECB, Form 41 / Form 10F and DTAA support (where applicable)",
       "DIR-3 KYC (annual director ID refresh, per person)",
       "CPA sign-off on documents (per engagement)",
     ],
@@ -425,11 +425,11 @@ const zhMenuLinks: readonly ServicesMenuLink[] = [
   { path: "/services/license-registration", label: "许可证登记服务" },
   { path: "/services/recruitment-support", label: "招聘支持服务" },
   { path: "/services/frro", label: "FRRO 服务" },
-  { path: "/services/ecb", label: "ECB 指南" },
-  { path: "/services/form-41-registration", label: "Form 41（原 Form 10F）登记服务" },
-  { path: "/services/personal-income-tax-calculator", label: "个人所得税计算器" },
+  { path: "/services/ecb", label: "ECB·FEMA 实务指南" },
+  { path: "/services/form-41-registration", label: "Form 41 / Form 10F 登记与申报" },
+  { path: "/services/personal-income-tax-calculator", label: "印度工资 TDS 计算器" },
   { path: "/services/corporate-tax-calculator", label: "企业所得税计算器" },
-  { path: "/services/professional-tax-calculator", label: "Professional Tax 计算器" },
+  { path: "/services/professional-tax-calculator", label: "Professional Tax（PT）计算器" },
 ];
 
 const zhProcessSteps = [
@@ -529,7 +529,7 @@ const zhAccountingBlocks: readonly AccountingServiceBlock[] = [
     items: [
       "董事登记/撤销（按人头）",
       "Form 15CA/CB（非居民汇款相关税务证明，按笔）",
-      "ECB（对外商业借款）、海外汇款 Form 41（原 Form 10F）·DTAA（双重征税协定）相关支持（如适用）",
+      "ECB（对外商业借款）、海外汇款 Form 41 / Form 10F·DTAA（双重征税协定）相关支持（如适用）",
       "DIR-3 KYC（董事识别号年度更新，按人头）",
       "需注册会计师签字的文件（按件）",
     ],
