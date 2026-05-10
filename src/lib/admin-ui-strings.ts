@@ -202,3 +202,37 @@ export function adminDashboardData(locale: AdminUiLocale): AdminDashboardData {
     ],
   };
 }
+
+/** 대시보드 상단 — 공개 사이트 페이지뷰 통계 */
+export function adminPageViewStatsCopy(locale: AdminUiLocale) {
+  if (locale === "en") {
+    return {
+      sectionTitle: "Site traffic",
+      sectionHint: "Page views on the public site (last 30 days for top paths, UTC by day).",
+      totalLabel: "Total page views",
+      totalHint: "All recorded views since tracking started.",
+      last7Title: "Last 7 days (UTC)",
+      last7Hint: "Views per calendar day in UTC.",
+      topPathsTitle: "Top paths (30 days)",
+      topPathsHint: "Most opened URL paths.",
+      pathColumn: "Path",
+      countColumn: "Views",
+      unavailable:
+        "Statistics are unavailable (database not reachable or SitePageView table missing). Run `npx prisma db push` after deploy.",
+    };
+  }
+  return {
+    sectionTitle: "사이트 유입",
+    sectionHint: "공개 페이지를 열 때마다 기록됩니다. 상위 경로는 최근 30일, 일별은 최근 7일(UTC 기준 날짜)입니다.",
+    totalLabel: "누적 페이지뷰",
+    totalHint: "통계를 켠 이후 저장된 조회 수입니다.",
+    last7Title: "최근 7일 (UTC)",
+    last7Hint: "UTC 자정 기준 하루 단위 집계입니다.",
+    topPathsTitle: "많이 본 경로 (30일)",
+    topPathsHint: "조회 수가 많은 URL 경로입니다.",
+    pathColumn: "경로",
+    countColumn: "조회",
+    unavailable:
+      "통계를 불러올 수 없습니다(DB 연결 실패 또는 SitePageView 테이블 없음). 배포 후 `npx prisma db push` 로 스키마를 맞추세요.",
+  };
+}

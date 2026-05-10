@@ -2,13 +2,27 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
-import { staticPageSeo } from "@/lib/seo-metadata";
+import { getRequestLocale } from "@/lib/get-request-locale";
+import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import { softwareLanding } from "@/lib/site-content";
+import { pickLocale, type SiteLocale } from "@/lib/site-locale";
 
-export const metadata: Metadata = staticPageSeo("/software", {
-  title: "소프트웨어",
-  description: softwareLanding.headerSummary,
-});
+function softwareSeo(locale: SiteLocale) {
+  return {
+    title: pickLocale(locale, { ko: "소프트웨어", en: "Software", zh: "软件" }),
+    description: pickLocale(locale, {
+      ko: softwareLanding.headerSummary,
+      en: "Software and operational tools for accounting, tax, and on-the-ground execution — MVS groupware and HereNow attendance.",
+      zh: "支持会计、税务与现场执行的软件与运营工具 — MVS 协作平台与 HereNow 出勤管理。",
+    }),
+  };
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  const { title, description } = softwareSeo(locale);
+  return staticPageSeoLocalized("/software", { title, description }, locale);
+}
 
 export default function SoftwarePage() {
   return (

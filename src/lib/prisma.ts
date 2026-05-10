@@ -33,19 +33,28 @@ if (g.prisma && g.prismaDatasourceUrl !== databaseUrl) {
   g.prismaDatasourceUrl = undefined;
 }
 
-/** `prisma generate` / HMR 후 글로벌 캐시가 예전 PrismaClient를 들고 있으면 새 model delegate가 없다 → 버리고 새로 만든다. */
-function hasLeadershipStaticProfileDelegate(client: unknown): boolean {
-  const d = (client as { leadershipStaticProfile?: { findMany?: unknown } })?.leadershipStaticProfile;
-  return typeof d?.findMany === "function";
+/**
+ * `prisma generate` / HMR 후 글로벌 캐시가 예전 PrismaClient를 들고 있으면 새 model delegate가 없다 → 버리고 새로 만든다.
+ * 스키마에 모델을 추가할 때마다 여기에 해당 delegate 검사를 넣어 주세요.
+ */
+function prismaSingletonMatchesCurrentSchema(client: unknown): boolean {
+  const c = client as {
+    leadershipStaticProfile?: { findMany?: unknown };
+    sitePageView?: { count?: unknown };
+  };
+  return (
+    typeof c.leadershipStaticProfile?.findMany === "function" &&
+    typeof c.sitePageView?.count === "function"
+  );
 }
 
-if (g.prisma && !hasLeadershipStaticProfileDelegate(g.prisma)) {
+if (g.prisma && !prismaSingletonMatchesCurrentSchema(g.prisma)) {
   void g.prisma.$disconnect().catch(() => {});
   g.prisma = undefined;
   g.prismaDatasourceUrl = undefined;
   if (process.env.NODE_ENV === "development") {
     console.warn(
-      "[MSV] Prisma 싱글톤에 LeadershipStaticProfile이 없어 연결을 끊고 새 클라이언트를 만듭니다. (지속 시 `npx prisma generate` 후 dev 재시작)",
+      "[MSV] Prisma 싱글톤이 현재 스키마와 맞지 않아 연결을 끊고 새 클라이언트를 만듭니다. (지속 시 `npx prisma generate` 후 dev 재시작)",
     );
   }
 }

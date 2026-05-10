@@ -11,6 +11,7 @@ const BrowserPathnameProvider = dynamic(
     })),
   { ssr: true },
 );
+import { PageViewTracker } from "@/components/layout/PageViewTracker";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -88,6 +89,7 @@ export default async function RootLayout({
           </main>
         ) : (
           <BrowserPathnameProvider serverPathname={browserPath}>
+            <PageViewTracker />
             <OrganizationJsonLd />
             <a
               href="#main-content"

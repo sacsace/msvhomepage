@@ -30,6 +30,15 @@ export function isPrismaErrorCode(e: unknown, code: string): boolean {
   );
 }
 
+/** `$queryRaw` 등이 없는 릴레이션을 가리킬 때(Postgres `42P01` undefined_table). */
+function isRawQueryMissingRelation(e: unknown): boolean {
+  if (!isPrismaErrorCode(e, "P2010")) return false;
+  const meta = (e as { meta?: { code?: string; message?: string } }).meta;
+  if (String(meta?.code ?? "") === "42P01") return true;
+  const blob = `${meta?.message ?? ""}${e instanceof Error ? e.message : ""}`;
+  return /42P01|undefined_table|릴레이션\(relation\)이 없습니다|does not exist/i.test(blob);
+}
+
 /** 연결·인증·타임아웃 등(읽기 복구 / API 사용자 메시지에 공통 사용) */
 export function isRecoverableDbError(e: unknown): boolean {
   const msg = e instanceof Error ? e.message : String(e);
@@ -39,6 +48,10 @@ export function isRecoverableDbError(e: unknown): boolean {
   }
   /** 스키마는 있는데 DB에 테이블이 없을 때 — dev/lenient에서만 빈 값으로 넘김(운영 `next start`는 false) */
   if (isPrismaErrorCode(e, "P2021")) {
+    return shouldRecoverFromDbReadFailure();
+  }
+  /** Raw SQL이 아직 없는 테이블을 읽을 때 — P2021과 동일하게 취급 */
+  if (isRawQueryMissingRelation(e)) {
     return shouldRecoverFromDbReadFailure();
   }
   /** DB에 컬럼이 없을 때(스키마가 DB보다 앞섬, 예: `showOnHome` 미적용) — dev/lenient에서만 읽기 폴백 */
@@ -68,8 +81,13 @@ export async function withRecoverableDbRead<T>(
             ? "MSV_DEV_DB_LENIENT"
             : "next dev";
       console.warn(`[MSV] DB read skipped (${reason}):`, preview);
-      if (isPrismaErrorCode(e, "P2021") && process.env.NODE_ENV === "development") {
-        console.warn("[MSV] 테이블 누락(P2021) — `web` 폴더에서 `npx prisma db push` 로 DB 스키마를 맞추세요.");
+      if (
+        (isPrismaErrorCode(e, "P2021") || isRawQueryMissingRelation(e)) &&
+        process.env.NODE_ENV === "development"
+      ) {
+        console.warn(
+          "[MSV] 테이블 누락(P2021·raw 42P01) — `web` 폴더에서 `npx prisma db push`(또는 `node scripts/merged-env-run.cjs npx prisma db push`)로 DB 스키마를 맞추세요.",
+        );
       }
       if (isPrismaErrorCode(e, "P2022") && process.env.NODE_ENV === "development") {
         console.warn(

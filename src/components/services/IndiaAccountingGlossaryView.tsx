@@ -51,7 +51,7 @@ function SectionTable({
 
   if (section.variant === "phrase") {
     const [c1, c2] = glossaryPhraseHeaders(section, locale);
-    const intro = glossaryPhraseIntro(section, locale);
+    const intro = glossaryPhraseIntro(section);
     return (
       <div className="overflow-x-auto rounded-lg border border-slate-200">
         {intro ? (

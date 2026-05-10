@@ -257,7 +257,7 @@ export function glossaryPhraseHeaders(
 }
 
 /** phrase + phraseIntro: 표 위 안내(섹션별 다국어 가능) */
-export function glossaryPhraseIntro(section: GlossarySection, _locale: SiteLocale): string | undefined {
+export function glossaryPhraseIntro(section: GlossarySection): string | undefined {
   if (section.variant !== "phrase" || !section.phraseIntro) return undefined;
   return section.phraseIntro;
 }

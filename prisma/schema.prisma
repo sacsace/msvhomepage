@@ -142,3 +142,14 @@ model LeadershipExtraMember {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
+
+/// 공개 사이트 페이지뷰(관리자 대시보드 유입 통계)
+model SitePageView {
+  id        String   @id @default(uuid())
+  path      String
+  referrer  String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([path])
+}

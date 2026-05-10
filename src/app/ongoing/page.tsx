@@ -1,17 +1,31 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
-import { staticPageSeo } from "@/lib/seo-metadata";
+import { getRequestLocale } from "@/lib/get-request-locale";
 import { maskOngoingTaskTitle } from "@/lib/mask-public-title";
-import { getCachedOngoingTasks } from "@/lib/public-page-data-cache";
 import { sortOngoingTasks } from "@/lib/ongoing-tasks-store";
+import { getCachedOngoingTasks } from "@/lib/public-page-data-cache";
+import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import { company } from "@/lib/site-content";
+import { pickLocale, type SiteLocale } from "@/lib/site-locale";
 import { textExcerpt } from "@/lib/richtext";
 
-export const metadata: Metadata = staticPageSeo("/ongoing", {
-  title: "프로젝트 현황",
-  description: `${company.shortName}에서 현재 진행 중인 프로젝트·업무 현황을 안내합니다.`,
-});
+function ongoingSeo(locale: SiteLocale) {
+  return {
+    title: pickLocale(locale, { ko: "프로젝트 현황", en: "Projects", zh: "项目动态" }),
+    description: pickLocale(locale, {
+      ko: `${company.shortName}에서 현재 진행 중인 프로젝트·업무 현황을 안내합니다.`,
+      en: `Current projects and workstreams at ${company.shortName}.`,
+      zh: `${company.shortName} 当前进行中的项目与业务动态。`,
+    }),
+  };
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  const { title, description } = ongoingSeo(locale);
+  return staticPageSeoLocalized("/ongoing", { title, description }, locale);
+}
 
 export const revalidate = 60;
 

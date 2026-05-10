@@ -22,13 +22,17 @@ export function BrowserPathnameProvider({ serverPathname, children }: Props) {
   const [pathname, setPathname] = useState(serverPathname);
 
   useEffect(() => {
-    setPathname(serverPathname);
+    queueMicrotask(() => {
+      setPathname(serverPathname);
+    });
   }, [serverPathname]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     const w = window.location.pathname || "/";
-    setPathname((prev) => (prev !== w ? w : prev));
+    queueMicrotask(() => {
+      setPathname((prev) => (prev !== w ? w : prev));
+    });
   }, [nextPath]);
 
   return (

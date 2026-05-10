@@ -19,7 +19,6 @@ import { withLocalePrefix } from "@/lib/site-locale";
 import {
   caKashulStatementFull,
   ceoStatementFull,
-  company,
   vpHaStatementFull,
 } from "@/lib/site-content";
 

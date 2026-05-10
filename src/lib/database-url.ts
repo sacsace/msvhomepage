@@ -48,7 +48,7 @@ function isNextProductionBuildPhase(): boolean {
 }
 
 /** 빌드 단계에서 DB 변수 없이 Prisma 모듈만 로드·통과할 때(실 DB 연결은 하지 않음). */
-function useBuildTimeDummyDatabaseUrl(): boolean {
+function shouldUseBuildTimeDummyDatabaseUrl(): boolean {
   if (String(process.env.MSV_LENIENT_DB_BUILD || "").trim() === "1") return true;
   return isNextProductionBuildPhase();
 }
@@ -76,7 +76,7 @@ export function resolveDatabaseUrl(): string {
   if (!u) {
     // Next 빌드 워커(`NEXT_PHASE`) 또는 `MSV_LENIENT_DB_BUILD=1` — 페이지 데이터 수집 시 prisma 로드.
     // Railway 등에서 빌드용 env가 빠져도 `next build`만 통과시키며, `next start`에는 실제 DB 변수 필요.
-    if (useBuildTimeDummyDatabaseUrl()) {
+    if (shouldUseBuildTimeDummyDatabaseUrl()) {
       return "postgresql://prisma:prisma@127.0.0.1:5432/dummy?schema=public&sslmode=disable";
     }
     throw new Error(

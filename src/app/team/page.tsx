@@ -6,15 +6,26 @@ import { SectionTitle } from "@/components/SectionTitle";
 import { LeadershipGrid } from "@/components/team/LeadershipGrid";
 import { getRequestLocale } from "@/lib/get-request-locale";
 import { getCachedLeadershipForPublic } from "@/lib/public-page-data-cache";
-import { staticPageSeo } from "@/lib/seo-metadata";
-import type { SiteLocale } from "@/lib/site-locale";
-import { withLocalePrefix } from "@/lib/site-locale";
+import { staticPageSeoLocalized } from "@/lib/seo-metadata";
+import { pickLocale, type SiteLocale, withLocalePrefix } from "@/lib/site-locale";
 import { clientSectors, company } from "@/lib/site-content";
 
-export const metadata: Metadata = staticPageSeo("/team", {
-  title: "리더십",
-  description: `${company.shortName} 리더십·조직 소개`,
-});
+function teamSeo(locale: SiteLocale) {
+  return {
+    title: pickLocale(locale, { ko: "리더십", en: "Leadership", zh: "领导力" }),
+    description: pickLocale(locale, {
+      ko: `${company.shortName} 리더십·조직 소개`,
+      en: `Leadership and organization at ${company.shortName}.`,
+      zh: `${company.shortName} 领导力与组织介绍。`,
+    }),
+  };
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  const { title, description } = teamSeo(locale);
+  return staticPageSeoLocalized("/team", { title, description }, locale);
+}
 
 export const revalidate = 60;
 
