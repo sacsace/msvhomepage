@@ -37,6 +37,47 @@ export function parseEmailAddressOnly(s: string): string {
   return (m ? m[1] : t).trim();
 }
 
+function readBoundedIntEnv(name: string, fallback: number, min: number, max: number): number {
+  const raw = process.env[name]?.trim();
+  if (!raw) return fallback;
+  const n = Number.parseInt(raw, 10);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.min(max, Math.max(min, n));
+}
+
+/** 기본 12초 — 무한 대기 방지. `MSV_SMTP_CONNECTION_TIMEOUT_MS`(5000~60000)로 조정 가능 */
+function smtpClientTimeouts(): { connectionTimeout: number; greetingTimeout: number; socketTimeout: number } {
+  const connectionTimeout = readBoundedIntEnv("MSV_SMTP_CONNECTION_TIMEOUT_MS", 12_000, 5000, 60_000);
+  return {
+    connectionTimeout,
+    greetingTimeout: Math.min(connectionTimeout, 10_000),
+    socketTimeout: connectionTimeout + 15_000,
+  };
+}
+
+/** 공개 API에는 원문 전체를 넣지 말고, 관리자 테스트 등에만 보조 문구로 사용 */
+export function transactionalSendFailureUserHint(err: unknown): string | null {
+  const code =
+    err && typeof err === "object" && "code" in err && typeof (err as { code?: unknown }).code === "string"
+      ? (err as { code: string }).code
+      : "";
+  const msg = (err instanceof Error ? err.message : String(err)).toLowerCase();
+  const timedOut =
+    code === "ETIMEDOUT" ||
+    msg.includes("connection timeout") ||
+    (msg.includes("timeout") && (msg.includes("conn") || code === "ESOCKETTIMEDOUT"));
+  if (timedOut) {
+    return "SMTP 서버에 TCP 연결이 되지 않았습니다(타임아웃). 호스트·포트·방화벽을 확인하세요. Railway 등에서 아웃바운드 SMTP가 막혀 있으면 RESEND_API_KEY, SENDGRID_API_KEY, POSTMARK_SERVER_TOKEN 중 하나를 서버 환경 변수로 넣고(선택: MSV_EMAIL_PROVIDER) HTTPS 메일 API로 보내세요.";
+  }
+  if (code === "ECONNREFUSED" || msg.includes("connection refused")) {
+    return "SMTP 연결이 거절되었습니다. 포트·SSL/TLS 설정이 호스트와 맞는지 확인하세요.";
+  }
+  if (code === "ENOTFOUND" || msg.includes("getaddrinfo") || msg.includes("enotfound")) {
+    return "SMTP 호스트 이름을 DNS에서 찾을 수 없습니다. 호스트 철자를 확인하세요.";
+  }
+  return null;
+}
+
 export type TransactionalAttachment = { filename: string; content: Buffer };
 
 export type SendTransactionalEmailInput = {
@@ -194,11 +235,13 @@ async function sendViaSmtp(input: SendTransactionalEmailInput): Promise<void> {
   const hasPass = Boolean(String(settings.pass || "").trim());
   const useAuth = hasUser && hasPass;
   const tcp = await smtpConnectTarget(settings.host);
+  const timeouts = smtpClientTimeouts();
   const transporter = nodemailer.createTransport({
     host: tcp.host,
     ...(tcp.servername ? { servername: tcp.servername } : {}),
     port: settings.port,
     secure: settings.secure,
+    ...timeouts,
     ...smtpSocketIpv4Only,
     ...(!settings.secure && settings.port === 587 ? { requireTLS: true } : {}),
     ...(useAuth ? { auth: { user: settings.user, pass: settings.pass } } : {}),

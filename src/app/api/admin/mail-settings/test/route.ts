@@ -11,6 +11,7 @@ import {
   parseEmailAddressOnly,
   resolveTransactionalFromAddress,
   sendTransactionalEmail,
+  transactionalSendFailureUserHint,
 } from "@/lib/transactional-email";
 
 export const runtime = "nodejs";
@@ -132,10 +133,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error("[api/admin/mail-settings/test]", e);
-    const msg = e instanceof Error ? e.message : String(e);
-    return NextResponse.json(
-      { error: `테스트 발송에 실패했습니다. ${msg.slice(0, 200)}` },
-      { status: 500 },
-    );
+    const detail = e instanceof Error ? e.message : String(e);
+    const hint = transactionalSendFailureUserHint(e);
+    const body = hint
+      ? `${hint} (${detail.slice(0, 160)})`
+      : `테스트 발송에 실패했습니다. ${detail.slice(0, 200)}`;
+    return NextResponse.json({ error: body }, { status: 500 });
   }
 }

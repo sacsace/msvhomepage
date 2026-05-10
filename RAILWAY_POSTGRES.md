@@ -36,6 +36,10 @@ Please update the volume mount path to the expected path and redeploy the servic
 - 볼륨을 비우거나 새 볼륨으로 갈아타고, Postgres 이미지 권장대로 **마운트는 `/var/lib/postgresql/data`** 만 쓴다.
 - 필요 시 Postgres 문서/이미지에서 안내하는 **`PGDATA`** 서브디렉터리 방식은 Railway Postgres 플러그인 문서를 따른다.
 
+## 헬스체크 (`/api/health`)
+
+`railway.toml` 의 **healthcheckPath** 는 DB를 쓰지 않는 **`/api/health`** 입니다. 홈(`/`)은 Prisma·캐시를 거쳐 DB 지연·시드 전 타이밍에 헬스 실패가 나기 쉬워 분리했습니다.
+
 ## Pre-deploy로 스키마·시드 자동 적용 (이 저장소)
 
 `railway.toml` 의 **`preDeployCommand`** 가 배포마다 다음을 실행합니다: `prisma generate` → `prisma db push` → `prisma db seed`.
