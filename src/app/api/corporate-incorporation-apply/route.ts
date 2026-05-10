@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import { parseSmtpRecipientList, readMailSettings } from "@/lib/mail-settings-store";
 import {
-  parseSmtpRecipientList,
-  readMailSettings,
-  smtpConnectTarget,
-  smtpSocketIpv4Only,
-} from "@/lib/mail-settings-store";
+  getTransactionalEmailMode,
+  parseEmailAddressOnly,
+  resolveTransactionalFromAddress,
+  sendTransactionalEmail,
+} from "@/lib/transactional-email";
 
 export const runtime = "nodejs";
 
@@ -231,11 +231,32 @@ export async function POST(request: Request) {
 
     const settings = await readMailSettings();
     const recipients = parseSmtpRecipientList(settings.toAddress);
-    if (!settings.host || recipients.length === 0) {
+    if (recipients.length === 0) {
       return NextResponse.json(
         { error: "메일 서버가 설정되지 않았습니다. 잠시 후 다시 시도하거나 이메일로 직접 연락해 주세요." },
         { status: 503 },
       );
+    }
+
+    const mode = getTransactionalEmailMode();
+    if (mode === "smtp") {
+      if (!settings.host.trim()) {
+        return NextResponse.json(
+          { error: "메일 서버가 설정되지 않았습니다. 잠시 후 다시 시도하거나 이메일로 직접 연락해 주세요." },
+          { status: 503 },
+        );
+      }
+    } else {
+      const resolved = resolveTransactionalFromAddress(settings).trim();
+      if (!resolved) {
+        return NextResponse.json(
+          {
+            error:
+              "HTTPS 메일 API 발신 주소가 비어 있습니다. 관리자 「SMTP MAIL FROM」또는 MSV_TRANSACTIONAL_FROM 을 설정하세요.",
+          },
+          { status: 503 },
+        );
+      }
     }
 
     const attachments: { filename: string; content: Buffer }[] = [];
@@ -337,28 +358,24 @@ export async function POST(request: Request) {
       `— 주주 관련 추가 메모 —\n${shareholderOtherNotes || "(없음)"}\n\n` +
       `— 첨부 관련 메모 —\n${attachmentNotes || "(없음)"}\n`;
 
-    const hasUser = Boolean(settings.user.trim());
-    const hasPass = Boolean(String(settings.pass || "").trim());
-    if (hasUser && !hasPass) {
-      return NextResponse.json(
-        { error: "메일 서버 비밀번호가 설정되지 않았습니다. 관리자에게 문의하세요." },
-        { status: 503 },
-      );
+    if (mode === "smtp") {
+      const hasUser = Boolean(settings.user.trim());
+      const hasPass = Boolean(String(settings.pass || "").trim());
+      if (hasUser && !hasPass) {
+        return NextResponse.json(
+          { error: "메일 서버 비밀번호가 설정되지 않았습니다. 관리자에게 문의하세요." },
+          { status: 503 },
+        );
+      }
     }
-    const useAuth = hasUser && hasPass;
-    const tcp = await smtpConnectTarget(settings.host);
-    const transporter = nodemailer.createTransport({
-      host: tcp.host,
-      ...(tcp.servername ? { servername: tcp.servername } : {}),
-      port: settings.port,
-      secure: settings.secure,
-      ...smtpSocketIpv4Only,
-      ...(!settings.secure && settings.port === 587 ? { requireTLS: true } : {}),
-      ...(useAuth ? { auth: { user: settings.user, pass: settings.pass } } : {}),
-    });
 
     const authUser = String(settings.user || "").trim();
-    const envelopeFrom = (String(settings.fromAddress || "").trim() || authUser || recipients[0]).trim();
+    const envelopeSmtp = (String(settings.fromAddress || "").trim() || authUser || recipients[0]).trim();
+    const resolvedFrom = resolveTransactionalFromAddress(settings).trim();
+    const envelopeFrom =
+      mode === "smtp"
+        ? envelopeSmtp
+        : (parseEmailAddressOnly(resolvedFrom) || resolvedFrom).trim();
     if (!envelopeFrom) {
       return NextResponse.json(
         { error: "메일 발신 설정이 비어 있습니다. 관리자 메일 설정을 확인하세요." },
@@ -366,15 +383,19 @@ export async function POST(request: Request) {
       );
     }
 
-    const fromHeader = `"${safeDisplayName(applicantName)}" <${applicantEmail}>`;
+    const fromHeader =
+      mode === "smtp"
+        ? `"${safeDisplayName(applicantName)}" <${applicantEmail}>`
+        : `"${safeDisplayName(applicantName)} (법인 설립)" <${parseEmailAddressOnly(resolvedFrom) || resolvedFrom}>`;
 
-    await transporter.sendMail({
-      envelope: { from: envelopeFrom, to: recipients },
-      from: fromHeader,
-      replyTo: applicantEmail,
+    await sendTransactionalEmail({
+      settings,
       to: recipients,
       subject: `[법인 설립 신청] ${corpName1} (${applicantName})`,
       text: body,
+      replyTo: applicantEmail,
+      fromHeader,
+      envelopeFrom,
       attachments: attachments.length ? attachments : undefined,
     });
 

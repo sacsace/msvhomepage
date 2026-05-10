@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
 import { INQUIRY_TYPE_VALUES } from "@/lib/i18n/contact-locale";
+import { parseSmtpRecipientList, readMailSettings } from "@/lib/mail-settings-store";
 import {
-  parseSmtpRecipientList,
-  readMailSettings,
-  smtpConnectTarget,
-  smtpSocketIpv4Only,
-} from "@/lib/mail-settings-store";
+  getTransactionalEmailMode,
+  parseEmailAddressOnly,
+  resolveTransactionalFromAddress,
+  sendTransactionalEmail,
+} from "@/lib/transactional-email";
 
 export const runtime = "nodejs";
 
@@ -65,35 +65,49 @@ export async function POST(request: Request) {
 
     const settings = await readMailSettings();
     const recipients = parseSmtpRecipientList(settings.toAddress);
-    if (!settings.host || recipients.length === 0) {
+    if (recipients.length === 0) {
       return NextResponse.json(
         { error: "메일 서버가 설정되지 않았습니다. 잠시 후 다시 시도하거나 이메일로 직접 연락해 주세요." },
         { status: 503 },
       );
     }
 
-    const hasUser = Boolean(settings.user.trim());
-    const hasPass = Boolean(String(settings.pass || "").trim());
-    if (hasUser && !hasPass) {
-      return NextResponse.json(
-        { error: "SMTP 계정 비밀번호가 설정되지 않았습니다. 관리자 메일 설정을 확인하세요." },
-        { status: 503 },
-      );
+    const mode = getTransactionalEmailMode();
+    if (mode === "smtp") {
+      if (!settings.host.trim()) {
+        return NextResponse.json(
+          { error: "메일 서버가 설정되지 않았습니다. 잠시 후 다시 시도하거나 이메일로 직접 연락해 주세요." },
+          { status: 503 },
+        );
+      }
+      const hasUser = Boolean(settings.user.trim());
+      const hasPass = Boolean(String(settings.pass || "").trim());
+      if (hasUser && !hasPass) {
+        return NextResponse.json(
+          { error: "SMTP 계정 비밀번호가 설정되지 않았습니다. 관리자 메일 설정을 확인하세요." },
+          { status: 503 },
+        );
+      }
+    } else {
+      const resolved = resolveTransactionalFromAddress(settings).trim();
+      if (!resolved) {
+        return NextResponse.json(
+          {
+            error:
+              "HTTPS 메일 API 발신 주소가 비어 있습니다. 관리자의 「SMTP MAIL FROM」또는 배포 환경 변수 MSV_TRANSACTIONAL_FROM 을 설정하세요.",
+          },
+          { status: 503 },
+        );
+      }
     }
-    const useAuth = hasUser && hasPass;
-    const tcp = await smtpConnectTarget(settings.host);
-    const transporter = nodemailer.createTransport({
-      host: tcp.host,
-      ...(tcp.servername ? { servername: tcp.servername } : {}),
-      port: settings.port,
-      secure: settings.secure,
-      ...smtpSocketIpv4Only,
-      ...(!settings.secure && settings.port === 587 ? { requireTLS: true } : {}),
-      ...(useAuth ? { auth: { user: settings.user, pass: settings.pass } } : {}),
-    });
 
     const authUser = String(settings.user || "").trim();
-    const envelopeFrom = (String(settings.fromAddress || "").trim() || authUser || recipients[0]).trim();
+    const envelopeSmtp = (String(settings.fromAddress || "").trim() || authUser || recipients[0]).trim();
+    const resolvedFrom = resolveTransactionalFromAddress(settings).trim();
+    const envelopeFrom =
+      mode === "smtp"
+        ? envelopeSmtp
+        : (parseEmailAddressOnly(resolvedFrom) || resolvedFrom).trim();
     if (!envelopeFrom) {
       return NextResponse.json(
         { error: "메일 발신(SMTP 사용자 또는 발신 주소)이 비어 있습니다. 관리자 메일 설정을 확인하세요." },
@@ -105,18 +119,19 @@ export async function POST(request: Request) {
     const subjectLine = subject
       ? `[MSV Website Inquiry] ${subject}`
       : `[MSV Website Inquiry] ${name}님`;
-    /** 표시 발신자 — 문의 작성자(이름·이메일). Gmail 등은 정책에 따라 `Sender`/SMTP 계정으로 표시를 덮을 수 있음 */
-    const fromHeader = `"${safeDisplayName(name)}" <${email}>`;
+    const fromHeader =
+      mode === "smtp"
+        ? `"${safeDisplayName(name)}" <${email}>`
+        : `"${safeDisplayName(name)} (웹 문의)" <${parseEmailAddressOnly(resolvedFrom) || resolvedFrom}>`;
 
-    await transporter.sendMail({
-      envelope: { from: envelopeFrom, to: recipients },
-      from: fromHeader,
-      /** 실제 SMTP로 제출하는 주소 — From과 다를 때 RFC 권장(일부 클라이언트가「대신 전송」으로 표시) */
-      sender: envelopeFrom,
-      replyTo: email,
+    await sendTransactionalEmail({
+      settings,
       to: recipients,
       subject: subjectLine,
       text: `문의 유형: ${typeLine}\n보낸 사람: ${name}\n이메일: ${email}\n\n${message}`,
+      replyTo: email,
+      fromHeader,
+      envelopeFrom,
     });
 
     return NextResponse.json({ ok: true });

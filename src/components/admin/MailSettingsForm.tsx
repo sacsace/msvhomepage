@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { MailSettings } from "@/types/mail-settings";
+import type { TransactionalEmailMode } from "@/lib/transactional-email";
 
 type PublicSettings = Omit<MailSettings, "pass"> & { hasPassword: boolean };
 type MailPreset = "gmail" | "custom";
@@ -27,7 +28,7 @@ function firstListedEmail(toAddress: string): string {
   return x ?? "";
 }
 
-export function MailSettingsForm() {
+export function MailSettingsForm({ deliveryMode }: { deliveryMode: TransactionalEmailMode }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [testSending, setTestSending] = useState(false);
@@ -72,7 +73,7 @@ export function MailSettingsForm() {
               String(next.fromAddress || "").trim() ||
               String(next.user || "").trim(),
           );
-          if (!next.host) {
+          if (!next.host && deliveryMode === "smtp") {
             setPreset("gmail");
             setForm((prev) => applyPreset(prev, "gmail"));
           }
@@ -86,7 +87,7 @@ export function MailSettingsForm() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [deliveryMode]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -165,8 +166,21 @@ export function MailSettingsForm() {
     return <p className="text-sm text-zinc-500">불러오는 중…</p>;
   }
 
+  const isApi = deliveryMode !== "smtp";
+
   return (
     <form onSubmit={onSubmit} className="max-w-xl space-y-5">
+      {isApi ? (
+        <div className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-950">
+          <p className="font-medium">HTTPS API 모드 ({deliveryMode})</p>
+          <p className="mt-1 text-amber-900/90">
+            SMTP 호스트·비밀번호 없이도 테스트 발송·문의 메일이 동작합니다. 발신 도메인은 Resend/SendGrid/Postmark에서
+            검증한 주소와 맞추세요. DB에 「SMTP MAIL FROM」이 비어 있으면{" "}
+            <code className="rounded bg-amber-100/80 px-1">MSV_TRANSACTIONAL_FROM</code> 또는 문의 수신(To) 첫
+            주소가 발신에 쓰입니다.
+          </p>
+        </div>
+      ) : null}
       {msg ? (
         <p
           className={`rounded-md px-3 py-2 text-sm ${
@@ -279,7 +293,9 @@ export function MailSettingsForm() {
         <p className="mt-1 text-xs leading-relaxed text-zinc-600">
           아래 수신 주소로만 보냅니다(문의 수신·발신·SMTP 사용자에 적은 주소).{" "}
           <strong className="font-medium text-zinc-800">저장하지 않은</strong> 현재 폼 값으로 연결을 시험합니다.
-          비밀번호 칸이 비어 있으면 DB에 저장된 비밀번호를 사용합니다.
+          {isApi
+            ? " API 모드에서는 SMTP 비밀번호 없이 발송합니다."
+            : " 비밀번호 칸이 비어 있으면 DB에 저장된 비밀번호를 사용합니다."}
         </p>
         <div className="mt-3">
           <label className="block text-xs font-medium text-zinc-600">테스트 수신</label>
