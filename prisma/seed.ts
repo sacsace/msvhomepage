@@ -190,7 +190,7 @@ async function main() {
     const entries = Object.entries(summaries).filter(([, v]) => typeof v === "string");
     if (entries.length) {
       await prisma.leadershipSummary.createMany({
-        data: entries.map(([emailLower, summary]) => ({ emailLower, summary })),
+        data: entries.map(([emailLower, summary]) => ({ emailLower, summary, summaryEn: "" })),
       });
     }
   }

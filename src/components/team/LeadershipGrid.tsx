@@ -1,5 +1,7 @@
 import Image from "next/image";
+import { leadershipBioDisplayForLocale } from "@/lib/i18n/team-locale";
 import { publicFileExists } from "@/lib/public-file";
+import type { SiteLocale } from "@/lib/site-locale";
 import type { LeadershipMember } from "@/types/leadership";
 
 function initials(name: string): string {
@@ -10,15 +12,16 @@ type Props = {
   members: readonly LeadershipMember[];
   /** about 등에서 요약만 짧게 */
   compactSummary?: boolean;
+  locale: SiteLocale;
 };
 
-export function LeadershipGrid({ members, compactSummary }: Props) {
+export function LeadershipGrid({ members, compactSummary, locale }: Props) {
   return (
     <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:items-start">
       {members.map((m) => {
         const showPhoto = Boolean(m.photoSrc && publicFileExists(m.photoSrc));
-        const summaryText =
-          compactSummary && m.summary.length > 120 ? `${m.summary.slice(0, 118)}…` : m.summary;
+        const bio = leadershipBioDisplayForLocale(m, locale);
+        const summaryText = compactSummary && bio.length > 120 ? `${bio.slice(0, 118)}…` : bio;
 
         return (
           <li

@@ -68,7 +68,7 @@ export const getCachedArticlesList = unstable_cache(
 
 export const getCachedLeadershipForPublic = unstable_cache(
   () => getLeadershipForPublic(),
-  ["msv-public-leadership"],
+  ["msv-public-leadership", "summary-en"],
   opts,
 );
 

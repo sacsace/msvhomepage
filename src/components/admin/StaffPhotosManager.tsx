@@ -3,9 +3,10 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import type { AdminUiLocale } from "@/lib/admin-ui-locale-constants";
 import type { LeadershipMember } from "@/types/leadership";
 
-type Props = { initialMembers: LeadershipMember[] };
+type Props = { initialMembers: LeadershipMember[]; adminUiLocale: AdminUiLocale };
 
 function buildExtraFields(members: LeadershipMember[]) {
   const next: Record<string, { name: string; role: string; sortOrder: string }> = {};
@@ -32,12 +33,15 @@ function buildStaticFields(members: LeadershipMember[]) {
   return next;
 }
 
-export function StaffPhotosManager({ initialMembers }: Props) {
+export function StaffPhotosManager({ initialMembers, adminUiLocale }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loadingKey, setLoadingKey] = useState<string | null>(null);
-  const [summaries, setSummaries] = useState<Record<string, string>>(
+  const [summariesKo, setSummariesKo] = useState<Record<string, string>>(
     Object.fromEntries(initialMembers.map((m) => [m.email.toLowerCase(), m.summary])),
+  );
+  const [summariesEn, setSummariesEn] = useState<Record<string, string>>(
+    Object.fromEntries(initialMembers.map((m) => [m.email.toLowerCase(), m.summaryEn ?? ""])),
   );
   const [extraFields, setExtraFields] = useState<Record<string, { name: string; role: string; sortOrder: string }>>(
     () => buildExtraFields(initialMembers),
@@ -108,12 +112,14 @@ export function StaffPhotosManager({ initialMembers }: Props) {
     setError(null);
     setLoadingKey(`summary:${email}`);
     try {
-      const summary = summaries[email.toLowerCase()] ?? "";
+      const k = email.toLowerCase();
+      const summary = summariesKo[k] ?? "";
+      const summaryEn = summariesEn[k] ?? "";
       const res = await fetch("/api/admin/leadership-summaries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
-        body: JSON.stringify({ email, summary }),
+        body: JSON.stringify({ email, summary, summaryEn }),
       });
       const data = (await res.json()) as { error?: string };
       if (!res.ok) {
@@ -259,9 +265,12 @@ export function StaffPhotosManager({ initialMembers }: Props) {
         <code className="rounded bg-zinc-100 px-1">team/</code>에 저장됩니다. Railway에서는 볼륨+
         <code className="rounded bg-zinc-100 px-1">MSV_UPLOADS_ROOT</code> 설정을 권장합니다(
         <code className="rounded bg-zinc-100 px-1">RAILWAY_POSTGRES.md</code> 참고).
-        인사말 본문은 DB(<code className="rounded bg-zinc-100 px-1">LeadershipSummary</code>)에 저장되며
-        회사 소개·팀 페이지에 반영됩니다. 기본 인원은 <code className="rounded bg-zinc-100 px-1">site-content.ts</code>
-        의 <code className="rounded bg-zinc-100 px-1">leadership</code>에 두고, 추가 인원은 아래 폼으로 등록합니다.
+        인사말 본문은 DB(<code className="rounded bg-zinc-100 px-1">LeadershipSummary</code>)의 한국어(
+        <code className="rounded bg-zinc-100 px-1">summary</code>)·영문(
+        <code className="rounded bg-zinc-100 px-1">summaryEn</code>)으로 나뉘어 저장되며, 관리자 상단 언어(
+        한국어/English)에 맞춰 편집 칸이 바뀝니다. 공개 사이트 영문·中文 페이지에는 영문 소개가 사용됩니다. 기본 인원은{" "}
+        <code className="rounded bg-zinc-100 px-1">site-content.ts</code>의 <code className="rounded bg-zinc-100 px-1">leadership</code>
+        에 두고, 추가 인원은 아래 폼으로 등록합니다.
         기본 경영진의 이름·직함은 아래에서 수정하면 DB에 저장되어 공개 페이지에 반영됩니다(저장 전까지는 코드 기본값과 동일하게 보일 수 있습니다).
       </p>
 
@@ -471,19 +480,33 @@ export function StaffPhotosManager({ initialMembers }: Props) {
                 </div>
                 <div className="mt-4 space-y-2">
                   <label htmlFor={`summary-${m.email}`} className="text-xs font-medium text-zinc-600">
-                    인사말 / 소개 본문
+                    {adminUiLocale === "en"
+                      ? "Leadership introduction (English)"
+                      : "인사말 / 소개 본문 (한국어)"}
                   </label>
+                  <p className="text-[11px] leading-snug text-zinc-500">
+                    {adminUiLocale === "en"
+                      ? "Used when the public site language is English."
+                      : "공개 사이트가 한국어일 때 사용됩니다. 영문은 관리자 언어를 English로 전환한 뒤 편집하세요."}
+                  </p>
                   <textarea
                     id={`summary-${m.email}`}
-                    value={summaries[k] ?? ""}
-                    onChange={(e) =>
-                      setSummaries((prev) => ({
-                        ...prev,
-                        [k]: e.target.value,
-                      }))
-                    }
-                    rows={4}
+                    value={adminUiLocale === "en" ? (summariesEn[k] ?? "") : (summariesKo[k] ?? "")}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      if (adminUiLocale === "en") {
+                        setSummariesEn((prev) => ({ ...prev, [k]: v }));
+                      } else {
+                        setSummariesKo((prev) => ({ ...prev, [k]: v }));
+                      }
+                    }}
+                    rows={8}
                     className="w-full rounded border border-zinc-200 px-3 py-2 text-sm text-zinc-700"
+                    placeholder={
+                      adminUiLocale === "en"
+                        ? "English introduction for public pages…"
+                        : "한국어 인사말·소개를 입력하세요."
+                    }
                   />
                   <button
                     type="button"
@@ -491,7 +514,13 @@ export function StaffPhotosManager({ initialMembers }: Props) {
                     onClick={() => void saveSummary(m.email)}
                     className="rounded border border-zinc-300 px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-50 disabled:opacity-50"
                   >
-                    {loadingKey === `summary:${m.email}` ? "저장 중…" : "소개 저장"}
+                    {loadingKey === `summary:${m.email}`
+                      ? adminUiLocale === "en"
+                        ? "Saving…"
+                        : "저장 중…"
+                      : adminUiLocale === "en"
+                        ? "Save introduction"
+                        : "소개 저장"}
                   </button>
                 </div>
               </div>

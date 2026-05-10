@@ -1,4 +1,5 @@
 import { memberByEmail } from "@/lib/about-greeting-utils";
+import type { LeadershipMember } from "@/types/leadership";
 import { leadership as leadershipDefaults, company } from "@/lib/site-content";
 import { pickLocale, type SiteLocale } from "@/lib/site-locale";
 
@@ -44,21 +45,43 @@ const leadershipShortBio: Record<string, { en: string; zh: string }> = {
 };
 
 export function leadershipGreetingBodyForLocale(
-  member: { email: string; summary: string },
+  member: { email: string; summary: string; summaryEn?: string },
   fallbackKo: string,
   locale: SiteLocale,
 ): string {
   if (!member) return fallbackKo;
   const base = memberByEmail(leadershipDefaults, member.email)?.summary ?? "";
-  const hasCustom = member.summary.trim().length > 0 && member.summary !== base;
-  if (hasCustom) return member.summary;
-  if (locale === "ko") return fallbackKo;
+  const hasCustomKo = member.summary.trim().length > 0 && member.summary !== base;
+  const enDb = (member.summaryEn ?? "").trim();
 
-  const key = member.email.trim().toLowerCase();
-  const alt = leadershipShortBio[key];
-  if (alt) return locale === "zh" ? alt.zh : alt.en;
+  if (locale === "ko") {
+    if (hasCustomKo) return member.summary;
+    return fallbackKo;
+  }
+
+  if (locale === "en") {
+    if (enDb) return member.summaryEn!;
+    const key = member.email.trim().toLowerCase();
+    const alt = leadershipShortBio[key];
+    if (alt) return alt.en;
+    return fallbackKo;
+  }
+
+  if (locale === "zh") {
+    const key = member.email.trim().toLowerCase();
+    const alt = leadershipShortBio[key];
+    if (alt) return alt.zh;
+    return fallbackKo;
+  }
 
   return fallbackKo;
+}
+
+/** `/team` 리더십 그리드 등 — 로케일에 맞는 한 줄 소개 */
+export function leadershipBioDisplayForLocale(member: LeadershipMember, locale: SiteLocale): string {
+  const base = memberByEmail(leadershipDefaults, member.email)?.summary ?? "";
+  const fallbackKo = base || member.summary;
+  return leadershipGreetingBodyForLocale(member, fallbackKo, locale);
 }
 
 export function aboutTeamPageCopy(locale: SiteLocale): AboutTeamPageCopy {

@@ -121,6 +121,8 @@ model StaffPhoto {
 model LeadershipSummary {
   emailLower String @id
   summary    String
+  /** 공개 영문 사이트용 소개(관리자 영문 UI에서 편집) */
+  summaryEn  String @default("")
 }
 
 /// `site-content` 기본 경영진 이메일별 — 관리자가 수정한 표시 이름·직함 (행 없으면 site-content 값)

@@ -17,12 +17,14 @@ export async function getLeadershipForPublic(): Promise<LeadershipMember[]> {
     const photoSrc =
       override && typeof override === "string" && publicFileExists(override) ? override : m.photoSrc;
     const sp = staticProfileOverrides[key];
+    const sum = summaryOverrides[key];
     return {
       ...m,
       name: sp?.name ?? m.name,
       role: sp?.role ?? m.role,
       photoSrc,
-      summary: summaryOverrides[key] ?? m.summary,
+      summary: sum?.summary ?? m.summary,
+      summaryEn: sum?.summaryEn ?? "",
       source: "static" as const,
     };
   });
@@ -33,11 +35,13 @@ export async function getLeadershipForPublic(): Promise<LeadershipMember[]> {
     const override = photoOverrides[key];
     const photoSrc =
       override && typeof override === "string" && publicFileExists(override) ? override : undefined;
+    const sum = summaryOverrides[key];
     return {
       role: e.role,
       name: e.name,
       email: e.emailLower,
-      summary: summaryOverrides[key] ?? "",
+      summary: sum?.summary ?? "",
+      summaryEn: sum?.summaryEn ?? "",
       photoSrc,
       source: "extra" as const,
       sortOrder: e.sortOrder,

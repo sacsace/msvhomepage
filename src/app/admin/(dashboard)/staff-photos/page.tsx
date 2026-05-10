@@ -1,16 +1,27 @@
 import { StaffPhotosManager } from "@/components/admin/StaffPhotosManager";
+import { getAdminUiLocale } from "@/lib/admin-ui-locale";
 import { getLeadershipForPublic } from "@/lib/leadership-resolve";
 
 function staffPhotosClientKey(members: Awaited<ReturnType<typeof getLeadershipForPublic>>) {
   return members
     .map((m) =>
-      [m.email, m.name, m.role, m.summary, m.photoSrc ?? "", String(m.sortOrder ?? ""), m.source ?? ""].join("\t"),
+      [
+        m.email,
+        m.name,
+        m.role,
+        m.summary,
+        m.summaryEn ?? "",
+        m.photoSrc ?? "",
+        String(m.sortOrder ?? ""),
+        m.source ?? "",
+      ].join("\t"),
     )
     .join("\n");
 }
 
 export default async function AdminStaffPhotosPage() {
   const members = await getLeadershipForPublic();
+  const adminUiLocale = await getAdminUiLocale();
 
   return (
     <div>
@@ -21,7 +32,11 @@ export default async function AdminStaffPhotosPage() {
         아래에서 추가 경영진을 등록할 수 있습니다.
       </p>
       <div className="mt-8">
-        <StaffPhotosManager key={staffPhotosClientKey(members)} initialMembers={members} />
+        <StaffPhotosManager
+          key={staffPhotosClientKey(members)}
+          initialMembers={members}
+          adminUiLocale={adminUiLocale}
+        />
       </div>
     </div>
   );

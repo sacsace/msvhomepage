@@ -62,7 +62,7 @@ export default async function TeamPage() {
       />
       <StandardPageBody className="space-y-12 sm:space-y-14">
         <section className={cardSection}>
-          <LeadershipGrid members={leadership} />
+          <LeadershipGrid members={leadership} locale={locale} />
         </section>
 
         <section className={cardSection}>
