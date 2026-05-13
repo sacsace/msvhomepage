@@ -12,6 +12,7 @@ import {
   sampleProjects,
   services,
 } from "@/lib/site-content";
+import { accountingHubMenuLinks } from "@/lib/services-nav-groups";
 
 export type ServiceLineItem = { title: string; description: string };
 export type CaseItem = { name: string; note: string; due: string };
@@ -72,19 +73,7 @@ export type AccountingServicesPageCopy = {
   sampleCases: readonly CaseItem[];
 };
 
-const koMenuLinks: readonly ServicesMenuLink[] = [
-  { path: "/services/corporate-incorporation", label: "법인 설립 서비스" },
-  { path: "/services", label: "회계 서비스", current: true },
-  { path: "/services/india-accounting-glossary", label: "인도 회계·세무 지식 베이스" },
-  { path: "/services/license-registration", label: "라이센스 등록 서비스" },
-  { path: "/services/recruitment-support", label: "채용지원 서비스" },
-  { path: "/services/frro", label: "FRRO 서비스" },
-  { path: "/services/ecb", label: "ECB·FEMA 실무 안내" },
-  { path: "/services/form-41-registration", label: "Form 41 / Form 10F 등록·신고" },
-  { path: "/services/personal-income-tax-calculator", label: "인도 급여 TDS 계산기" },
-  { path: "/services/corporate-tax-calculator", label: "법인세 계산기" },
-  { path: "/services/professional-tax-calculator", label: "Professional Tax (PT) 계산기" },
-];
+type AccountingServicesPageBody = Omit<AccountingServicesPageCopy, "menuLinks">;
 
 const koProcessSteps = [
   "고객사 계정과목 요청 및 계정과목 체계 확정",
@@ -110,14 +99,15 @@ const koHighlights = [
   },
 ] as const;
 
-const ko: AccountingServicesPageCopy = {
+const ko: AccountingServicesPageBody = {
   metaTitle: "서비스",
-  metaDescription: "법인 컨설팅·회계·세무·컴플라이언스 등 인도 현지 직접 실행형 서비스 라인과 사례",
-  pageTitle: "회계 서비스",
-  pageDescription: "법인 컨설팅·회계 사업부에서 제공하는 인도 현지 직접 실행형 서비스입니다.",
+  metaDescription:
+    "인도 진출·운영 통합: 법인 설립부터 GST·FEMA·수출입·공장 인허가·Payroll·FRRO까지 현지 실무 지원과 회계·세무·컴플라이언스 라인업·사례",
+  pageTitle: "인도 진출·운영 통합 서비스",
+  pageDescription:
+    "법인 설립부터 GST·FEMA·수출입·공장 인허가·Payroll·FRRO까지 현지 실무팀이 직접 운영 지원합니다.",
   menuTitle: "서비스 메뉴",
   menuIntro: "필요한 서비스 유형을 선택해 상세 페이지에서 지원 범위를 확인하세요.",
-  menuLinks: koMenuLinks,
   coreEyebrow: "Service lines",
   coreTitle: "핵심 서비스",
   coreIntro: "법인 컨설팅·회계 사업부에서 인도 현지에서 직접 실행하는 서비스입니다.",
@@ -157,20 +147,6 @@ const ko: AccountingServicesPageCopy = {
   casesIntro: "회사 프로필에 수록된 사례입니다.",
   sampleCases: sampleProjects,
 };
-
-const enMenuLinks: readonly ServicesMenuLink[] = [
-  { path: "/services/corporate-incorporation", label: "Corporate incorporation" },
-  { path: "/services", label: "Accounting services", current: true },
-  { path: "/services/india-accounting-glossary", label: "India accounting knowledge base" },
-  { path: "/services/license-registration", label: "Licence registration" },
-  { path: "/services/recruitment-support", label: "Recruitment support" },
-  { path: "/services/frro", label: "FRRO services" },
-  { path: "/services/ecb", label: "ECB / FEMA guide" },
-  { path: "/services/form-41-registration", label: "Form 41 / Form 10F registration" },
-  { path: "/services/personal-income-tax-calculator", label: "India salary TDS calculator" },
-  { path: "/services/corporate-tax-calculator", label: "Corporate tax calculator" },
-  { path: "/services/professional-tax-calculator", label: "Professional Tax (PT) calculator" },
-];
 
 const enProcessSteps = [
   "Request and finalise the chart of accounts with the client",
@@ -278,7 +254,7 @@ const enAccountingBlocks: readonly AccountingServiceBlock[] = [
 ];
 
 const enComplianceIntro =
-  "The tables below summarise typical Indian company obligations. Actual due dates depend on industry, registration type, turnover, state law and legislative changes—please confirm calendars with your engagement CPA before relying on them.";
+  "The tables below summarise typical Indian company obligations. Actual due dates depend on industry, registration type, turnover, state law and legislative changes · please confirm calendars with your engagement CPA before relying on them.";
 
 const enComplianceMonthly: readonly ComplianceRow[] = [
   { item: "TDS", schedule: "Return and payment by the 7th of the following month (where applicable)" },
@@ -328,11 +304,11 @@ const enComplianceAnnual: readonly ComplianceRow[] = [
   { item: "TP audit report", schedule: "Before 30 November (where international transactions apply)" },
   {
     item: "GSTR-9 (annual GST)",
-    schedule: "Mandatory above INR 2 Cr turnover; optional below—subject to annual notifications",
+    schedule: "Mandatory above INR 2 Cr turnover; optional below · subject to annual notifications",
   },
   {
     item: "GSTR-9C (GST reconciliation/audit)",
-    schedule: "Currently generally optional—watch government circulars for changes",
+    schedule: "Currently generally optional · watch government circulars for changes",
   },
 ];
 
@@ -369,15 +345,14 @@ const enSampleCases: readonly CaseItem[] = [
   },
 ];
 
-const en: AccountingServicesPageCopy = {
+const en: AccountingServicesPageBody = {
   metaTitle: "Services",
-  metaDescription: `${company.shortName} — on-the-ground accounting, tax, compliance and consulting lines in India, with representative case studies.`,
-  pageTitle: "Accounting services",
+  metaDescription: `${company.shortName} · integrated India entry and operations: incorporation through GST, FEMA, import/export, factory licensing, payroll and FRRO, plus accounting, tax and compliance lines.`,
+  pageTitle: "Integrated India entry & operations",
   pageDescription:
-    "End-to-end accounting and tax execution delivered by our India consulting & accounting practice without outsourcing core work.",
+    "From incorporation through GST, FEMA, import/export, factory licensing, payroll and FRRO · our local operations team supports you hands-on in India.",
   menuTitle: "Service menu",
   menuIntro: "Choose a line to open its detail page and review scope and support.",
-  menuLinks: enMenuLinks,
   coreEyebrow: "Service lines",
   coreTitle: "Core service lines",
   coreIntro: "What our consulting & accounting teams execute locally in India.",
@@ -417,20 +392,6 @@ const en: AccountingServicesPageCopy = {
   casesIntro: "Examples published on our company profile.",
   sampleCases: enSampleCases,
 };
-
-const zhMenuLinks: readonly ServicesMenuLink[] = [
-  { path: "/services/corporate-incorporation", label: "公司设立服务" },
-  { path: "/services", label: "会计服务", current: true },
-  { path: "/services/india-accounting-glossary", label: "印度会计实务知识库" },
-  { path: "/services/license-registration", label: "许可证登记服务" },
-  { path: "/services/recruitment-support", label: "招聘支持服务" },
-  { path: "/services/frro", label: "FRRO 服务" },
-  { path: "/services/ecb", label: "ECB·FEMA 实务指南" },
-  { path: "/services/form-41-registration", label: "Form 41 / Form 10F 登记与申报" },
-  { path: "/services/personal-income-tax-calculator", label: "印度工资 TDS 计算器" },
-  { path: "/services/corporate-tax-calculator", label: "企业所得税计算器" },
-  { path: "/services/professional-tax-calculator", label: "Professional Tax（PT）计算器" },
-];
 
 const zhProcessSteps = [
   "收集客户科目表需求并确定科目体系",
@@ -627,14 +588,14 @@ const zhSampleCases: readonly CaseItem[] = [
   },
 ];
 
-const zh: AccountingServicesPageCopy = {
+const zh: AccountingServicesPageBody = {
   metaTitle: "服务",
-  metaDescription: `${company.shortName} — 在印度现场执行的会计、税务、合规与咨询业务线及案例参考。`,
-  pageTitle: "会计服务",
-  pageDescription: "由法人咨询·会计部门提供的印度本地直接执行型服务。",
+  metaDescription: `${company.shortName} · 印度市场进入与运营整合：从公司设立到 GST、FEMA、进出口、工厂许可、薪酬与 FRRO 的本地实务支持，以及会计、税务与合规业务线。`,
+  pageTitle: "印度市场进入与运营整合服务",
+  pageDescription:
+    "从公司设立到 GST、FEMA、进出口、工厂许可、薪酬与 FRRO，由印度本地实务团队提供一线运营支持。",
   menuTitle: "服务菜单",
   menuIntro: "请选择所需服务类型，在详情页确认支持范围。",
-  menuLinks: zhMenuLinks,
   coreEyebrow: "Service lines",
   coreTitle: "核心服务",
   coreIntro: "法人咨询·会计部门在印度当地直接执行的服务。",
@@ -676,5 +637,9 @@ const zh: AccountingServicesPageCopy = {
 };
 
 export function accountingServicesPageCopy(locale: SiteLocale): AccountingServicesPageCopy {
-  return pickLocale(locale, { ko, en, zh });
+  const base = pickLocale(locale, { ko, en, zh });
+  return {
+    ...base,
+    menuLinks: accountingHubMenuLinks(locale) as readonly ServicesMenuLink[],
+  };
 }

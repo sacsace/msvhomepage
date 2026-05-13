@@ -100,6 +100,12 @@ export function ContentPreviews({ announcements, calendarEvents, locale }: Props
           </div>
           <div className="relative z-10 mt-6 flex min-h-0 flex-1 flex-col sm:mt-8">
             <ComplianceCalendarWidget events={calendarEvents} locale={locale} />
+            <Link
+              href={L("/services/compliance-calendar")}
+              className="relative z-20 mt-5 inline-flex w-fit text-xs font-semibold text-msv-blue-soft underline-offset-2 hover:text-white hover:underline sm:text-sm"
+            >
+              {c.calendarGuideCta}
+            </Link>
           </div>
         </section>
       </div>

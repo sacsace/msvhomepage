@@ -1,8 +1,9 @@
 /**
  * Prisma/DB CLI용 환경 병합.
  * - 기본: `.env.development` + (조건부) `.msv-embedded.env` + `.env.local` (맨 마지막이 우선)
- * - `.msv-embedded.env` 는 embedded 가 실제로 뜬 뒤 생기는 `.msv-embedded-pg/.embedded-ready` 가 있을 때만 병합
- *   (`npm run dev` 권장). 잔존 파일만 쓰려면 `MSV_FORCE_EMBEDDED_ENV=1`
+ * - `.msv-embedded.env` 는 보통 `.msv-embedded-pg/.embedded-ready` 가 있을 때만 병합(`npm run dev` 권장).
+ *   첫 기동 시 `embedded-pg-serve` 가 ready 파일을 쓰기 **전** 에 `prisma db push` 를 돌리므로, 그 자식 프로세스에는
+ *   `MSV_FORCE_EMBEDDED_ENV=1` 로 병합을 강제한다. CLI만 쓸 때 잔존 `.msv-embedded.env` 만 병합하려면 동일 변수 사용.
  * - `MSV_IGNORE_EMBEDDED_ENV=1` 또는 `MSV_USE_SYSTEM_DB_ONLY=1` 이면 embedded 파일 병합 안 함
  * - `MSV_MERGE_PRODUCTION=1`: `.env.production` + `.env.production.local`
  */

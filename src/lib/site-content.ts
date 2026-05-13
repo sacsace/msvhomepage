@@ -14,7 +14,6 @@ export const company = {
   address: "Ferns City Road, Bangalore, Karnataka, India",
   websites: [] as readonly { label: string; href: string }[],
   brochurePath: "/company-profile-ms-ventures.pdf",
-  satisfaction: "97%",
 };
 
 /** 공개 사이트 절대 URL — sitemap·OG·JSON-LD·metadataBase와 동일하게 유지 */
@@ -106,6 +105,60 @@ const GROUP_LOGO_VER = "?v=3";
 export const groupCompanies = [
   /** 그룹사 카드·상세 문구는 `@/lib/i18n/group-pages-locale`과 동기화할 것 */
   {
+    slug: "jw-industrial-tech-service",
+    menuLabel: "JW Industrial Tech Service",
+    legalName: "JW Industrial Tech Service Private Limited",
+    role: "도장·공장 설비 설치 및 엔지니어링",
+    logoSrc: `/group/jw-industrial-tech-service/jwits-logo.png${GROUP_LOGO_VER}`,
+    highlights: [
+      "상용 인력·장비·도비·운송을 포함한 기계·전기 설비 턴키(Turn-key) 설치 작업",
+      "자동차 생산 설비(도장·조립·프레스·바디샵 라인) 기계·전기 설비 설치·이전·개조·수리",
+      "FCS·CPC 컨베이어 및 전착도장(E-coating)·오븐·덕트·배관 등 주요 설비 공사",
+      "제관물·지그(Jig)·고정구(Fixture) 설계 및 제작, 팔레트·트롤리·안전 가드·SS 탱크 제작",
+      "차량 생산 설비 관련 한국산 산업 소모품 공급",
+      "현장 공정 개발·양산 대응 및 엔지니어링 AMC 서비스 제공",
+    ],
+    intro: `JWITS (JW Industrial Tech Service Private Limited)는 인도에서 자동차 생산 설비를 중심으로 기계·전기 설비의 설치, 이전, 개조 및 수리 업무를 수행하고 있습니다.
+
+주요 수행 분야는 도장(Paint Shop), 조립(Assembly), 프레스(Press), 바디샵(Body Shop) 설비를 비롯하여 FCS·CPC 컨베이어, 도장 라인 컨베이어, 워크스테이션, 오븐, 덕트 및 배관 설비 등의 설치 작업입니다.
+
+또한 상용 인력, 장비, 도비 등 운송 업무부터 기계 하역, 설치까지 턴키(Turn-key) 방식으로 인도 전역 대응이 가능하며, 2008년부터 약 20년간 다양한 설치 실적을 보유하고 있습니다.
+
+이 외에도 제관물, 지그(Jig), 고정구(Fixture) 설계 및 제작, 팔레트·트롤리·안전 가드·도어·그레이팅·스테인리스 탱크 제작, 차량 생산 설비용 한국산 산업 소모품 공급, 현장 공정 개발 및 양산 대응, 엔지니어링 AMC 서비스 등을 제공하고 있습니다.
+
+페이지 상단의 PDF는 2025년 8월 기준 영문 비즈니스 소개 자료입니다. 실적·조직·거점·주요 고객사 등이 수록되어 있으니, 대외 공유 시에는 최신본과 맞춰 주세요.`,
+    profilePdf: "/jwits-business-intro-20250815.pdf",
+    location: {
+      /**
+       * 공식 Google Maps 핀(단축 URL)이 확보되면 Neocle/Seda/Lotus와 동일하게 좌표 embed로 교체 권장.
+       * 현재는 법인명 검색 기준 지도·외부 링크.
+       */
+      embedSrc: `https://maps.google.com/maps?q=${encodeURIComponent(
+        "JW Industrial Tech Service Private Limited, Karnataka, India",
+      )}&z=9&output=embed`,
+      mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        "JW Industrial Tech Service Private Limited",
+      )}`,
+    },
+  },
+  {
+    slug: "lotus-korean-hotel",
+    menuLabel: "Lotus Korean Hotel",
+    legalName: "Lotus Korean Hotel",
+    role: "한국형 호텔 · 숙박",
+    logoSrc: `/group/lotus-korean-hotel/lotus-korean-hotel-logo.png${GROUP_LOGO_VER}`,
+    highlights: ["비즈니스·장기 숙박", "온라인: hotellotus.in"],
+    website: "https://www.hotellotus.in",
+    intro: `Lotus Korean Hotel은 방갈로르에서 비즈니스·장기 체류에 맞춘 한국형 호텔·숙박 서비스를 제공합니다.
+
+MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등을 함께 지원하며, 현지 업무와 연계된 숙박 옵션을 제공합니다.`,
+    location: {
+      /** Google Maps 단축 링크가 가리키는 좌표(12.9785591, 77.6974959) 기준 embed */
+      embedSrc: "https://www.google.com/maps?q=12.9785591%2C77.6974959&z=16&output=embed",
+      mapUrl: "https://maps.app.goo.gl/JueFi9TdfD7cHec2A",
+    },
+  },
+  {
     slug: "neocle-international",
     menuLabel: "Neocle International",
     legalName: "Neocle International Private Limited",
@@ -133,23 +186,6 @@ MSV의 법인 설립·운영 고객과 연계해, 견적·선적·문서·현지
       /** Google Maps 단축 링크가 가리키는 좌표(13.9534786, 77.6610694) 기준 embed */
       embedSrc: "https://www.google.com/maps?q=13.9534786%2C77.6610694&z=16&output=embed",
       mapUrl: "https://maps.app.goo.gl/3M3sdACigqNEKqbZ6",
-    },
-  },
-  {
-    slug: "lotus-korean-hotel",
-    menuLabel: "Lotus Korean Hotel",
-    legalName: "Lotus Korean Hotel",
-    role: "한국형 호텔 · 숙박",
-    logoSrc: `/group/lotus-korean-hotel/lotus-korean-hotel-logo.png${GROUP_LOGO_VER}`,
-    highlights: ["비즈니스·장기 숙박", "온라인: hotellotus.in"],
-    website: "https://www.hotellotus.in",
-    intro: `Lotus Korean Hotel은 방갈로르에서 비즈니스·장기 체류에 맞춘 한국형 호텔·숙박 서비스를 제공합니다.
-
-MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등을 함께 지원하며, 현지 업무와 연계된 숙박 옵션을 제공합니다.`,
-    location: {
-      /** Google Maps 단축 링크가 가리키는 좌표(12.9785591, 77.6974959) 기준 embed */
-      embedSrc: "https://www.google.com/maps?q=12.9785591%2C77.6974959&z=16&output=embed",
-      mapUrl: "https://maps.app.goo.gl/JueFi9TdfD7cHec2A",
     },
   },
   {
@@ -191,39 +227,6 @@ MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등�
 
 페이지 상단의 PDF 링크는 2022년 12월 기준 영문 제품 카탈로그입니다. 모델 사양·성능 검증·시공 절차·타사 비교·설치 사례가 수록되어 있습니다. 최신 사양은 wilmat.in 또는 담당자에게 문의해 주세요.`,
     profilePdf: "/wilmat-catalog-20221219.pdf",
-  },
-  {
-    slug: "jw-industrial-tech-service",
-    menuLabel: "JW Industrial Tech Service",
-    legalName: "JW Industrial Tech Service Private Limited",
-    role: "도장·공장 설비 설치 및 엔지니어링",
-    logoSrc: `/group/jw-industrial-tech-service/jwits-logo.png${GROUP_LOGO_VER}`,
-    highlights: [
-      "자동차 생산 설비 기계·전기 설치·이전·개조·수리",
-      "도장·조립·프레스·바디 샵 라인",
-      "FCS·CPC 컨베이어 및 전극 도장·오븐·덕트 등 주요 설비",
-      "지그·고정구 설계·제작, 팔레트·트롤리·안전 가드·SS 탱크 등",
-      "차량 생산 설비 관련 한국산 산업 소모품 공급",
-      "현장 공정 개발·양산 대응, 엔지니어링 AMC",
-    ],
-    intro: `JWITS(JW Industrial Tech Service Private Limited)는 인도에서 자동차 생산 설비를 중심으로 한 기계·전기 설비의 설치, 이전, 개조, 수리를 수행합니다. 도장·조립·프레스·바디 샵과 FCS·CPC 컨베이어, 전극 도장 라인·워크스테이션·오븐·덕트 배관 등 주요 설비를 다룹니다.
-
-지그·고정구 설계·제작, 팔레트·트롤리·안전 가드·도어·그레이팅·스테인리스 탱크 제작, 차량 생산 설비용 한국산 산업 소모품 공급, 현장 공정 개발·양산 대응, 엔지니어링 AMC까지 제공합니다.
-
-페이지 상단의 PDF는 2025년 8월 기준 영문 비즈니스 소개 자료입니다. 실적·조직·거점·주요 고객사 등이 수록되어 있으니, 대외 공유 시에는 최신본과 맞춰 주세요.`,
-    profilePdf: "/jwits-business-intro-20250815.pdf",
-    location: {
-      /**
-       * 공식 Google Maps 핀(단축 URL)이 확보되면 Neocle/Seda/Lotus와 동일하게 좌표 embed로 교체 권장.
-       * 현재는 법인명 검색 기준 지도·외부 링크.
-       */
-      embedSrc: `https://maps.google.com/maps?q=${encodeURIComponent(
-        "JW Industrial Tech Service Private Limited, Karnataka, India",
-      )}&z=9&output=embed`,
-      mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-        "JW Industrial Tech Service Private Limited",
-      )}`,
-    },
   },
 ] satisfies readonly GroupCompany[];
 

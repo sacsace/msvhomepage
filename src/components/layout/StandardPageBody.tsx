@@ -23,7 +23,7 @@ const padClass = {
 export function StandardPageBody({ children, className = "", width = "6xl", padding = "default" }: Props) {
   const max = width === "3xl" ? "max-w-3xl" : width === "full" ? "max-w-none" : "max-w-6xl";
   return (
-    <div className={`mx-auto ${max} ${publicPageBodyShell} ${padClass[padding]} ${className}`.trim()}>
+    <div className={`mx-auto min-w-0 ${max} ${publicPageBodyShell} ${padClass[padding]} ${className}`.trim()}>
       {children}
     </div>
   );

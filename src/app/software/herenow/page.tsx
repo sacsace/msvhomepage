@@ -73,6 +73,36 @@ export default async function SoftwareHereNowPage() {
                     {para}
                   </p>
                 ))}
+                {s.subsections?.map((sub, subi) => (
+                  <div key={`hn-section-${si}-sub-${subi}`} className={subi === 0 && paras.length === 0 ? "" : "mt-6"}>
+                    <h4 className="text-sm font-bold text-msv-navy sm:text-[15px]">{sub.title}</h4>
+                    {sub.intro ? <p className={`mt-2 ${bodyText}`}>{sub.intro}</p> : null}
+                    {sub.bullets?.length ? (
+                      <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-slate-600 sm:text-[15px]">
+                        {sub.bullets.map((b) => (
+                          <li key={b}>{b}</li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </div>
+                ))}
+                {s.bulletsTitle && s.bullets?.length ? (
+                  <div className="mt-6">
+                    <h4 className="text-sm font-bold text-msv-navy sm:text-[15px]">{s.bulletsTitle}</h4>
+                    <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-slate-600 sm:text-[15px]">
+                      {s.bullets.map((b) => (
+                        <li key={b}>{b}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : s.bullets?.length ? (
+                  <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-slate-600 sm:text-[15px]">
+                    {s.bullets.map((b) => (
+                      <li key={b}>{b}</li>
+                    ))}
+                  </ul>
+                ) : null}
+                {s.closing ? <p className={`mt-4 ${bodyText}`}>{s.closing}</p> : null}
               </div>
             </section>
           );

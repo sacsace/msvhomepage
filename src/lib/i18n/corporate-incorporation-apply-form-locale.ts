@@ -62,7 +62,7 @@ export type CorporateIncorporationApplyFormCopy = {
   dirAttachLabels: readonly string[];
   sec9Title: string;
   sec9Hint: string;
-  /** 주주 상세 필드셋 범례 — 개인 행에만 사용 (예: 「개인 (9.1.1)」) */
+  /** 주주 상세 필드셋 범례 · 개인 행에만 사용 (예: 「개인 (9.1.1)」) */
   sec9IndividualTag: string;
   syncFromDirector: string;
   syncFromDirectorNote: string;
@@ -198,7 +198,7 @@ const koBase = {
   syncFromDirector: "이사 입력 다시 반영",
   syncFromDirectorNote:
     "이사와 동일 연동 중이라 주주 상세 입력란은 표시하지 않습니다. 5번 이름·6번·8.1을 수정한 뒤 버튼으로 제출 데이터를 맞추세요. (서류는 8.1 이사 첨부를 이용하세요.)",
-  linkedLegendSuffix: (d: number) => ` — 이사 ${d + 1}과 동일 (5번에서 연동)`,
+  linkedLegendSuffix: (d: number) => `: 이사 ${d + 1}과 동일 (5번에서 연동)`,
   shIndRows: [...shIndRowTemplate],
   indAttachTitle: "주주가 개인인 경우 첨부되어야 할 파일",
   indAttachOl1: "여권 사본",
@@ -276,7 +276,7 @@ const en: CorporateIncorporationApplyFormCopy = {
   individual: "Individual",
   company: "Company",
   optNoSeparate: "No (separate)",
-  sameDirectorOption: (d) => `Yes — same as director ${d + 1}`,
+  sameDirectorOption: (d) => `Yes, same as director ${d + 1}`,
   directorTakenTitle: "This director is already linked to another shareholder row.",
   namePlaceholderCompany: "e.g. ABC Pvt Ltd",
   namePlaceholderPerson: "e.g. Jane Doe",
@@ -311,12 +311,12 @@ const en: CorporateIncorporationApplyFormCopy = {
   dirAttachLabels: ["Passport copy", "English residence certificate", "Passport photo", "Driver licence copy"],
   sec9Title: "9. Shareholder details",
   sec9Hint:
-    "Fields depend on the type chosen in section 5. Individuals use 9.1.1; companies use the company table. Linked individual shareholders hide section 9 inputs—update sections 5, 6 and 8.1, then press “Sync from director”.",
+    "Fields depend on the type chosen in section 5. Individuals use 9.1.1; companies use the company table. Linked individual shareholders hide section 9 inputs; update sections 5, 6 and 8.1, then press “Sync from director”.",
   sec9IndividualTag: "Individual (9.1.1)",
   syncFromDirector: "Sync from director inputs",
   syncFromDirectorNote:
     "While linked as “same as director”, shareholder detail fields are hidden. After editing section 5, 6 or 8.1, press the button to refresh values for submission. (Use director attachments in 8.1 for documents.)",
-  linkedLegendSuffix: (d) => ` — same as director ${d + 1} (linked in section 5)`,
+  linkedLegendSuffix: (d) => `, same as director ${d + 1} (linked in section 5)`,
   shIndRows: [
     { label: "Name", name: "shInd_${j}_name", max: 200 },
     { label: "Nationality", name: "shInd_${j}_nationality", max: 80 },
@@ -454,7 +454,7 @@ const zh: CorporateIncorporationApplyFormCopy = {
   syncFromDirector: "自董事信息同步",
   syncFromDirectorNote:
     "与董事绑定期间不显示股东详细输入。修改第5、6、8.1栏后请点击按钮以更新提交数据。（附件请使用8.1董事附件。）",
-  linkedLegendSuffix: (d) => ` — 与董事 ${d + 1} 相同（第5栏已绑定）`,
+  linkedLegendSuffix: (d) => `，与董事 ${d + 1} 相同（第5栏已绑定）`,
   shIndRows: [
     { label: "姓名", name: "shInd_${j}_name", max: 200 },
     { label: "国籍", name: "shInd_${j}_nationality", max: 80 },

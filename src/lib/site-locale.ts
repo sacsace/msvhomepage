@@ -43,7 +43,11 @@ export function pickLocale<T>(locale: SiteLocale, map: { ko: T; en: T; zh: T }):
 
 /** 내비 활성: 비접두 경로 `href` 와 현재 `pathname`(접두 포함 가능) 비교 */
 export function isNavActive(pathname: string, href: string): boolean {
-  const bare = stripLocalePrefix(pathname);
+  const bare = stripLocalePrefix(pathname.split("#")[0] || pathname);
   const pathHref = href.split("#")[0] || href;
-  return bare === pathHref || (pathHref !== "/" && bare.startsWith(`${pathHref}/`));
+  if (bare === pathHref) return true;
+  if (pathHref === "/" || !bare.startsWith(`${pathHref}/`)) return false;
+  // `/services`는 하위 전용 URL(합병·청산 등)과 구분 — 접두 매칭으로 전부 활성 처리하지 않음
+  if (pathHref === "/services") return false;
+  return true;
 }

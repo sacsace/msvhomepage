@@ -8,6 +8,7 @@ import { ServicesNavDesktop } from "@/components/nav/ServicesNavDesktop";
 import { SoftwareNavDesktop } from "@/components/nav/SoftwareNavDesktop";
 import { HeaderLanguageSelect } from "@/components/layout/HeaderLanguageSelect";
 import { shellStrings } from "@/lib/i18n/shell";
+import { servicesNavGroups } from "@/lib/services-nav-groups";
 import type { SiteLocale } from "@/lib/site-locale";
 import { pickLocale, withLocalePrefix } from "@/lib/site-locale";
 import { groupCompanies } from "@/lib/site-content";
@@ -82,7 +83,7 @@ export function SiteHeader({ locale }: Props) {
             <summary className="cursor-pointer list-none rounded-md px-3 py-1.5 text-sm font-medium text-slate-600 marker:hidden hover:bg-slate-50 hover:text-msv-navy [&::-webkit-details-marker]:hidden">
               {shell.menu}
             </summary>
-            <div className="absolute right-0 z-50 mt-1.5 max-h-[min(70vh,28rem)] w-52 overflow-y-auto rounded-lg border border-slate-100 bg-white py-1 shadow-lg shadow-slate-900/5">
+            <div className="absolute right-0 z-50 mt-1.5 max-h-[min(70vh,32rem)] w-[min(20rem,calc(100vw-1.5rem))] overflow-y-auto rounded-lg border border-slate-100 bg-white py-1 shadow-lg shadow-slate-900/5">
               {links.map((item) =>
                 item.href === "/group" ? (
                   <div key="group" className="py-1">
@@ -125,79 +126,25 @@ export function SiteHeader({ locale }: Props) {
                     <div className="px-3 pb-1 pt-2 text-[11px] font-semibold tracking-wide text-slate-500">
                       {shell.servicesSection}
                     </div>
-                    <MobileNavLink href="/services/corporate-incorporation">
+                    <MobileNavLink href="/services" match="exact" className="font-semibold text-msv-navy">
                       {pickLocale(locale, {
-                        ko: "법인 설립 서비스",
-                        en: "Corporate incorporation",
-                        zh: "公司设立服务",
+                        ko: "인도 진출·운영 통합 서비스",
+                        en: "Integrated India entry & operations",
+                        zh: "印度市场进入与运营整合服务",
                       })}
                     </MobileNavLink>
-                    <MobileNavLink href="/services">
-                      {pickLocale(locale, {
-                        ko: "회계 서비스",
-                        en: "Accounting services",
-                        zh: "会计与税务服务",
-                      })}
-                    </MobileNavLink>
-                    <MobileNavLink href="/services/india-accounting-glossary">
-                      {pickLocale(locale, {
-                        ko: "인도 회계·세무 지식 베이스",
-                        en: "India accounting knowledge base",
-                        zh: "印度会计实务知识库",
-                      })}
-                    </MobileNavLink>
-                    <MobileNavLink href="/services/license-registration">
-                      {pickLocale(locale, {
-                        ko: "라이센스 등록 서비스",
-                        en: "License registration",
-                        zh: "许可证注册",
-                      })}
-                    </MobileNavLink>
-                    <MobileNavLink href="/services/recruitment-support">
-                      {pickLocale(locale, {
-                        ko: "채용지원 서비스",
-                        en: "Recruitment support",
-                        zh: "招聘支持",
-                      })}
-                    </MobileNavLink>
-                    <MobileNavLink href="/services/frro">
-                      {pickLocale(locale, { ko: "FRRO 서비스", en: "FRRO services", zh: "FRRO 服务" })}
-                    </MobileNavLink>
-                    <MobileNavLink href="/services/ecb">
-                      {pickLocale(locale, {
-                        ko: "ECB·FEMA 실무 안내",
-                        en: "ECB / FEMA guide",
-                        zh: "ECB·FEMA 实务指南",
-                      })}
-                    </MobileNavLink>
-                    <MobileNavLink href="/services/form-41-registration">
-                      {pickLocale(locale, {
-                        ko: "Form 41 / Form 10F 등록·신고",
-                        en: "Form 41 / Form 10F registration",
-                        zh: "Form 41 / Form 10F 登记与申报",
-                      })}
-                    </MobileNavLink>
-                    <MobileNavLink href="/services/personal-income-tax-calculator">
-                      {pickLocale(locale, {
-                        ko: "인도 급여 TDS 계산기",
-                        en: "India salary TDS calculator",
-                        zh: "印度工资 TDS 计算器",
-                      })}
-                    </MobileNavLink>
-                    <MobileNavLink href="/services/corporate-tax-calculator">
-                      {pickLocale(locale, {
-                        ko: "법인세 계산기",
-                        en: "Corporate tax calculator",
-                        zh: "企业所得税计算器",
-                      })}
-                    </MobileNavLink>
-                    <MobileNavLink href="/services/professional-tax-calculator">
-                      {pickLocale(locale, {
-                        ko: "Professional Tax (PT) 계산기",
-                        en: "Professional Tax (PT) calculator",
-                        zh: "Professional Tax（PT）计算器",
-                      })}
-                    </MobileNavLink>
+                    {servicesNavGroups(locale).map((g) => (
+                      <div key={g.heading}>
+                        <div className="px-3 pb-0.5 pt-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                          {g.heading}
+                        </div>
+                        {g.items.map((it) => (
+                          <MobileNavLink key={it.href} href={it.href} className="pl-4">
+                            {it.label}
+                          </MobileNavLink>
+                        ))}
+                      </div>
+                    ))}
                   </div>
                 ) : item.href === ABOUT_MENU ? (
                   <div key="about" className="py-1">

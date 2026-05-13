@@ -7,7 +7,7 @@ export type AdminNavSection = {
   readonly links: readonly AdminNavLink[];
 };
 
-/** 사이드바 — 콘텐츠 → 조직·고객 → 시스템 순 */
+/** 사이드바 — 콘텐츠 → 조직·고객 → 통계 → 시스템 순 */
 export function adminNavSections(locale: AdminUiLocale): readonly AdminNavSection[] {
   if (locale === "en") {
     return [
@@ -29,6 +29,10 @@ export function adminNavSections(locale: AdminUiLocale): readonly AdminNavSectio
           { href: "/admin/staff", label: "Staff" },
           { href: "/admin/clients", label: "Clients" },
         ],
+      },
+      {
+        heading: "Analytics",
+        links: [{ href: "/admin/page-view-stats", label: "Site view stats" }],
       },
       {
         heading: "System",
@@ -58,6 +62,10 @@ export function adminNavSections(locale: AdminUiLocale): readonly AdminNavSectio
         { href: "/admin/staff", label: "직원 사진·소개" },
         { href: "/admin/clients", label: "고객사" },
       ],
+    },
+    {
+      heading: "통계",
+      links: [{ href: "/admin/page-view-stats", label: "사이트 뷰 통계" }],
     },
     {
       heading: "시스템",
@@ -95,7 +103,7 @@ export type AdminDashboardData = {
   readonly sections: readonly AdminDashboardSection[];
 };
 
-/** 대시보드 카드 — 사이드바와 동일한 묶음·순서, 회사 연혁 포함 */
+/** 대시보드 카드 — 사이드바와 동일한 묶음·순서(통계·회사 연혁 포함) */
 export function adminDashboardData(locale: AdminUiLocale): AdminDashboardData {
   if (locale === "en") {
     return {
@@ -133,6 +141,17 @@ export function adminDashboardData(locale: AdminUiLocale): AdminDashboardData {
             },
             { href: "/admin/staff", title: "Staff", desc: "Add · edit · delete profiles" },
             { href: "/admin/clients", title: "Clients", desc: "Add · edit · delete" },
+          ],
+        },
+        {
+          id: "analytics",
+          heading: "Analytics",
+          cards: [
+            {
+              href: "/admin/page-view-stats",
+              title: "Site view stats",
+              desc: "Totals, daily counts and top paths on the public site",
+            },
           ],
         },
         {
@@ -188,6 +207,17 @@ export function adminDashboardData(locale: AdminUiLocale): AdminDashboardData {
         ],
       },
       {
+        id: "analytics",
+        heading: "통계",
+        cards: [
+          {
+            href: "/admin/page-view-stats",
+            title: "사이트 뷰 통계",
+            desc: "공개 페이지 조회 누적·일별·경로별 집계",
+          },
+        ],
+      },
+      {
         id: "system",
         heading: "시스템",
         cards: [
@@ -203,35 +233,65 @@ export function adminDashboardData(locale: AdminUiLocale): AdminDashboardData {
   };
 }
 
-/** 대시보드 상단 — 공개 사이트 페이지뷰 통계 */
+/** `/admin/page-view-stats` — 공개 사이트 페이지뷰 통계 */
 export function adminPageViewStatsCopy(locale: AdminUiLocale) {
   if (locale === "en") {
     return {
+      pageTitle: "Site view statistics",
+      pageLead:
+        "Recorded opens of the public site by day, URL path, and traffic source (referrer host when available). Admin and API routes are excluded.",
       sectionTitle: "Site traffic",
-      sectionHint: "Page views on the public site (last 30 days for top paths, UTC by day).",
+      sectionHint:
+        "Each public page load is logged. Top paths and sources use a rolling 30-day window; daily bars are the last 7 UTC calendar days.",
       totalLabel: "Total page views",
       totalHint: "All recorded views since tracking started.",
+      last30Label: "Last 30 days (rolling)",
+      last30Hint: "Count of views in the last 30 days, for comparison with all-time total.",
       last7Title: "Last 7 days (UTC)",
       last7Hint: "Views per calendar day in UTC.",
       topPathsTitle: "Top paths (30 days)",
-      topPathsHint: "Most opened URL paths.",
+      topPathsHint: "Most opened URL paths on this site.",
+      topSourcesTitle: "Traffic sources (30 days)",
+      topSourcesHint:
+        "Grouped by referring site hostname (from the browser’s Referer header). “Direct / unknown” includes typed URLs, bookmarks, and many in-site navigations—single-page transitions often send no referrer.",
+      recentTitle: "Recent views (latest 50)",
+      recentHint: "Newest events first. Timestamps are stored in UTC.",
       pathColumn: "Path",
       countColumn: "Views",
+      sourceColumn: "Source (host)",
+      timeColumn: "Time (UTC)",
+      referrerColumn: "Referrer (summary)",
+      directReferrerLabel: "Direct / no referrer",
       unavailable:
         "Statistics are unavailable (database not reachable or SitePageView table missing). Run `npx prisma db push` after deploy.",
     };
   }
   return {
+    pageTitle: "사이트 뷰 통계",
+    pageLead:
+      "공개 사이트를 연 횟수를 날짜·경로·유입 출처(가능한 경우 리퍼러)로 확인합니다. 관리자·API 경로는 집계에서 제외됩니다.",
     sectionTitle: "사이트 유입",
-    sectionHint: "공개 페이지를 열 때마다 기록됩니다. 상위 경로는 최근 30일, 일별은 최근 7일(UTC 기준 날짜)입니다.",
+    sectionHint:
+      "공개 페이지를 열 때마다 기록됩니다. 상위 경로·유입 출처는 최근 30일(rolling), 일별 막대는 최근 7일(UTC 날짜)입니다.",
     totalLabel: "누적 페이지뷰",
     totalHint: "통계를 켠 이후 저장된 조회 수입니다.",
+    last30Label: "최근 30일 (rolling)",
+    last30Hint: "지난 30일 동안의 조회 수로, 누적 대비 최근 활동을 볼 때 참고하세요.",
     last7Title: "최근 7일 (UTC)",
     last7Hint: "UTC 자정 기준 하루 단위 집계입니다.",
     topPathsTitle: "많이 본 경로 (30일)",
-    topPathsHint: "조회 수가 많은 URL 경로입니다.",
+    topPathsHint: "이 사이트에서 조회가 많았던 URL 경로입니다.",
+    topSourcesTitle: "유입 출처 (30일)",
+    topSourcesHint:
+      "브라우저가 보낸 Referer(리퍼러)에서 사이트 호스트를 묶어 집계합니다. 「직접·리퍼러 없음」은 주소 직접 입력·북마크·앱에서 열기 등과, 같은 사이트 안에서 페이지만 바뀌는 경우(리퍼러가 비는 SPA 이동)에 많이 잡힙니다.",
+    recentTitle: "최근 조회 (최신 50건)",
+    recentHint: "가장 최근 기록부터입니다. 시각은 DB에 저장된 UTC 기준입니다.",
     pathColumn: "경로",
     countColumn: "조회",
+    sourceColumn: "유입(호스트)",
+    timeColumn: "시각 (UTC)",
+    referrerColumn: "리퍼러 요약",
+    directReferrerLabel: "직접·리퍼러 없음",
     unavailable:
       "통계를 불러올 수 없습니다(DB 연결 실패 또는 SitePageView 테이블 없음). 배포 후 `npx prisma db push` 로 스키마를 맞추세요.",
   };

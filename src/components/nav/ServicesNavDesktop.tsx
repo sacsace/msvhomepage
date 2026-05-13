@@ -2,54 +2,10 @@
 
 import Link from "next/link";
 import { useBrowserPathname } from "@/components/layout/BrowserPathnameProvider";
-import { desktopNavTopSegmentClass } from "@/components/nav/desktop-nav-top-class";
+import { desktopNavMegaMenuItemClass, desktopNavTopSegmentClass } from "@/components/nav/desktop-nav-top-class";
+import { servicesNavGroups } from "@/lib/services-nav-groups";
 import type { SiteLocale } from "@/lib/site-locale";
-import { localeFromPathname, pickLocale, stripLocalePrefix, withLocalePrefix } from "@/lib/site-locale";
-
-const subKo = [
-  { href: "/services/corporate-incorporation", label: "법인 설립 서비스" },
-  { href: "/services", label: "회계 서비스" },
-  { href: "/services/india-accounting-glossary", label: "인도 회계·세무 지식 베이스" },
-  { href: "/services/license-registration", label: "라이센스 등록 서비스" },
-  { href: "/services/recruitment-support", label: "채용지원 서비스" },
-  { href: "/services/frro", label: "FRRO 서비스" },
-  { href: "/services/ecb", label: "ECB·FEMA 실무 안내" },
-  { href: "/services/form-41-registration", label: "Form 41 / Form 10F 등록·신고" },
-  { href: "/services/personal-income-tax-calculator", label: "인도 급여 TDS 계산기" },
-  { href: "/services/corporate-tax-calculator", label: "법인세 계산기" },
-  { href: "/services/professional-tax-calculator", label: "Professional Tax (PT) 계산기" },
-] as const;
-
-const subEn = [
-  { href: "/services/corporate-incorporation", label: "Corporate incorporation" },
-  { href: "/services", label: "Accounting services" },
-  { href: "/services/india-accounting-glossary", label: "India accounting knowledge base" },
-  { href: "/services/license-registration", label: "License registration" },
-  { href: "/services/recruitment-support", label: "Recruitment support" },
-  { href: "/services/frro", label: "FRRO services" },
-  { href: "/services/ecb", label: "ECB / FEMA guide" },
-  {
-    href: "/services/form-41-registration",
-    label: "Form 41 / Form 10F registration",
-  },
-  { href: "/services/personal-income-tax-calculator", label: "India salary TDS calculator" },
-  { href: "/services/corporate-tax-calculator", label: "Corporate tax calculator" },
-  { href: "/services/professional-tax-calculator", label: "Professional Tax (PT) calculator" },
-] as const;
-
-const subZh = [
-  { href: "/services/corporate-incorporation", label: "公司设立服务" },
-  { href: "/services", label: "会计与税务服务" },
-  { href: "/services/india-accounting-glossary", label: "印度会计实务知识库" },
-  { href: "/services/license-registration", label: "许可证注册" },
-  { href: "/services/recruitment-support", label: "招聘支持" },
-  { href: "/services/frro", label: "FRRO 服务" },
-  { href: "/services/ecb", label: "ECB·FEMA 实务指南" },
-  { href: "/services/form-41-registration", label: "Form 41 / Form 10F 登记与申报" },
-  { href: "/services/personal-income-tax-calculator", label: "印度工资 TDS 计算器" },
-  { href: "/services/corporate-tax-calculator", label: "企业所得税计算器" },
-  { href: "/services/professional-tax-calculator", label: "Professional Tax（PT）计算器" },
-] as const;
+import { isNavActive, localeFromPathname, pickLocale, stripLocalePrefix, withLocalePrefix } from "@/lib/site-locale";
 
 function linkClass(active: boolean) {
   return `px-3 py-1.5 text-[13px] tracking-tight transition duration-200 ease-out ${desktopNavTopSegmentClass(active)}`;
@@ -58,7 +14,7 @@ function linkClass(active: boolean) {
 export function ServicesNavDesktop() {
   const pathname = useBrowserPathname();
   const locale = localeFromPathname(pathname) as SiteLocale;
-  const sub = locale === "en" ? subEn : locale === "zh" ? subZh : subKo;
+  const groups = servicesNavGroups(locale);
   const bare = stripLocalePrefix(pathname.split("#")[0] || pathname);
   const active = bare === "/services" || bare.startsWith("/services/");
   const topLabel = pickLocale(locale, { ko: "서비스", en: "Services", zh: "服务" });
@@ -69,7 +25,7 @@ export function ServicesNavDesktop() {
   });
 
   return (
-    <div className="group relative flex items-center">
+    <div className="group relative inline-flex items-center">
       <Link
         href={withLocalePrefix("/services", locale)}
         className={`${linkClass(active)} block select-none`}
@@ -78,26 +34,33 @@ export function ServicesNavDesktop() {
         {topLabel}
       </Link>
       <div
-        className="pointer-events-none invisible absolute left-0 top-full z-50 w-[min(20rem,calc(100vw-2rem))] pt-1.5 opacity-0 transition duration-150 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100"
+        className="pointer-events-none invisible absolute left-1/2 right-auto top-full z-50 w-[min(44rem,calc(100vw-2rem))] origin-top -translate-x-1/2 pt-1.5 opacity-0 transition duration-150 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100"
         role="navigation"
         aria-label={ariaSub}
       >
-        <div className="rounded-lg border border-slate-100 bg-white py-1 shadow-lg shadow-slate-900/5">
-          {sub.map((item) => {
-            const subActive = bare === item.href || bare.startsWith(`${item.href}/`);
-            return (
-              <Link
-                key={item.href}
-                href={withLocalePrefix(item.href, locale)}
-                className={`block px-3 py-2 text-[13px] transition hover:bg-slate-50 ${
-                  subActive ? "bg-msv-blue-soft/70 font-semibold text-msv-navy" : "font-medium text-slate-600 hover:text-msv-navy"
-                }`}
-                aria-current={subActive ? "page" : undefined}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
+        <div className="max-h-[min(70vh,32rem)] overflow-y-auto rounded-lg border border-slate-100 bg-white py-2 shadow-lg shadow-slate-900/5">
+          <div className="grid grid-cols-1 gap-x-6 gap-y-0 px-2 sm:grid-cols-2">
+            {groups.map((g) => (
+              <div key={g.heading} className="min-w-0 pb-2 pt-1">
+                <p className="px-2 pb-1.5 pt-1 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">{g.heading}</p>
+                <div className="space-y-0.5">
+                  {g.items.map((item) => {
+                    const subActive = isNavActive(pathname, item.href);
+                    return (
+                      <Link
+                        key={item.href}
+                        href={withLocalePrefix(item.href, locale)}
+                        className={`block rounded-md px-2 py-1.5 text-[13px] transition ${desktopNavMegaMenuItemClass(subActive)}`}
+                        aria-current={subActive ? "page" : undefined}
+                      >
+                        {item.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

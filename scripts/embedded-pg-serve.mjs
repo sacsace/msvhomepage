@@ -344,7 +344,13 @@ await (async () => {
     }
 
     try {
-      fs.unlinkSync(readyFlag);
+      if (fs.existsSync(readyFlag)) {
+        fs.unlinkSync(readyFlag);
+        console.info(
+          "[MSV embedded] 기동 초기화: `.embedded-ready` 제거됨 — " +
+            "`wait-embedded-ready` 는 이후 새 플래그가 생길 때까지 Next 기동을 지연합니다.",
+        );
+      }
     } catch {
       /* 없으면 무시 */
     }
@@ -508,7 +514,12 @@ await (async () => {
           "push",
           "--skip-generate",
         ],
-        { cwd: root, stdio: "inherit", env: { ...process.env } },
+        {
+          cwd: root,
+          stdio: "inherit",
+          // `.embedded-ready` 는 push 직후에 쓰이므로, 없으면 load-merged-env 가 `.msv-embedded.env` 를 스킵한다.
+          env: { ...process.env, MSV_FORCE_EMBEDDED_ENV: "1" },
+        },
       );
       if (push.status !== 0) {
         console.error("[MSV embedded] prisma db push 실패");
@@ -523,7 +534,11 @@ await (async () => {
       const seed = spawnSync(
         process.execPath,
         [path.join(root, "scripts", "merged-env-run.cjs"), "npx", "prisma", "db", "seed"],
-        { cwd: root, stdio: "inherit", env: { ...process.env } },
+        {
+          cwd: root,
+          stdio: "inherit",
+          env: { ...process.env, MSV_FORCE_EMBEDDED_ENV: "1" },
+        },
       );
       if (seed.status === 0) {
         fs.writeFileSync(seedFlag, `${new Date().toISOString()}\n`, "utf8");

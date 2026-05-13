@@ -80,6 +80,17 @@ export default async function EcbGuidePage() {
             </div>
           </section>
 
+          {c.practicalIssues ? (
+            <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <h2 className="text-lg font-bold text-msv-navy">{c.practicalIssues.title}</h2>
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-700">
+                {c.practicalIssues.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
           <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <h2 className="text-lg font-bold text-msv-navy">{c.documents.title}</h2>
             <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-700">
@@ -92,22 +103,22 @@ export default async function EcbGuidePage() {
           <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <h2 className="text-lg font-bold text-msv-navy">{c.penalties.title}</h2>
             <p className="mt-3 text-sm leading-relaxed text-slate-700">{c.penalties.intro}</p>
-            <p className="mt-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-center text-base font-bold tracking-tight text-amber-950">
-              {c.penalties.exampleLabel}
-            </p>
+            {c.penalties.rowsIntro ? (
+              <p className="mt-2 text-sm text-slate-600">{c.penalties.rowsIntro}</p>
+            ) : null}
             <div className="mt-4 overflow-x-auto rounded-lg border border-slate-200">
               <table className="w-full min-w-[16rem] border-collapse text-left text-sm">
                 <thead>
                   <tr className="bg-slate-50 text-xs font-semibold text-msv-navy">
-                    <th className="border border-slate-200 px-3 py-2">{c.penalties.colDelay}</th>
-                    <th className="border border-slate-200 px-3 py-2">{c.penalties.colFine}</th>
+                    <th className="border border-slate-200 px-3 py-2">{c.penalties.colLevel}</th>
+                    <th className="border border-slate-200 px-3 py-2">{c.penalties.colFactors}</th>
                   </tr>
                 </thead>
                 <tbody className="text-slate-700">
                   {c.penalties.rows.map((row) => (
-                    <tr key={row.delay}>
-                      <td className="border border-slate-200 px-3 py-2">{row.delay}</td>
-                      <td className="border border-slate-200 px-3 py-2">{row.fine}</td>
+                    <tr key={row.level}>
+                      <td className="border border-slate-200 px-3 py-2 align-top">{row.level}</td>
+                      <td className="border border-slate-200 px-3 py-2 align-top">{row.factors}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -148,17 +159,20 @@ export default async function EcbGuidePage() {
 
           <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <h2 className="text-lg font-bold text-msv-navy">{c.references.title}</h2>
-            <p className="mt-3 text-sm leading-relaxed text-slate-700">
-              {c.references.firmsLead}{" "}
-              <Link
-                href="https://firms.rbi.org.in"
-                className="font-semibold text-msv-blue underline-offset-2 hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                https://firms.rbi.org.in
-              </Link>
-            </p>
+            <ul className="mt-4 list-none space-y-2 text-sm leading-relaxed text-slate-700">
+              {c.references.links.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="font-semibold text-msv-blue underline-offset-2 hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
             <p className="mt-6 text-xs leading-relaxed text-slate-500">{c.references.disclaimer}</p>
           </section>
 

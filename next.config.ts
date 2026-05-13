@@ -1,7 +1,13 @@
 import { loadEnvConfig } from "@next/env";
-import fs from "node:fs";
+import fs from "fs";
 import type { NextConfig } from "next";
 import path from "path";
+import { createRequire } from "module";
+import { applyMsvEmbeddedDatabaseEnvFromDisk, resolveMsvWebRoot } from "./src/lib/msv-embedded-env-merge";
+
+const require = createRequire(import.meta.url);
+type WebpackLib = { NormalModuleReplacementPlugin: new (r: RegExp, p: string) => unknown };
+const NextWebpack = require("next/dist/compiled/webpack/webpack-lib.js") as WebpackLib;
 
 // Prisma/서버 코드보다 먼저 실행되어야 합니다. Turbopack에서도 `env("DATABASE_URL")` 검사 통과용.
 // `next build` 시 NODE_ENV=production 이라도, 로컬에서 `.env.production` 이 비어 있으면 DB_* 가 없을 수 있어
@@ -10,7 +16,6 @@ const projectDir = path.join(process.cwd());
 loadEnvConfig(projectDir, true);
 loadEnvConfig(projectDir, false);
 
-/** `npm run dev` 의 embedded-postgres 가 쓰는 연결 정보(있으면 DB_* 를 덮어씀) */
 function applyMsvEmbeddedEnv() {
   const skip =
     String(process.env.MSV_IGNORE_EMBEDDED_ENV || "").trim() === "1" ||
@@ -23,63 +28,91 @@ function applyMsvEmbeddedEnv() {
     }
     return;
   }
-  const p = path.join(projectDir, ".msv-embedded.env");
+  const webRoot = resolveMsvWebRoot(projectDir);
+  const p = path.join(webRoot, ".msv-embedded.env");
   if (!fs.existsSync(p)) return;
 
-  const readyFlag = path.join(projectDir, ".msv-embedded-pg", ".embedded-ready");
+  const readyFlag = path.join(webRoot, ".msv-embedded-pg", ".embedded-ready");
   const forceEmbedded = String(process.env.MSV_FORCE_EMBEDDED_ENV || "").trim() === "1";
   if (!forceEmbedded && !fs.existsSync(readyFlag)) {
     if (process.env.NODE_ENV !== "production") {
+      const rel = (abs: string) => path.relative(projectDir, abs) || abs;
       console.info(
-        "[MSV] `.msv-embedded.env` 는 있으나 embedded Postgres 준비 신호(`.msv-embedded-pg/.embedded-ready`)가 없어 병합하지 않습니다. " +
-          "`npm run dev`(embedded 포함)로 띄우거나, 시스템 DB면 `.env.local`에 DATABASE_URL/DB_* 또는 MSV_IGNORE_EMBEDDED_ENV=1. " +
-          "잔존 env 파일만 강제 적용: MSV_FORCE_EMBEDDED_ENV=1",
+        "[MSV] `.msv-embedded.env` 는 있으나 embedded Postgres 준비 신호가 없어 병합하지 않습니다.\n" +
+          `  • webRoot(resolveMsvWebRoot): ${webRoot}\n` +
+          `  • env 파일: ${rel(p)} (존재)\n` +
+          `  • ready 플래그: ${rel(readyFlag)} (없음)\n` +
+          "  • `npm run dev` 는 `wait-embedded-ready` 가 새 `.embedded-ready` 를 본 뒤에 Next 를 띄웁니다. " +
+          "이 메시지가 뜨면 이전 세션 잔여 ready 로 조기 통과했거나, embedded 기동이 느린 경우일 수 있습니다.\n" +
+          "  • 시스템 DB만 쓸 때: `.env.local` 에 DATABASE_URL/DB_* 또는 MSV_IGNORE_EMBEDDED_ENV=1\n" +
+          "  • 잔존 env 만 강제: MSV_FORCE_EMBEDDED_ENV=1",
       );
     }
     return;
   }
-
-  const raw = fs.readFileSync(p, "utf8");
-  for (const line of raw.split(/\r?\n/)) {
-    const t = line.trim();
-    if (!t || t.startsWith("#")) continue;
-    const eq = t.indexOf("=");
-    if (eq <= 0) continue;
-    const key = t.slice(0, eq).trim();
-    let val = t.slice(eq + 1).trim();
-    if (
-      (val.startsWith('"') && val.endsWith('"')) ||
-      (val.startsWith("'") && val.endsWith("'"))
-    ) {
-      val = val.slice(1, -1);
-    }
-    const existing = process.env[key];
-    if (existing !== undefined && String(existing).trim() !== "") {
-      continue;
-    }
-    // 시스템 DB만 쓰는 설정(DB_HOST)이 있으면 embedded 가 쓰는 DATABASE_URL(55432 등)은 덮어쓰지 않음
-    if (key === "DATABASE_URL" && process.env.DB_HOST?.trim()) {
-      continue;
-    }
-    process.env[key] = val;
-  }
+  applyMsvEmbeddedDatabaseEnvFromDisk(webRoot);
 }
 applyMsvEmbeddedEnv();
 
 /**
- * 다른 PC·휴대폰이 `http://<개발기IP>:3100` 으로 접속할 때 Next 16이 막는 dev 전용 리소스(HMR 등) 허용.
- * 관리자 페이지·클라이언트 번들이 비어 보이면 **접속하는 쪽 기기의 IP**(브라우저가 보내는 Origin)를 넣으세요. 쉼표·공백 구분.
- * 예: `.env.local` → `MSV_ALLOWED_DEV_ORIGINS=192.168.0.119` (테스트 폰/노트북 IP)
+ * 다른 PC·휴대폰이 `http://<개발기IP>:3100` 으로 접속할 때 Next 16 dev 가 막는 `_next`/HMR 요청 허용.
+ * `MSV_ALLOWED_DEV_ORIGINS` 에 LAN IP 등을 넣으세요. 쉼표·공백 구분.
+ *
+ * `127.0.0.1`·`::1` 은 항상 포함합니다. 일부 브라우저/OS에서 `localhost` 와 다른 루프백으로 Origin 이
+ * 잡히면 크로스사이트 차단이 WebSocket 을 끊어 `ERR_CONNECTION_RESET` 처럼 보일 수 있습니다.
  */
-const allowedDevOrigins = String(process.env.MSV_ALLOWED_DEV_ORIGINS || "")
+const userAllowedDevOrigins = String(process.env.MSV_ALLOWED_DEV_ORIGINS || "")
   .split(/[\s,]+/)
   .map((s) => s.trim())
   .filter(Boolean);
+/** `localhost` 는 Next 기본 허용과 겹칠 수 있으나, 일부 환경에서 Host/Origin 검사 시 명시가 안전합니다. */
+const loopbackDevOrigins = ["localhost", "127.0.0.1", "::1"];
+const allowedDevOrigins = [
+  ...loopbackDevOrigins,
+  ...userAllowedDevOrigins.filter((o) => !loopbackDevOrigins.includes(o)),
+];
 
 const nextConfig: NextConfig = {
-  ...(allowedDevOrigins.length > 0 ? { allowedDevOrigins } : {}),
+  allowedDevOrigins,
   // Prisma Client 는 `prisma/schema.prisma` 의 `output` (`prisma/generated/client`) 로 생성됩니다.
   serverExternalPackages: [],
+  /**
+   * instrumentation·DB 점검 체인은 **클라이언트**·**Edge** 번들에서도 그래프에 잡힐 수 있습니다.
+   * Next가 넘기는 `isServer`는 Node 서버·Edge 서버 모두 `true`이므로, `nextRuntime === "edge"` 일 때도
+   * `fs`/`path` 없는 스tub으로 치환해야 합니다. (`nextRuntime === "nodejs"` 만 실제 모듈)
+   */
+  webpack: (config, ctx) => {
+    const nextRuntime = "nextRuntime" in ctx ? (ctx as { nextRuntime?: string }).nextRuntime : undefined;
+    const isNodeWebpackServer = Boolean(ctx.isServer && nextRuntime === "nodejs");
+    if (isNodeWebpackServer) {
+      return config;
+    }
+
+    const mergeStub = path.resolve(projectDir, "src/lib/msv-embedded-env-merge.client.stub.ts");
+    const mergeReal = path.resolve(projectDir, "src/lib/msv-embedded-env-merge.ts");
+    const dbCheckStub = path.resolve(projectDir, "src/instrumentation-db-check.client.stub.ts");
+    const dbCheckReal = path.resolve(projectDir, "src/instrumentation-db-check.ts");
+
+    config.resolve.alias = {
+      ...(config.resolve.alias as Record<string, string | string[]>),
+      "@/lib/msv-embedded-env-merge": mergeStub,
+      [mergeReal]: mergeStub,
+      [dbCheckReal]: dbCheckStub,
+    };
+
+    config.plugins = config.plugins ?? [];
+    config.plugins.push(
+      new NextWebpack.NormalModuleReplacementPlugin(
+        /(^|[\\/])instrumentation-db-check\.ts$/,
+        dbCheckStub,
+      ),
+      new NextWebpack.NormalModuleReplacementPlugin(
+        /(^|[\\/])msv-embedded-env-merge\.ts$/,
+        mergeStub,
+      ),
+    );
+    return config;
+  },
   turbopack: {
     root: path.join(process.cwd()),
   },

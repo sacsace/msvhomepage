@@ -172,7 +172,7 @@ const ko: FrroServiceCopy = {
 
 const en: FrroServiceCopy = {
   metaTitle: "FRRO services",
-  metaDescription: `${company.shortName} — practical support for India FRRO, RP registration, visa extensions, address, passport and employer-change filings, and exit permits.`,
+  metaDescription: `${company.shortName} · practical support for India FRRO, RP registration, visa extensions, address, passport and employer-change filings, and exit permits.`,
   pageTitle: "FRRO services",
   pageIntroA:
     "We support foreign nationals in India with Foreigners Regional Registration Office (FRRO) registration, extension and change-of-circumstance work in a hands-on, operations-focused way.",
@@ -221,7 +221,7 @@ const en: FrroServiceCopy = {
     {
       title: "3. Change of address reporting",
       intro:
-        "If you move from a hotel or guest house to private accommodation—or change address within India—FRRO may require a change-of-address filing.",
+        "If you move from a hotel or guest house to private accommodation, or change address within India, FRRO may require a change-of-address filing.",
       supportHeading: "What we help with:",
       supportItems: [
         "Review of lease agreements",
@@ -298,7 +298,7 @@ const en: FrroServiceCopy = {
 
 const zh: FrroServiceCopy = {
   metaTitle: "FRRO 服务",
-  metaDescription: `${company.shortName} — 印度 FRRO、RP 登记、签证延期、地址/护照/雇主变更申报及出境许可等居留行政实务协助`,
+  metaDescription: `${company.shortName} · 印度 FRRO、RP 登记、签证延期、地址/护照/雇主变更申报及出境许可等居留行政实务协助`,
   pageTitle: "FRRO 服务",
   pageIntroA:
     "面向在印度居留的外国人，我们以实务为导向协助办理外国人地区登记处（FRRO）的登记、延期与变更相关手续。",

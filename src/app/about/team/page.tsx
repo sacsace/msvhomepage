@@ -74,7 +74,16 @@ export default async function AboutTeamPage() {
   const leadershipEmails = new Set(leadership.map((m) => m.email.toLowerCase()));
   const staffForIntro = staffProfiles
     .filter((p) => !p.email?.trim() || !leadershipEmails.has(p.email.trim().toLowerCase()))
-    .sort((a, b) => a.name.localeCompare(b.name, sortLoc));
+    .sort((a, b) => {
+      const da = a.role.trim();
+      const db = b.role.trim();
+      if (!da && !db) return a.name.localeCompare(b.name, sortLoc);
+      if (!da) return 1;
+      if (!db) return -1;
+      const deptCmp = da.localeCompare(db, sortLoc, { sensitivity: "base" });
+      if (deptCmp !== 0) return deptCmp;
+      return a.name.localeCompare(b.name, sortLoc);
+    });
   const ceo = memberByEmail(leadership, "lee@msventures.in");
   const vpHa = memberByEmail(leadership, "heon@msventures.in");
   const caIn = memberByEmail(leadership, "ca@msventures.in");

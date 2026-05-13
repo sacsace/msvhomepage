@@ -84,7 +84,7 @@ export default async function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-background font-sans text-slate-800 antialiased">
         {isAdminRoute ? (
-          <main id="main-content" className="flex-1" tabIndex={-1}>
+          <main id="main-content" className="min-w-0 flex-1" tabIndex={-1}>
             {children}
           </main>
         ) : (
@@ -93,12 +93,12 @@ export default async function RootLayout({
             <OrganizationJsonLd />
             <a
               href="#main-content"
-              className="absolute left-[-9999px] top-0 z-[100] overflow-hidden whitespace-nowrap bg-slate-900 px-4 py-2 text-sm font-medium text-white focus:left-4 focus:top-4 focus:overflow-visible focus:rounded-lg focus:shadow-lg"
+              className="fixed left-4 top-4 z-[100] inline-flex translate-y-[-120vh] rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-lg transition focus:translate-y-0 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-white/80 motion-reduce:transition-none"
             >
               {shell.skipToContent}
             </a>
             <SiteHeader locale={locale} />
-            <main id="main-content" className="flex-1" tabIndex={-1}>
+            <main id="main-content" className="min-w-0 flex-1" tabIndex={-1}>
               {children}
             </main>
             <SiteFooter />

@@ -60,7 +60,7 @@ const ko: MvsSoftwarePageCopy = {
   pageHeaderDescription: `${company.shortName}이 운영하는 웹 통합 그룹웨어입니다. 인사·근태·휴가·급여, 전자근로계약·전자결재, 업무 보드·보고·통계, 파트너·재고·전자세금계산서 등 법인 운영 업무를 한 로그인 체계에서 다룹니다.`,
   overviewEyebrow: "Overview",
   overviewTitle: "개요",
-  heroLead: `MVS(MS Ventures System, 브랜드 표기에 따라 Ventus 계열을 함께 쓰기도 합니다)는 ${company.shortName}(${company.legalName})이 보유·운영하는 웹 기반 통합 그룹웨어입니다. 대시보드, 기본정보·조직·사용자·권한, 근태·휴가·급여, 전자근로계약, 전자결재·업무 보드·업무 보고·통계, 파트너·고객사, 재고·전자세금계산서 등 현장에서 매일 이어지는 업무를 모듈로 묶었고, 회사 단위 데이터 격리, SMTP·알림, 언어·통화(예: INR), 출근 반경·세션·비밀번호 정책 같은 운영·보안 항목은 시스템 설정에서 통제합니다.
+  heroLead: `MVS(MS Ventures System, 브랜드·자료에 따라 Minsub Ventures System 표기를 함께 쓰기도 합니다)는 ${company.shortName}(${company.legalName})이 보유·운영하는 웹 기반 통합 그룹웨어입니다. 대시보드, 기본정보·조직·사용자·권한, 근태·휴가·급여, 전자근로계약, 전자결재·업무 보드·업무 보고·통계, 파트너·고객사, 재고·전자세금계산서 등 현장에서 매일 이어지는 업무를 모듈로 묶었고, 회사 단위 데이터 격리, SMTP·알림, 언어·통화(예: INR), 출근 반경·세션·비밀번호 정책 같은 운영·보안 항목은 시스템 설정에서 통제합니다.
 
 직원에게는 출퇴근·근태·휴가 신청·급여 조회, 관리자에게는 결재·엑셀 연동·집계·감사 같은 운영 기능을 같은 제품 안에서 이어 줍니다. 필요 시 회계·세무·컴플라이언스 실행은 상근 CPA 체계의 서비스 라인과 연계해 설계할 수 있습니다.
 
@@ -68,8 +68,8 @@ const ko: MvsSoftwarePageCopy = {
   sections: [
     {
       eyebrow: "Name",
-      title: "Minsub Ventus System",
-      body: "MVS는 Minsub Ventus System을 아우르는 제품 브랜드로, Ventus(라틴어 ‘바람’)에 담긴 실행·순환의 이미지를 바탕으로 합니다. 그룹웨어로서 사내 업무 흐름을 한데 묶는 것을 목표로 합니다.",
+      title: "Minsub Ventures System",
+      body: "MVS는 Minsub Ventures System을 아우르는 제품 브랜드입니다. 벤처(venture)가 갖는 도전과 실행의 이미지를 바탕으로, 그룹웨어로서 사내 업무 흐름을 한데 묶는 것을 목표로 합니다.",
     },
     {
       eyebrow: "Scope",
@@ -148,7 +148,7 @@ const en: MvsSoftwarePageCopy = {
   pageHeaderDescription: `${company.shortName} operates web-based integrated groupware. HR, attendance, leave, payroll, e-labour contracts, e-approval, work boards, reporting, statistics, partners, inventory and e-invoicing are handled in one login.`,
   overviewEyebrow: "Overview",
   overviewTitle: "Overview",
-  heroLead: `MVS (MS Ventures System; the Ventus family name is sometimes used with the brand) is web-based integrated groupware owned and operated by ${company.shortName} (${company.legalName}). Dashboard, master data·organisation·users·roles, attendance·leave·payroll, e-labour contracts, e-approval·task boards·reports·statistics, partners·customers, inventory·e-invoicing and other day-to-day work are organised as modules. Tenant isolation, SMTP·notifications, language·currency (e.g. INR), clock-in radius·session·password policy and similar controls are managed in system settings.
+  heroLead: `MVS (MS Ventures System; some materials also use the full product name Minsub Ventures System) is web-based integrated groupware owned and operated by ${company.shortName} (${company.legalName}). Dashboard, master data·organisation·users·roles, attendance·leave·payroll, e-labour contracts, e-approval·task boards·reports·statistics, partners·customers, inventory·e-invoicing and other day-to-day work are organised as modules. Tenant isolation, SMTP·notifications, language·currency (e.g. INR), clock-in radius·session·password policy and similar controls are managed in system settings.
 
 Employees get clock-in/out, attendance, leave requests and payroll views; administrators get approvals, Excel integration, roll-ups and audit in the same product. Where needed, accounting, tax and compliance execution can be designed together with the in-house CPA-led service line.
 
@@ -156,8 +156,8 @@ Company profile, vision and milestones are on the About page.`,
   sections: [
     {
       eyebrow: "Name",
-      title: "Minsub Ventus System",
-      body: "MVS is the product brand encompassing Minsub Ventus System, drawing on Ventus (Latin for ‘wind’) as a symbol of motion and cycle. As groupware, it aims to bring internal workflows together in one place.",
+      title: "Minsub Ventures System",
+      body: "MVS is the product brand encompassing Minsub Ventures System, reflecting venture: initiative, execution and growing operations together. As groupware, it aims to bring internal workflows together in one place.",
     },
     {
       eyebrow: "Scope",
@@ -236,7 +236,7 @@ const zh: MvsSoftwarePageCopy = {
   pageHeaderDescription: `${company.shortName} 运营的网页一体化集团办公。人事、考勤、休假、工资、电子劳动合同、电子审批、工作看板、报表统计、伙伴、库存与电子发票等法人日常业务可在同一登录体系内处理。`,
   overviewEyebrow: "Overview",
   overviewTitle: "概述",
-  heroLead: `MVS（MS Ventures System；品牌展示中有时也会并列 Ventus 系列）是由 ${company.shortName}（${company.legalName}）持有并运营的网页一体化集团办公。将看板、主数据·组织·用户·权限、考勤·休假·工资、电子劳动合同、电子审批·任务看板·工作报告·统计、伙伴·客户、库存·电子发票等日常现场工作模块化；按公司隔离数据，SMTP·通知、语言·币种（如 INR）、打卡半径·会话·密码策略等运营与安全项在系统设置中集中控制。
+  heroLead: `MVS（MS Ventures System；对外资料中也会并列 Minsub Ventures System 全称）是由 ${company.shortName}（${company.legalName}）持有并运营的网页一体化集团办公。将看板、主数据·组织·用户·权限、考勤·休假·工资、电子劳动合同、电子审批·任务看板·工作报告·统计、伙伴·客户、库存·电子发票等日常现场工作模块化；按公司隔离数据，SMTP·通知、语言·币种（如 INR）、打卡半径·会话·密码策略等运营与安全项在系统设置中集中控制。
 
 员工侧可完成打卡、考勤、休假申请与工资查询；管理侧可在同一产品内衔接审批、Excel 联动、汇总与审计。如需与会计、税务、合规落地衔接，可与常驻 CPA 体系的服务线一并设计。
 
@@ -244,8 +244,8 @@ const zh: MvsSoftwarePageCopy = {
   sections: [
     {
       eyebrow: "Name",
-      title: "Minsub Ventus System",
-      body: "MVS 以 Minsub Ventus System 为所属产品品牌，Ventus（拉丁语「风」）寓意流动与循环，集团办公旨在把内部业务流程集中在一处。",
+      title: "Minsub Ventures System",
+      body: "MVS 以 Minsub Ventures System 为产品品牌，体现 venture（创业投入与执行力）的内涵；作为集团办公，将内部业务流程集中在一处。",
     },
     {
       eyebrow: "Scope",

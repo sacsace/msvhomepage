@@ -50,7 +50,7 @@ export type CorporateIncorporationServiceCopy = {
   supportEyebrow: string;
   supportTitle: string;
   supportItems: readonly string[];
-  /** 설립 안내와의 차별 — 운영·회계 실무 연계 */
+  /** 설립 안내와의 차별 · 운영·회계 실무 연계 */
   valuePropositionTitle: string;
   valueProposition: string;
   step1Eyebrow: string;
@@ -105,7 +105,7 @@ export function corporateIncorporationServiceCopy(locale: SiteLocale): Corporate
   return pickLocale(locale, {
     ko: {
       metaTitle: "법인 설립 서비스",
-      metaDescription: `${company.shortName} 인도 법인 설립 — 상호·MCA·RBI·GST·IEC·공장 후속, 실무 중심 단계별 지원`,
+      metaDescription: `${company.shortName} 인도 법인 설립 · 상호·MCA·RBI·GST·IEC·공장 후속, 실무 중심 단계별 지원`,
       pageTitle: "법인 설립 서비스",
       pageDescription:
         "인도 법인 설립 과정 전반을 실무 중심으로 지원합니다.\n상호 검토·MCA 등기·RBI·GST·IEC 등록부터 공장 설립 후속 절차까지 단계별로 체계화하여 운영합니다.",
@@ -220,7 +220,7 @@ export function corporateIncorporationServiceCopy(locale: SiteLocale): Corporate
           iceGate: "ICEGate (관세청) 등록",
         },
         legendLead: "빨간 세로선",
-        legendDetail: `: ${INCORPORATION_SCHEDULE_MILESTONE_DAY}일차 — 법인설립증(COI) 등 주요 등기 완료 예상 시점을 나타내는 참고선(예시)`,
+        legendDetail: `: ${INCORPORATION_SCHEDULE_MILESTONE_DAY}일차 · 법인설립증(COI) 등 주요 등기 완료 예상 시점을 나타내는 참고선(예시)`,
         footerNote:
           "병행 업무(GST·비자 등)가 겹치는 구간은 막대가 동시에 표시됩니다. 실제 소요는 주(邦)·은행·서류 보완에 따라 달라질 수 있습니다.",
         ariaBarRange: (label, start, end) => `${label}: ${start}일차부터 ${end}일차까지`,
@@ -228,7 +228,7 @@ export function corporateIncorporationServiceCopy(locale: SiteLocale): Corporate
     },
     en: {
       metaTitle: "Corporate incorporation",
-      metaDescription: `${company.shortName} — India Private Limited setup: MCA filing, GST, IEC, factory follow-ups and indicative timelines.`,
+      metaDescription: `${company.shortName} · India Private Limited setup: MCA filing, GST, IEC, factory follow-ups and indicative timelines.`,
       pageTitle: "Corporate incorporation",
       pageDescription:
         "We support India incorporation end-to-end with a practical, execution-led approach.\nFrom name checks and MCA registration through RBI, GST and IEC filings to factory follow-ons, we structure and run the sequence with you.",
@@ -242,7 +242,7 @@ export function corporateIncorporationServiceCopy(locale: SiteLocale): Corporate
         "Basic governance structure (articles, board and shareholder resolutions) aligned with accounting and tax teams",
       ],
       valuePropositionTitle: "Why MSV",
-      valueProposition: `${company.shortName} designs incorporation structures with post-setup operations in view—grounded in hands-on accounting, tax and corporate administration.`,
+      valueProposition: `${company.shortName} designs incorporation structures with post-setup operations in view · grounded in hands-on accounting, tax and corporate administration.`,
       step1Eyebrow: "Step 1",
       step1Title: "Name options and business description",
       step1CorpNameLead: "Proposed names:",
@@ -343,7 +343,7 @@ export function corporateIncorporationServiceCopy(locale: SiteLocale): Corporate
           iceGate: "ICEGate (customs) registration",
         },
         legendLead: "Red vertical line",
-        legendDetail: `: Day ${INCORPORATION_SCHEDULE_MILESTONE_DAY} — reference marker for an illustrative COI / key filing completion timing`,
+        legendDetail: `: Day ${INCORPORATION_SCHEDULE_MILESTONE_DAY} · reference marker for an illustrative COI / key filing completion timing`,
         footerNote:
           "Overlapping bars (e.g. GST and visa) show parallel workstreams. Actual duration depends on state, bank and document cycles.",
         ariaBarRange: (label, start, end) => `${label}: day ${start} through day ${end}`,
@@ -351,7 +351,7 @@ export function corporateIncorporationServiceCopy(locale: SiteLocale): Corporate
     },
     zh: {
       metaTitle: "公司设立服务",
-      metaDescription: `${company.shortName} — 印度 Private Limited 设立：MCA 登记、GST、IEC、工厂后续环节与周期参考。`,
+      metaDescription: `${company.shortName} · 印度 Private Limited 设立：MCA 登记、GST、IEC、工厂后续环节与周期参考。`,
       pageTitle: "公司设立服务",
       pageDescription:
         "我们以实务为导向，支持印度公司设立全流程。\n从名称与 MCA 登记、RBI、GST、IEC 到工厂相关后续环节，分阶段梳理并协同推进。",
@@ -455,7 +455,7 @@ export function corporateIncorporationServiceCopy(locale: SiteLocale): Corporate
           iceGate: "ICEGate（海关）登记",
         },
         legendLead: "红色竖线",
-        legendDetail: `：第 ${INCORPORATION_SCHEDULE_MILESTONE_DAY} 日 — 指示公司注册证书（COI）等主要登记完成时点的参考线（示例）`,
+        legendDetail: `：第 ${INCORPORATION_SCHEDULE_MILESTONE_DAY} 日 · 指示公司注册证书（COI）等主要登记完成时点的参考线（示例）`,
         footerNote: "并行事项（如 GST 与签证）以重叠条表示；实际周期因邦、银行与补件而异。",
         ariaBarRange: (label, start, end) => `${label}：第 ${start} 日至第 ${end} 日`,
       },
@@ -476,7 +476,7 @@ export function corporateIncorporationApplyShellCopy(locale: SiteLocale): Corpor
   return pickLocale(locale, {
     ko: {
       metaTitle: "법인 설립 신청",
-      metaDescription: `${company.shortName} 인도 법인 설립 신청서 제출 — 법인명·주소·자본금·이사·주주 정보`,
+      metaDescription: `${company.shortName} 인도 법인 설립 신청서 제출 · 법인명·주소·자본금·이사·주주 정보`,
       pageTitle: "법인 설립 신청",
       pageDescription:
         "아래 양식을 작성해 제출해 주시면, 등록된 수신 메일로 신청 내용이 전달됩니다. 첨부 파일이 많을 경우 나누어 보내거나 문의로 안내를 요청해 주세요.",
@@ -485,7 +485,7 @@ export function corporateIncorporationApplyShellCopy(locale: SiteLocale): Corpor
     },
     en: {
       metaTitle: "Incorporation application",
-      metaDescription: `${company.shortName} — submit your India incorporation application (names, address, capital, directors and shareholders).`,
+      metaDescription: `${company.shortName} · submit your India incorporation application (names, address, capital, directors and shareholders).`,
       pageTitle: "Incorporation application",
       pageDescription:
         "Submit the form below and we will forward the payload to our registered inbox. If attachments are large, split them across messages or ask us for guidance.",
@@ -494,7 +494,7 @@ export function corporateIncorporationApplyShellCopy(locale: SiteLocale): Corpor
     },
     zh: {
       metaTitle: "公司设立申请",
-      metaDescription: `${company.shortName} — 提交印度公司设立申请（名称、地址、资本、董事与股东等）。`,
+      metaDescription: `${company.shortName} · 提交印度公司设立申请（名称、地址、资本、董事与股东等）。`,
       pageTitle: "公司设立申请",
       pageDescription:
         "请填写并提交下列表单，内容将发送至我们登记的收件邮箱。若附件较大，可分次发送或通过咨询索取指引。",

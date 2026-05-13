@@ -284,7 +284,7 @@ export function simpleHeroCtas(locale: SiteLocale) {
       contact: "联系我们",
       about: "公司简介",
       software: "软件",
-      foot: `客户满意度 ${company.satisfaction} · 班加罗尔 · 韩语 · 英语 · 中文`,
+      foot: "班加罗尔 · 韩语 · 英语 · 中文",
     };
   }
   if (locale !== "en") {
@@ -294,7 +294,7 @@ export function simpleHeroCtas(locale: SiteLocale) {
       contact: "문의하기",
       about: "회사 소개",
       software: "소프트웨어",
-      foot: `고객 만족 ${company.satisfaction} · Bangalore · 한국어 · English`,
+      foot: "Bangalore · 한국어 · English",
     };
   }
   return {
@@ -303,7 +303,7 @@ export function simpleHeroCtas(locale: SiteLocale) {
     contact: "Contact us",
     about: "About the company",
     software: "Software",
-    foot: `${company.satisfaction} client satisfaction · Bangalore · Korean · English`,
+    foot: "Bangalore · Korean · English",
   };
 }
 
@@ -319,6 +319,7 @@ export function contentPreviewsCopy(locale: SiteLocale) {
       calendarTitle: "申报与合规日历",
       calendarLead:
         "TDS、GST、专业税、员工福利、ECB、预缴税款、股东会与公共假期等关键合规节点一目了然。",
+      calendarGuideCta: "查看月·季·年核对清单 →",
     };
   }
   if (locale !== "en") {
@@ -329,9 +330,10 @@ export function contentPreviewsCopy(locale: SiteLocale) {
       noticeEmpty: "등록된 공지가 없습니다.",
       pinned: "고정",
       calendarKicker: "Compliance",
-      calendarTitle: "신고·준수 달력",
+      calendarTitle: "신고준수 달력",
       calendarLead:
         "원천징수세·부가가치세·전문세·종업원 보험·대외상업차입·선급세·주주회의·공휴일 등 주요 신고·준수 일정을 한눈에 확인합니다.",
+      calendarGuideCta: "월·분기·연 체크리스트 가이드 →",
     };
   }
   return {
@@ -344,6 +346,7 @@ export function contentPreviewsCopy(locale: SiteLocale) {
     calendarTitle: "Filing & compliance calendar",
     calendarLead:
       "TDS, GST, professional taxes, employee benefits, ECB, advance tax, shareholder meetings and public holidays—see key compliance milestones at a glance.",
+    calendarGuideCta: "Monthly / quarterly / annual checklist →",
   };
 }
 
@@ -387,6 +390,8 @@ export function complianceCalendarUi(locale: SiteLocale) {
     return {
       weekKicker: "本周",
       weekSub: "本周主要日期（周一至周日）",
+      monthKicker: "本月",
+      monthSub: "本月主要申报与合规节点（按公历月）",
       monthButton: "月视图",
       prevMonth: "上一月",
       nextMonth: "下一月",
@@ -400,6 +405,8 @@ export function complianceCalendarUi(locale: SiteLocale) {
   return {
     weekKicker: "Week",
     weekSub: en ? "Key dates this week (Mon–Sun)" : "이번 주 주요 일정 (월~일)",
+    monthKicker: en ? "Month" : "월간",
+    monthSub: en ? "Key dates this calendar month" : "이번 달 주요 일정 (월~일 달력)",
     monthButton: en ? "Month view" : "한 달 일정 보기",
     prevMonth: en ? "Previous month" : "이전 달",
     nextMonth: en ? "Next month" : "다음 달",

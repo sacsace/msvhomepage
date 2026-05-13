@@ -25,7 +25,7 @@ export type Form41RegistrationServiceCopy = {
 
 const ko: Form41RegistrationServiceCopy = {
   metaTitle: "Form 41 / Form 10F 관련 등록·신고 지원",
-  metaDescription: `${company.shortName} — Form 41·Form 10F·비거주자 정보·전자등록, 적용 대상·구비서류·실무 절차·유의사항·DTAA·TDS·TRC·PAN·Form 15CA/CB 연계 안내`,
+  metaDescription: `${company.shortName} · Form 41·Form 10F·비거주자 정보·전자등록, 적용 대상·구비서류·실무 절차·유의사항·DTAA·TDS·TRC·PAN·Form 15CA/CB 연계 안내`,
   pageTitle: "Form 41 / Form 10F 관련 등록·신고 지원",
   pageDescription:
     "인도 소득세 관련 비거주자 정보 제출 및 DTAA 적용 검토 절차(Form 10F·전자등록 체계 포함)를 정리하고, 관련 TDS·송금 신고 실무를 지원합니다.",
@@ -131,7 +131,7 @@ const ko: Form41RegistrationServiceCopy = {
 
 const en: Form41RegistrationServiceCopy = {
   metaTitle: "Form 41 / Form 10F registration and reporting support",
-  metaDescription: `${company.shortName} — Form 41 and Form 10F, non-resident information and e-registration, scope, documents, process, DTAA, TDS, TRC, PAN and Form 15CA/CB linkages.`,
+  metaDescription: `${company.shortName} · Form 41 and Form 10F, non-resident information and e-registration, scope, documents, process, DTAA, TDS, TRC, PAN and Form 15CA/CB linkages.`,
   pageTitle: "Form 41 / Form 10F registration and reporting support",
   pageDescription:
     "We structure India income-tax non-resident information submissions and DTAA review steps (including Form 10F and e-registration pathways) and support related TDS and remittance reporting work.",
@@ -238,7 +238,7 @@ const en: Form41RegistrationServiceCopy = {
 
 const zh: Form41RegistrationServiceCopy = {
   metaTitle: "Form 41 / Form 10F 相关登记与申报支持",
-  metaDescription: `${company.shortName} — Form 41 与 Form 10F、非居民信息及电子登记，适用情形、资料、流程、注意事项及 DTAA、TDS、TRC、PAN、Form 15CA/CB 衔接。`,
+  metaDescription: `${company.shortName} · Form 41 与 Form 10F、非居民信息及电子登记，适用情形、资料、流程、注意事项及 DTAA、TDS、TRC、PAN、Form 15CA/CB 衔接。`,
   pageTitle: "Form 41 / Form 10F 相关登记与申报支持",
   pageDescription:
     "梳理印度所得税项下非居民信息提交及 DTAA 适用审阅流程（含 Form 10F 与电子登记路径），并协助相关 TDS 与汇款申报实务。",

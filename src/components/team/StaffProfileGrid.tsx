@@ -15,7 +15,7 @@ type Props = {
 /** 회사 소개 등 — 좁은 세로 카드: 사진 → 이름 → 부서명(`role`, 라벨 없음) */
 export function StaffProfileGrid({ profiles, profilePhotoAltSuffix = "프로필 사진" }: Props) {
   return (
-    <ul className="mx-auto flex max-w-[1100px] flex-wrap justify-center gap-4 sm:gap-5 md:gap-6">
+    <ul className="mx-auto grid w-full max-w-[1100px] grid-cols-2 justify-items-start gap-4 sm:grid-cols-3 sm:gap-5 md:grid-cols-4 md:gap-6 lg:grid-cols-6">
       {profiles.map((p) => {
         const dept = p.role.trim() || "—";
         const showPhoto = Boolean(p.photoSrc && publicFileExists(p.photoSrc));
@@ -23,7 +23,7 @@ export function StaffProfileGrid({ profiles, profilePhotoAltSuffix = "프로필 
         return (
           <li
             key={p.id}
-            className="flex w-40 shrink-0 flex-col items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-5 text-center shadow-sm sm:gap-3.5 sm:px-4 sm:py-5"
+            className="flex w-40 max-w-full flex-col items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-5 text-center shadow-sm sm:gap-3.5 sm:px-4 sm:py-5"
           >
             <div className="relative size-[5.25rem] shrink-0 overflow-hidden rounded-full bg-gradient-to-b from-slate-50 to-slate-100/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-slate-900/[0.06] sm:size-[6.25rem]">
               {showPhoto && p.photoSrc ? (

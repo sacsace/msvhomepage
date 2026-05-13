@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useBrowserPathname } from "@/components/layout/BrowserPathnameProvider";
-import { desktopNavTopSegmentClass } from "@/components/nav/desktop-nav-top-class";
+import { desktopNavMegaMenuItemClass, desktopNavTopSegmentClass } from "@/components/nav/desktop-nav-top-class";
 import type { SiteLocale } from "@/lib/site-locale";
 import { localeFromPathname, pickLocale, stripLocalePrefix, withLocalePrefix } from "@/lib/site-locale";
 
@@ -39,7 +39,7 @@ export function SoftwareNavDesktop() {
   });
 
   return (
-    <div className="group relative flex items-center">
+    <div className="group relative inline-flex items-center">
       <Link
         href={withLocalePrefix("/software", locale)}
         className={`${linkClass(active)} block select-none`}
@@ -48,7 +48,7 @@ export function SoftwareNavDesktop() {
         {topLabel}
       </Link>
       <div
-        className="pointer-events-none invisible absolute left-0 top-full z-50 w-[min(20rem,calc(100vw-2rem))] pt-1.5 opacity-0 transition duration-150 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100"
+        className="pointer-events-none invisible absolute left-1/2 right-auto top-full z-50 w-[min(20rem,calc(100vw-2rem))] origin-top -translate-x-1/2 pt-1.5 opacity-0 transition duration-150 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100"
         role="navigation"
         aria-label={ariaSub}
       >
@@ -59,9 +59,7 @@ export function SoftwareNavDesktop() {
               <Link
                 key={item.href}
                 href={withLocalePrefix(item.href, locale)}
-                className={`block px-3 py-2 text-[13px] transition hover:bg-slate-50 ${
-                  subActive ? "bg-msv-blue-soft/70 font-semibold text-msv-navy" : "font-medium text-slate-600 hover:text-msv-navy"
-                }`}
+                className={`block rounded-md px-3 py-2 text-[13px] transition ${desktopNavMegaMenuItemClass(subActive)}`}
                 aria-current={subActive ? "page" : undefined}
               >
                 {item.label}

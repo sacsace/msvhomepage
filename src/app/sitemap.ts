@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { absoluteSiteUrl } from "@/lib/seo-metadata";
 import { getCachedAnnouncementsList, getCachedArticlesList } from "@/lib/public-page-data-cache";
+import { SERVICE_GUIDE_SLUGS } from "@/lib/i18n/service-guides-locale";
 import { groupCompanies } from "@/lib/site-content";
 import type { SiteLocale } from "@/lib/site-locale";
 import { withLocalePrefix } from "@/lib/site-locale";
@@ -50,6 +51,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/services", changeFrequency: "monthly", priority: 0.9 },
     { path: "/services/corporate-incorporation", changeFrequency: "monthly", priority: 0.8 },
     { path: "/services/corporate-incorporation/apply", changeFrequency: "monthly", priority: 0.72 },
+    { path: "/services/corporate-liquidation", changeFrequency: "monthly", priority: 0.78 },
+    { path: "/services/corporate-merger", changeFrequency: "monthly", priority: 0.78 },
     { path: "/services/frro", changeFrequency: "monthly", priority: 0.78 },
     { path: "/services/form-41-registration", changeFrequency: "monthly", priority: 0.76 },
     { path: "/services/ecb", changeFrequency: "monthly", priority: 0.76 },
@@ -59,6 +62,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/services/corporate-tax-calculator", changeFrequency: "monthly", priority: 0.72 },
     { path: "/services/professional-tax-calculator", changeFrequency: "monthly", priority: 0.7 },
     { path: "/services/india-accounting-glossary", changeFrequency: "monthly", priority: 0.72 },
+    ...SERVICE_GUIDE_SLUGS.map((slug) => ({
+      path: `/services/${slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.74,
+    })),
     { path: "/contact", changeFrequency: "monthly", priority: 0.85 },
     { path: "/software", changeFrequency: "monthly", priority: 0.75 },
     { path: "/software/mvs", changeFrequency: "monthly", priority: 0.72 },

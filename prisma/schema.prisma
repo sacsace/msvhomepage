@@ -152,4 +152,5 @@ model SitePageView {
 
   @@index([createdAt])
   @@index([path])
+  @@index([referrer])
 }

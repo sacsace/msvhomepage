@@ -94,7 +94,7 @@ export function PageHeader({
       className={
         editorial
           ? "mx-auto max-w-5xl px-6 text-center sm:px-10 lg:max-w-4xl"
-          : "relative mx-auto max-w-6xl px-5 py-10 text-left sm:px-8 sm:py-12"
+          : "relative mx-auto max-w-6xl min-w-0 px-5 py-10 text-left sm:px-8 sm:py-12"
       }
     >
       {editorial ? (
@@ -181,7 +181,7 @@ export function PageHeader({
         className={
           editorial
             ? "mx-auto max-w-5xl px-6 text-center sm:px-10 lg:max-w-4xl"
-            : "mx-auto max-w-6xl px-5 py-10 text-left sm:px-8 sm:py-12"
+            : "mx-auto max-w-6xl min-w-0 px-5 py-10 text-left sm:px-8 sm:py-12"
         }
       >
         {editorial ? (

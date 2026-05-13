@@ -91,7 +91,7 @@ const ko: RecruitmentSupportServiceCopy = {
 
 const en: RecruitmentSupportServiceCopy = {
   metaTitle: "Recruitment support",
-  metaDescription: `${company.shortName} — India hiring from JD and postings through CV review and pre-screening, so you can focus on final interviews.`,
+  metaDescription: `${company.shortName} · India hiring from JD and postings through CV review and pre-screening, so you can focus on final interviews.`,
   heroEyebrow: "LOCAL RECRUITMENT SUPPORT",
   pageTitle: "Recruitment support",
   pageDescription:
@@ -133,7 +133,7 @@ const en: RecruitmentSupportServiceCopy = {
   processClosing: "Your team can focus on final interviews and the decisions that matter most.",
   scopeTitle: "What we cover",
   scopeBlurb:
-    "Key support areas we provide across India hiring operations—from sourcing through shortlisting and coordination.",
+    "Key support areas we provide across India hiring operations, from sourcing through shortlisting and coordination.",
   scopeItems: [
     "Job description (JD) drafting support",
     "Posting setup and ongoing management",
@@ -152,7 +152,7 @@ const en: RecruitmentSupportServiceCopy = {
 
 const zh: RecruitmentSupportServiceCopy = {
   metaTitle: "招聘支持服务",
-  metaDescription: `${company.shortName} — 从职位说明、发布与渠道运营到简历筛选与初试，协助您把精力放在终面。`,
+  metaDescription: `${company.shortName} · 从职位说明、发布与渠道运营到简历筛选与初试，协助您把精力放在终面。`,
   heroEyebrow: "LOCAL RECRUITMENT SUPPORT",
   pageTitle: "招聘支持服务",
   pageDescription:

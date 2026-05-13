@@ -43,6 +43,12 @@ function isRawQueryMissingRelation(e: unknown): boolean {
 export function isRecoverableDbError(e: unknown): boolean {
   const msg = e instanceof Error ? e.message : String(e);
   const name = e instanceof Error ? e.name : "";
+  const prismaCode =
+    typeof e === "object" && e !== null && "code" in e ? String((e as { code: unknown }).code) : "";
+  /** Prisma 엔진(로컬 바이너리)과 Node 간 연결 지연 — 느린 디스크·HMR·백신 스캔 시 dev 에서 잦음 */
+  if (prismaCode === "UND_ERR_CONNECT_TIMEOUT") {
+    return shouldRecoverFromDbReadFailure();
+  }
   if (name === "PrismaClientInitializationError") {
     return true;
   }
@@ -58,7 +64,7 @@ export function isRecoverableDbError(e: unknown): boolean {
   if (isPrismaErrorCode(e, "P2022")) {
     return shouldRecoverFromDbReadFailure();
   }
-  return /P1000|P1012|P1001|Authentication failed|Can't reach database server|ECONNREFUSED|PrismaClientInitializationError|Timed out fetching a new connection|Too many database connections|too many clients already|remaining connection slots|53300/i.test(
+  return /P1000|P1012|P1001|Authentication failed|Can't reach database server|ECONNREFUSED|PrismaClientInitializationError|Timed out fetching a new connection|Connect Timeout Error|UND_ERR_CONNECT|Too many database connections|too many clients already|remaining connection slots|53300/i.test(
     msg,
   );
 }
@@ -92,6 +98,17 @@ export async function withRecoverableDbRead<T>(
       if (isPrismaErrorCode(e, "P2022") && process.env.NODE_ENV === "development") {
         console.warn(
           "[MSV] 컬럼 누락(P2022) — `web`에서 `node scripts/merged-env-run.cjs npx prisma db push` 로 DB를 스키마에 맞추세요.",
+        );
+      }
+      if (
+        typeof e === "object" &&
+        e !== null &&
+        "code" in e &&
+        String((e as { code: unknown }).code) === "UND_ERR_CONNECT_TIMEOUT" &&
+        process.env.NODE_ENV === "development"
+      ) {
+        console.warn(
+          "[MSV] Prisma 엔진 연결 타임아웃 — 보통 느린 디스크·HMR·일시 과부하입니다. dev 재시작 또는 `.next` 정리 후 재시도하세요.",
         );
       }
       return fallback;

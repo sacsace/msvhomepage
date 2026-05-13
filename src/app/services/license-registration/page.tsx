@@ -63,7 +63,9 @@ export default async function LicenseRegistrationServicePage() {
                 key={group.heading}
                 className="flex min-h-[240px] flex-col rounded-xl border border-slate-200/90 bg-slate-50/50 px-4 py-4 sm:px-5 sm:py-5"
               >
-                <h3 className="text-sm font-bold text-msv-navy">{group.heading}</h3>
+                <h3 className="rounded-lg border border-msv-blue/20 bg-msv-blue-soft/40 px-3 py-2 text-sm font-bold tracking-tight text-msv-navy">
+                  {group.heading}
+                </h3>
                 <ul className="mt-3 flex-1 space-y-1.5 text-sm text-slate-700">
                   {group.items.map((name) => (
                     <li key={name}>
@@ -91,7 +93,9 @@ export default async function LicenseRegistrationServicePage() {
                 key={block.industry}
                 className="flex min-h-[240px] flex-col rounded-xl border border-msv-blue/20 bg-msv-blue-soft/15 px-4 py-5 sm:px-5"
               >
-                <h3 className="text-sm font-bold text-msv-navy">{block.industry}</h3>
+                <h3 className="rounded-lg border border-msv-blue/20 bg-msv-blue-soft/40 px-3 py-2 text-sm font-bold tracking-tight text-msv-navy">
+                  {block.industry}
+                </h3>
                 <ul className="mt-3 flex-1 space-y-1.5 text-sm text-slate-700">
                   {block.items.map((name) => (
                     <li key={name}>

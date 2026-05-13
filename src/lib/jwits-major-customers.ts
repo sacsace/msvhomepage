@@ -19,7 +19,6 @@ type JwitsMajorCustomerSource = {
 const JWITS_MAJOR_CUSTOMER_SOURCES: readonly JwitsMajorCustomerSource[] = [
   { ko: "기아 인디아", en: "Kia India", zh: "起亚印度", faviconDomain: "kia.in" },
   { ko: "두림 야스카와", en: "Durim Yaskawa", zh: "斗林安川（Durim Yaskawa）", faviconDomain: "doolim-yaskawa.com" },
-  { ko: "정현 E&G", en: "Junghyun E&G", zh: "正贤 E&G", faviconDomain: "junghyun.co.kr" },
   {
     ko: "현대엔지니어링 인디아",
     en: "Hyundai Engineering India",
@@ -38,6 +37,19 @@ const JWITS_MAJOR_CUSTOMER_SOURCES: readonly JwitsMajorCustomerSource[] = [
     en: "Rotia Automotive India",
     zh: "Rotia Automotive India",
     /* 공개 웹사이트 미확인 — 로고 생략 */
+  },
+  { ko: "위너지스", en: "Winnergis", zh: "Winnergis" },
+  {
+    ko: "베이스케리어",
+    en: "Base Carrier",
+    zh: "Base Carrier",
+    faviconDomain: "basecarrier.co.kr",
+  },
+  {
+    ko: "MMP",
+    en: "MMP",
+    zh: "MMP",
+    /* 공개 도메인 미확정 시 로고는 생략(플레이스홀더) */
   },
 ] as const;
 

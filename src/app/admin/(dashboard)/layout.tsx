@@ -5,6 +5,7 @@ import { ADMIN_COOKIE, verifyAdminToken } from "@/lib/admin-auth";
 import { getAdminUiLocale } from "@/lib/admin-ui-locale";
 import { adminLayoutCopy, adminNavSections } from "@/lib/admin-ui-strings";
 import { AdminLanguageToggle } from "./AdminLanguageToggle";
+import { AdminSidebarNav } from "./AdminSidebarNav";
 import { LogoutButton } from "./LogoutButton";
 
 export const dynamic = "force-dynamic";
@@ -24,35 +25,16 @@ export default async function AdminDashboardLayout({
   const copy = adminLayoutCopy(uiLocale);
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-6xl flex-col md:flex-row md:gap-px md:bg-zinc-200/80">
-      <aside className="border-b border-zinc-200/80 bg-white/90 px-4 py-7 backdrop-blur-xl backdrop-saturate-150 md:w-56 md:border-b-0 md:border-r-0 md:px-6 md:py-10">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-zinc-400">Admin</p>
-        <nav className="mt-4 flex flex-col">
-          {navSections.map((section, si) => (
-            <div
-              key={si}
-              className={si > 0 ? "mt-5 border-t border-zinc-100 pt-5" : ""}
+    <div className="mx-auto flex min-h-screen max-w-6xl flex-col md:flex-row md:bg-zinc-200">
+      <aside className="border-b border-zinc-300 bg-zinc-50 px-4 py-7 shadow-[6px_0_20px_-14px_rgba(15,23,42,0.35)] md:w-60 md:border-b-0 md:border-r md:border-zinc-300 md:px-5 md:py-10">
+        <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-zinc-600">Admin</p>
+        <div className="mt-4">
+          <AdminSidebarNav sections={navSections} />
+          <div className="mt-6 border-t border-zinc-300 pt-5">
+            <Link
+              href="/"
+              className="text-sm font-medium text-zinc-800 underline-offset-2 hover:text-zinc-950 hover:underline"
             >
-              {section.heading ? (
-                <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-zinc-400">
-                  {section.heading}
-                </p>
-              ) : null}
-              <div className="flex flex-col gap-2.5">
-                {section.links.map((n) => (
-                  <Link
-                    key={n.href}
-                    href={n.href}
-                    className="rounded-lg px-2 py-1.5 text-sm text-zinc-700 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-900"
-                  >
-                    {n.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ))}
-          <div className="mt-6 border-t border-zinc-200 pt-5">
-            <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-800">
               {copy.viewSite}
             </Link>
             <div className="mt-3">
@@ -62,9 +44,9 @@ export default async function AdminDashboardLayout({
               <AdminLanguageToggle locale={uiLocale} />
             </div>
           </div>
-        </nav>
+        </div>
       </aside>
-      <main className="flex-1 bg-zinc-50/90 px-4 py-8 backdrop-blur-sm md:px-10 md:py-12">{children}</main>
+      <main className="flex-1 bg-zinc-100 px-4 py-8 md:px-10 md:py-12">{children}</main>
     </div>
   );
 }

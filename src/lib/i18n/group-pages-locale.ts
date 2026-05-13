@@ -6,11 +6,11 @@ import { wilmatMajorCustomerDisplayRows, type WilmatMajorCustomerDisplayRow } fr
 
 /** `groupCompanies` 슬러그와 동일 순서로 유지 */
 export const GROUP_COMPANY_SLUGS = [
+  "jw-industrial-tech-service",
+  "lotus-korean-hotel",
   "neocle-international",
   "seda-engineering-india",
-  "lotus-korean-hotel",
   "wilmat",
-  "jw-industrial-tech-service",
 ] as const;
 
 export type GroupCompanySlug = (typeof GROUP_COMPANY_SLUGS)[number];
@@ -401,18 +401,22 @@ The PDF at the top of the page is the English product catalogue as of December 2
       metaDescription:
         "JW Industrial Tech Service Private Limited — 자동차 생산 설비 기계·전기 설치·개조·수리, 도장·조립 라인, 엔지니어링 AMC.",
       role: "도장·공장 설비 설치 및 엔지니어링",
-      intro: `JWITS(JW Industrial Tech Service Private Limited)는 인도에서 자동차 생산 설비를 중심으로 한 기계·전기 설비의 설치, 이전, 개조, 수리를 수행합니다. 도장·조립·프레스·바디 샵과 FCS·CPC 컨베이어, 전극 도장 라인·워크스테이션·오븐·덕트 배관 등 주요 설비를 다룹니다.
+      intro: `JWITS (JW Industrial Tech Service Private Limited)는 인도에서 자동차 생산 설비를 중심으로 기계·전기 설비의 설치, 이전, 개조 및 수리 업무를 수행하고 있습니다.
 
-지그·고정구 설계·제작, 팔레트·트롤리·안전 가드·도어·그레이팅·스테인리스 탱크 제작, 차량 생산 설비용 한국산 산업 소모품 공급, 현장 공정 개발·양산 대응, 엔지니어링 AMC까지 제공합니다.
+주요 수행 분야는 도장(Paint Shop), 조립(Assembly), 프레스(Press), 바디샵(Body Shop) 설비를 비롯하여 FCS·CPC 컨베이어, 도장 라인 컨베이어, 워크스테이션, 오븐, 덕트 및 배관 설비 등의 설치 작업입니다.
+
+또한 상용 인력, 장비, 도비 등 운송 업무부터 기계 하역, 설치까지 턴키(Turn-key) 방식으로 인도 전역 대응이 가능하며, 2008년부터 약 20년간 다양한 설치 실적을 보유하고 있습니다.
+
+이 외에도 제관물, 지그(Jig), 고정구(Fixture) 설계 및 제작, 팔레트·트롤리·안전 가드·도어·그레이팅·스테인리스 탱크 제작, 차량 생산 설비용 한국산 산업 소모품 공급, 현장 공정 개발 및 양산 대응, 엔지니어링 AMC 서비스 등을 제공하고 있습니다.
 
 페이지 상단의 PDF는 2025년 8월 기준 영문 비즈니스 소개 자료입니다. 실적·조직·거점·주요 고객사 등이 수록되어 있으니, 대외 공유 시에는 최신본과 맞춰 주세요.`,
       highlights: [
-        "자동차 생산 설비 기계·전기 설치·이전·개조·수리",
-        "도장·조립·프레스·바디 샵 라인",
-        "FCS·CPC 컨베이어 및 전극 도장·오븐·덕트 등 주요 설비",
-        "지그·고정구 설계·제작, 팔레트·트롤리·안전 가드·SS 탱크 등",
+        "상용 인력·장비·도비·운송을 포함한 기계·전기 설비 턴키(Turn-key) 설치 작업",
+        "자동차 생산 설비(도장·조립·프레스·바디샵 라인) 기계·전기 설비 설치·이전·개조·수리",
+        "FCS·CPC 컨베이어 및 전착도장(E-coating)·오븐·덕트·배관 등 주요 설비 공사",
+        "제관물·지그(Jig)·고정구(Fixture) 설계 및 제작, 팔레트·트롤리·안전 가드·SS 탱크 제작",
         "차량 생산 설비 관련 한국산 산업 소모품 공급",
-        "현장 공정 개발·양산 대응, 엔지니어링 AMC",
+        "현장 공정 개발·양산 대응 및 엔지니어링 AMC 서비스 제공",
       ],
       majorCustomerRows: jwitsMajorCustomerDisplayRows("ko"),
       logoAlt: "JW Industrial Tech Service 로고",
@@ -427,12 +431,12 @@ We also design and build jigs and fixtures, pallets, trolleys, safety guards, do
 
 The PDF at the top is the English business introduction as of August 2025 (track record, organisation, locations and key customers). Align with the latest version before external distribution.`,
       highlights: [
-        "Mechanical & electrical install, relocation, retrofit & repair for automotive plants",
-        "Paint, assembly, press and body shop lines",
-        "FCS/CPC conveyors, electrode coating, ovens, ducting and major equipment",
-        "Jigs & fixtures, pallets, trolleys, guards, doors, gratings, SS tanks",
+        "Turn-key mechanical & electrical installation including commercial manpower, equipment, tools and transport",
+        "Automotive production equipment (paint, assembly, press, body shop lines) — ME installation, relocation, retrofit & repair",
+        "FCS/CPC conveyors, e-coating lines, ovens, ducts and piping for major equipment works",
+        "Custom fabrications, jigs & fixtures, pallets, trolleys, safety guards, SS tank fabrication",
         "Korean industrial consumables for vehicle production equipment",
-        "On-site process development, ramp-up support, engineering AMC",
+        "On-site process development, mass-production ramp-up and engineering AMC services",
       ],
       majorCustomerRows: jwitsMajorCustomerDisplayRows("en"),
       logoAlt: "JW Industrial Tech Service logo",
@@ -447,12 +451,12 @@ The PDF at the top is the English business introduction as of August 2025 (track
 
 页面顶部 PDF 为 2025 年 8 月版英文业务介绍（业绩、组织、据点与主要客户等），对外分享前请与最新版本核对。`,
       highlights: [
-        "汽车工厂机电安装、搬迁、改造与维修",
-        "涂装、总装、冲压与车身产线",
-        "FCS/CPC 输送、电极涂装、烘箱与风管等主设备",
-        "治具夹具设计制造，托盘、台车、护栏、不锈钢罐等",
+        "含商用人力、设备、机具与物流的机电设备交钥匙(Turn-key)安装",
+        "汽车产线(涂装、总装、冲压、车身)机电安装、搬迁、改造与维修",
+        "FCS/CPC 输送线、电泳涂装(E-coating)、烘箱、风管与管道等主设备安装工程",
+        "定制构件、治具(Jig)、夹具(Fixture)设计制造，托盘、台车、安全护栏、不锈钢罐制作",
         "车辆产线用韩国工业耗材供应",
-        "现场工艺开发与量产支持、工程 AMC",
+        "现场工艺开发、量产爬坡与工程 AMC 服务",
       ],
       majorCustomerRows: jwitsMajorCustomerDisplayRows("zh"),
       logoAlt: "JW Industrial Tech Service 标志",

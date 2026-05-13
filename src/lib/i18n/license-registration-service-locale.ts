@@ -11,7 +11,7 @@ export type LicenseCardItem = {
   comingSoon?: boolean;
 };
 
-/** 모달·타임라인 등 — 클라이언트에 전달 가능한 lookup만 포함 */
+/** 모달·타임라인 등 · 클라이언트에 전달 가능한 lookup만 포함 */
 export type LicenseRegistrationModalLookups = {
   ui: {
     /** 카드 버튼 aria-label 접미(항목명과 조합) */
@@ -122,7 +122,7 @@ const licenseCardShell = [
 
 type CardName = (typeof licenseCardShell)[number]["name"];
 
-/** 모달 하단 「관련 등록」— 값은 카드 `name`과 동일(앵커·스크롤 연동). */
+/** 모달 하단 「관련 등록」 ·  값은 카드 `name`과 동일(앵커·스크롤 연동). */
 const LICENSE_MODAL_RELATED_BY_NAME = {
   BIS: ["ISO", "Factory License", "Legal Metrology"],
   CDSCO: ["FSSAI", "Legal Metrology", "Trading License"],
@@ -469,24 +469,24 @@ const modalEn: LicenseRegistrationModalLookups = {
   },
   detailByName: {
     FSSAI: [
-      "FSSAI licensing sits across the food value chain—manufacturing, processing, storage, distribution and import—with categories driven by scale (basic/state/central) and product risk.",
+      "FSSAI licensing sits across the food value chain · manufacturing, processing, storage, distribution and import · with categories driven by scale (basic/state/central) and product risk.",
       "At application stage you must lock the licence type using premises, product range, hygiene evidence and operating model; wrong categorisation often causes rework and delays.",
-      "After approval, labelling, renewal cycles and change intimation (address, products, entity data) remain material—design post-market routines together with the first registration.",
+      "After approval, labelling, renewal cycles and change intimation (address, products, entity data) remain material · design post-market routines together with the first registration.",
     ],
     GST: [
-      "GST registration is not only a number—it sets up how you treat supplies (goods/services), channels (B2B/B2C) and multi-state operations for tax operations.",
+      "GST registration is not only a number · it sets up how you treat supplies (goods/services), channels (B2B/B2C) and multi-state operations for tax operations.",
       "Accuracy of HSN/SAC, place of business, authorised signatories and banking/contact data matters up front because it anchors returns, e-invoicing and credit workflows.",
-      "After registration, periodic returns, ITC governance and place-of-supply analysis continue—plan monthly operating rhythms alongside enrolment.",
+      "After registration, periodic returns, ITC governance and place-of-supply analysis continue · plan monthly operating rhythms alongside enrolment.",
     ],
     IEC: [
       "The IEC is the baseline identifier for Indian cross-border trade and should be in place before banks, customs and logistics workflows scale.",
-      "Issuance can be quick, but alignment with corporate master data matters for banks, shipping and ICEGATE—mismatches often surface downstream as operational delays.",
+      "Issuance can be quick, but alignment with corporate master data matters for banks, shipping and ICEGATE · mismatches often surface downstream as operational delays.",
       "Review company particulars, responsible contacts and expected product flows at IEC stage to keep later steps smooth.",
     ],
     ICEGATE: [
-      "ICEGATE is the gateway for Indian customs e-filing—declarations, tracking and clearance-related electronic work build on it.",
+      "ICEGATE is the gateway for Indian customs e-filing · declarations, tracking and clearance-related electronic work build on it.",
       "Account roles, user mapping and whether the filer is the importer/exporter or a broker must be configured correctly up front to avoid clearance friction.",
-      "After go-live, user lifecycle, delegation and profile updates need governance—plan operating controls alongside registration.",
+      "After go-live, user lifecycle, delegation and profile updates need governance · plan operating controls alongside registration.",
     ],
     RCMC: [
       "RCMC is obtained by joining the export promotion council mapped to your product or industry segment.",
@@ -494,17 +494,17 @@ const modalEn: LicenseRegistrationModalLookups = {
       "After issuance, renewals, changes and how you leverage export schemes should be tracked together.",
     ],
     EPCG: [
-      "EPCG offers customs benefits on capital goods imports against an export obligation—export and capex plans should be reviewed together before filing.",
+      "EPCG offers customs benefits on capital goods imports against an export obligation · export and capex plans should be reviewed together before filing.",
       "Approval hinges on equipment scope, end-use and a credible obligation fulfilment plan; post-approval, tracking and evidence are the main control points.",
       "Treat EPCG as an obligation-led licence and embed monitoring from day one.",
     ],
     MOOWR: [
       "MOOWR enables manufacturing or processing in bonded warehouses with duty deferral benefits where the operating model fits.",
-      "Feasibility depends on process layout, stock flows and warehouse design—structure review should precede filing.",
+      "Feasibility depends on process layout, stock flows and warehouse design · structure review should precede filing.",
       "Post approval, stock movements, processing records and documentation depth drive compliance risk.",
     ],
     PIMS: [
-      "PIMS is a pre-import monitoring regime for paper—timely registration and shipment alignment are central.",
+      "PIMS is a pre-import monitoring regime for paper · timely registration and shipment alignment are central.",
       "Consistency across HS codes, quantities and sailing dates matters; drift between registration and actual shipment disrupts operations.",
       "Repeat importers benefit from standardised SKU playbooks and internal checklists.",
     ],
@@ -725,7 +725,7 @@ const ko: LicenseRegistrationServiceCopy = {
 
 const en: LicenseRegistrationServiceCopy = {
   metaTitle: "Licence registration",
-  metaDescription: `${company.shortName} — step-by-step support for Indian licences and regulatory registrations.`,
+  metaDescription: `${company.shortName} · step-by-step support for Indian licences and regulatory registrations.`,
   pageTitle: "Licence registration",
   pageDescription:
     "We review licences and permits required for your sector and operating model,\nand support registrations, renewals and compliance responses with a practice-led approach.",
@@ -779,7 +779,7 @@ const en: LicenseRegistrationServiceCopy = {
   industryExamplesEyebrow: "Industry playbook",
   industryExamplesTitle: "Typical licence bundles by sector",
   industryExamplesIntro:
-    "Illustrative combinations we see reviewed first for common entry profiles—your stack will still depend on facts on the ground.",
+    "Illustrative combinations we see reviewed first for common entry profiles · your stack will still depend on facts on the ground.",
   industryExamples: [
     {
       industry: "Manufacturing",
@@ -815,7 +815,7 @@ const en: LicenseRegistrationServiceCopy = {
 
 const zh: LicenseRegistrationServiceCopy = {
   metaTitle: "许可证登记服务",
-  metaDescription: `${company.shortName} — 在印度当地分步协助办理各类许可证与登记。`,
+  metaDescription: `${company.shortName} · 在印度当地分步协助办理各类许可证与登记。`,
   pageTitle: "许可证登记服务",
   pageDescription:
     "按行业与运营形态梳理所需许可与登记，\n以实务为导向协助办理、续期及合规应对。",
