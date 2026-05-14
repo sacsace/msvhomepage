@@ -42,7 +42,7 @@ export function ServicesNavDesktop() {
           <div className="grid grid-cols-1 gap-x-6 gap-y-0 px-2 sm:grid-cols-2">
             {groups.map((g) => (
               <div key={g.heading} className="min-w-0 pb-2 pt-1">
-                <p className="px-2 pb-1.5 pt-1 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400">{g.heading}</p>
+                <p className="px-2 pb-1.5 pt-1 text-[10px] font-bold uppercase tracking-[0.12em] text-red-600">{g.heading}</p>
                 <div className="space-y-0.5">
                   {g.items.map((item) => {
                     const subActive = isNavActive(pathname, item.href);

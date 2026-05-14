@@ -135,7 +135,7 @@ export function SiteHeader({ locale }: Props) {
                     </MobileNavLink>
                     {servicesNavGroups(locale).map((g) => (
                       <div key={g.heading}>
-                        <div className="px-3 pb-0.5 pt-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                        <div className="px-3 pb-0.5 pt-2 text-[10px] font-bold uppercase tracking-wider text-red-600">
                           {g.heading}
                         </div>
                         {g.items.map((it) => (
