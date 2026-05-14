@@ -25,7 +25,7 @@ export function ClientsListView({ list, labels }: Props) {
   }
 
   return (
-    <ul className="mt-4 grid list-none grid-flow-col grid-rows-[auto_auto] auto-cols-[12.5rem] gap-x-4 gap-y-4 overflow-x-auto p-0 pb-2 sm:auto-cols-[13.5rem] sm:gap-x-5 sm:gap-y-5">
+    <ul className="mt-4 grid list-none grid-cols-2 gap-3 p-0 sm:grid-cols-5 sm:gap-3 md:gap-4">
       {list.map((c) => {
         const anchor = `c-${c.id}`;
         const showLogo = Boolean(c.logoSrc && publicFileExists(c.logoSrc));
@@ -34,28 +34,28 @@ export function ClientsListView({ list, labels }: Props) {
           <li
             key={c.id}
             id={anchor}
-            className="scroll-mt-28 flex min-w-0 max-w-[12.5rem] flex-col gap-2.5 rounded-xl border border-slate-200 bg-slate-50/40 p-3 sm:max-w-[13.5rem] sm:p-4"
+            className="scroll-mt-28 flex min-w-0 flex-col gap-2 rounded-xl border border-slate-200 bg-slate-50/40 p-2 sm:gap-2.5 sm:p-3"
           >
             {showLogo && c.logoSrc ? (
-              <div className="relative mx-auto h-16 w-28 shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-white">
+              <div className="relative mx-auto aspect-[4/3] w-full max-w-[5.75rem] shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-white sm:max-w-[6.5rem]">
                 <Image
                   src={c.logoSrc}
                   alt={`${c.name} ${labels.logoAltSuffix}`}
                   fill
-                  className="object-contain p-1.5"
-                  sizes="112px"
+                  className="object-contain p-1"
+                  sizes="(max-width: 768px) 40vw, 18vw"
                   unoptimized
                 />
               </div>
             ) : (
-              <div className="mx-auto flex h-16 w-28 shrink-0 items-center justify-center rounded-lg border border-dashed border-slate-200 bg-white text-[11px] text-slate-400">
+              <div className="mx-auto flex aspect-[4/3] w-full max-w-[5.75rem] shrink-0 items-center justify-center rounded-lg border border-dashed border-slate-200 bg-white px-1 text-[10px] leading-tight text-slate-400 sm:max-w-[6.5rem] sm:text-[11px]">
                 {labels.noLogoPlaceholder}
               </div>
             )}
             <div className="min-w-0 flex-1 text-center">
-              <h3 className="text-xs font-semibold text-msv-navy sm:text-sm">{c.name}</h3>
+              <h3 className="text-[11px] font-semibold leading-snug text-msv-navy sm:text-xs md:text-[13px]">{c.name}</h3>
               {c.sector ? (
-                <p className="mt-1 line-clamp-3 text-[11px] leading-relaxed text-slate-600 break-keep sm:text-xs">
+                <p className="mt-1 line-clamp-2 text-[10px] leading-relaxed text-slate-600 break-keep sm:text-[11px]">
                   {c.sector}
                 </p>
               ) : null}
@@ -64,13 +64,15 @@ export function ClientsListView({ list, labels }: Props) {
                   href={c.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-flex rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue sm:text-sm"
+                  className="mt-1.5 inline-flex max-w-full rounded-md border border-slate-200 bg-white px-2 py-1 text-[10px] font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue sm:text-xs"
                 >
                   {labels.websiteLinkLabel}
                 </a>
               ) : null}
               {c.note ? (
-                <p className="mt-2 line-clamp-4 text-xs leading-relaxed text-slate-600 break-keep">{c.note}</p>
+                <p className="mt-1.5 line-clamp-3 text-[10px] leading-relaxed text-slate-600 break-keep sm:text-[11px]">
+                  {c.note}
+                </p>
               ) : null}
             </div>
           </li>
