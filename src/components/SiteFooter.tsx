@@ -86,6 +86,18 @@ export async function SiteFooter() {
                     })}
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href={L("/software/payroll-mailer")}
+                    className="text-xs text-slate-400 transition hover:text-white hover:underline"
+                  >
+                    {pickLocale(locale, {
+                      ko: "급여 명세서 이메일 발송 시스템",
+                      en: "Payroll payslip email",
+                      zh: "工资单邮件发送",
+                    })}
+                  </Link>
+                </li>
               </ul>
             </li>
             <li>

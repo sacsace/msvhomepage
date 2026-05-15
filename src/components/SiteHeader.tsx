@@ -120,6 +120,13 @@ export function SiteHeader({ locale }: Props) {
                         zh: "考勤系统（HereNow）",
                       })}
                     </MobileNavLink>
+                    <MobileNavLink href="/software/payroll-mailer">
+                      {pickLocale(locale, {
+                        ko: "급여 명세서 이메일 발송 시스템",
+                        en: "Payroll payslip email",
+                        zh: "工资单邮件发送",
+                      })}
+                    </MobileNavLink>
                   </div>
                 ) : item.href === "/services" ? (
                   <div key="services" className="py-1">

@@ -336,7 +336,7 @@ export const teamGreetingLead =
 /** Software 상위 페이지 (`/software`) */
 export const softwareLanding = {
   headerSummary:
-    "회계·세무·현장 실행을 뒷받침하는 소프트웨어 라인과 운영 도구를 소개합니다. 아래에서 그룹웨어(MVS)와 출퇴근 기록 시스템(HereNow)을 선택해 주세요.",
+    "회계·세무·현장 실행을 뒷받침하는 소프트웨어 라인과 운영 도구를 소개합니다. 그룹웨어(MVS), 출퇴근 기록(HereNow), 급여 명세서 이메일 발송 도구를 선택해 주세요.",
   cards: [
     {
       href: "/software/mvs",
@@ -347,6 +347,11 @@ export const softwareLanding = {
       href: "/software/herenow",
       title: "출퇴근 기록 시스템 (HereNow)",
       desc: "회사(테넌트) 단위로 격리되는 출퇴근·근태 관리 웹앱입니다.",
+    },
+    {
+      href: "/software/payroll-mailer",
+      title: "급여 명세서 이메일 발송 시스템",
+      desc: "엑셀 급여표를 업로드해 직원별 HTML 메일과 PDF 명세를 발송합니다. 브라우저·요청 메모리에서만 처리하며 사이트 DB에는 저장하지 않습니다.",
     },
   ] as const,
 };

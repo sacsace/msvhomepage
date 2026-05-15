@@ -75,7 +75,7 @@ const allowedDevOrigins = [
 const nextConfig: NextConfig = {
   allowedDevOrigins,
   // Prisma Client 는 `prisma/schema.prisma` 의 `output` (`prisma/generated/client`) 로 생성됩니다.
-  serverExternalPackages: [],
+  serverExternalPackages: ["puppeteer-core", "@sparticuz/chromium"],
   /**
    * instrumentation·DB 점검 체인은 **클라이언트**·**Edge** 번들에서도 그래프에 잡힐 수 있습니다.
    * Next가 넘기는 `isServer`는 Node 서버·Edge 서버 모두 `true`이므로, `nextRuntime === "edge"` 일 때도
