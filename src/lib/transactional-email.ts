@@ -99,6 +99,7 @@ export type SendTransactionalEmailInput = {
   to: string[];
   subject: string;
   text: string;
+  html?: string;
   replyTo?: string;
   /** SMTP: nodemailer `from` 헤더. API: 선택(없으면 `envelopeFrom`만 사용) */
   fromHeader?: string;
@@ -128,6 +129,7 @@ async function sendViaResend(input: SendTransactionalEmailInput): Promise<void> 
     subject: input.subject,
     text: input.text,
   };
+  if (input.html) body.html = input.html;
   if (input.replyTo?.trim()) body.reply_to = [input.replyTo.trim()];
   const att = attachmentsToBase64(input.attachments);
   if (att.length) {
@@ -177,7 +179,10 @@ async function sendViaSendGrid(input: SendTransactionalEmailInput): Promise<void
     personalizations,
     from: { email: fromEmail, ...(fromName ? { name: fromName } : {}) },
     subject: input.subject,
-    content: [{ type: "text/plain", value: input.text }],
+    content: [
+      { type: "text/plain", value: input.text },
+      ...(input.html ? [{ type: "text/html", value: input.html }] : []),
+    ],
   };
 
   const att = attachmentsToBase64(input.attachments);
@@ -212,6 +217,7 @@ async function sendViaPostmark(input: SendTransactionalEmailInput): Promise<void
     TextBody: input.text,
     MessageStream: process.env.POSTMARK_MESSAGE_STREAM?.trim() || "outbound",
   };
+  if (input.html) body.HtmlBody = input.html;
   if (input.replyTo?.trim()) body.ReplyTo = input.replyTo.trim();
 
   const att = input.attachments;
@@ -270,6 +276,7 @@ async function sendViaSmtp(input: SendTransactionalEmailInput): Promise<void> {
     to: input.to,
     subject: input.subject,
     text: input.text,
+    ...(input.html ? { html: input.html } : {}),
     ...(input.attachments?.length
       ? {
           attachments: input.attachments.map((a) => ({

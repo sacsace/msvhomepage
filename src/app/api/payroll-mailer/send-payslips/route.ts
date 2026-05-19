@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import type { SendResult } from "@/types/payroll-mailer";
 import type { SiteLocale } from "@/lib/site-locale";
-import { createMailTransporter, resolveSmtpConfig, smtpSettingsSchema } from "@/lib/payroll-mailer/smtp";
+import { payrollSendFailureMessage, sendPayrollEmail, verifyPayrollMailDelivery } from "@/lib/payroll-mailer/delivery";
 import { renderMailHtmlDocument, renderMailPlainText } from "@/lib/payroll-mailer/email-compose";
 import { renderTemplate } from "@/lib/payroll-mailer/template";
 import { launchPayrollPdfBrowser } from "@/lib/payroll-mailer/launch-payroll-browser";
@@ -38,8 +38,17 @@ const employeeSchema = z.object({
 
 const siteLocaleSchema = z.enum(["ko", "en", "zh"]);
 
+const payrollSmtpInputSchema = z.object({
+  host: z.string().optional(),
+  port: z.number().int().positive().optional(),
+  secure: z.boolean().optional(),
+  user: z.string().optional(),
+  pass: z.string().optional(),
+  from: z.string().min(1, "발신 주소(From)가 필요합니다."),
+});
+
 const sendRequestSchema = z.object({
-  smtp: smtpSettingsSchema.optional(),
+  smtp: payrollSmtpInputSchema.optional(),
   employees: z.array(employeeSchema).min(1),
   subjectTemplate: z.string().min(1),
   bodyTemplate: z.string().min(1),
@@ -74,10 +83,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "발송 대상 직원이 없습니다." }, { status: 400 });
     }
 
-    const smtp = resolveSmtpConfig(smtpInput);
-    const transporter = createMailTransporter(smtp);
-
-    await transporter.verify();
+    await verifyPayrollMailDelivery(smtpInput);
 
     const results: SendResult[] = [];
     const browser = await launchPayrollPdfBrowser();
@@ -107,8 +113,8 @@ export async function POST(request: Request) {
               `${employee.employeeId}_${employee.employeeName}_${employee.payrollMonth || employee.month}`,
             );
 
-            await transporter.sendMail({
-              from: smtp.from,
+            await sendPayrollEmail({
+              smtpInput,
               to: employee.email,
               subject,
               text: textBody,
@@ -156,7 +162,7 @@ export async function POST(request: Request) {
   } catch (error) {
     return NextResponse.json(
       {
-        message: error instanceof Error ? error.message : "서버 오류가 발생했습니다.",
+        message: payrollSendFailureMessage(error),
       },
       { status: 500 },
     );

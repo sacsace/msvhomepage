@@ -3,6 +3,7 @@ import "server-only";
 import nodemailer from "nodemailer";
 import { z } from "zod";
 import type { SmtpSettings } from "@/types/payroll-mailer";
+import { smtpConnectTarget, smtpSocketIpv4Only } from "@/lib/mail-settings-store";
 
 export const smtpSettingsSchema = z.object({
   host: z.string().min(1, "SMTP host is required."),
@@ -14,23 +15,25 @@ export const smtpSettingsSchema = z.object({
 });
 
 export const resolveSmtpFromEnv = (): Partial<SmtpSettings> => {
-  const host = process.env.SMTP_HOST;
+  const host = process.env.SMTP_HOST?.trim();
   const port = Number(process.env.SMTP_PORT ?? 587);
-  const user = process.env.SMTP_USER;
-  const from = process.env.SMTP_FROM;
+  const user = process.env.SMTP_USER?.trim();
+  const from =
+    process.env.SMTP_FROM?.trim() ||
+    process.env.MSV_TRANSACTIONAL_FROM?.trim() ||
+    "";
 
-  if (!host || !user || !from || Number.isNaN(port)) {
-    return {};
+  const partial: Partial<SmtpSettings> = {};
+  if (from) partial.from = from;
+  if (host && user && !Number.isNaN(port)) {
+    partial.host = host;
+    partial.port = port;
+    partial.secure = process.env.SMTP_SECURE === "true";
+    partial.user = user;
+    partial.pass = process.env.SMTP_PASS ?? "";
   }
 
-  return {
-    host,
-    port,
-    secure: process.env.SMTP_SECURE === "true",
-    user,
-    from,
-    pass: process.env.SMTP_PASS ?? "",
-  };
+  return partial;
 };
 
 export const resolveSmtpConfig = (input?: Partial<SmtpSettings>): SmtpSettings => {
@@ -53,16 +56,28 @@ export const resolveSmtpConfig = (input?: Partial<SmtpSettings>): SmtpSettings =
   return parsed.data;
 };
 
-export const createMailTransporter = (smtp: SmtpSettings) =>
-  nodemailer.createTransport({
-    host: smtp.host,
+/** Same strategy as admin transactional SMTP: IPv4 + A-record host to avoid ENETUNREACH on IPv6 (e.g. Railway). */
+const smtpTimeouts = () => ({
+  connectionTimeout: 12_000,
+  greetingTimeout: 10_000,
+  socketTimeout: 27_000,
+});
+
+export async function createMailTransporter(smtp: SmtpSettings) {
+  const tcp = await smtpConnectTarget(smtp.host);
+  const timeouts = smtpTimeouts();
+  return nodemailer.createTransport({
+    host: tcp.host,
+    ...(tcp.servername ? { servername: tcp.servername } : {}),
     port: smtp.port,
     secure: smtp.secure,
-    /** Port 587 (STARTTLS): helps Gmail/Outlook on cloud hosts. */
     requireTLS: !smtp.secure && smtp.port === 587,
+    ...timeouts,
+    ...smtpSocketIpv4Only,
     auth: {
       user: smtp.user,
       pass: smtp.pass,
     },
   });
+}
 

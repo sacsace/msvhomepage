@@ -44,13 +44,23 @@ export type PayslipEmailLabels = {
 
 export type PayrollMailerMailSettingsCopy = {
   title: string;
-  lead: string;
+  leadSmtp: string;
+  leadApi: string;
+  apiModeHint: string;
+  railwayDiagTitle: string;
+  diagMode: string;
+  diagResendKey: string;
+  diagProvider: string;
+  diagFrom: string;
+  railwayApiKeyMissing: string;
+  railwaySmtpBlocked: string;
   smtpHost: string;
   smtpPort: string;
   smtpUser: string;
   smtpPassword: string;
   smtpPasswordPlaceholder: string;
   from: string;
+  fromApiPlaceholder: string;
   secureLabel: string;
   testEmailLabel: string;
   sendTest: string;
@@ -59,13 +69,19 @@ export type PayrollMailerMailSettingsCopy = {
   reset: string;
   statusReady: string;
   statusIncomplete: string;
+  statusReadyApi: string;
+  statusIncompleteApi: string;
   footerNote: string;
+  footerNoteApi: string;
   presetSuffix: string;
   envHint: string;
+  envHintApi: string;
   saveFillAll: string;
+  saveFillFrom: string;
   savedSession: string;
   cleared: string;
   testNeedSmtp: string;
+  testNeedFrom: string;
   testNeedEmail: string;
   testFail: string;
   testSuccess: string;
@@ -217,13 +233,27 @@ function mailSettings(locale: SiteLocale): PayrollMailerMailSettingsCopy {
   return pickLocale(locale, {
     ko: {
       title: "메일 환경 설정",
-      lead: "SMTP 계정 정보를 입력하고 저장한 뒤, 테스트 메일로 연결을 확인하세요.",
+      leadSmtp: "SMTP 계정 정보를 입력하고 저장한 뒤, 테스트 메일로 연결을 확인하세요.",
+      leadApi:
+        "서버에 Resend 등 HTTPS 메일 API가 설정되어 있습니다. 인증된 발신 주소만 입력·저장한 뒤 테스트 메일로 확인하세요.",
+      apiModeHint:
+        "SMTP 호스트·비밀번호 없이 발송됩니다. 발신 주소는 Resend/SendGrid/Postmark에서 검증한 도메인(예: lee@msventures.in)과 일치해야 합니다. 비어 있으면 MSV_TRANSACTIONAL_FROM 환경 변수가 사용됩니다.",
+      railwayDiagTitle: "서버가 인식한 발송 설정 (Railway 런타임)",
+      diagMode: "발송 모드",
+      diagResendKey: "RESEND_API_KEY",
+      diagProvider: "MSV_EMAIL_PROVIDER",
+      diagFrom: "MSV_TRANSACTIONAL_FROM",
+      railwayApiKeyMissing:
+        "API 키가 서버에 보이지 않습니다. Railway → msvhomepage(웹) 서비스 Variables에 RESEND_API_KEY 등을 넣고 Redeploy 하세요.",
+      railwaySmtpBlocked:
+        "Railway에서는 SMTP(465·587)가 막혀 타임아웃이 날 수 있습니다. RESEND_API_KEY를 설정하고 재배포하면 HTTPS API로 발송됩니다.",
       smtpHost: "SMTP Host",
       smtpPort: "SMTP Port",
       smtpUser: "SMTP User",
       smtpPassword: "SMTP Password",
       smtpPasswordPlaceholder: "앱 비밀번호 또는 API Key",
       from: "발신자 (From)",
+      fromApiPlaceholder: "lee@msventures.in 또는 MS Ventures Payroll <lee@msventures.in>",
       secureLabel: "SSL/TLS 사용 (보통 포트 465일 때 체크)",
       testEmailLabel: "테스트 수신 이메일",
       sendTest: "테스트 메일 발송",
@@ -232,27 +262,48 @@ function mailSettings(locale: SiteLocale): PayrollMailerMailSettingsCopy {
       reset: "설정 초기화",
       statusReady: "SMTP 설정 완료",
       statusIncomplete: "SMTP 설정 미완료",
+      statusReadyApi: "발신 주소 설정 완료 (API 모드)",
+      statusIncompleteApi: "발신 주소를 입력하세요",
       footerNote:
         "설정은 브라우저 sessionStorage에만 저장되며 서버에 영구 저장되지 않습니다. .env.local 값은 서버 기본값으로만 사용됩니다.",
+      footerNoteApi:
+        "발신 주소는 sessionStorage에만 저장됩니다. API 키·발송 모드는 Railway Variables(RESEND_API_KEY, MSV_TRANSACTIONAL_FROM 등)로 서버에 설정합니다.",
       presetSuffix: "프리셋",
       envHint: ".env.local 값이 일부 필드에 자동 입력되었습니다. 비밀번호는 직접 입력하세요.",
+      envHintApi: "서버 환경 변수에서 발신 주소가 자동 입력되었습니다. 필요 시 수정 후 저장하세요.",
       saveFillAll: "필수 항목을 모두 입력한 뒤 저장하세요.",
+      saveFillFrom: "발신 주소(From)를 입력한 뒤 저장하세요.",
       savedSession: "설정이 이 브라우저 세션에 저장되었습니다.",
       cleared: "저장된 설정을 삭제했습니다.",
       testNeedSmtp: "SMTP 설정을 먼저 완료하세요.",
+      testNeedFrom: "발신 주소(From)를 먼저 입력하세요.",
       testNeedEmail: "테스트 수신 이메일을 입력하세요.",
       testFail: "테스트 메일 발송 실패",
       testSuccess: "테스트 메일 발송 성공",
     },
     en: {
       title: "Mail settings",
-      lead: "Enter your SMTP credentials, save, then send a test email to verify connectivity.",
+      leadSmtp: "Enter your SMTP credentials, save, then send a test email to verify connectivity.",
+      leadApi:
+        "This deployment uses an HTTPS mail API (e.g. Resend). Enter a verified From address, save, then send a test email.",
+      apiModeHint:
+        "No SMTP host or password is required. The From address must match a domain verified in Resend/SendGrid/Postmark (e.g. lee@msventures.in). If empty, MSV_TRANSACTIONAL_FROM is used on the server.",
+      railwayDiagTitle: "Server-detected delivery settings (Railway runtime)",
+      diagMode: "Delivery mode",
+      diagResendKey: "RESEND_API_KEY",
+      diagProvider: "MSV_EMAIL_PROVIDER",
+      diagFrom: "MSV_TRANSACTIONAL_FROM",
+      railwayApiKeyMissing:
+        "No API key visible on the server. Add RESEND_API_KEY to the msvhomepage web service Variables on Railway, then Redeploy.",
+      railwaySmtpBlocked:
+        "SMTP ports 465/587 are often blocked on Railway. Set RESEND_API_KEY and redeploy to send via HTTPS API.",
       smtpHost: "SMTP host",
       smtpPort: "SMTP port",
       smtpUser: "SMTP user",
       smtpPassword: "SMTP password",
       smtpPasswordPlaceholder: "App password or API key",
       from: "From address",
+      fromApiPlaceholder: "lee@msventures.in or MS Ventures Payroll <lee@msventures.in>",
       secureLabel: "Use SSL/TLS (often checked for port 465)",
       testEmailLabel: "Test recipient email",
       sendTest: "Send test email",
@@ -261,27 +312,48 @@ function mailSettings(locale: SiteLocale): PayrollMailerMailSettingsCopy {
       reset: "Clear settings",
       statusReady: "SMTP configured",
       statusIncomplete: "SMTP not configured",
+      statusReadyApi: "From address ready (API mode)",
+      statusIncompleteApi: "Enter a From address",
       footerNote:
         "Settings are stored only in the browser sessionStorage and are not persisted on the server. Values from .env.local are used as server defaults only.",
+      footerNoteApi:
+        "Only the From address is stored in sessionStorage. API keys and delivery mode are set via Railway Variables (RESEND_API_KEY, MSV_TRANSACTIONAL_FROM, etc.).",
       presetSuffix: "preset",
       envHint: "Some fields were filled from .env.local. Enter the password manually.",
+      envHintApi: "From address was prefilled from server environment variables. Edit and save if needed.",
       saveFillAll: "Fill all required fields before saving.",
+      saveFillFrom: "Enter a From address before saving.",
       savedSession: "Settings saved for this browser session.",
       cleared: "Saved settings were removed.",
       testNeedSmtp: "Complete SMTP settings first.",
+      testNeedFrom: "Enter a From address first.",
       testNeedEmail: "Enter a test recipient email address.",
       testFail: "Failed to send test email",
       testSuccess: "Test email sent successfully",
     },
     zh: {
       title: "邮件环境设置",
-      lead: "填写 SMTP 账号并保存，然后发送测试邮件以确认连接。",
+      leadSmtp: "填写 SMTP 账号并保存，然后发送测试邮件以确认连接。",
+      leadApi:
+        "当前部署使用 HTTPS 邮件 API（如 Resend）。填写已验证的发件地址并保存，然后发送测试邮件。",
+      apiModeHint:
+        "无需 SMTP 主机或密码。发件地址须与 Resend/SendGrid/Postmark 中已验证的域名一致（如 lee@msventures.in）。若留空，服务器将使用 MSV_TRANSACTIONAL_FROM。",
+      railwayDiagTitle: "服务器识别的发信设置（Railway 运行时）",
+      diagMode: "发信模式",
+      diagResendKey: "RESEND_API_KEY",
+      diagProvider: "MSV_EMAIL_PROVIDER",
+      diagFrom: "MSV_TRANSACTIONAL_FROM",
+      railwayApiKeyMissing:
+        "服务器未检测到 API 密钥。请在 Railway 的 msvhomepage  Web 服务 Variables 中设置 RESEND_API_KEY 并重新部署。",
+      railwaySmtpBlocked:
+        "Railway 上 SMTP（465/587）常被阻断。请设置 RESEND_API_KEY 并重新部署，以通过 HTTPS API 发信。",
       smtpHost: "SMTP 主机",
       smtpPort: "SMTP 端口",
       smtpUser: "SMTP 用户",
       smtpPassword: "SMTP 密码",
       smtpPasswordPlaceholder: "应用专用密码或 API 密钥",
       from: "发件人 (From)",
+      fromApiPlaceholder: "lee@msventures.in 或 MS Ventures Payroll <lee@msventures.in>",
       secureLabel: "使用 SSL/TLS（端口 465 时常用）",
       testEmailLabel: "测试收件邮箱",
       sendTest: "发送测试邮件",
@@ -290,13 +362,20 @@ function mailSettings(locale: SiteLocale): PayrollMailerMailSettingsCopy {
       reset: "清除设置",
       statusReady: "SMTP 已配置",
       statusIncomplete: "SMTP 未配置",
+      statusReadyApi: "发件地址已就绪（API 模式）",
+      statusIncompleteApi: "请输入发件地址",
       footerNote: "设置仅保存在浏览器 sessionStorage，不会在服务器永久存储。.env.local 中的值仅作服务器默认值。",
+      footerNoteApi:
+        "仅发件地址保存在 sessionStorage。API 密钥与发信模式通过 Railway Variables（RESEND_API_KEY、MSV_TRANSACTIONAL_FROM 等）在服务器配置。",
       presetSuffix: "预设",
       envHint: "部分字段已从 .env.local 自动填入，请手动输入密码。",
+      envHintApi: "发件地址已从服务器环境变量自动填入，如需可修改后保存。",
       saveFillAll: "请填写所有必填项后再保存。",
+      saveFillFrom: "请先填写发件地址再保存。",
       savedSession: "设置已保存到本会话。",
       cleared: "已删除已保存的设置。",
       testNeedSmtp: "请先完成 SMTP 设置。",
+      testNeedFrom: "请先填写发件地址。",
       testNeedEmail: "请输入测试收件邮箱。",
       testFail: "测试邮件发送失败",
       testSuccess: "测试邮件发送成功",
@@ -377,7 +456,7 @@ export function payrollMailerPageCopy(locale: SiteLocale): PayrollMailerPageCopy
       netPayLabel: "실수령액",
       earningsHeading: "급여 항목",
       deductionsHeading: "공제 항목",
-      sendCompleteSmtp: "상단 메일 환경 설정을 완료하고 저장한 뒤 발송할 수 있습니다.",
+      sendCompleteSmtp: "상단 메일 환경 설정(발신 주소·SMTP)을 완료하고 저장한 뒤 발송할 수 있습니다.",
       sendBlockedNet: "Net Salary 검증 오류가 있어 발송이 차단되었습니다. 엑셀 데이터를 수정 후 다시 업로드하세요.",
       sendConfirmLabel: "최종 확인: 직원별 개별 메일로 발송하며, 각 메일에는 해당 직원의 PDF만 첨부됩니다.",
       sendAll: "전체 발송",
@@ -388,7 +467,7 @@ export function payrollMailerPageCopy(locale: SiteLocale): PayrollMailerPageCopy
       tableMessage: "메시지",
       statusOk: "성공",
       statusFail: "실패",
-      sendNeedSmtp: "메일 환경 설정을 먼저 완료하고 저장하세요.",
+      sendNeedSmtp: "메일 환경 설정(발신 주소)을 먼저 완료하고 저장하세요.",
       sendErrorGeneric: "발송 중 오류가 발생했습니다.",
     },
     en: {
