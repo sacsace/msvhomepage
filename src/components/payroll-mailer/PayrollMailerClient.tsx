@@ -6,8 +6,7 @@ import { payrollMailerPageCopy } from "@/lib/i18n/payroll-mailer-locale";
 import type { SiteLocale } from "@/lib/site-locale";
 import { formatCurrency, getWorkbookSheetNames, parsePayrollFromBuffer, readPayrollWorkbook } from "@/lib/payroll-mailer/payroll";
 import { renderMailHtmlDocument } from "@/lib/payroll-mailer/email-compose";
-import { isPayrollMailReady } from "@/lib/payroll-mailer/smtp-client";
-import type { TransactionalEmailMode } from "@/lib/transactional-email";
+import { isSmtpConfigured } from "@/lib/payroll-mailer/smtp-client";
 import { renderTemplate } from "@/lib/payroll-mailer/template";
 import type { ParsePayrollResult, SendResult } from "@/types/payroll-mailer";
 import { EMPTY_SMTP_SETTINGS, SMTP_STORAGE_KEY, type SmtpSettings } from "@/types/payroll-mailer";
@@ -25,8 +24,6 @@ type PayrollMailerClientProps = {
 export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
   const copy = useMemo(() => payrollMailerPageCopy(locale), [locale]);
   const [smtpSettings, setSmtpSettings] = useState<SmtpSettings>(EMPTY_SMTP_SETTINGS);
-  const [deliveryMode, setDeliveryMode] = useState<TransactionalEmailMode>("smtp");
-
   useEffect(() => {
     startTransition(() => {
       try {
@@ -51,7 +48,7 @@ export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
   const [sendResults, setSendResults] = useState<SendResult[]>([]);
   const [finalConfirmChecked, setFinalConfirmChecked] = useState(false);
 
-  const smtpReady = isPayrollMailReady(smtpSettings, deliveryMode);
+  const smtpReady = isSmtpConfigured(smtpSettings);
 
   const selectedEmployee = useMemo(
     () => data?.employees.find((employee) => employee.rowNumber === selectedRowNumber) ?? null,
@@ -196,12 +193,7 @@ export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
   return (
     <div className="flex flex-col gap-6">
       <div className="mx-auto w-full max-w-screen-2xl flex-1 space-y-6">
-        <MailSettingsPanel
-          settings={smtpSettings}
-          onChange={setSmtpSettings}
-          mail={copy.mail}
-          onModeChange={setDeliveryMode}
-        />
+        <MailSettingsPanel settings={smtpSettings} onChange={setSmtpSettings} mail={copy.mail} />
 
         <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <StepTitle label={copy.step(1, copy.step1Title)} />

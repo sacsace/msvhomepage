@@ -14,42 +14,40 @@ export const smtpSettingsSchema = z.object({
   from: z.string().min(1, "From address is required."),
 });
 
-export const resolveSmtpFromEnv = (): Partial<SmtpSettings> => {
+/** 개발용 폼 힌트만 — 비밀번호는 넣지 않음. 공개 급여 도구 발송에는 사용하지 않음 */
+export const resolveSmtpHintsFromEnv = (): Partial<SmtpSettings> => {
   const host = process.env.SMTP_HOST?.trim();
   const port = Number(process.env.SMTP_PORT ?? 587);
   const user = process.env.SMTP_USER?.trim();
-  const from =
-    process.env.SMTP_FROM?.trim() ||
-    process.env.MSV_TRANSACTIONAL_FROM?.trim() ||
-    "";
+  const from = process.env.SMTP_FROM?.trim() || "";
 
-  const partial: Partial<SmtpSettings> = {};
-  if (from) partial.from = from;
-  if (host && user && !Number.isNaN(port)) {
-    partial.host = host;
-    partial.port = port;
-    partial.secure = process.env.SMTP_SECURE === "true";
-    partial.user = user;
-    partial.pass = process.env.SMTP_PASS ?? "";
+  if (!host || !user || Number.isNaN(port)) {
+    return from ? { from } : {};
   }
 
-  return partial;
+  return {
+    host,
+    port,
+    secure: process.env.SMTP_SECURE === "true",
+    user,
+    from,
+  };
 };
 
-export const resolveSmtpConfig = (input?: Partial<SmtpSettings>): SmtpSettings => {
-  const fromEnv = resolveSmtpFromEnv();
+/** 요청 본문(사용자 입력)만으로 SMTP 구성 — 서버 Resend/환경 변수로 대체하지 않음 */
+export const resolveUserSmtpConfig = (input?: Partial<SmtpSettings>): SmtpSettings => {
   const merged: SmtpSettings = {
-    host: input?.host || fromEnv.host || "",
-    port: input?.port ?? fromEnv.port ?? 587,
-    secure: input?.secure ?? fromEnv.secure ?? false,
-    user: input?.user || fromEnv.user || "",
-    pass: input?.pass || fromEnv.pass || "",
-    from: input?.from || fromEnv.from || "",
+    host: input?.host?.trim() || "",
+    port: input?.port ?? 587,
+    secure: input?.secure ?? false,
+    user: input?.user?.trim() || "",
+    pass: input?.pass ?? "",
+    from: input?.from?.trim() || "",
   };
 
   const parsed = smtpSettingsSchema.safeParse(merged);
   if (!parsed.success) {
-    const firstIssue = parsed.error.issues[0]?.message ?? "Invalid SMTP settings.";
+    const firstIssue = parsed.error.issues[0]?.message ?? "SMTP 설정이 올바르지 않습니다.";
     throw new Error(firstIssue);
   }
 

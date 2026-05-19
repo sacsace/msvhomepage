@@ -3,6 +3,7 @@ import { z } from "zod";
 import type { SendResult } from "@/types/payroll-mailer";
 import type { SiteLocale } from "@/lib/site-locale";
 import { payrollSendFailureMessage, sendPayrollEmail, verifyPayrollMailDelivery } from "@/lib/payroll-mailer/delivery";
+import { smtpSettingsSchema } from "@/lib/payroll-mailer/smtp";
 import { renderMailHtmlDocument, renderMailPlainText } from "@/lib/payroll-mailer/email-compose";
 import { renderTemplate } from "@/lib/payroll-mailer/template";
 import { launchPayrollPdfBrowser } from "@/lib/payroll-mailer/launch-payroll-browser";
@@ -38,17 +39,8 @@ const employeeSchema = z.object({
 
 const siteLocaleSchema = z.enum(["ko", "en", "zh"]);
 
-const payrollSmtpInputSchema = z.object({
-  host: z.string().optional(),
-  port: z.number().int().positive().optional(),
-  secure: z.boolean().optional(),
-  user: z.string().optional(),
-  pass: z.string().optional(),
-  from: z.string().min(1, "발신 주소(From)가 필요합니다."),
-});
-
 const sendRequestSchema = z.object({
-  smtp: payrollSmtpInputSchema.optional(),
+  smtp: smtpSettingsSchema,
   employees: z.array(employeeSchema).min(1),
   subjectTemplate: z.string().min(1),
   bodyTemplate: z.string().min(1),
