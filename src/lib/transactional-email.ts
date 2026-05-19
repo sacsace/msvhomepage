@@ -16,6 +16,20 @@ export function getTransactionalEmailMode(): TransactionalEmailMode {
   return "smtp";
 }
 
+/** 관리자 화면·진단용 — 비밀 값은 노출하지 않음 */
+export function getTransactionalEmailDiagnostics() {
+  const mode = getTransactionalEmailMode();
+  return {
+    mode,
+    onRailway: Boolean(process.env.RAILWAY_ENVIRONMENT?.trim()),
+    providerEnv: process.env.MSV_EMAIL_PROVIDER?.trim() || null,
+    hasResendKey: Boolean(process.env.RESEND_API_KEY?.trim()),
+    hasSendgridKey: Boolean(process.env.SENDGRID_API_KEY?.trim()),
+    hasPostmarkToken: Boolean(process.env.POSTMARK_SERVER_TOKEN?.trim()),
+    transactionalFrom: process.env.MSV_TRANSACTIONAL_FROM?.trim() || null,
+  };
+}
+
 /** Resend/SendGrid 등에 넣을 발신 주소 — DB `fromAddress` → `MSV_TRANSACTIONAL_FROM` → 수신(To) 첫 주소 */
 export function resolveTransactionalFromAddress(settings: MailSettings): string {
   const fromDb = String(settings.fromAddress || "").trim();
