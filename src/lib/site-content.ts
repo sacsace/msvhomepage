@@ -336,7 +336,7 @@ export const teamGreetingLead =
 /** Software 상위 페이지 (`/software`) */
 export const softwareLanding = {
   headerSummary:
-    "회계·세무·현장 실행을 뒷받침하는 소프트웨어 라인과 운영 도구를 소개합니다. 그룹웨어(MVS), 출퇴근 기록(HereNow), 급여 명세서 이메일 발송 도구를 선택해 주세요.",
+    "회계·세무·현장 실행을 뒷받침하는 소프트웨어 라인과 운영 도구를 소개합니다. 그룹웨어(MVS), 출퇴근 기록(HeresNow), 급여 명세서 이메일 발송 도구를 선택해 주세요.",
   cards: [
     {
       href: "/software/mvs",
@@ -345,7 +345,7 @@ export const softwareLanding = {
     },
     {
       href: "/software/herenow",
-      title: "출퇴근 기록 시스템 (HereNow)",
+      title: "출퇴근 기록 시스템 (HeresNow)",
       desc: "회사(테넌트) 단위로 격리되는 출퇴근·근태 관리 웹앱입니다.",
     },
     {
@@ -356,7 +356,7 @@ export const softwareLanding = {
   ] as const,
 };
 
-/** HereNow 페이지 본문·메타는 `herenowSoftwarePageCopy` (`@/lib/i18n/herenow-software-page-locale`)에서 로케일별로 관리합니다. */
+/** HeresNow 페이지 본문·메타는 `herenowSoftwarePageCopy` (`@/lib/i18n/herenow-software-page-locale`)에서 로케일별로 관리합니다. */
 
 export const values = [
   "실행 중심의 맞춤형 컨설팅 제공",

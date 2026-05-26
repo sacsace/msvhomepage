@@ -29,7 +29,7 @@ const bodyText = "text-sm leading-relaxed text-slate-600 break-keep";
 
 const cardSection = "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8";
 
-export default async function SoftwareHereNowPage() {
+export default async function SoftwareHeresNowPage() {
   const locale = await getRequestLocale();
   const c = herenowSoftwarePageCopy(locale);
   const L = (path: string) => withLocalePrefix(path, locale);

@@ -12,8 +12,8 @@ function softwareSeo(locale: SiteLocale) {
     title: pickLocale(locale, { ko: "소프트웨어", en: "Software", zh: "软件" }),
     description: pickLocale(locale, {
       ko: softwareLanding.headerSummary,
-      en: "Software and operational tools for accounting, tax, and on-the-ground execution — MVS groupware and HereNow attendance.",
-      zh: "支持会计、税务与现场执行的软件与运营工具 — MVS 协作平台与 HereNow 出勤管理。",
+      en: "Software and operational tools for accounting, tax, and on-the-ground execution — MVS groupware and HeresNow attendance.",
+      zh: "支持会计、税务与现场执行的软件与运营工具 — MVS 协作平台与 HeresNow 出勤管理。",
     }),
   };
 }

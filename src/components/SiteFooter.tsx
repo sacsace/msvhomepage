@@ -80,9 +80,9 @@ export async function SiteFooter() {
                     className="text-xs text-slate-400 transition hover:text-white hover:underline"
                   >
                     {pickLocale(locale, {
-                      ko: "출퇴근 기록 시스템 (HereNow)",
-                      en: "Attendance (HereNow)",
-                      zh: "考勤系统（HereNow）",
+                      ko: "출퇴근 기록 시스템 (HeresNow)",
+                      en: "Attendance (HeresNow)",
+                      zh: "考勤系统（HeresNow）",
                     })}
                   </Link>
                 </li>

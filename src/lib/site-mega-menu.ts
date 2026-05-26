@@ -73,7 +73,7 @@ export function buildSiteMegaMenuColumns(locale: SiteLocale): MegaMenuColumn[] {
     },
     {
       href: withLocalePrefix("/software/herenow", locale),
-      label: pickLocale(locale, { ko: "출퇴근 기록 (HereNow)", en: "Attendance (HereNow)", zh: "考勤系统（HereNow）" }),
+      label: pickLocale(locale, { ko: "출퇴근 기록 (HeresNow)", en: "Attendance (HeresNow)", zh: "考勤系统（HeresNow）" }),
     },
     {
       href: withLocalePrefix("/software/payroll-mailer", locale),

@@ -179,7 +179,7 @@ const primary = [
   {
     href: "/software",
     label: "소프트웨어",
-    desc: "그룹웨어(MVS) · 출퇴근 기록 시스템(HereNow)",
+    desc: "그룹웨어(MVS) · 출퇴근 기록 시스템(HeresNow)",
     Icon: IconInfo,
   },
   {

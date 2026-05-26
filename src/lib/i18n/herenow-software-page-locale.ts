@@ -43,15 +43,15 @@ export type HerenowSoftwarePageCopy = {
 };
 
 const ko: HerenowSoftwarePageCopy = {
-  metaTitle: "출퇴근 기록 시스템 (HereNow)",
+  metaTitle: "출퇴근 기록 시스템 (HeresNow)",
   metaDescription:
     "회사(테넌트) 단위 GPS 기반 출퇴근·근태 관리. 위치 기반 출근, 현장 확인, 승인 흐름과 Attendance·Payroll·HR 데이터 연계.",
-  pageTitle: "출퇴근 기록 시스템 (HereNow)",
+  pageTitle: "출퇴근 기록 시스템 (HeresNow)",
   pageHeaderDescription:
     "회사(테넌트) 단위로 운영되는 GPS 기반 출퇴근·근태 관리 시스템입니다.\n\n직원 위치 기반 출근 기록, 출장지·현장 근무 확인, 근태 승인 흐름을 통합하여 Attendance·Payroll·HR 운영 데이터를 연결할 수 있도록 설계하였습니다.",
   overviewEyebrow: "Overview",
   overviewTitle: "개요",
-  heroLead: `HereNow는 GPS 기반 출퇴근 기록과 근태 운영을 지원하는 웹 기반 시스템입니다.
+  heroLead: `HeresNow는 GPS 기반 출퇴근 기록과 근태 운영을 지원하는 웹 기반 시스템입니다.
 
 직원은 모바일 또는 웹 환경에서 위치 기반으로 출근·퇴근 기록을 수행할 수 있으며, 회사는 조직·현장·부서별 근무 데이터를 통합 관리할 수 있습니다.
 
@@ -64,7 +64,7 @@ const ko: HerenowSoftwarePageCopy = {
     {
       eyebrow: "Focus",
       title: "GPS 기반 출퇴근 관리",
-      body: `HereNow는 GPS 위치 정보를 기반으로 출근·퇴근 기록을 관리합니다.
+      body: `HeresNow는 GPS 위치 정보를 기반으로 출근·퇴근 기록을 관리합니다.
 
 직원은 지정된 사업장·현장·지점 반경 내에서 출근 기록을 수행할 수 있으며, 관리자는 근무 위치·시간·승인 상태를 확인할 수 있습니다.
 
@@ -139,7 +139,7 @@ const ko: HerenowSoftwarePageCopy = {
       title: "데이터 및 운영 관리",
       body: `근태 데이터는 회사 운영 및 Payroll 계산과 연결될 수 있으므로 접근 권한과 데이터 분리 구조가 중요합니다.
 
-HereNow는 다음과 같은 운영 구조를 고려하여 설계됩니다.`,
+HeresNow는 다음과 같은 운영 구조를 고려하여 설계됩니다.`,
       bullets: [
         "테넌트 기반 데이터 분리",
         "관리자 권한 분리",
@@ -197,7 +197,7 @@ HereNow는 다음과 같은 운영 구조를 고려하여 설계됩니다.`,
     {
       eyebrow: "Fit",
       title: "MSV 서비스와의 연계",
-      body: `HereNow는 MSV의 Payroll·HR 운영 서비스와 함께 활용될 수 있습니다.
+      body: `HeresNow는 MSV의 Payroll·HR 운영 서비스와 함께 활용될 수 있습니다.
 
 운영 구조에 따라 다음 영역과 연결될 수 있습니다.`,
       bullets: [
@@ -223,14 +223,14 @@ HereNow는 다음과 같은 운영 구조를 고려하여 설계됩니다.`,
 };
 
 const en: HerenowSoftwarePageCopy = {
-  metaTitle: "Attendance system (HereNow)",
+  metaTitle: "Attendance system (HeresNow)",
   metaDescription: `${company.shortName} — GPS-based clock-in/out and attendance per tenant; ties attendance approvals to payroll and HR data.`,
-  pageTitle: "Attendance system (HereNow)",
+  pageTitle: "Attendance system (HeresNow)",
   pageHeaderDescription:
-    "HereNow is a GPS-based attendance system operated per company (tenant).\n\nIt brings together location-based clock-in, travel and field-site work checks, and approval flows so Attendance, payroll and HR operating data can be connected.",
+    "HeresNow is a GPS-based attendance system operated per company (tenant).\n\nIt brings together location-based clock-in, travel and field-site work checks, and approval flows so Attendance, payroll and HR operating data can be connected.",
   overviewEyebrow: "Overview",
   overviewTitle: "Overview",
-  heroLead: `HereNow is a web system that supports GPS-based clock records and attendance operations.
+  heroLead: `HeresNow is a web system that supports GPS-based clock records and attendance operations.
 
 Employees can clock in and out from mobile or web using location signals; the company can manage work data by organisation, site and department.
 
@@ -243,7 +243,7 @@ ${company.shortName}’s accounting and tax delivery is handled by the same spec
     {
       eyebrow: "Focus",
       title: "GPS-based attendance",
-      body: `HereNow manages clock-in/out records using GPS location.
+      body: `HeresNow manages clock-in/out records using GPS location.
 
 Employees can record attendance within defined radii around plants, sites or branches; managers can review location, time and approval status.
 
@@ -318,7 +318,7 @@ In live operations, teams often manage items such as:`,
       title: "Data and operations",
       body: `Because attendance data feeds operations and payroll, access control and tenant separation matter.
 
-HereNow is designed with structures such as:`,
+HeresNow is designed with structures such as:`,
       bullets: [
         "Tenant-separated data",
         "Split administrator privileges",
@@ -376,7 +376,7 @@ HereNow is designed with structures such as:`,
     {
       eyebrow: "Fit",
       title: "Working with MSV services",
-      body: `HereNow can be used alongside MSV payroll and HR operations.
+      body: `HeresNow can be used alongside MSV payroll and HR operations.
 
 Depending on your operating model, it may connect to areas such as:`,
       bullets: [
@@ -402,14 +402,14 @@ Depending on your operating model, it may connect to areas such as:`,
 };
 
 const zh: HerenowSoftwarePageCopy = {
-  metaTitle: "考勤记录系统（HereNow）",
+  metaTitle: "考勤记录系统（HeresNow）",
   metaDescription: `${company.shortName} — 按租户运营的 GPS 考勤；整合打卡、现场核对与审批，衔接考勤与薪酬、HR 数据。`,
-  pageTitle: "考勤记录系统（HereNow）",
+  pageTitle: "考勤记录系统（HeresNow）",
   pageHeaderDescription:
-    "HereNow 是按公司（租户）运营的 GPS 考勤与现场管理系统。\n\n整合基于员工位置的打卡、出差地与现场出勤核对与审批流，使考勤、薪酬与 HR 运营数据能够衔接。",
+    "HeresNow 是按公司（租户）运营的 GPS 考勤与现场管理系统。\n\n整合基于员工位置的打卡、出差地与现场出勤核对与审批流，使考勤、薪酬与 HR 运营数据能够衔接。",
   overviewEyebrow: "Overview",
   overviewTitle: "概述",
-  heroLead: `HereNow 是基于 GPS 的打卡与考勤运营网页系统。
+  heroLead: `HeresNow 是基于 GPS 的打卡与考勤运营网页系统。
 
 员工可在移动端或网页以位置方式完成上下班打卡；企业可按组织、现场与部门整合管理工时数据。
 
@@ -422,7 +422,7 @@ const zh: HerenowSoftwarePageCopy = {
     {
       eyebrow: "Focus",
       title: "基于 GPS 的考勤",
-      body: `HereNow 以 GPS 位置信息记录上下班。
+      body: `HeresNow 以 GPS 位置信息记录上下班。
 
 员工可在指定的工厂、现场或分支半径内打卡；管理者可查看位置、时间与审批状态。
 
@@ -475,7 +475,7 @@ const zh: HerenowSoftwarePageCopy = {
       title: "数据与运营管理",
       body: `考勤数据常与日常运营及算薪相连，因此权限与数据隔离至关重要。
 
-HereNow 在设计上考虑如下结构：`,
+HeresNow 在设计上考虑如下结构：`,
       bullets: [
         "租户级数据隔离",
         "管理员权限分离",
@@ -527,7 +527,7 @@ HereNow 在设计上考虑如下结构：`,
     {
       eyebrow: "Fit",
       title: "与 MSV 服务的衔接",
-      body: `HereNow 可与 MSV 的薪酬与 HR 运营服务一并使用。
+      body: `HeresNow 可与 MSV 的薪酬与 HR 运营服务一并使用。
 
 视运营结构，可与以下领域衔接：`,
       bullets: ["考勤运营", "薪酬数据复核", "假期管理", "人事文档运营", "外籍员工考勤", "现场用工考勤", "多分支考勤"],

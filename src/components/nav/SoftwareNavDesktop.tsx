@@ -8,19 +8,19 @@ import { localeFromPathname, pickLocale, stripLocalePrefix, withLocalePrefix } f
 
 const subKo = [
   { href: "/software/mvs", label: "그룹웨어 (MVS)" },
-  { href: "/software/herenow", label: "출퇴근 기록 시스템 (HereNow)" },
+  { href: "/software/herenow", label: "출퇴근 기록 시스템 (HeresNow)" },
   { href: "/software/payroll-mailer", label: "급여 명세서 이메일 발송 시스템" },
 ] as const;
 
 const subEn = [
   { href: "/software/mvs", label: "Groupware (MVS)" },
-  { href: "/software/herenow", label: "Attendance (HereNow)" },
+  { href: "/software/herenow", label: "Attendance (HeresNow)" },
   { href: "/software/payroll-mailer", label: "Payroll payslip email" },
 ] as const;
 
 const subZh = [
   { href: "/software/mvs", label: "集团办公（MVS）" },
-  { href: "/software/herenow", label: "考勤系统（HereNow）" },
+  { href: "/software/herenow", label: "考勤系统（HeresNow）" },
   { href: "/software/payroll-mailer", label: "工资单邮件发送" },
 ] as const;
 
