@@ -32,6 +32,9 @@ export type HerenowSoftwarePageCopy = {
   overviewTitle: string;
   heroLead: string;
   sections: readonly HerenowSoftwareSectionCopy[];
+  externalLinkLabel: string;
+  externalLinkButton: string;
+  externalLinkUrl: string;
   ctaLead: string;
   linkSoftware: string;
   linkAbout: string;
@@ -209,6 +212,9 @@ HereNow는 다음과 같은 운영 구조를 고려하여 설계됩니다.`,
       closing: "실제 Payroll·세무·노무 처리 범위는 별도 서비스 계약 및 운영 구조에 따라 달라질 수 있습니다.",
     },
   ],
+  externalLinkLabel: "바로가기",
+  externalLinkButton: "웹사이트",
+  externalLinkUrl: "https://www.heresnow.in",
   ctaLead: "소프트웨어·서비스 소개로 이동하시거나, 도입·연동 문의를 남겨 주세요.",
   linkSoftware: "소프트웨어",
   linkAbout: "회사 소개",
@@ -385,6 +391,9 @@ Depending on your operating model, it may connect to areas such as:`,
       closing: "Actual payroll, tax and labour scope depends on separate service agreements and your operating design.",
     },
   ],
+  externalLinkLabel: "Quick link",
+  externalLinkButton: "Website",
+  externalLinkUrl: "https://www.heresnow.in",
   ctaLead: "Go to software and services, or leave a message about adoption and integrations.",
   linkSoftware: "Software",
   linkAbout: "About",
@@ -525,6 +534,9 @@ HereNow 在设计上考虑如下结构：`,
       closing: "实际薪酬、税务与劳动事务的处理范围，依另行签署的服务合同与运营结构而定。",
     },
   ],
+  externalLinkLabel: "快速访问",
+  externalLinkButton: "网站",
+  externalLinkUrl: "https://www.heresnow.in",
   ctaLead: "可前往软件与服务介绍页面，或留下采购与对接集成的咨询。",
   linkSoftware: "软件",
   linkAbout: "公司介绍",
