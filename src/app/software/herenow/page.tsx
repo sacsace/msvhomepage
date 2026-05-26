@@ -40,6 +40,21 @@ export default async function SoftwareHereNowPage() {
       <PageHeader title={c.pageTitle} description={c.pageHeaderDescription} descriptionWide />
       <StandardPageBody className="space-y-12 sm:space-y-14">
         <section className={cardSection}>
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{c.externalLinkLabel}</p>
+          <div className="mt-3">
+            <a
+              href={c.externalLinkUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/40 hover:text-msv-blue"
+            >
+              {c.externalLinkButton}
+              <span aria-hidden className="text-xs text-slate-400">↗</span>
+            </a>
+          </div>
+        </section>
+
+        <section className={cardSection}>
           <SectionTitle
             eyebrow={c.overviewEyebrow}
             title={c.overviewTitle}
@@ -107,21 +122,6 @@ export default async function SoftwareHereNowPage() {
             </section>
           );
         })}
-
-        <section className={cardSection}>
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{c.externalLinkLabel}</p>
-          <div className="mt-3">
-            <a
-              href={c.externalLinkUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/40 hover:text-msv-blue"
-            >
-              {c.externalLinkButton}
-              <span aria-hidden className="text-xs text-slate-400">↗</span>
-            </a>
-          </div>
-        </section>
 
         <section className="rounded-2xl border border-slate-200 bg-msv-blue-soft/15 p-6 sm:p-8">
           <p className={bodyText}>{c.ctaLead}</p>
