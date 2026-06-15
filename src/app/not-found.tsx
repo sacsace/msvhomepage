@@ -1,4 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { getRequestLocale } from "@/lib/get-request-locale";
+import { notFoundSeo } from "@/lib/i18n/not-found-locale";
+import { noIndexPageSeo } from "@/lib/seo-metadata";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  const seo = notFoundSeo(locale);
+  return noIndexPageSeo({ title: seo.title, description: seo.description });
+}
 
 export default function NotFound() {
   return (

@@ -3,6 +3,8 @@ import { z } from "zod";
 import type { SendResult } from "@/types/payroll-mailer";
 import type { SiteLocale } from "@/lib/site-locale";
 import { payrollSendFailureMessage, sendPayrollEmail, verifyPayrollMailDelivery } from "@/lib/payroll-mailer/delivery";
+import { findInvalidCcAddress, parseCcAddresses } from "@/lib/payroll-mailer/mail-cc";
+import { describeSendValidationError } from "@/lib/payroll-mailer/send-payload";
 import { smtpSettingsSchema } from "@/lib/payroll-mailer/smtp";
 import { renderMailHtmlDocument, renderMailPlainText } from "@/lib/payroll-mailer/email-compose";
 import { renderTemplate } from "@/lib/payroll-mailer/template";
@@ -11,26 +13,35 @@ import { renderPayslipHtml } from "@/lib/payroll-mailer/payslip-pdf";
 
 export const runtime = "nodejs";
 
+const finiteNum = z.coerce.number().finite();
+
 const employeeSchema = z.object({
-  rowNumber: z.number(),
+  rowNumber: z.coerce.number().int(),
   employeeName: z.string(),
   employeeId: z.string(),
-  email: z.string().email(),
+  email: z.string().trim().email("유효한 이메일 주소가 아닙니다."),
   designation: z.string(),
   department: z.string(),
   month: z.string(),
   payrollMonth: z.string().optional(),
-  basicSalary: z.number(),
-  hra: z.number(),
-  otherAllowance: z.number(),
-  grossSalary: z.number(),
-  pf: z.number(),
-  esi: z.number(),
-  pt: z.number(),
-  tds: z.number(),
-  otherDeduction: z.number(),
-  totalDeduction: z.number(),
-  netSalary: z.number(),
+  monthDays: finiteNum.optional(),
+  paidDays: finiteNum.optional(),
+  lwpDays: finiteNum.optional(),
+  basicSalary: finiteNum,
+  hra: finiteNum,
+  otPay: finiteNum.optional().default(0),
+  dayShiftAllowance: finiteNum.optional().default(0),
+  nightShiftAllowance: finiteNum.optional().default(0),
+  nightDayShiftAllowance: finiteNum.optional().default(0),
+  otherAllowance: finiteNum.optional().default(0),
+  grossSalary: finiteNum,
+  pf: finiteNum,
+  esi: finiteNum,
+  pt: finiteNum,
+  tds: finiteNum,
+  otherDeduction: finiteNum,
+  totalDeduction: finiteNum,
+  netSalary: finiteNum,
   bankAccount: z.string().optional(),
   ifsc: z.string().optional(),
   bankName: z.string().optional(),
@@ -46,6 +57,7 @@ const sendRequestSchema = z.object({
   bodyTemplate: z.string().min(1),
   onlyEmployeeIds: z.array(z.string()).optional(),
   locale: siteLocaleSchema.optional().default("ko"),
+  defaultCc: z.string().optional().default(""),
 });
 
 const sanitizeFileName = (value: string) => value.replace(/[^\w-]/g, "_");
@@ -58,15 +70,24 @@ export async function POST(request: Request) {
     if (!parsedBody.success) {
       return NextResponse.json(
         {
-          message: "요청 데이터가 올바르지 않습니다.",
+          message: describeSendValidationError(parsedBody.error),
           details: parsedBody.error.flatten(),
         },
         { status: 400 },
       );
     }
 
-    const { smtp: smtpInput, employees, subjectTemplate, bodyTemplate, onlyEmployeeIds, locale } = parsedBody.data;
+    const { smtp: smtpInput, employees, subjectTemplate, bodyTemplate, onlyEmployeeIds, locale, defaultCc } =
+      parsedBody.data;
     const mailLocale = locale as SiteLocale;
+    const ccAddresses = parseCcAddresses(defaultCc);
+    const invalidCc = findInvalidCcAddress(ccAddresses);
+    if (invalidCc) {
+      return NextResponse.json(
+        { message: `기본 참조(CC) 이메일 형식이 올바르지 않습니다: ${invalidCc}` },
+        { status: 400 },
+      );
+    }
     const targetEmployees = onlyEmployeeIds?.length
       ? employees.filter((employee) => onlyEmployeeIds.includes(employee.employeeId))
       : employees;
@@ -93,12 +114,8 @@ export async function POST(request: Request) {
             const pdfBuffer = await page.pdf({
               format: "A4",
               printBackground: true,
-              margin: {
-                top: "12mm",
-                right: "12mm",
-                bottom: "12mm",
-                left: "12mm",
-              },
+              preferCSSPageSize: true,
+              margin: { top: "0", right: "0", bottom: "0", left: "0" },
             });
 
             const fileToken = sanitizeFileName(
@@ -108,6 +125,7 @@ export async function POST(request: Request) {
             await sendPayrollEmail({
               smtpInput,
               to: employee.email,
+              cc: ccAddresses,
               subject,
               text: textBody,
               html: htmlBody,

@@ -17,13 +17,30 @@ export const renderPayslipPlainText = (employee: PayrollEmployee, locale: SiteLo
   const lines = [
     `── ${L.salaryStatement} ──`,
     `${L.monthsWorkedSinceJoin}: ${employee.month}`,
+    ...(employee.monthDays && employee.paidDays
+      ? [
+          `${L.monthDays}: ${employee.monthDays}  ${L.paidDays}: ${employee.paidDays}`,
+          ...(employee.lwpDays && employee.lwpDays > 0 ? [`${L.lwpDays}: ${employee.lwpDays}`] : []),
+        ]
+      : []),
     `${L.employeeName}: ${employee.employeeName}  ${L.code}: ${employee.employeeId}`,
     `${L.department}: ${employee.department}`,
     "",
     `[${L.earnings}]`,
     `  ${L.basicSalary}: ${z(employee.basicSalary)}`,
     `  ${L.hra}: ${z(employee.hra)}`,
-    `  ${L.otherAllowance}: ${z(employee.otherAllowance)}`,
+    `  ${L.otPay}: ${z(employee.otPay)}`,
+    ...(employee.dayShiftAllowance > 0 || employee.nightShiftAllowance > 0
+      ? [
+          ...(employee.dayShiftAllowance > 0
+            ? [`  ${L.dayShiftAllowance}: ${money(employee.dayShiftAllowance)}`]
+            : []),
+          ...(employee.nightShiftAllowance > 0
+            ? [`  ${L.nightShiftAllowance}: ${money(employee.nightShiftAllowance)}`]
+            : []),
+        ]
+      : [`  ${L.nightDayShiftAllowance}: ${z(employee.nightDayShiftAllowance)}`]),
+    ...(employee.otherAllowance > 0 ? [`  ${L.otherAllowance}: ${z(employee.otherAllowance)}`] : []),
     `  ${L.grossSalary}: ${money(employee.grossSalary)}`,
     "",
     `[${L.deductions}]`,

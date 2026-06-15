@@ -22,21 +22,25 @@ import {
 } from "@/lib/i18n/about-locale";
 import { strengthsEn, strengthsZh } from "@/lib/i18n/public-home";
 import { getCachedCompanyHistoryPublic } from "@/lib/public-page-data-cache";
-import { staticPageSeo, staticPageSeoLocalized } from "@/lib/seo-metadata";
+import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import type { SiteLocale } from "@/lib/site-locale";
-import { withLocalePrefix } from "@/lib/site-locale";
+import { pickLocale, withLocalePrefix } from "@/lib/site-locale";
 import { businessUnits, company, overview, strengths, vision } from "@/lib/site-content";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getRequestLocale();
   const copy = aboutPageCopy(locale);
-  if (copy) {
-    return staticPageSeoLocalized("/about", { title: copy.metaTitle, description: copy.metaDescription }, locale);
-  }
-  return staticPageSeo("/about", {
-    title: "회사 소개",
-    description: `${company.shortName} — 법인 설립·회계·세무·운영까지 현장 실행형 원스톱 파트너, 비전·사업 소개`,
-  });
+  const title =
+    copy?.metaTitle ??
+    pickLocale(locale, { ko: "회사 소개", en: "About", zh: "关于我们" });
+  const description =
+    copy?.metaDescription ??
+    pickLocale(locale, {
+      ko: `${company.shortName} — 법인 설립·회계·세무·운영까지 현장 실행형 원스톱 파트너, 비전·사업 소개`,
+      en: `${company.legalName} (${company.shortName}) — India incorporation, accounting, tax, operations and vision.`,
+      zh: `${company.legalName}（${company.shortName}）— 印度公司设立、会计、税务与运营一站式伙伴。`,
+    });
+  return staticPageSeoLocalized("/about", { title, description }, locale);
 }
 
 export const revalidate = 60;

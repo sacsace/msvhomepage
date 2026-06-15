@@ -99,6 +99,7 @@ const normalizeRowKeys = (row: Record<string, unknown>): Record<string, unknown>
 /** Map common header typos to canonical column names (values unchanged). */
 const HEADER_KEY_ALIASES: Record<string, string> = {
   HRD: "HRA",
+  "House Rent Allowance": "HRA",
 };
 
 const applyColumnAliases = (row: Record<string, unknown>): Record<string, unknown> => {

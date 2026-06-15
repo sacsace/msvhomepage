@@ -1,13 +1,21 @@
 import { absoluteSiteUrl } from "@/lib/seo-metadata";
 import { company } from "@/lib/site-content";
+import type { SiteLocale } from "@/lib/site-locale";
+import { withLocalePrefix } from "@/lib/site-locale";
 import type { Article } from "@/types/article";
 
-type Props = { article: Article };
+type Props = { article: Article; locale: SiteLocale };
+
+function articleLanguageCode(locale: SiteLocale): string {
+  if (locale === "en") return "en-IN";
+  if (locale === "zh") return "zh-CN";
+  return "ko-KR";
+}
 
 /** 자료실 글 상세 — Article 스키마 */
-export function ArticleJsonLd({ article }: Props) {
-  const path = `/articles/${encodeURIComponent(article.slug)}`;
-  const url = absoluteSiteUrl(path);
+export function ArticleJsonLd({ article, locale }: Props) {
+  const internalPath = `/articles/${encodeURIComponent(article.slug)}`;
+  const url = absoluteSiteUrl(withLocalePrefix(internalPath, locale));
   const description =
     article.excerpt?.trim().length > 0 ? article.excerpt.trim() : article.title;
 
@@ -26,7 +34,7 @@ export function ArticleJsonLd({ article }: Props) {
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
     url,
-    inLanguage: "ko-KR",
+    inLanguage: articleLanguageCode(locale),
   };
 
   return (

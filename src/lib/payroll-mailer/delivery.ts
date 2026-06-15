@@ -21,6 +21,7 @@ export async function verifyPayrollMailDelivery(input: Partial<SmtpSettings>): P
 export async function sendPayrollEmail(args: {
   smtpInput: Partial<SmtpSettings>;
   to: string;
+  cc?: string[];
   subject: string;
   text: string;
   html: string;
@@ -29,10 +30,12 @@ export async function sendPayrollEmail(args: {
   const smtp = resolveUserSmtpConfig(args.smtpInput);
   const transporter = await createMailTransporter(smtp);
   const fromHeader = formatPayrollFromHeader(smtp.from);
+  const cc = args.cc?.filter((address) => address.trim().length > 0);
 
   await transporter.sendMail({
     from: fromHeader,
     to: args.to,
+    ...(cc?.length ? { cc } : {}),
     subject: args.subject,
     text: args.text,
     html: args.html,

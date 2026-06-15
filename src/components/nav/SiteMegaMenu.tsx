@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Fragment, useCallback, useEffect, useId, useState } from "react";
+import { Fragment, useCallback, useEffect, useId, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { HeaderLanguageSelect } from "@/components/layout/HeaderLanguageSelect";
 import {
@@ -194,9 +194,11 @@ function MegaMenuColumnBlock({ column, onNavigate }: { column: MegaMenuColumn; o
   );
 }
 
+const portalMounted = () => typeof document !== "undefined";
+
 export function SiteMegaMenu({ locale }: Props) {
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(() => () => {}, portalMounted, () => false);
   const panelId = useId();
   const ui = megaMenuUiStrings(locale);
   const columns = buildSiteMegaMenuColumns(locale);
@@ -204,10 +206,6 @@ export function SiteMegaMenu({ locale }: Props) {
   const contactHref = withLocalePrefix("/contact", locale);
 
   const close = useCallback(() => setOpen(false), []);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (!open) return;

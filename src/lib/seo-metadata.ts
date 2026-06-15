@@ -138,6 +138,26 @@ export function staticPageSeoLocalized(
   };
 }
 
+/** 동적 상세 페이지(자료실·공지 등) — locale별 canonical·hreflang·OG */
+export function dynamicPageSeoLocalized(
+  internalPath: string,
+  locale: SiteLocale,
+  opts: StaticPageSeoOpts,
+): Metadata {
+  return staticPageSeoLocalized(internalPath, opts, locale);
+}
+
+/** 404·리다이렉트 전용 페이지 — 검색 색인 제외 */
+export function noIndexPageSeo(opts?: { title?: string; description?: string }): Metadata {
+  const title = opts?.title ?? "Page not found";
+  const description = opts?.description ?? company.taglineKo;
+  return {
+    title,
+    description,
+    robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
+  };
+}
+
 /** 루트 `metadata`용 — 환경 변수만 있을 때 검색엔진 소유권 확인 */
 /** 배포 환경에 `MSV_GOOGLE_SITE_VERIFICATION` 설정 시 Search Console HTML 태그 방식 소유권 확인 */
 export function siteVerificationMetadata(): Partial<Metadata> {

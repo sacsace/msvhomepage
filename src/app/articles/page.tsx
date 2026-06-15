@@ -3,25 +3,14 @@ import Link from "next/link";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { sortArticlesByDate } from "@/lib/articles-store";
+import { articlesListSeo } from "@/lib/i18n/articles-pages-locale";
 import { getRequestLocale } from "@/lib/get-request-locale";
 import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import { getCachedArticlesList } from "@/lib/public-page-data-cache";
-import { pickLocale, type SiteLocale } from "@/lib/site-locale";
-
-function articlesSeo(locale: SiteLocale) {
-  return {
-    title: pickLocale(locale, { ko: "자료실", en: "Resource library", zh: "资料库" }),
-    description: pickLocale(locale, {
-      ko: "인도 진출·회계·세무 등 자료실 게시글 목록",
-      en: "Articles and resources on India market entry, accounting, tax, and operations.",
-      zh: "印度进驻、会计、税务等相关资料与文章列表。",
-    }),
-  };
-}
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getRequestLocale();
-  const { title, description } = articlesSeo(locale);
+  const { title, description } = articlesListSeo(locale);
   return staticPageSeoLocalized("/articles", { title, description }, locale);
 }
 

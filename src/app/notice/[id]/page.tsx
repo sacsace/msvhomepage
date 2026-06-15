@@ -8,7 +8,7 @@ import { noticeDateFormatLocale, noticePagesCopy } from "@/lib/i18n/notice-pages
 import { getCachedAnnouncementById } from "@/lib/public-page-data-cache";
 import { publicArticleBodyProse, publicContentCard } from "@/lib/public-page-styles";
 import { hasHtmlTag, sanitizeRichHtml, textExcerpt } from "@/lib/richtext";
-import { staticPageSeoLocalized } from "@/lib/seo-metadata";
+import { staticPageSeoLocalized, noIndexPageSeo } from "@/lib/seo-metadata";
 import { company, siteUrl } from "@/lib/site-content";
 import { withLocalePrefix } from "@/lib/site-locale";
 
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = await getRequestLocale();
   const c = noticePagesCopy(locale);
   const item = await getCachedAnnouncementById(id);
-  if (!item) return { title: c.metaFallbackTitle };
+  if (!item) return noIndexPageSeo({ title: c.metaFallbackTitle });
   return staticPageSeoLocalized(
     `/notice/${id}`,
     {

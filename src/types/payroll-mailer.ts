@@ -10,8 +10,20 @@ export type PayrollEmployee = {
   month: string;
   /** Pay period label (e.g. "March 2025"). MSV: optional "Payroll Month" / "Pay Month" column; legacy: same as Month. */
   payrollMonth?: string;
+  /** MSV: 월 총 일수(N), 유급 일수(M) — unpaid leave 반영 시 */
+  monthDays?: number;
+  paidDays?: number;
+  lwpDays?: number;
   basicSalary: number;
   hra: number;
+  /** MSV: OT/ Hour × OT/ Rate (또는 OT Pay 열 표시값) */
+  otPay: number;
+  /** MSV: Day Shift 횟수×100 + Night Shift 횟수×150 (또는 구형 합산 열) */
+  dayShiftAllowance: number;
+  nightShiftAllowance: number;
+  /** day+night 합계; 구형 시트는 Night/Day Shift Allowance 열 값만 */
+  nightDayShiftAllowance: number;
+  /** Legacy lump or MSV extras not in OT / shift allowances */
   otherAllowance: number;
   grossSalary: number;
   pf: number;
@@ -77,3 +89,14 @@ export const EMPTY_SMTP_SETTINGS: SmtpSettings = {
 
 /** Tescom payroll-mailer와 동일 키 */
 export const SMTP_STORAGE_KEY = "payroll-mailer-smtp-settings";
+
+export type PayrollComposeSettings = {
+  defaultCc: string;
+};
+
+export const EMPTY_COMPOSE_SETTINGS: PayrollComposeSettings = {
+  defaultCc: "",
+};
+
+/** 제목/본문·기본 참조(CC) — sessionStorage */
+export const COMPOSE_STORAGE_KEY = "payroll-mailer-compose-settings";

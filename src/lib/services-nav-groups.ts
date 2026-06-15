@@ -17,6 +17,14 @@ const SERVICE_NAV_GROUP_DEFS: readonly NavGroupDef[] = [
     },
     items: [
       {
+        path: "/services",
+        label: {
+          ko: "서비스 개요",
+          en: "Services overview",
+          zh: "服务总览",
+        },
+      },
+      {
         path: "/services/corporate-incorporation",
         label: { ko: "법인 설립 서비스", en: "Corporate incorporation", zh: "公司设立服务" },
       },
@@ -33,14 +41,6 @@ const SERVICE_NAV_GROUP_DEFS: readonly NavGroupDef[] = [
       zh: "会计与税务",
     },
     items: [
-      {
-        path: "/services",
-        label: {
-          ko: "서비스 개요(허브)",
-          en: "Services overview (hub)",
-          zh: "服务总览（首页）",
-        },
-      },
       {
         path: "/services/gst-practice-guide",
         label: { ko: "GST 실무 안내", en: "GST practice guide", zh: "GST 实务指南" },

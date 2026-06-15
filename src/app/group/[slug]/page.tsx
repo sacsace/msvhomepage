@@ -12,7 +12,7 @@ import {
   groupCompanyPageChrome,
   isGroupCompanySlug,
 } from "@/lib/i18n/group-pages-locale";
-import { staticPageSeoLocalized } from "@/lib/seo-metadata";
+import { staticPageSeoLocalized, noIndexPageSeo } from "@/lib/seo-metadata";
 import { splitIntroParagraphs } from "@/lib/split-intro-paragraphs";
 import { withLocalePrefix } from "@/lib/site-locale";
 import { groupCompanies } from "@/lib/site-content";
@@ -28,8 +28,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const g = findGroupCompanyBySlug(slug);
   const locale = await getRequestLocale();
   const chrome = groupCompanyPageChrome(locale);
-  if (!g) return { title: chrome.absoluteTitleSuffix };
-  if (!isGroupCompanySlug(g.slug)) return { title: chrome.absoluteTitleSuffix };
+  if (!g) return noIndexPageSeo({ title: chrome.absoluteTitleSuffix });
+  if (!isGroupCompanySlug(g.slug)) return noIndexPageSeo({ title: chrome.absoluteTitleSuffix });
 
   const content = groupCompanyContentCopy(g.slug, locale);
   return staticPageSeoLocalized(

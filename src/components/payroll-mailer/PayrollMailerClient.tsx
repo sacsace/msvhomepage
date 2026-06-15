@@ -1,15 +1,23 @@
 "use client";
 
-import { startTransition, useEffect, useMemo, useState } from "react";
+import { startTransition, useEffect, useMemo, useRef, useState } from "react";
 import { MailSettingsPanel } from "@/components/payroll-mailer/MailSettingsPanel";
 import { payrollMailerPageCopy } from "@/lib/i18n/payroll-mailer-locale";
 import type { SiteLocale } from "@/lib/site-locale";
 import { formatCurrency, getWorkbookSheetNames, parsePayrollFromBuffer, readPayrollWorkbook } from "@/lib/payroll-mailer/payroll";
 import { renderMailHtmlDocument } from "@/lib/payroll-mailer/email-compose";
 import { isSmtpConfigured } from "@/lib/payroll-mailer/smtp-client";
+import { normalizeEmployeeForSendApi, normalizeSmtpForSendApi } from "@/lib/payroll-mailer/send-payload";
 import { renderTemplate } from "@/lib/payroll-mailer/template";
 import type { ParsePayrollResult, SendResult } from "@/types/payroll-mailer";
-import { EMPTY_SMTP_SETTINGS, SMTP_STORAGE_KEY, type SmtpSettings } from "@/types/payroll-mailer";
+import {
+  COMPOSE_STORAGE_KEY,
+  EMPTY_COMPOSE_SETTINGS,
+  EMPTY_SMTP_SETTINGS,
+  SMTP_STORAGE_KEY,
+  type PayrollComposeSettings,
+  type SmtpSettings,
+} from "@/types/payroll-mailer";
 
 const PAYROLL_MAILER_API = "/api/payroll-mailer";
 
@@ -24,6 +32,19 @@ type PayrollMailerClientProps = {
 export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
   const copy = useMemo(() => payrollMailerPageCopy(locale), [locale]);
   const [smtpSettings, setSmtpSettings] = useState<SmtpSettings>(EMPTY_SMTP_SETTINGS);
+  const [data, setData] = useState<ParsePayrollResult | null>(null);
+  const [selectedRowNumber, setSelectedRowNumber] = useState<number | null>(null);
+  const [subjectTemplate, setSubjectTemplate] = useState(copy.defaultSubject);
+  const [bodyTemplate, setBodyTemplate] = useState(copy.defaultBody);
+  const [defaultCc, setDefaultCc] = useState(EMPTY_COMPOSE_SETTINGS.defaultCc);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string>("");
+  const [isSending, setIsSending] = useState(false);
+  const [sendError, setSendError] = useState("");
+  const [sendResults, setSendResults] = useState<SendResult[]>([]);
+  const [finalConfirmChecked, setFinalConfirmChecked] = useState(false);
+  const composeStorageReadyRef = useRef(false);
+
   useEffect(() => {
     startTransition(() => {
       try {
@@ -34,19 +55,30 @@ export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
       } catch {
         sessionStorage.removeItem(SMTP_STORAGE_KEY);
       }
+      try {
+        const composeStored = sessionStorage.getItem(COMPOSE_STORAGE_KEY);
+        if (composeStored) {
+          const parsed = JSON.parse(composeStored) as PayrollComposeSettings;
+          if (typeof parsed.defaultCc === "string") {
+            setDefaultCc(parsed.defaultCc);
+          }
+        }
+      } catch {
+        sessionStorage.removeItem(COMPOSE_STORAGE_KEY);
+      }
+      composeStorageReadyRef.current = true;
     });
   }, []);
 
-  const [data, setData] = useState<ParsePayrollResult | null>(null);
-  const [selectedRowNumber, setSelectedRowNumber] = useState<number | null>(null);
-  const [subjectTemplate, setSubjectTemplate] = useState(copy.defaultSubject);
-  const [bodyTemplate, setBodyTemplate] = useState(copy.defaultBody);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadError, setUploadError] = useState<string>("");
-  const [isSending, setIsSending] = useState(false);
-  const [sendError, setSendError] = useState("");
-  const [sendResults, setSendResults] = useState<SendResult[]>([]);
-  const [finalConfirmChecked, setFinalConfirmChecked] = useState(false);
+  useEffect(() => {
+    if (!composeStorageReadyRef.current) return;
+    try {
+      const payload: PayrollComposeSettings = { defaultCc };
+      sessionStorage.setItem(COMPOSE_STORAGE_KEY, JSON.stringify(payload));
+    } catch {
+      /* ignore quota errors */
+    }
+  }, [defaultCc]);
 
   const smtpReady = isSmtpConfigured(smtpSettings);
 
@@ -160,10 +192,11 @@ export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          smtp: smtpSettings,
-          employees: data.employees,
+          smtp: normalizeSmtpForSendApi(smtpSettings),
+          employees: data.employees.map(normalizeEmployeeForSendApi),
           subjectTemplate,
           bodyTemplate,
+          defaultCc: defaultCc.trim(),
           onlyEmployeeIds: onlyFailed ? failedIds : undefined,
           locale,
         }),
@@ -279,6 +312,21 @@ export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
                 onChange={(event) => setSubjectTemplate(event.target.value)}
                 className="w-full rounded border border-slate-300 px-3 py-2 text-sm text-slate-800"
               />
+            </div>
+            <div>
+              <label htmlFor="default-cc" className="mb-1 block text-sm font-medium text-slate-700">
+                {copy.mailCcLabel}
+              </label>
+              <input
+                id="default-cc"
+                type="text"
+                value={defaultCc}
+                onChange={(event) => setDefaultCc(event.target.value)}
+                placeholder={copy.mailCcPlaceholder}
+                className="w-full rounded border border-slate-300 px-3 py-2 text-sm text-slate-800"
+                autoComplete="email"
+              />
+              <p className="mt-1 text-xs text-slate-500">{copy.mailCcHint}</p>
             </div>
             <div>
               <label htmlFor="body" className="mb-1 block text-sm font-medium text-slate-700">
@@ -427,7 +475,32 @@ export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
                         <ul className="mt-2 space-y-1 text-sm text-slate-700">
                           <li>Basic Salary: INR {formatCurrency(selectedEmployee.basicSalary)}</li>
                           <li>HRA: INR {formatCurrency(selectedEmployee.hra)}</li>
-                          <li>Other Allowance: INR {formatCurrency(selectedEmployee.otherAllowance)}</li>
+                          <li>OT pay: INR {formatCurrency(selectedEmployee.otPay)}</li>
+                          {selectedEmployee.dayShiftAllowance > 0 ||
+                          selectedEmployee.nightShiftAllowance > 0 ? (
+                            <>
+                              {selectedEmployee.dayShiftAllowance > 0 ? (
+                                <li>
+                                  Day shift allowance: INR{" "}
+                                  {formatCurrency(selectedEmployee.dayShiftAllowance)}
+                                </li>
+                              ) : null}
+                              {selectedEmployee.nightShiftAllowance > 0 ? (
+                                <li>
+                                  Night shift allowance: INR{" "}
+                                  {formatCurrency(selectedEmployee.nightShiftAllowance)}
+                                </li>
+                              ) : null}
+                            </>
+                          ) : (
+                            <li>
+                              Night/Day shift allowance: INR{" "}
+                              {formatCurrency(selectedEmployee.nightDayShiftAllowance)}
+                            </li>
+                          )}
+                          {selectedEmployee.otherAllowance > 0 ? (
+                            <li>Transport Allowance: INR {formatCurrency(selectedEmployee.otherAllowance)}</li>
+                          ) : null}
                           <li>Gross Salary: INR {formatCurrency(selectedEmployee.grossSalary)}</li>
                         </ul>
                       </div>

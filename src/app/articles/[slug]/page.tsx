@@ -3,31 +3,37 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
+import { getRequestLocale } from "@/lib/get-request-locale";
+import { articlesDetailSeo } from "@/lib/i18n/articles-pages-locale";
 import { getCachedArticleBySlug } from "@/lib/public-page-data-cache";
 import { publicArticleBodyProse, publicContentCard } from "@/lib/public-page-styles";
 import { hasHtmlTag, sanitizeRichHtml, textExcerpt } from "@/lib/richtext";
 import { ArticleJsonLd } from "@/components/seo/ArticleJsonLd";
-import { staticPageSeo } from "@/lib/seo-metadata";
+import { dynamicPageSeoLocalized, noIndexPageSeo } from "@/lib/seo-metadata";
 
 export const revalidate = 60;
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  const seo = articlesDetailSeo(locale);
   const { slug } = await params;
   const decoded = decodeURIComponent(slug);
   const article = await getCachedArticleBySlug(decoded);
-  if (!article) return { title: "글" };
+  if (!article) return noIndexPageSeo({ title: seo.notFoundTitle });
   const description =
     article.excerpt?.trim().length > 0 ? article.excerpt.trim() : textExcerpt(article.body);
-  return staticPageSeo(`/articles/${encodeURIComponent(article.slug)}`, {
+  const internalPath = `/articles/${encodeURIComponent(article.slug)}`;
+  return dynamicPageSeoLocalized(internalPath, locale, {
     title: article.title,
-    absoluteTitle: `${article.title} | 자료실`,
+    absoluteTitle: `${article.title} | ${seo.titleSuffix}`,
     description,
   });
 }
 
 export default async function ArticleDetailPage({ params }: Props) {
+  const locale = await getRequestLocale();
   const { slug } = await params;
   const article = await getCachedArticleBySlug(decodeURIComponent(slug));
   if (!article) notFound();
@@ -36,7 +42,7 @@ export default async function ArticleDetailPage({ params }: Props) {
 
   return (
     <>
-      <ArticleJsonLd article={article} />
+      <ArticleJsonLd article={article} locale={locale} />
       <PageHeader
         title={article.title}
         belowDescription={

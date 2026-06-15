@@ -10,7 +10,7 @@ import {
   serviceGuideCopy,
   type ServiceGuideSlug,
 } from "@/lib/i18n/service-guides-locale";
-import { staticPageSeoLocalized } from "@/lib/seo-metadata";
+import { staticPageSeoLocalized, noIndexPageSeo } from "@/lib/seo-metadata";
 import { withLocalePrefix } from "@/lib/site-locale";
 
 type PageProps = { params: Promise<{ slug: string }> };
@@ -25,7 +25,9 @@ export const dynamicParams = false;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  if (!isServiceGuideSlug(slug) || slug === "compliance-calendar") return {};
+  if (!isServiceGuideSlug(slug) || slug === "compliance-calendar") {
+    return noIndexPageSeo();
+  }
   const locale = await getRequestLocale();
   const copy = serviceGuideCopy(slug, locale);
   return staticPageSeoLocalized(`/services/${slug}`, { title: copy.metaTitle, description: copy.metaDescription }, locale);

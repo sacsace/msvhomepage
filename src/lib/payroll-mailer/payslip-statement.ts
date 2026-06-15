@@ -160,8 +160,29 @@ export const buildSalaryStatementInnerHtml = (employee: PayrollEmployee): string
   </tr>
   ${earnDedRow("Basic Salary", cell(employee.basicSalary), "PF", cell(employee.pf))}
   ${earnDedRow("HRA", cell(employee.hra), "ESI", cell(employee.esi))}
-  ${earnDedRow("Leave Travel Allowance", "—", "Professional Tax", cell(employee.pt))}
-  ${earnDedRow("Other Allowance", cell(employee.otherAllowance), "TDS", cell(employee.tds))}
+  ${earnDedRow("OT pay", cell(employee.otPay), "Professional Tax", cell(employee.pt))}
+  ${
+    employee.dayShiftAllowance > 0
+      ? earnDedRow("Day shift allowance", cell(employee.dayShiftAllowance), "&nbsp;", "&nbsp;")
+      : ""
+  }
+  ${
+    employee.nightShiftAllowance > 0
+      ? earnDedRow("Night shift allowance", cell(employee.nightShiftAllowance), "&nbsp;", "&nbsp;")
+      : ""
+  }
+  ${
+    !(employee.dayShiftAllowance > 0 || employee.nightShiftAllowance > 0)
+      ? earnDedRow("Night/Day shift allowance", cell(employee.nightDayShiftAllowance), "&nbsp;", "&nbsp;")
+      : ""
+  }
+  ${earnDedRow("&nbsp;", "&nbsp;", "TDS", cell(employee.tds))}
+  ${earnDedRow("&nbsp;", "&nbsp;", "Other deduction", cell(employee.otherDeduction))}
+  ${
+    employee.otherAllowance > 0
+      ? earnDedRow("Transport Allowance", cell(employee.otherAllowance), "&nbsp;", "&nbsp;")
+      : earnDedRow("Leave Travel Allowance", "—", "&nbsp;", "&nbsp;")
+  }
   ${earnDedRow("Special Allowance", "—", "&nbsp;", "&nbsp;")}
   ${earnDedRow("Arrear Salary", "—", "&nbsp;", "&nbsp;")}
   ${earnDedRow("Bonus", "—", "&nbsp;", "&nbsp;")}

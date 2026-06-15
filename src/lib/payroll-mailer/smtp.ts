@@ -7,7 +7,7 @@ import { smtpConnectTarget, smtpSocketIpv4Only } from "@/lib/mail-settings-store
 
 export const smtpSettingsSchema = z.object({
   host: z.string().min(1, "SMTP host is required."),
-  port: z.number().int().positive(),
+  port: z.coerce.number().int().positive(),
   secure: z.boolean(),
   user: z.string().min(1, "SMTP user is required."),
   pass: z.string().min(1, "SMTP password is required."),

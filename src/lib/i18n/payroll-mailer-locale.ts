@@ -11,6 +11,9 @@ export type PayslipEmailLabels = {
   sectionEmployee: string;
   /** Excel "Working Month" = months worked since date of join (not calendar pay period). */
   monthsWorkedSinceJoin: string;
+  monthDays: string;
+  paidDays: string;
+  lwpDays: string;
   employeeName: string;
   dateOfJoin: string;
   email: string;
@@ -26,6 +29,10 @@ export type PayslipEmailLabels = {
   deductions: string;
   basicSalary: string;
   hra: string;
+  otPay: string;
+  dayShiftAllowance: string;
+  nightShiftAllowance: string;
+  nightDayShiftAllowance: string;
   otherAllowance: string;
   grossSalary: string;
   pf: string;
@@ -103,6 +110,9 @@ export type PayrollMailerPageCopy = {
   /** Explains that {{month}} maps to Working Month = months since hire */
   monthVariableHint: string;
   mailSubjectLabel: string;
+  mailCcLabel: string;
+  mailCcHint: string;
+  mailCcPlaceholder: string;
   mailBodyLabel: string;
   previewTitle: string;
   previewSubjectLabel: string;
@@ -151,6 +161,9 @@ const payslipEn: PayslipEmailLabels = {
   summaryNet: "Net pay",
   sectionEmployee: "Employee",
   monthsWorkedSinceJoin: "Months worked since hire (Working Month)",
+  monthDays: "Month days",
+  paidDays: "Paid days",
+  lwpDays: "Unpaid leave (LWP)",
   employeeName: "Name",
   dateOfJoin: "Date of join",
   email: "Email",
@@ -166,7 +179,11 @@ const payslipEn: PayslipEmailLabels = {
   deductions: "Deductions",
   basicSalary: "Basic salary",
   hra: "HRA",
-  otherAllowance: "Other allowance",
+  otPay: "OT pay",
+  dayShiftAllowance: "Day shift allowance",
+  nightShiftAllowance: "Night shift allowance",
+  nightDayShiftAllowance: "Night/Day shift allowance",
+  otherAllowance: "Transport Allowance",
   grossSalary: "Gross salary",
   pf: "PF",
   esi: "ESI",
@@ -360,6 +377,9 @@ export function payrollMailerPageCopy(locale: SiteLocale): PayrollMailerPageCopy
       payslipVarNote: PAYROLL_MAILER_PAYSLIP_VAR_NOTE_EN,
       monthVariableHint: PAYROLL_MAILER_MONTH_VARIABLE_HINT_EN,
       mailSubjectLabel: "메일 제목",
+      mailCcLabel: "기본 참조 (CC)",
+      mailCcHint: "쉼표(,) 또는 세미콜론(;)으로 여러 주소를 입력할 수 있습니다. 직원별 발송 시 모든 메일에 동일하게 참조됩니다.",
+      mailCcPlaceholder: "예: hr@company.com, accounts@company.com",
       mailBodyLabel: "메일 본문",
       previewTitle: "선택 직원 기준 미리보기",
       previewSubjectLabel: "제목:",
@@ -428,6 +448,9 @@ export function payrollMailerPageCopy(locale: SiteLocale): PayrollMailerPageCopy
       payslipVarNote: PAYROLL_MAILER_PAYSLIP_VAR_NOTE_EN,
       monthVariableHint: PAYROLL_MAILER_MONTH_VARIABLE_HINT_EN,
       mailSubjectLabel: "Email subject",
+      mailCcLabel: "Default CC",
+      mailCcHint: "Separate multiple addresses with commas or semicolons. Applied to every payslip email.",
+      mailCcPlaceholder: "e.g. hr@company.com, accounts@company.com",
       mailBodyLabel: "Email body",
       previewTitle: "Preview for selected employee",
       previewSubjectLabel: "Subject:",
@@ -495,6 +518,9 @@ export function payrollMailerPageCopy(locale: SiteLocale): PayrollMailerPageCopy
       payslipVarNote: PAYROLL_MAILER_PAYSLIP_VAR_NOTE_EN,
       monthVariableHint: PAYROLL_MAILER_MONTH_VARIABLE_HINT_EN,
       mailSubjectLabel: "邮件主题",
+      mailCcLabel: "默认抄送 (CC)",
+      mailCcHint: "多个地址请用逗号或分号分隔。每位员工的工资单邮件都会抄送这些地址。",
+      mailCcPlaceholder: "例如：hr@company.com, accounts@company.com",
       mailBodyLabel: "邮件正文",
       previewTitle: "所选员工预览",
       previewSubjectLabel: "主题：",
