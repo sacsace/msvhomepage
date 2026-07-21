@@ -28,6 +28,12 @@ model AdminAuth {
   passwordHash String?
 }
 
+/// 단일 행(id=1) — 급여 명세서 발송 페이지 접근 bcrypt 해시
+model PayrollMailerAuth {
+  id           Int     @id @default(1)
+  passwordHash String?
+}
+
 model Article {
   id        String   @id
   title     String

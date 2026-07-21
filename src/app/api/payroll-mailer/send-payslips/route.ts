@@ -10,6 +10,7 @@ import { renderMailHtmlDocument, renderMailPlainText } from "@/lib/payroll-maile
 import { renderTemplate } from "@/lib/payroll-mailer/template";
 import { launchPayrollPdfBrowser } from "@/lib/payroll-mailer/launch-payroll-browser";
 import { renderPayslipHtml } from "@/lib/payroll-mailer/payslip-pdf";
+import { requirePayrollMailerAccess } from "@/lib/require-payroll-mailer";
 
 export const runtime = "nodejs";
 
@@ -64,6 +65,9 @@ const sanitizeFileName = (value: string) => value.replace(/[^\w-]/g, "_");
 
 export async function POST(request: Request) {
   try {
+    const denied = await requirePayrollMailerAccess();
+    if (denied) return denied;
+
     const rawBody = await request.json();
     const parsedBody = sendRequestSchema.safeParse(rawBody);
 

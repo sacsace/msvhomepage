@@ -1,7 +1,8 @@
 "use client";
 
-import { startTransition, useEffect, useMemo, useRef, useState } from "react";
+import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MailSettingsPanel } from "@/components/payroll-mailer/MailSettingsPanel";
+import { PayrollMailerPasswordGate } from "@/components/payroll-mailer/PayrollMailerPasswordGate";
 import { payrollMailerPageCopy } from "@/lib/i18n/payroll-mailer-locale";
 import type { SiteLocale } from "@/lib/site-locale";
 import { formatCurrency, getWorkbookSheetNames, parsePayrollFromBuffer, readPayrollWorkbook } from "@/lib/payroll-mailer/payroll";
@@ -29,8 +30,11 @@ type PayrollMailerClientProps = {
   locale: SiteLocale;
 };
 
+type AccessState = "loading" | "not_configured" | "locked" | "unlocked";
+
 export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
   const copy = useMemo(() => payrollMailerPageCopy(locale), [locale]);
+  const [accessState, setAccessState] = useState<AccessState>("loading");
   const [smtpSettings, setSmtpSettings] = useState<SmtpSettings>(EMPTY_SMTP_SETTINGS);
   const [data, setData] = useState<ParsePayrollResult | null>(null);
   const [selectedRowNumber, setSelectedRowNumber] = useState<number | null>(null);
@@ -44,6 +48,38 @@ export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
   const [sendResults, setSendResults] = useState<SendResult[]>([]);
   const [finalConfirmChecked, setFinalConfirmChecked] = useState(false);
   const composeStorageReadyRef = useRef(false);
+
+  const refreshAccess = useCallback(async () => {
+    try {
+      const res = await fetch(`${PAYROLL_MAILER_API}/access`, { cache: "no-store" });
+      const data = (await res.json()) as { configured?: boolean; unlocked?: boolean };
+      if (!data.configured) {
+        setAccessState("not_configured");
+        return;
+      }
+      setAccessState(data.unlocked ? "unlocked" : "locked");
+    } catch {
+      setAccessState("not_configured");
+    }
+  }, []);
+
+  useEffect(() => {
+    void refreshAccess();
+  }, [refreshAccess]);
+
+  const mailUnlocked = accessState === "unlocked";
+  const gateCopy = useMemo(
+    () => ({
+      title: copy.accessGateTitle,
+      lead: copy.accessGateLead,
+      passwordLabel: copy.accessPasswordLabel,
+      submit: copy.accessSubmit,
+      submitting: copy.accessSubmitting,
+      wrongPassword: copy.accessWrongPassword,
+      genericError: copy.accessGenericError,
+    }),
+    [copy],
+  );
 
   useEffect(() => {
     startTransition(() => {
@@ -223,10 +259,36 @@ export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
 
   const failedCount = sendResults.filter((result) => !result.success).length;
 
+  if (accessState === "loading") {
+    return (
+      <div className="rounded-xl border border-slate-200 bg-white p-6 text-sm text-slate-600 shadow-sm">
+        {copy.accessLoading}
+      </div>
+    );
+  }
+
+  if (accessState === "not_configured") {
+    return (
+      <section className="rounded-xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
+        <h2 className="text-lg font-semibold text-amber-900">{copy.accessNotConfiguredTitle}</h2>
+        <p className="mt-2 text-sm text-amber-800">{copy.accessNotConfiguredLead}</p>
+      </section>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-6">
       <div className="mx-auto w-full max-w-screen-2xl flex-1 space-y-6">
-        <MailSettingsPanel settings={smtpSettings} onChange={setSmtpSettings} mail={copy.mail} />
+        {accessState === "locked" ? (
+          <>
+            <p className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+              {copy.accessLockedMailHint}
+            </p>
+            <PayrollMailerPasswordGate copy={gateCopy} onUnlocked={() => setAccessState("unlocked")} />
+          </>
+        ) : null}
+
+        {mailUnlocked ? <MailSettingsPanel settings={smtpSettings} onChange={setSmtpSettings} mail={copy.mail} /> : null}
 
         <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <StepTitle label={copy.step(1, copy.step1Title)} />
@@ -292,6 +354,7 @@ export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
           {uploadError && <p className="mt-3 rounded bg-red-50 p-3 text-sm text-red-700">{uploadError}</p>}
         </section>
 
+        {mailUnlocked ? (
         <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <StepTitle label={copy.step(2, copy.step2Title)} />
           <p className="mt-2 text-sm text-slate-600">
@@ -362,6 +425,7 @@ export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
             )}
           </div>
         </section>
+        ) : null}
 
         {data && (
           <>
@@ -521,6 +585,7 @@ export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
               </div>
             </section>
 
+            {mailUnlocked ? (
             <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
               <StepTitle label={copy.step(5, copy.step5Title)} />
               <div className="mt-4 space-y-3">
@@ -589,6 +654,7 @@ export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
                 </div>
               )}
             </section>
+            ) : null}
           </>
         )}
       </div>

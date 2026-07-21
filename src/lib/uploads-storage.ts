@@ -9,12 +9,18 @@ const ALLOWED_TOP = new Set(["team", "staff", "articles", "clients"]);
 
 /**
  * 디스크상 업로드 루트.
- * - 미설정: `public/uploads` (로컬·기존 동작)
- * - Railway 등: 볼륨 마운트 경로를 `MSV_UPLOADS_ROOT` 로 지정 (예: `/data/msv-uploads`)
+ * 우선순위:
+ * 1. `MSV_UPLOADS_ROOT` (명시)
+ * 2. `RAILWAY_VOLUME_MOUNT_PATH` (Railway가 볼륨 연결 시 자동 주입)
+ * 3. `public/uploads` (로컬·볼륨 미연결 — PaaS에서는 재배포 시 유실)
  */
 export function getUploadsDiskRoot(): string {
-  const raw = process.env.MSV_UPLOADS_ROOT?.trim();
-  if (raw) return path.resolve(raw);
+  const explicit = process.env.MSV_UPLOADS_ROOT?.trim();
+  if (explicit) return path.resolve(explicit);
+
+  const railwayVolume = process.env.RAILWAY_VOLUME_MOUNT_PATH?.trim();
+  if (railwayVolume) return path.resolve(railwayVolume);
+
   return path.join(process.cwd(), "public", "uploads");
 }
 
@@ -28,12 +34,28 @@ function getUploadsReadRoots(): string[] {
   return primary === fallback ? [primary] : [primary, fallback];
 }
 
+/** 운영 로그·헬스용 — 어디에 쓰는지 / 볼륨인지 */
+export function describeUploadsDiskRoot(): {
+  root: string;
+  source: "MSV_UPLOADS_ROOT" | "RAILWAY_VOLUME_MOUNT_PATH" | "public/uploads";
+  persistent: boolean;
+} {
+  if (process.env.MSV_UPLOADS_ROOT?.trim()) {
+    return { root: getUploadsDiskRoot(), source: "MSV_UPLOADS_ROOT", persistent: true };
+  }
+  if (process.env.RAILWAY_VOLUME_MOUNT_PATH?.trim()) {
+    return { root: getUploadsDiskRoot(), source: "RAILWAY_VOLUME_MOUNT_PATH", persistent: true };
+  }
+  return { root: getUploadsDiskRoot(), source: "public/uploads", persistent: false };
+}
+
 export function uploadsSubdir(name: "team" | "staff" | "articles" | "clients"): string {
   return path.join(getUploadsDiskRoot(), name);
 }
 
 /**
  * `/uploads/team/foo.jpg` 형태만 허용. path traversal 차단.
+ * 볼륨·`public/uploads` 둘 다 읽어, 마이그레이션 중에도 깨지지 않게 함.
  */
 export function resolveUploadDiskPath(publicUrlPath: string): string | null {
   const p = publicUrlPath.trim();

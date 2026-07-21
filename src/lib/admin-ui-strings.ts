@@ -38,6 +38,7 @@ export function adminNavSections(locale: AdminUiLocale): readonly AdminNavSectio
         heading: "System",
         links: [
           { href: "/admin/mail-settings", label: "Mail server" },
+          { href: "/admin/payroll-mailer-password", label: "Payroll mailer password" },
           { href: "/admin/password", label: "Change password" },
         ],
       },
@@ -71,6 +72,7 @@ export function adminNavSections(locale: AdminUiLocale): readonly AdminNavSectio
       heading: "시스템",
       links: [
         { href: "/admin/mail-settings", label: "메일 서버 (SMTP)" },
+        { href: "/admin/payroll-mailer-password", label: "급여 명세서 발송 비밀번호" },
         { href: "/admin/password", label: "비밀번호 변경" },
       ],
     },
@@ -163,6 +165,11 @@ export function adminDashboardData(locale: AdminUiLocale): AdminDashboardData {
               title: "Mail server (SMTP)",
               desc: "Contact form, incorporation apply, and outbound mail",
             },
+            {
+              href: "/admin/payroll-mailer-password",
+              title: "Payroll mailer password",
+              desc: "Password for /software/payroll-mailer mail settings and sending",
+            },
             { href: "/admin/password", title: "Change password", desc: "Admin sign-in password" },
           ],
         },
@@ -225,6 +232,11 @@ export function adminDashboardData(locale: AdminUiLocale): AdminDashboardData {
             href: "/admin/mail-settings",
             title: "메일 서버 (SMTP)",
             desc: "문의하기·법인 설립 신청 등 발신·수신 설정",
+          },
+          {
+            href: "/admin/payroll-mailer-password",
+            title: "급여 명세서 발송 비밀번호",
+            desc: "/software/payroll-mailer 메일 설정·발송 접근 비밀번호",
           },
           { href: "/admin/password", title: "비밀번호 변경", desc: "관리자 로그인 비밀번호" },
         ],

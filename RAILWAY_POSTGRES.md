@@ -73,12 +73,36 @@ Railway 플러그인 기본 URL의 사용자가 `postgres`인 경우, 이 저장
 
 문제가 계속되면 Railway **Help** 또는 프로젝트의 **Volumes 스크린샷**(마운트 경로·볼륨 개수)을 남기고 문의하는 것이 빠르다.
 
-## 업로드 파일 영구 저장 (`MSV_UPLOADS_ROOT`)
+## 업로드 파일 영구 저장 (`MSV_UPLOADS_ROOT` / Railway Volume)
 
-관리자 업로드(경영진 사진, 직원 사진, 아티클 첨부, 고객 로고)는 기본적으로 **`public/uploads`** 아래에 두며, Railway처럼 **컨테이너 디스크가 비영구**이면 재배포 시 파일이 사라집니다.
+관리자 업로드(경영진 사진, 직원 사진, 아티클 첨부, 고객 로고)는 기본적으로 **`public/uploads`** 에 저장됩니다.  
+Railway 컨테이너 디스크는 **비영구**라서, **웹(Next) 서비스에 Volume을 붙이지 않으면 재배포마다 이미지가 사라집니다.**
 
-1. 웹(Next) 서비스에 **Volume** 을 추가하고 마운트 경로를 고른다 (예: **`/data/msv-uploads`**).
-2. 같은 서비스 **Variables** 에 **`MSV_UPLOADS_ROOT=/data/msv-uploads`** 를 설정한다 (마운트 경로와 일치).
-3. 재배포 후 업로드하면 파일이 볼륨에 남고, **`/uploads/...` URL** 은 앱 라우트가 디스크에서 서빙합니다.
+앱은 아래 순서로 업로드 루트를 고릅니다.
 
-`MSV_UPLOADS_ROOT` 를 비우면 예전처럼 **`프로젝트/public/uploads`** 를 씁니다(로컬 개발과 동일).
+1. **`MSV_UPLOADS_ROOT`** (직접 지정)
+2. **`RAILWAY_VOLUME_MOUNT_PATH`** (볼륨 연결 시 Railway가 **자동 주입** — 별도 Variables 없이도 동작)
+3. `public/uploads` (로컬·볼륨 없음 → 재배포 시 유실)
+
+기동(`npm run start`) 시 `scripts/ensure-uploads-root.cjs` 가 하위 폴더(`team`/`staff`/`articles`/`clients`)를 만들고,  
+볼륨이 없으면 Railway 로그에 **WARNING** 을 남깁니다.
+
+### 설정 절차 (필수)
+
+1. Railway 프로젝트에서 **웹(Next) 서비스**를 연다. (**Postgres 서비스가 아님**)
+2. **Settings → Volumes → Add volume**
+3. **Mount path** 예: `/data/msv-uploads`  
+   (원하면 `/app/public/uploads` 로 마운트해도 됨 — 기본 경로와 동일)
+4. 저장 후 **Redeploy**
+5. Deploy 로그에서 `[uploads] root=... source=RAILWAY_VOLUME_MOUNT_PATH (persistent)` 확인
+
+볼륨 Mount path 와 다른 경로에 쓰고 싶을 때만 Variables에  
+`MSV_UPLOADS_ROOT=/data/msv-uploads` 처럼 **마운트 경로와 동일**하게 넣는다.
+
+### 이미 사라진 이미지
+
+볼륨을 붙이기 **전에** 배포로 날아간 파일은 컨테이너에 더 이상 없습니다.  
+로컬 `public/uploads` 에 남아 있다면 관리자에서 **다시 업로드**하거나, 볼륨 연결 후 로컬 파일을 복사해 넣어야 합니다.  
+이후부터는 재배포해도 볼륨에 남은 파일은 유지됩니다.
+
+`MSV_UPLOADS_ROOT` / 볼륨을 쓰지 않으면 예전처럼 **`프로젝트/public/uploads`** 만 씁니다(로컬 개발과 동일).

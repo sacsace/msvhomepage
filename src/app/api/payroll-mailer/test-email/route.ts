@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { payrollSendFailureMessage, sendPayrollEmail, verifyPayrollMailDelivery } from "@/lib/payroll-mailer/delivery";
 import { smtpSettingsSchema } from "@/lib/payroll-mailer/smtp";
+import { requirePayrollMailerAccess } from "@/lib/require-payroll-mailer";
 
 export const runtime = "nodejs";
 
@@ -12,6 +13,9 @@ const testEmailSchema = z.object({
 
 export async function POST(request: Request) {
   try {
+    const denied = await requirePayrollMailerAccess();
+    if (denied) return denied;
+
     const rawBody = await request.json();
     const parsed = testEmailSchema.safeParse(rawBody);
 

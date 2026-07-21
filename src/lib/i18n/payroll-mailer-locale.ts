@@ -151,6 +151,17 @@ export type PayrollMailerPageCopy = {
   statusFail: string;
   sendNeedSmtp: string;
   sendErrorGeneric: string;
+  accessLoading: string;
+  accessNotConfiguredTitle: string;
+  accessNotConfiguredLead: string;
+  accessGateTitle: string;
+  accessGateLead: string;
+  accessPasswordLabel: string;
+  accessSubmit: string;
+  accessSubmitting: string;
+  accessWrongPassword: string;
+  accessGenericError: string;
+  accessLockedMailHint: string;
 };
 
 const payslipEn: PayslipEmailLabels = {
@@ -416,6 +427,18 @@ export function payrollMailerPageCopy(locale: SiteLocale): PayrollMailerPageCopy
       statusFail: "실패",
       sendNeedSmtp: "메일 환경 설정(발신 주소)을 먼저 완료하고 저장하세요.",
       sendErrorGeneric: "발송 중 오류가 발생했습니다.",
+      accessLoading: "접근 권한 확인 중…",
+      accessNotConfiguredTitle: "아직 사용할 수 없습니다",
+      accessNotConfiguredLead:
+        "관리자가 급여 명세서 발송 비밀번호를 설정해야 메일 설정·발송 기능을 사용할 수 있습니다. 관리자에게 문의하세요.",
+      accessGateTitle: "메일 발송 인증",
+      accessGateLead: "메일 설정·제목·본문 입력 및 발송을 하려면 비밀번호를 입력하세요.",
+      accessPasswordLabel: "비밀번호",
+      accessSubmit: "확인",
+      accessSubmitting: "확인 중…",
+      accessWrongPassword: "비밀번호가 올바르지 않습니다.",
+      accessGenericError: "인증 중 오류가 발생했습니다.",
+      accessLockedMailHint: "엑셀 업로드·데이터 확인은 가능합니다. 메일 설정·발송은 비밀번호 인증 후 이용하세요.",
     },
     en: {
       pageTitle: "Payroll payslip email system",
@@ -488,6 +511,19 @@ export function payrollMailerPageCopy(locale: SiteLocale): PayrollMailerPageCopy
       statusFail: "Failed",
       sendNeedSmtp: "Complete mail settings at the top and save first.",
       sendErrorGeneric: "An error occurred while sending.",
+      accessLoading: "Checking access…",
+      accessNotConfiguredTitle: "Not available yet",
+      accessNotConfiguredLead:
+        "An administrator must set the payroll mailer password before mail settings and sending can be used. Please contact your admin.",
+      accessGateTitle: "Mail sending authentication",
+      accessGateLead: "Enter the password to configure mail settings, templates, and send payslips.",
+      accessPasswordLabel: "Password",
+      accessSubmit: "Continue",
+      accessSubmitting: "Verifying…",
+      accessWrongPassword: "Incorrect password.",
+      accessGenericError: "Authentication failed.",
+      accessLockedMailHint:
+        "You can upload Excel and review data. Mail settings and sending require password authentication.",
     },
     zh: {
       pageTitle: "工资单邮件发送系统",
@@ -557,6 +593,17 @@ export function payrollMailerPageCopy(locale: SiteLocale): PayrollMailerPageCopy
       statusFail: "失败",
       sendNeedSmtp: "请先在上方完成邮件设置并保存。",
       sendErrorGeneric: "发送过程中发生错误。",
+      accessLoading: "正在检查访问权限…",
+      accessNotConfiguredTitle: "暂不可用",
+      accessNotConfiguredLead: "管理员需先设置工资单邮件发送密码后，才能使用邮件设置与发送功能。请联系管理员。",
+      accessGateTitle: "邮件发送认证",
+      accessGateLead: "请输入密码以配置邮件设置、模板并发送工资单。",
+      accessPasswordLabel: "密码",
+      accessSubmit: "确认",
+      accessSubmitting: "验证中…",
+      accessWrongPassword: "密码不正确。",
+      accessGenericError: "认证时发生错误。",
+      accessLockedMailHint: "可上传 Excel 并查看数据。邮件设置与发送需先通过密码认证。",
     },
   });
 

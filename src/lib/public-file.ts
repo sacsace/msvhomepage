@@ -7,13 +7,21 @@ import { resolveUploadDiskPath } from "@/lib/uploads-storage";
  * - `/uploads/...` → `MSV_UPLOADS_ROOT` 또는 `public/uploads` 아래 실제 경로 확인
  * - 그 외 → `public/` 정적 자산
  */
+function stripUrlQueryHash(urlPath: string): string {
+  const q = urlPath.indexOf("?");
+  const h = urlPath.indexOf("#");
+  const end = Math.min(q === -1 ? urlPath.length : q, h === -1 ? urlPath.length : h);
+  return urlPath.slice(0, end);
+}
+
 export function publicFileExists(urlPath: string): boolean {
-  if (!urlPath.startsWith("/")) return false;
-  if (urlPath.startsWith("/uploads/")) {
-    const disk = resolveUploadDiskPath(urlPath);
+  const normalized = stripUrlQueryHash(urlPath.trim());
+  if (!normalized.startsWith("/")) return false;
+  if (normalized.startsWith("/uploads/")) {
+    const disk = resolveUploadDiskPath(normalized);
     return Boolean(disk && fs.existsSync(disk));
   }
-  const rel = urlPath.replace(/^\//, "");
+  const rel = normalized.replace(/^\//, "");
   const full = path.join(process.cwd(), "public", rel);
   return fs.existsSync(full);
 }

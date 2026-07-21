@@ -2,7 +2,9 @@ import Link from "next/link";
 import { SectionTitle } from "@/components/SectionTitle";
 import { readClientsForHome } from "@/lib/clients-store";
 import { homeTypo } from "@/lib/home-typography";
+import { clientsPageCopy } from "@/lib/i18n/clients-locale";
 import { clientsShowcaseLeadEn, clientsShowcaseLeadZh } from "@/lib/i18n/public-home";
+import { publicFileExists } from "@/lib/public-file";
 import type { SiteLocale } from "@/lib/site-locale";
 import { pickLocale, withLocalePrefix } from "@/lib/site-locale";
 import { clientsShowcaseLead } from "@/lib/site-content";
@@ -33,6 +35,7 @@ export async function ClientsSection(props: Props = {}) {
   const more = pickLocale(locale, { ko: "더보기", en: "See more", zh: "查看更多" });
   const logoAlt = (name: string) =>
     pickLocale(locale, { ko: `${name} 로고`, en: `${name} logo`, zh: `${name} 标志` });
+  const noLogoPlaceholder = clientsPageCopy(locale).noLogoPlaceholder;
   const L = (path: string) => withLocalePrefix(path, locale);
 
   const inner = (
@@ -59,11 +62,13 @@ export async function ClientsSection(props: Props = {}) {
         </div>
       </div>
       <ul className="mt-6 grid w-full list-none grid-cols-2 gap-2.5 p-0 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-6 lg:gap-3.5">
-        {list.map((c) => (
+        {list.map((c) => {
+          const showLogo = Boolean(c.logoSrc && publicFileExists(c.logoSrc));
+          return (
           <li key={c.id}>
             <Link href={L(`/about/clients#c-${c.id}`)} title={c.name} className={logoTile}>
-              <div className="flex h-9 shrink-0 items-center justify-center rounded-lg bg-slate-50 sm:h-10">
-                {c.logoSrc ? (
+              <div className="flex h-9 shrink-0 items-center justify-center rounded-lg bg-slate-50 px-0.5 sm:h-10">
+                {showLogo && c.logoSrc ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img
                     src={c.logoSrc}
@@ -71,8 +76,8 @@ export async function ClientsSection(props: Props = {}) {
                     className="max-h-7 max-w-full object-contain opacity-95 transition-opacity duration-200 group-hover:opacity-100 sm:max-h-8"
                   />
                 ) : (
-                  <span className="text-[10px] font-medium text-slate-300" aria-hidden>
-                    ·
+                  <span className="text-[10px] font-medium leading-tight text-slate-400 sm:text-[11px]">
+                    {noLogoPlaceholder}
                   </span>
                 )}
               </div>
@@ -81,7 +86,8 @@ export async function ClientsSection(props: Props = {}) {
               </p>
             </Link>
           </li>
-        ))}
+          );
+        })}
       </ul>
       <div className="mt-6">
         <Link
