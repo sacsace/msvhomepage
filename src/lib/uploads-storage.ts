@@ -34,19 +34,32 @@ function getUploadsReadRoots(): string[] {
   return primary === fallback ? [primary] : [primary, fallback];
 }
 
-/** 운영 로그·헬스용 — 어디에 쓰는지 / 볼륨인지 */
+/** 운영 로그·헬스용 — 어디에 쓰는지 / 재배포 후 유지 가능 여부 */
 export function describeUploadsDiskRoot(): {
   root: string;
   source: "MSV_UPLOADS_ROOT" | "RAILWAY_VOLUME_MOUNT_PATH" | "public/uploads";
   persistent: boolean;
+  blobBackup: boolean;
 } {
+  const blobBackup = Boolean(process.env.DATABASE_URL?.trim());
   if (process.env.MSV_UPLOADS_ROOT?.trim()) {
-    return { root: getUploadsDiskRoot(), source: "MSV_UPLOADS_ROOT", persistent: true };
+    return { root: getUploadsDiskRoot(), source: "MSV_UPLOADS_ROOT", persistent: true, blobBackup };
   }
   if (process.env.RAILWAY_VOLUME_MOUNT_PATH?.trim()) {
-    return { root: getUploadsDiskRoot(), source: "RAILWAY_VOLUME_MOUNT_PATH", persistent: true };
+    return {
+      root: getUploadsDiskRoot(),
+      source: "RAILWAY_VOLUME_MOUNT_PATH",
+      persistent: true,
+      blobBackup,
+    };
   }
-  return { root: getUploadsDiskRoot(), source: "public/uploads", persistent: false };
+  // 디스크는 ephemeral 이어도 Postgres UploadedBlob 백업으로 복원 가능
+  return {
+    root: getUploadsDiskRoot(),
+    source: "public/uploads",
+    persistent: blobBackup,
+    blobBackup,
+  };
 }
 
 export function uploadsSubdir(name: "team" | "staff" | "articles" | "clients"): string {

@@ -34,6 +34,15 @@ model PayrollMailerAuth {
   passwordHash String?
 }
 
+/// 관리자 업로드 파일 백업 (Railway 등 비영구 디스크 대비 — Postgres에 바이너리 보관)
+model UploadedBlob {
+  /// 공개 경로 예: `/uploads/clients/foo.png`
+  publicPath String   @id
+  mime       String
+  data       Bytes
+  updatedAt  DateTime @updatedAt
+}
+
 model Article {
   id        String   @id
   title     String

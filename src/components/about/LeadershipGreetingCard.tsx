@@ -20,8 +20,8 @@ type Props = {
   photoAlt?: string;
 };
 
-export function LeadershipGreetingCard({ member, eyebrow, title, titleSubline, body, bullets, photoAlt }: Props) {
-  const showPhoto = Boolean(member.photoSrc && publicFileExists(member.photoSrc));
+export async function LeadershipGreetingCard({ member, eyebrow, title, titleSubline, body, bullets, photoAlt }: Props) {
+  const showPhoto = Boolean(member.photoSrc && (await publicFileExists(member.photoSrc)));
   const imageAlt = photoAlt ?? `${member.name} 프로필 사진`;
 
   return (

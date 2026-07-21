@@ -1,4 +1,5 @@
 import { unlinkUploadByPublicPath } from "@/lib/uploads-storage";
+import { deleteUploadFile } from "@/lib/upload-blob-store";
 import { prisma } from "@/lib/prisma";
 import { withRecoverableDbRead } from "@/lib/prisma-read-fallback";
 
@@ -27,5 +28,9 @@ export async function removeStaffPhoto(email: string): Promise<void> {
   const row = await prisma.staffPhoto.findUnique({ where: { emailLower: key } });
   await prisma.staffPhoto.deleteMany({ where: { emailLower: key } });
   const urlPath = row?.path;
-  await unlinkUploadByPublicPath(urlPath);
+  if (urlPath?.startsWith("/uploads/")) {
+    await deleteUploadFile(urlPath);
+  } else {
+    await unlinkUploadByPublicPath(urlPath);
+  }
 }

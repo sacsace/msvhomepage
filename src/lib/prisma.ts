@@ -69,10 +69,12 @@ function prismaSingletonMatchesCurrentSchema(client: unknown): boolean {
   const c = client as {
     leadershipStaticProfile?: { findMany?: unknown };
     sitePageView?: { count?: unknown };
+    uploadedBlob?: { findMany?: unknown };
   };
   return (
     typeof c.leadershipStaticProfile?.findMany === "function" &&
-    typeof c.sitePageView?.count === "function"
+    typeof c.sitePageView?.count === "function" &&
+    typeof c.uploadedBlob?.findMany === "function"
   );
 }
 

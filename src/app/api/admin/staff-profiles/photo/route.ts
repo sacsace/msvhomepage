@@ -1,10 +1,8 @@
-import { promises as fs } from "fs";
-import path from "path";
 import { NextResponse } from "next/server";
 import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import { readStaffProfiles, writeStaffProfiles } from "@/lib/staff-profiles-store";
 import { requireAdmin } from "@/lib/require-admin";
-import { unlinkUploadByPublicPath, uploadsSubdir } from "@/lib/uploads-storage";
+import { deleteUploadFile, persistUploadFile } from "@/lib/upload-blob-store";
 
 export const runtime = "nodejs";
 
@@ -13,10 +11,6 @@ const mimeToExt: Record<string, string> = {
   "image/png": "png",
   "image/webp": "webp",
 };
-
-async function removeUploadedPhoto(photoSrc?: string) {
-  await unlinkUploadByPublicPath(photoSrc);
-}
 
 export async function POST(request: Request) {
   const denied = await requireAdmin();
@@ -48,12 +42,12 @@ export async function POST(request: Request) {
     const buf = Buffer.from(await file.arrayBuffer());
     const safe = id.replace(/[^a-z0-9._-]+/gi, "_");
     const filename = `${safe}-${Date.now()}.${ext}`;
-    const uploadDir = uploadsSubdir("staff");
-    await fs.mkdir(uploadDir, { recursive: true });
-    await fs.writeFile(path.join(uploadDir, filename), buf);
     const publicPath = `/uploads/staff/${filename}`;
+    await persistUploadFile(publicPath, buf, file.type);
 
-    await removeUploadedPhoto(all[idx].photoSrc);
+    if (all[idx].photoSrc?.startsWith("/uploads/")) {
+      await deleteUploadFile(all[idx].photoSrc);
+    }
     all[idx] = {
       ...all[idx],
       photoSrc: publicPath,
@@ -81,7 +75,9 @@ export async function DELETE(request: Request) {
     if (idx === -1) {
       return NextResponse.json({ error: "직원을 찾을 수 없습니다." }, { status: 404 });
     }
-    await removeUploadedPhoto(all[idx].photoSrc);
+    if (all[idx].photoSrc?.startsWith("/uploads/")) {
+      await deleteUploadFile(all[idx].photoSrc);
+    }
     all[idx] = {
       ...all[idx],
       photoSrc: undefined,

@@ -13,12 +13,18 @@ type Props = {
 };
 
 /** 회사 소개 등 — 좁은 세로 카드: 사진 → 이름 → 부서명(`role`, 라벨 없음) */
-export function StaffProfileGrid({ profiles, profilePhotoAltSuffix = "프로필 사진" }: Props) {
+export async function StaffProfileGrid({ profiles, profilePhotoAltSuffix = "프로필 사진" }: Props) {
+  const rows = await Promise.all(
+    profiles.map(async (p) => ({
+      p,
+      showPhoto: Boolean(p.photoSrc && (await publicFileExists(p.photoSrc))),
+    })),
+  );
+
   return (
     <ul className="mx-auto grid w-full max-w-[1100px] grid-cols-2 justify-items-start gap-4 sm:grid-cols-3 sm:gap-5 md:grid-cols-4 md:gap-6 lg:grid-cols-6">
-      {profiles.map((p) => {
+      {rows.map(({ p, showPhoto }) => {
         const dept = p.role.trim() || "—";
-        const showPhoto = Boolean(p.photoSrc && publicFileExists(p.photoSrc));
 
         return (
           <li

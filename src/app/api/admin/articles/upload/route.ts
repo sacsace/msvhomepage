@@ -1,10 +1,9 @@
 import { randomUUID } from "crypto";
-import { promises as fs } from "fs";
 import path from "path";
 import { NextResponse } from "next/server";
 import { adminApiCatchResponse } from "@/lib/db-api-error-response";
 import { requireAdmin } from "@/lib/require-admin";
-import { uploadsSubdir } from "@/lib/uploads-storage";
+import { persistUploadFile } from "@/lib/upload-blob-store";
 
 export const runtime = "nodejs";
 
@@ -63,10 +62,8 @@ export async function POST(request: Request) {
 
     const buf = Buffer.from(await file.arrayBuffer());
     const filename = `${randomUUID()}.${ext}`;
-    const uploadDir = uploadsSubdir("articles");
-    await fs.mkdir(uploadDir, { recursive: true });
-    await fs.writeFile(path.join(uploadDir, filename), buf);
     const publicPath = `/uploads/articles/${filename}`;
+    await persistUploadFile(publicPath, buf, file.type);
     const originalName = safeOriginalName(file.name);
 
     return NextResponse.json({ url: publicPath, originalName });

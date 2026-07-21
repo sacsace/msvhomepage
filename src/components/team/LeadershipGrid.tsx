@@ -15,12 +15,18 @@ type Props = {
   locale: SiteLocale;
 };
 
-export function LeadershipGrid({ members, compactSummary, locale }: Props) {
+export async function LeadershipGrid({ members, compactSummary, locale }: Props) {
+  const rows = await Promise.all(
+    members.map(async (m) => ({
+      m,
+      showPhoto: Boolean(m.photoSrc && (await publicFileExists(m.photoSrc))),
+      bio: leadershipBioDisplayForLocale(m, locale),
+    })),
+  );
+
   return (
     <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:items-start">
-      {members.map((m) => {
-        const showPhoto = Boolean(m.photoSrc && publicFileExists(m.photoSrc));
-        const bio = leadershipBioDisplayForLocale(m, locale);
+      {rows.map(({ m, showPhoto, bio }) => {
         const summaryText = compactSummary && bio.length > 120 ? `${bio.slice(0, 118)}…` : bio;
 
         return (

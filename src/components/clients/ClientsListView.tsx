@@ -15,7 +15,7 @@ type Props = {
   labels: ClientsListLabels;
 };
 
-export function ClientsListView({ list, labels }: Props) {
+export async function ClientsListView({ list, labels }: Props) {
   if (list.length === 0) {
     return (
       <p className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-6 py-10 text-center text-sm leading-relaxed text-slate-600">
@@ -24,11 +24,17 @@ export function ClientsListView({ list, labels }: Props) {
     );
   }
 
+  const withLogo = await Promise.all(
+    list.map(async (c) => ({
+      c,
+      showLogo: Boolean(c.logoSrc && (await publicFileExists(c.logoSrc))),
+    })),
+  );
+
   return (
     <ul className="mt-4 grid list-none grid-cols-2 gap-3 p-0 sm:grid-cols-5 sm:gap-3 md:gap-4">
-      {list.map((c) => {
+      {withLogo.map(({ c, showLogo }) => {
         const anchor = `c-${c.id}`;
-        const showLogo = Boolean(c.logoSrc && publicFileExists(c.logoSrc));
 
         return (
           <li

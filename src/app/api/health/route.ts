@@ -18,6 +18,7 @@ export function GET() {
       uploads: {
         persistent: uploads.persistent,
         source: uploads.source,
+        blobBackup: uploads.blobBackup,
       },
     },
     { status: 200, headers: { "cache-control": "no-store" } },

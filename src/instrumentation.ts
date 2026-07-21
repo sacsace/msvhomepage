@@ -15,12 +15,25 @@ export async function register() {
   const block =
     process.env.NODE_ENV === "production" ||
     String(process.env.MSV_BLOCKING_DB_STARTUP_CHECK || "").trim() === "1";
+
+  const syncUploads = async () => {
+    try {
+      const { syncUploadBlobsWithDisk } = await import("./lib/upload-blob-store");
+      await syncUploadBlobsWithDisk();
+    } catch (err: unknown) {
+      console.warn("[MSV] 업로드 blob 동기화 건너뜀:", err instanceof Error ? err.message : err);
+    }
+  };
+
   if (block) {
     await runDatabaseStartupCheck();
+    await syncUploads();
     return;
   }
 
-  void runDatabaseStartupCheck().catch((err: unknown) => {
-    console.error("[MSV] (백그라운드) PostgreSQL 기동 점검 실패:", err);
-  });
+  void runDatabaseStartupCheck()
+    .then(() => syncUploads())
+    .catch((err: unknown) => {
+      console.error("[MSV] (백그라운드) PostgreSQL 기동 점검 실패:", err);
+    });
 }

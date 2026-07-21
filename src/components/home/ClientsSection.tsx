@@ -62,9 +62,14 @@ export async function ClientsSection(props: Props = {}) {
         </div>
       </div>
       <ul className="mt-6 grid w-full list-none grid-cols-2 gap-2.5 p-0 sm:grid-cols-3 sm:gap-3 md:grid-cols-4 lg:grid-cols-6 lg:gap-3.5">
-        {list.map((c) => {
-          const showLogo = Boolean(c.logoSrc && publicFileExists(c.logoSrc));
-          return (
+        {(
+          await Promise.all(
+            list.map(async (c) => ({
+              c,
+              showLogo: Boolean(c.logoSrc && (await publicFileExists(c.logoSrc))),
+            })),
+          )
+        ).map(({ c, showLogo }) => (
           <li key={c.id}>
             <Link href={L(`/about/clients#c-${c.id}`)} title={c.name} className={logoTile}>
               <div className="flex h-9 shrink-0 items-center justify-center rounded-lg bg-slate-50 px-0.5 sm:h-10">
@@ -86,8 +91,7 @@ export async function ClientsSection(props: Props = {}) {
               </p>
             </Link>
           </li>
-          );
-        })}
+        ))}
       </ul>
       <div className="mt-6">
         <Link
