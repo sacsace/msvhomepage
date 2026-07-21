@@ -67,7 +67,9 @@ function main() {
   const migrated = migrateTree(publicRoot, root);
 
   const tag = persistent ? "persistent" : "EPHEMERAL (redeploy will wipe uploads)";
-  console.log(`[uploads] root=${root} source=${source} (${tag})`);
+  if (migrated > 0 || !persistent) {
+    console.log(`[uploads] root=${root} source=${source} (${tag})`);
+  }
   if (migrated > 0) {
     console.log(`[uploads] migrated ${migrated} file(s) from public/uploads → ${root}`);
   }

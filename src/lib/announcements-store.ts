@@ -59,22 +59,6 @@ export async function getAnnouncement(id: string): Promise<Announcement | null> 
   return row ? toAnnouncement(row) : null;
 }
 
-/** 대량 동기화(시드·스크립트 등) 전용 — 관리자 API는 단건 create/update/delete 사용 */
-export async function writeAnnouncements(items: Announcement[]): Promise<void> {
-  const data = items.map((a) => ({
-    id: a.id,
-    title: a.title,
-    body: a.body,
-    pinned: a.pinned,
-    createdAt: new Date(a.createdAt),
-    updatedAt: new Date(a.updatedAt),
-  }));
-  await prisma.$transaction(async (tx) => {
-    await tx.announcement.deleteMany();
-    if (data.length) await tx.announcement.createMany({ data });
-  });
-}
-
 export async function createAnnouncement(item: Announcement): Promise<void> {
   await prisma.announcement.create({
     data: {

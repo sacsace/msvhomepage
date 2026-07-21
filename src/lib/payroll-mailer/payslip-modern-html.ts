@@ -1,5 +1,4 @@
 import type { PayrollEmployee } from "@/types/payroll-mailer";
-import type { SiteLocale } from "@/lib/site-locale";
 import { payslipEmailLabels } from "@/lib/i18n/payroll-mailer-locale";
 import { formatCurrency } from "@/lib/payroll-mailer/payroll";
 import { escapeHtml } from "@/lib/payroll-mailer/html-escape";
@@ -110,7 +109,7 @@ const buildShiftEarningLines = (
   z: (text: string) => string,
   dash: string,
 ) => {
-  const L = payslipEmailLabels("en");
+  const L = payslipEmailLabels();
   const usesSplit =
     employee.dayShiftAllowance > 0 || employee.nightShiftAllowance > 0;
   if (usesSplit) {
@@ -138,7 +137,7 @@ export function buildModernPayslipInnerHtml(
   density: PayslipDensity = "email",
 ): string {
   const d = DENSITY[density];
-  const L = payslipEmailLabels("en");
+  const L = payslipEmailLabels();
   const z = (text: string) => escapeHtml(text);
   const dash = L.dash;
   const join = employee.joiningDate ? z(employee.joiningDate) : dash;
@@ -269,7 +268,7 @@ export function buildModernPayslipInnerHtml(
 }
 
 /** Outer wrapper for email (spacing from greeting) */
-export function buildModernPayslipEmailWrapperHtml(employee: PayrollEmployee, _locale: SiteLocale): string {
+export function buildModernPayslipEmailWrapperHtml(employee: PayrollEmployee): string {
   const inner = buildModernPayslipInnerHtml(employee, "email");
   return `
 <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;">
@@ -280,7 +279,7 @@ export function buildModernPayslipEmailWrapperHtml(employee: PayrollEmployee, _l
 }
 
 /** Full PDF document — compact layout, single A4 page */
-export function buildModernPayslipPdfDocumentHtml(employee: PayrollEmployee, _locale: SiteLocale): string {
+export function buildModernPayslipPdfDocumentHtml(employee: PayrollEmployee): string {
   const inner = buildModernPayslipInnerHtml(employee, "pdf");
   return `<!DOCTYPE html>
 <html lang="en">

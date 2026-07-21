@@ -13,25 +13,6 @@ export async function readStaffPhotos(): Promise<Record<string, string>> {
   });
 }
 
-async function writeAll(map: Record<string, string>): Promise<void> {
-  await prisma.$transaction(async (tx) => {
-    await tx.staffPhoto.deleteMany();
-    const entries = Object.entries(map);
-    if (entries.length) {
-      await tx.staffPhoto.createMany({
-        data: entries.map(([emailLower, photoPath]) => ({
-          emailLower,
-          path: photoPath,
-        })),
-      });
-    }
-  });
-}
-
-export async function writeStaffPhotos(map: Record<string, string>): Promise<void> {
-  await writeAll(map);
-}
-
 export async function setStaffPhoto(email: string, publicPath: string): Promise<void> {
   const key = email.trim().toLowerCase();
   await prisma.staffPhoto.upsert({

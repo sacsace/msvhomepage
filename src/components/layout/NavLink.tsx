@@ -4,14 +4,12 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { useBrowserPathname } from "@/components/layout/BrowserPathnameProvider";
 import { desktopNavTopSegmentClass } from "@/components/nav/desktop-nav-top-class";
-import { isNavActive, localeFromPathname, stripLocalePrefix, withLocalePrefix } from "@/lib/site-locale";
+import { isNavActive, localeFromPathname, withLocalePrefix } from "@/lib/site-locale";
 
 type Props = {
   href: string;
   children: ReactNode;
   className?: string;
-  /** `exact`: 경로만 일치할 때 활성(예: `/about` vs `/about/team`) */
-  match?: "prefix" | "exact";
 };
 
 export function isNavItemActive(pathname: string, href: string): boolean {
@@ -28,30 +26,6 @@ export function NavLink({ href, children, className = "" }: Props) {
     <Link
       href={resolvedHref}
       className={`inline-flex items-center px-3 py-1.5 text-[13px] tracking-tight transition duration-200 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue ${desktopNavTopSegmentClass(active)} ${className}`}
-      aria-current={active ? "page" : undefined}
-    >
-      {children}
-    </Link>
-  );
-}
-
-/** 모바일 메뉴(드로어) 항목 */
-export function MobileNavLink({ href, children, className = "", match = "prefix" }: Props) {
-  const pathname = useBrowserPathname();
-  const locale = localeFromPathname(pathname);
-  const resolvedHref = withLocalePrefix(href, locale);
-  const pathHref = href.split("#")[0] || href;
-  const barePath = stripLocalePrefix(pathname.split("#")[0] || pathname);
-  const active =
-    match === "exact" ? barePath === pathHref : isNavItemActive(pathname, pathHref);
-  return (
-    <Link
-      href={resolvedHref}
-      className={`mx-1 block rounded-md px-3 py-2 text-sm transition ${
-        active
-          ? "bg-slate-50 font-semibold text-msv-navy"
-          : "font-medium text-slate-600 hover:bg-slate-50 hover:text-msv-navy"
-      } ${className}`}
       aria-current={active ? "page" : undefined}
     >
       {children}

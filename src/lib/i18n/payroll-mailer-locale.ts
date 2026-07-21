@@ -210,7 +210,7 @@ const payslipEn: PayslipEmailLabels = {
 };
 
 /** Payslip card labels: always English, independent of site locale. */
-export function payslipEmailLabels(_locale: SiteLocale): PayslipEmailLabels {
+export function payslipEmailLabels(): PayslipEmailLabels {
   return payslipEn;
 }
 

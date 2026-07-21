@@ -28,6 +28,7 @@ function msvPrismaDatasourceUrl(): string {
 
 function logDevDatasourceOnce(databaseUrl: string): void {
   if (process.env.NODE_ENV !== "development") return;
+  if (String(process.env.MSV_DEBUG_PRISMA || "").trim() !== "1") return;
   const preview =
     databaseUrl.length > 96 ? `${databaseUrl.slice(0, 96)}…` : databaseUrl;
   const redacted = preview.replace(/:([^:@/]+)@/, ":****@");

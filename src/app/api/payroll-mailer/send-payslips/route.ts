@@ -111,10 +111,10 @@ export async function POST(request: Request) {
         for (const employee of targetEmployees) {
           const subject = renderTemplate(subjectTemplate, employee);
           const htmlBody = renderMailHtmlDocument(bodyTemplate, employee, mailLocale);
-          const textBody = renderMailPlainText(bodyTemplate, employee, mailLocale);
+          const textBody = renderMailPlainText(bodyTemplate, employee);
 
           try {
-            await page.setContent(renderPayslipHtml(employee, mailLocale), { waitUntil: "domcontentloaded" });
+            await page.setContent(renderPayslipHtml(employee), { waitUntil: "domcontentloaded" });
             const pdfBuffer = await page.pdf({
               format: "A4",
               printBackground: true,

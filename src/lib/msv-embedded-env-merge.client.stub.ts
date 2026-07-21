@@ -6,6 +6,7 @@ export function resolveMsvWebRoot(fallback: string = ""): string {
   return fallback;
 }
 
-export function applyMsvEmbeddedDatabaseEnvFromDisk(_cwd?: string): boolean {
+export function applyMsvEmbeddedDatabaseEnvFromDisk(cwd?: string): boolean {
+  void cwd;
   return false;
 }

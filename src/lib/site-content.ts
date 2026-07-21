@@ -599,20 +599,6 @@ export const vpHaStatementFull = `하헌범 부대표는 공인회계사(CPA) �
 
 현재는 MSV의 공동 리더로서, 한국 고객사와의 원활한 소통과 문화적 이해를 바탕으로 인도 내 안정적 사업 운영을 지원하고 있으며, 장기적인 관점에서 고객사의 성장과 지속 가능한 성과 창출을 돕는 신뢰할 수 있는 파트너 역할을 수행하고 있습니다.`;
 
-/** 부대표 소개 하단 경력·학력 목록 */
-export const vpHaCareerBullets = [
-  "GS그룹 신사업 투자 및 개별 투자건 자문",
-  "수출입은행 중장기 투자전략 및 중장기 비전 수립",
-  "대우캐피탈 매각 자문",
-  "파인우드 캐피탈, Managing Partner",
-  "㈜ GS, 사업지원팀, 부장",
-  "Asia Clean Energy Limited, Chief Investment Manager",
-  "Arthur D. Little, Senior Consultant",
-  "딜로이트 안진회계법인 FAS 본부, Assistant Manager",
-  "Columbia Business School, MBA",
-  "연세대학교 경영학과 석사, 한양대학교 무역학과 학사",
-] as const;
-
 /** 회사 소개 페이지 인도 CA(카슐 샤르마) 소개 본문. 대외 자료와 문구를 맞출 때는 이 상수만 수정하면 됩니다. */
 export const caKashulStatementFull = `카슐 샤르마 공인회계사는 인도의 회계, 세무, 기업 규제 시스템 전반에 걸쳐 깊은 전문성과 실무 경험을 갖춘 전문가로서, 외국계 기업의 인도 진출 및 운영을 위한 핵심적인 재무 파트너입니다.
 
@@ -649,47 +635,4 @@ export const clientSectors = [
   "부동산·호텔",
   "에너지·기계",
   "공공·기관 협력",
-];
-
-/** 메인 비주얼 슬라이드 (인도 회계·컨설팅 사이트형 히어로) */
-export const heroSlides = [
-  {
-    kicker: "MSV",
-    title: "인도 진출, 설립부터 운영까지 한 번에",
-    description:
-      "법인 설립·인허가·회계·세무·수출입·HR까지 외주 없이 직접 실행하는 원스톱 파트너입니다.",
-    tone: "slate" as const,
-  },
-  {
-    kicker: "Consulting & Compliance",
-    title: "상근 공인회계사 · 다국어 실무팀",
-    description:
-      "GST, TDS, IFRS와 인도 규제를 함께 다루며, 한국어·영어·힌디어로 신속하게 소통합니다.",
-    tone: "amber" as const,
-  },
-  {
-    kicker: "YOUR BUSINESS PARTNER",
-    title: "호텔·제조·건설·유통, 다양한 산업 경험",
-    description:
-      "현장 실사·투자 검토·협력사 매칭까지 프로필 기준 다수 프로젝트와 레퍼런스를 보유하고 있습니다.",
-    tone: "emerald" as const,
-  },
-];
-
-/** 상단 롤링 비즈니스 키워드 (에이디엘식 BUSINESS 롤링 배너 대응) */
-export const marqueeKeywords = [
-  "법인 설립",
-  "PAN · GST",
-  "수출입 코드",
-  "회계 · 감사",
-  "세무 신고",
-  "인허가",
-  "주재원 비자",
-  "FRRO",
-  "HR · 채용",
-  "부동산 실사",
-  "호텔 인수 검토",
-  "ERP 셋업",
-  "본사 보고",
-  "논스톱 운영",
 ];

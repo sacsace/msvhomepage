@@ -25,7 +25,7 @@ const segmentToParagraphsHtml = (segment: string, employee: PayrollEmployee): st
 
 /** Mail HTML body: greeting paragraphs + payslip block. */
 export const renderMailHtmlDocument = (bodyTemplate: string, employee: PayrollEmployee, locale: SiteLocale = "ko"): string => {
-  const payslip = renderPayslipEmailTable(employee, locale);
+  const payslip = renderPayslipEmailTable(employee);
   const chrome = payrollMailerMailDocumentChrome(locale);
   const tokens = bodyTemplate.split(payslipToken);
   let inner = tokens
@@ -66,12 +66,12 @@ export const renderMailHtmlDocument = (bodyTemplate: string, employee: PayrollEm
 };
 
 /** Plain-text alternative body. */
-export const renderMailPlainText = (bodyTemplate: string, employee: PayrollEmployee, locale: SiteLocale = "ko"): string => {
+export const renderMailPlainText = (bodyTemplate: string, employee: PayrollEmployee): string => {
   const vars = getTemplateVariables(employee);
   const replaceVars = (s: string) =>
     s.replace(variablePattern, (_, key: keyof TemplateVariables) => vars[key] ?? "");
 
-  const plainPayslip = renderPayslipPlainText(employee, locale);
+  const plainPayslip = renderPayslipPlainText(employee);
   const tokens = bodyTemplate.split(payslipToken);
   let out = tokens.map((seg, i) => replaceVars(seg) + (i < tokens.length - 1 ? `\n\n${plainPayslip}\n\n` : "")).join("");
   if (tokens.length === 1) {

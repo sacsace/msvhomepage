@@ -146,10 +146,6 @@ export type ServiceGuideCopy = {
 
 type Bundle = { readonly ko: ServiceGuideCopy; readonly en: ServiceGuideCopy; readonly zh: ServiceGuideCopy };
 
-function section(title: string, bullets: readonly string[]): GuideSection {
-  return { title, bullets };
-}
-
 const gstPracticeGuide: Bundle = {
   ko: {
     metaTitle: "GST 실무 안내",

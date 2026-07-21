@@ -305,8 +305,3 @@ export async function sendTransactionalEmail(input: SendTransactionalEmailInput)
   }
   await sendViaPostmark(input);
 }
-
-/** SMTP 모드에서만 호스트 필수 */
-export function mailSettingsHasSmtpHost(settings: MailSettings): boolean {
-  return Boolean(settings.host.trim());
-}

@@ -129,12 +129,6 @@ const readPaidDayRatio = (row: Record<string, unknown>): PaidDayRatio => {
   return { paidDays: paidDays || 0, monthDays: monthDays || 0, ratio: 1 };
 };
 
-const prorateWithRoundDown = (amount: number, { ratio, monthDays, paidDays }: PaidDayRatio): number => {
-  if (amount === 0 || ratio === 1) return amount;
-  if (monthDays > 0 && paidDays > 0) return roundDown0(amount * ratio);
-  return amount;
-};
-
 /** Tescom: P×M/N — ROUNDDOWN 없이 정확한 비율 곱 */
 const prorateExact = (amount: number, { ratio, monthDays, paidDays }: PaidDayRatio): number => {
   if (amount === 0 || ratio === 1) return amount;
@@ -383,8 +377,6 @@ const formatMissingError = (headers: string[]) => {
     `Headers read from row ${PAYROLL_HEADER_ROW_1_BASED}: ${headers.slice(0, 12).join(", ")}${headers.length > 12 ? ", ..." : ""}`,
   ].join("\n");
 };
-
-export const getRequiredColumns = () => [...MSV_REQUIRED_COLUMNS];
 
 export const readPayrollWorkbook = (buffer: ArrayBuffer, password?: string): XLSX.WorkBook => {
   try {

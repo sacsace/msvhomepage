@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { startTransition, useEffect, useMemo, useRef, useState } from "react";
 import { MailSettingsPanel } from "@/components/payroll-mailer/MailSettingsPanel";
 import { PayrollMailerPasswordGate } from "@/components/payroll-mailer/PayrollMailerPasswordGate";
 import { payrollMailerPageCopy } from "@/lib/i18n/payroll-mailer-locale";
@@ -49,23 +49,30 @@ export function PayrollMailerClient({ locale }: PayrollMailerClientProps) {
   const [finalConfirmChecked, setFinalConfirmChecked] = useState(false);
   const composeStorageReadyRef = useRef(false);
 
-  const refreshAccess = useCallback(async () => {
-    try {
-      const res = await fetch(`${PAYROLL_MAILER_API}/access`, { cache: "no-store" });
-      const data = (await res.json()) as { configured?: boolean; unlocked?: boolean };
-      if (!data.configured) {
-        setAccessState("not_configured");
-        return;
-      }
-      setAccessState(data.unlocked ? "unlocked" : "locked");
-    } catch {
-      setAccessState("not_configured");
-    }
-  }, []);
-
   useEffect(() => {
-    void refreshAccess();
-  }, [refreshAccess]);
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch(`${PAYROLL_MAILER_API}/access`, { cache: "no-store" });
+        const data = (await res.json()) as { configured?: boolean; unlocked?: boolean };
+        if (cancelled) return;
+        startTransition(() => {
+          if (!data.configured) {
+            setAccessState("not_configured");
+            return;
+          }
+          setAccessState(data.unlocked ? "unlocked" : "locked");
+        });
+      } catch {
+        if (!cancelled) {
+          startTransition(() => setAccessState("not_configured"));
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const mailUnlocked = accessState === "unlocked";
   const gateCopy = useMemo(
