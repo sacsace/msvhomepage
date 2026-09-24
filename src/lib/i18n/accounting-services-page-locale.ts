@@ -100,12 +100,12 @@ const koHighlights = [
 ] as const;
 
 const ko: AccountingServicesPageBody = {
-  metaTitle: "서비스",
+  metaTitle: "인도 법인설립·공장설립·법인회계·세무감사",
   metaDescription:
-    "인도 진출·운영 통합: 법인 설립부터 GST·FEMA·수출입·공장 인허가·Payroll·FRRO까지 현지 실무 지원과 회계·세무·컴플라이언스 라인업·사례",
+    "인도 법인설립, 공장설립, 비즈니스 컨설팅, 법인회계, 세무감사를 현지에서 지원합니다. GST·FEMA·수출입·인허가·Payroll·FRRO까지 MSV 실무팀이 운영합니다.",
   pageTitle: "인도 진출·운영 통합 서비스",
   pageDescription:
-    "법인 설립부터 GST·FEMA·수출입·공장 인허가·Payroll·FRRO까지 현지 실무팀이 직접 운영 지원합니다.",
+    "인도 법인설립, 공장설립, 비즈니스 컨설팅, 법인회계, 세무감사부터 GST·FEMA·수출입·인허가·Payroll·FRRO까지 현지 실무팀이 직접 운영 지원합니다.",
   menuTitle: "서비스 메뉴",
   menuIntro: "필요한 서비스 유형을 선택해 상세 페이지에서 지원 범위를 확인하세요.",
   coreEyebrow: "Service lines",
