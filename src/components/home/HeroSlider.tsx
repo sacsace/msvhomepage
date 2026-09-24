@@ -71,8 +71,7 @@ export function HeroSlider({ slides, locale }: Props) {
         }
       }}
     >
-      {/* 가로만 클리핑 — 세로 overflow-hidden이면 큰 인물 사진·얼굴이 잘림 */}
-      <div className="relative overflow-x-clip overflow-y-visible">
+      <div className="relative overflow-hidden">
         <div
           className={`flex ${reduceMotion ? "" : "transition-transform duration-500 ease-out"}`}
           style={{ transform: `translateX(-${activeIndex * 100}%)` }}
@@ -80,21 +79,25 @@ export function HeroSlider({ slides, locale }: Props) {
           {slides.map((slide, index) => (
             <article
               key={slide.id}
-              className="w-full shrink-0 overflow-visible"
+              className="w-full shrink-0"
               aria-hidden={index !== activeIndex}
               inert={index !== activeIndex ? true : undefined}
             >
-              {/* 텍스트 타이포·간격은 기존과 동일. 이미지는 우측 하단 절대배치 */}
+              {/*
+                텍스트 줄간격 유지.
+                인물: 이전 대비 약 80% 크기, 히어로·슬라이드 영역 안에만 표시.
+                pt-[20%]로 Y축을 아래로 밀되 컨테이너를 벗어나지 않음 → 얼굴이 위로 잘리지 않음.
+              */}
               <div
                 className={
                   slide.imageSrc
-                    ? "relative min-h-[9.5rem] overflow-visible sm:min-h-[10.5rem]"
+                    ? "relative min-h-[9.5rem] sm:min-h-[20rem] lg:min-h-[22rem]"
                     : "relative min-h-[9.5rem] sm:min-h-[10.5rem]"
                 }
               >
                 {slide.imageSrc ? (
                   <div
-                    className="pointer-events-none absolute bottom-[-4.5rem] right-[-0.5rem] z-0 hidden h-[min(36rem,58vh)] w-[min(56%,32rem)] items-end justify-end sm:flex lg:bottom-[-5.5rem] lg:h-[min(39rem,62vh)] lg:w-[min(58%,36rem)]"
+                    className="pointer-events-none absolute inset-y-0 right-0 z-0 hidden w-[min(45%,25.6rem)] flex-col justify-end pt-[20%] sm:flex lg:w-[min(46%,28.8rem)]"
                     aria-hidden={index !== activeIndex}
                   >
                     <Image
@@ -103,13 +106,13 @@ export function HeroSlider({ slides, locale }: Props) {
                       width={462}
                       height={714}
                       unoptimized
-                      className="h-full w-auto max-w-full object-contain object-bottom object-right drop-shadow-[0_18px_40px_rgba(0,0,0,0.4)]"
-                      sizes="(min-width: 1024px) 36rem, 32rem"
+                      className="h-auto max-h-full w-full object-contain object-bottom object-right drop-shadow-[0_16px_36px_rgba(0,0,0,0.38)]"
+                      sizes="(min-width: 1024px) 29rem, 26rem"
                       priority={slide.id === "operations"}
                     />
                   </div>
                 ) : null}
-                <div className="relative z-10">
+                <div className="relative z-10 max-w-[min(100%,36rem)] sm:max-w-[min(100%,32rem)] lg:max-w-[36rem]">
                   <p className="text-[10px] font-medium uppercase leading-none tracking-[0.2em] text-white/55 sm:text-[11px]">
                     {slide.eyebrow}
                   </p>

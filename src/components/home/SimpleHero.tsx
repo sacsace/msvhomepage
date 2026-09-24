@@ -24,7 +24,7 @@ export function SimpleHero({ locale }: Props) {
   const L = (p: string) => withLocalePrefix(p, locale);
 
   return (
-    <section className="relative isolate overflow-x-clip overflow-y-visible border-b border-msv-navy/20 bg-gradient-to-br from-msv-navy via-[#122338] to-slate-950">
+    <section className="relative isolate overflow-hidden border-b border-msv-navy/20 bg-gradient-to-br from-msv-navy via-[#122338] to-slate-950">
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.28] bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] bg-size-[100%_24px]"
         aria-hidden
@@ -43,7 +43,7 @@ export function SimpleHero({ locale }: Props) {
       />
 
       <div
-        className={`relative mx-auto flex min-h-[min(51.84vh,24.48rem)] max-w-6xl flex-col justify-center py-9 pb-16 sm:min-h-[min(52vh,28rem)] sm:py-[2.88rem] sm:pb-20 ${homeTypo.pageInset}`}
+        className={`relative mx-auto flex min-h-[min(51.84vh,24.48rem)] max-w-6xl flex-col justify-center py-9 sm:min-h-[min(48.96vh,26rem)] sm:py-[2.88rem] ${homeTypo.pageInset}`}
       >
         <div className="msv-hero-reveal msv-hero-reveal-1 relative z-10">
           <p className="text-[10px] font-medium uppercase leading-none tracking-[0.2em] text-white/55 sm:text-[11px]">
