@@ -274,6 +274,27 @@ function firstLeadLine(lead: string) {
   return lead.split("\n").map((s) => s.trim()).find(Boolean) ?? lead;
 }
 
+const homeHeroSoftwareSlideKo: HomeHeroSlide = {
+  id: "software",
+  eyebrow: "MSV 고객 전용 프로그램",
+  headline: "업무 통합 시스템과 GPS 기반 출퇴근 기록을 제공합니다.",
+  lead: "고객사에 업무 통합 시스템(MVS)·GPS 기반 출퇴근 기록 시스템(HeresNow)을 제공해, 회계·세무 서비스와 현장 운영 데이터를 한 흐름으로 연결합니다.",
+};
+
+const homeHeroSoftwareSlideEn: HomeHeroSlide = {
+  id: "software",
+  eyebrow: "MSV client programs",
+  headline: "Integrated business system and GPS attendance for clients.",
+  lead: "We provide clients with the MVS integrated business system and HeresNow GPS attendance, so accounting and tax work stay connected to on-the-ground operations.",
+};
+
+const homeHeroSoftwareSlideZh: HomeHeroSlide = {
+  id: "software",
+  eyebrow: "MSV 客户专用程序",
+  headline: "提供业务集成系统与基于 GPS 的考勤记录。",
+  lead: "为客户提供业务集成系统（MVS）与基于 GPS 的考勤系统（HeresNow），使会计税务服务与现场运营数据贯通。",
+};
+
 const homeHeroSlidesKo: readonly HomeHeroSlide[] = [
   {
     id: "accounting",
@@ -293,6 +314,7 @@ const homeHeroSlidesKo: readonly HomeHeroSlide[] = [
     headline: investmentRemittanceSpotlight.title,
     lead: investmentRemittanceSpotlight.paragraphs[0],
   },
+  homeHeroSoftwareSlideKo,
 ];
 
 const homeHeroSlidesEn: readonly HomeHeroSlide[] = [
@@ -314,6 +336,7 @@ const homeHeroSlidesEn: readonly HomeHeroSlide[] = [
     headline: investmentRemittanceSpotlightEn.title,
     lead: investmentRemittanceSpotlightEn.paragraphs[0],
   },
+  homeHeroSoftwareSlideEn,
 ];
 
 const homeHeroSlidesZh: readonly HomeHeroSlide[] = [
@@ -335,6 +358,7 @@ const homeHeroSlidesZh: readonly HomeHeroSlide[] = [
     headline: investmentRemittanceSpotlightZh.title,
     lead: investmentRemittanceSpotlightZh.paragraphs[0],
   },
+  homeHeroSoftwareSlideZh,
 ];
 
 export function homeHeroSlides(locale: SiteLocale): readonly HomeHeroSlide[] {
@@ -375,7 +399,7 @@ export function simpleHeroCtas(locale: SiteLocale) {
       pdf: "公司简介（PDF）",
       contact: "联系我们",
       about: "公司简介",
-      software: "软件",
+      software: "客户专用程序",
       foot: "班加罗尔 · 韩语 · 英语 · 中文",
     };
   }
@@ -385,7 +409,7 @@ export function simpleHeroCtas(locale: SiteLocale) {
       pdf: "회사 프로필 PDF",
       contact: "문의하기",
       about: "회사 소개",
-      software: "소프트웨어",
+      software: "고객 전용 프로그램",
       foot: "Bangalore · 한국어 · English",
     };
   }
@@ -394,7 +418,7 @@ export function simpleHeroCtas(locale: SiteLocale) {
     pdf: "Company profile (PDF)",
     contact: "Contact us",
     about: "About the company",
-    software: "Software",
+    software: "Client programs",
     foot: "Bangalore · Korean · English",
   };
 }

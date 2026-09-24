@@ -4,13 +4,13 @@ import { pickLocale } from "@/lib/site-locale";
 
 /** 사이트 기본 meta description (120–160자 권장) */
 export const defaultSiteDescriptionKo =
-  "인도 법인설립, 공장설립, 비즈니스 컨설팅, 법인회계, 세무감사를 MSV가 지원합니다. 방갈로르 현지 CPA 팀이 GST·TDS·FDI·FEMA·자본 송금까지 실행하며, 한국 본사와 연계해 인도 진출·운영을 돕습니다.";
+  "인도 법인설립, 공장설립, 비즈니스 컨설팅, 법인회계, 세무감사를 MSV가 지원합니다. 고객 전용으로 업무 통합 시스템(MVS)·GPS 기반 출퇴근 기록(HeresNow)을 제공하며, 방갈로르 CPA 팀이 GST·TDS·FDI·FEMA까지 실행합니다.";
 
 export const defaultSiteDescriptionEn =
-  "MSV (Minsub Ventures) supports India entity accounting, tax and on-the-ground execution from Bangalore. Our resident CPA-led team handles bookkeeping, GST, TDS, corporate tax, FDI and FEMA filings, capital remittances and equity events as one accountable team for foreign companies entering India.";
+  "MSV supports India incorporation, factory setup, business consulting, entity accounting and tax audit from Bangalore. Clients also get the MVS integrated business system and HeresNow GPS attendance, alongside CPA-led GST, TDS, FDI and FEMA execution.";
 
 export const defaultSiteDescriptionZh =
-  "MSV（민섭 벤처스）为印度实体会计、税务与现场执行提供一体化支持。班加罗尔常驻注册会计师团队负责 IFRS/Ind AS 记账、GST、TDS、企业所得税、FDI 与 FEMA 申报，以及增资与资本汇出等实务，服务外国企业印度落地与运营。";
+  "MSV 提供印度公司设立、工厂落地、商务咨询、法人会计与税务审计支持，并为客户提供业务集成系统（MVS）与基于 GPS 的考勤（HeresNow）。班加罗尔 CPA 团队执行 GST、TDS、FDI 与 FEMA 等实务。";
 
 export function defaultSiteDescription(locale: SiteLocale): string {
   return pickLocale(locale, {

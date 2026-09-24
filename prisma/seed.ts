@@ -26,64 +26,70 @@ function readJson<T>(file: string): T | null {
   }
 }
 
+/**
+ * 배포(preDeploy)마다 실행됩니다.
+ * 운영 DB 보호: 이미 있는 행은 JSON으로 덮어쓰지 않습니다. (빈 테이블일 때만 초기 시드)
+ */
 async function main() {
-  const mail = readJson<Partial<MailSettings>>("mail-settings.json");
-  await prisma.mailSettings.upsert({
-    where: { id: 1 },
-    create: {
-      id: 1,
-      host: String(mail?.host ?? ""),
-      port: Number(mail?.port) || 587,
-      secure: Boolean(mail?.secure),
-      user: String(mail?.user ?? ""),
-      pass: String(mail?.pass ?? ""),
-      fromAddress: String(mail?.fromAddress ?? ""),
-      toAddress:
-        String(mail?.toAddress ?? "lee@msventures.in, info@msventures.in") ||
-        "lee@msventures.in, info@msventures.in",
-    },
-    update: {
-      host: String(mail?.host ?? ""),
-      port: Number(mail?.port) || 587,
-      secure: Boolean(mail?.secure),
-      user: String(mail?.user ?? ""),
-      pass: String(mail?.pass ?? ""),
-      fromAddress: String(mail?.fromAddress ?? ""),
-      toAddress:
-        String(mail?.toAddress ?? "lee@msventures.in, info@msventures.in") ||
-        "lee@msventures.in, info@msventures.in",
-    },
-  });
-
-  const auth = readJson<{ passwordHash?: string; loginId?: string }>("admin-auth.json");
-  const fromFile = auth?.passwordHash?.trim();
-  const passwordHash =
-    fromFile && fromFile.length > 12 ? fromFile : bcrypt.hashSync("admin123", 10);
-  const loginId = (auth?.loginId?.trim() || "root").slice(0, 64);
-  await prisma.adminAuth.upsert({
-    where: { id: 1 },
-    create: { id: 1, loginId, passwordHash },
-    update: { loginId, passwordHash },
-  });
-
-  const clients = readJson<Client[]>("clients.json");
-  if (clients?.length) {
-    await prisma.client.deleteMany();
-    await prisma.client.createMany({
-      data: clients.map((c) => ({
-        id: c.id,
-        name: c.name,
-        logoSrc: c.logoSrc ?? null,
-        sector: c.sector ?? null,
-        website: c.website ?? null,
-        note: c.note ?? null,
-        sortOrder: c.sortOrder,
-        showOnHome: Boolean(c.showOnHome),
-        createdAt: new Date(c.createdAt),
-        updatedAt: new Date(c.updatedAt),
-      })),
+  const existingMail = await prisma.mailSettings.findUnique({ where: { id: 1 } });
+  if (!existingMail) {
+    const mail = readJson<Partial<MailSettings>>("mail-settings.json");
+    await prisma.mailSettings.create({
+      data: {
+        id: 1,
+        host: String(mail?.host ?? ""),
+        port: Number(mail?.port) || 587,
+        secure: Boolean(mail?.secure),
+        user: String(mail?.user ?? ""),
+        pass: String(mail?.pass ?? ""),
+        fromAddress: String(mail?.fromAddress ?? ""),
+        toAddress:
+          String(mail?.toAddress ?? "lee@msventures.in, info@msventures.in") ||
+          "lee@msventures.in, info@msventures.in",
+      },
     });
-    console.log(`Synced ${clients.length} clients from data/clients.json`);
+    console.log("Created mailSettings defaults (was empty).");
+  } else {
+    console.log("Skip mailSettings — already configured.");
+  }
+
+  const existingAuth = await prisma.adminAuth.findUnique({ where: { id: 1 } });
+  if (!existingAuth) {
+    const auth = readJson<{ passwordHash?: string; loginId?: string }>("admin-auth.json");
+    const fromFile = auth?.passwordHash?.trim();
+    const passwordHash =
+      fromFile && fromFile.length > 12 ? fromFile : bcrypt.hashSync("admin123", 10);
+    const loginId = (auth?.loginId?.trim() || "root").slice(0, 64);
+    await prisma.adminAuth.create({
+      data: { id: 1, loginId, passwordHash },
+    });
+    console.log("Created adminAuth defaults (was empty).");
+  } else {
+    console.log("Skip adminAuth — already configured.");
+  }
+
+  const clientCount = await prisma.client.count();
+  if (clientCount === 0) {
+    const clients = readJson<Client[]>("clients.json");
+    if (clients?.length) {
+      await prisma.client.createMany({
+        data: clients.map((c) => ({
+          id: c.id,
+          name: c.name,
+          logoSrc: c.logoSrc ?? null,
+          sector: c.sector ?? null,
+          website: c.website ?? null,
+          note: c.note ?? null,
+          sortOrder: c.sortOrder,
+          showOnHome: Boolean(c.showOnHome),
+          createdAt: new Date(c.createdAt),
+          updatedAt: new Date(c.updatedAt),
+        })),
+      });
+      console.log(`Seeded ${clients.length} clients (empty table).`);
+    }
+  } else {
+    console.log(`Skip clients — already have ${clientCount} rows.`);
   }
 
   if ((await prisma.article.count()) > 0) {
