@@ -16,7 +16,7 @@ export function GroupNavDesktop() {
   const locale = localeFromPathname(pathname) as SiteLocale;
   const bare = stripLocalePrefix(pathname.split("#")[0] || pathname);
   const active = bare === "/group" || bare.startsWith("/group/");
-  const label = pickLocale(locale, { ko: "그룹사", en: "Group", zh: "集团" });
+  const label = pickLocale(locale, { ko: "그룹사", en: "Group Companies", zh: "集团" });
   const ariaSub = pickLocale(locale, {
     ko: "그룹사 하위 메뉴",
     en: "Group companies submenu",

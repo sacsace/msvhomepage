@@ -37,7 +37,7 @@ export function shellStrings(locale: SiteLocale) {
     }),
     admin: pickLocale(locale, { ko: "관리자", en: "Admin", zh: "管理" }),
     copyright: pickLocale(locale, { ko: "", en: "All rights reserved.", zh: "保留所有权利。" }),
-    groupSection: pickLocale(locale, { ko: "그룹사", en: "Group", zh: "集团" }),
+    groupSection: pickLocale(locale, { ko: "그룹사", en: "Group Companies", zh: "集团" }),
     servicesSection: pickLocale(locale, { ko: "서비스", en: "Services", zh: "服务" }),
     aboutSection: pickLocale(locale, { ko: "About", en: "About", zh: "关于" }),
     newsSection: pickLocale(locale, { ko: "소식", en: "News", zh: "资讯" }),

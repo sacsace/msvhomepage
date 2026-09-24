@@ -31,34 +31,34 @@ export function homeMetadata(locale: SiteLocale) {
 
 export const homeAccountingHeroEn = {
   headline:
-    "India entity accounting and tax: from bookkeeping through statutory filings, one team owns your deadlines.",
+    "Accounting and tax services for businesses in India. From bookkeeping to statutory filings, one dedicated team manages your compliance.",
   lead:
-    "Built around a resident CPA practice, we run GST, TDS, corporate tax, FDI and FEMA filings as one operating rhythm.\nWe integrate capital remittances, equity events, ECB, DTAA, securities and Demat accounts, and day-to-day India entity operations in a single accountable team.",
-  badge: "CPA-led · Bangalore",
+    "Our in-house team provides integrated support for GST, TDS, corporate tax and regulatory filings related to foreign investment and FEMA compliance.\nWe also support capital remittances, equity events, ECB, DTAA, securities and Demat accounts, and day-to-day India entity operations.",
+  badge: "ACCOUNTING · TAX · COMPLIANCE",
 } as const;
 
 export const accountingOperationsSpotlightEn = {
-  eyebrow: "India entity · accounting & tax core",
-  title: "Stable accounting operations",
+  eyebrow: "Accounting & Tax Services in India",
+  title: "Reliable Accounting Support",
   paragraphs: [
-    "Books and filings are structured for Indian rules (IFRS / Ind AS, GST, TDS and more) and supervised by a resident CPA-led team, with checklists that align India statutory dates with group reporting cadence.",
-    "Scope flexes with transaction volume and industry; monthly, quarterly and annual bookkeeping, tax and advisory services are delivered as an integrated package. Below is a representative list of workstreams.",
+    "Our in-house accounting team manages your bookkeeping and filings in line with applicable accounting standards and Indian regulatory requirements. We use standardized processes and checklists to coordinate statutory deadlines with your group reporting schedule.",
+    "Our services are tailored to your industry and transaction volume, with integrated bookkeeping, tax and advisory support on a monthly, quarterly or annual basis. Our key services are listed below.",
   ] as const,
   highlights: [
-    "Bookkeeping · monthly close",
-    "Tax filings",
-    "Corporate tax · payment",
-    "Withholding (TDS)",
-    "GST",
-    "Transfer pricing",
-    "ECB periodic reporting",
-    "ESIC",
-    "EPF",
-    "Professional tax",
-    "Payroll & registers",
-    "SFT",
-    "FLA",
-    "Consolidated financials",
+    "Bookkeeping & Month-End Closing",
+    "Tax Return Filing",
+    "Corporate Tax & Payment Support",
+    "TDS Compliance",
+    "GST Compliance",
+    "Transfer Pricing",
+    "Periodic ECB Reporting",
+    "ESIC Compliance",
+    "EPF Compliance",
+    "Professional Tax Compliance",
+    "Payroll Processing & Record Maintenance",
+    "SFT Filing",
+    "FLA Return Filing",
+    "Consolidated Financial Statements",
   ] as const,
 } as const;
 
@@ -81,44 +81,44 @@ export const investmentRemittanceSpotlightEn = {
 
 export const servicesListEn = [
   {
-    title: "Accounting, tax & compliance",
+    title: "Accounting, Tax & Compliance",
     description:
-      "Bookkeeping, audit and tax filings (including GST and TDS) on IFRS and India rules, with corporate-structure advice under a resident CPA-led model.",
+      "Bookkeeping, audit and tax filing services, including GST and TDS, with advice on corporate structure and support for compliance with applicable accounting standards and Indian regulations.",
   },
   {
-    title: "Incorporation & licensing",
+    title: "Incorporation & Licensing",
     description:
-      "End-to-end India setup for manufacturing clients—from incorporation through PAN, GST, IEC and office leasing to operating licences handled locally.",
+      "Comprehensive support for manufacturing businesses setting up in India, covering company incorporation, PAN, GST and IEC registration, office leasing and local operating licences.",
   },
   {
-    title: "Import/export, trade & sourcing",
+    title: "Import, Export & Sourcing",
     description:
-      "Import/export operations, buyer and vendor matching, exhibition support, factory-visit interpreting and integrated trade execution.",
+      "Support for import and export operations, buyer and supplier matching, trade exhibitions and interpreting during factory visits.",
   },
   {
-    title: "HR, expatriates & FRRO",
+    title: "HR & Expatriate Support",
     description:
-      "Recruitment support, expatriate visas and FRRO, contract review and broader HR/admin handled directly by the in-house team.",
+      "Our in-house team handles recruitment support, expatriate visa and FRRO services, contract review, and day-to-day HR and administrative matters.",
   },
   {
-    title: "Hospitality, real estate & feasibility",
+    title: "Hospitality, Real Estate & Feasibility Studies",
     description:
-      "Hotel entry support including site visits, investment memos, feasibility studies, brokerage and coordinated legal counsel.",
+      "Support for hotel development and investment, including site visits, investment reports, feasibility studies, property brokerage and coordination with legal advisers.",
   },
   {
-    title: "Non-stop operations support",
+    title: "Ongoing Business Support",
     description:
-      "Post-incorporation run-the-company support—entity administration, ledgers, HQ reporting and ERP rollout/training—in one continuous engagement.",
+      "Support for day-to-day operations after incorporation, including company administration, bookkeeping, head office reporting, ERP implementation and training.",
   },
 ] as const;
 
 export const strengthsEn = [
-  "Resident CPA-led India bookkeeping and monthly / quarterly / annual filings in one system",
-  "Direct delivery of accounting, tax and compliance without outsourcing the core work",
-  "One calendar for HQ reporting and India statutory deadlines",
-  "Practical bridge on legal and cultural gaps between Korea and India",
-  "Multilingual communication",
-  "Fast decisions and accountable follow-through",
+  "An in-house accounting team managing bookkeeping and monthly, quarterly and annual filings in India.",
+  "Core accounting, tax and compliance services delivered directly by our team.",
+  "Coordinated schedules for head office reporting and statutory filings in India.",
+  "Practical support in navigating legal and cultural differences between Korea and India.",
+  "Multilingual communication.",
+  "Prompt decisions and clear accountability.",
 ] as const;
 
 /** 홈 고객사 리드 — `clientsShowcaseLead`(한국어)와 톤 맞춤 */
@@ -129,12 +129,12 @@ export const clientsShowcaseLeadZh =
   "我们以运营、会计、税务与合规的一体化实务支持 80 余家客户进入印度市场，服务流失率控制在 7% 及以下，体现稳定、长期的合作关系。";
 
 export const valuesEn = [
-  "Execution-led tailored consulting",
-  "Transparent, verifiable accounting and tax operations",
-  "Practical communication support between Korea and India",
-  "Industry-grounded problem solving from field experience",
-  "Direct integrated delivery from incorporation through operations",
-  "India regulatory and licensing expertise",
+  "Tailored consulting with practical implementation support.",
+  "Transparent accounting and tax processes backed by clear documentation.",
+  "Clear communication between Korean and Indian teams.",
+  "Practical solutions based on industry knowledge and experience.",
+  "Integrated support from incorporation to ongoing operations.",
+  "Expertise in Indian regulatory requirements and licensing.",
 ] as const;
 
 export const homeAccountingHeroZh = {
@@ -257,9 +257,9 @@ export function homeMidServicesSection(locale: SiteLocale) {
   }
   return {
     kicker: "Services",
-    title: "Execution-led services built on accounting",
-    lead: "On top of accounting, audit and tax, we connect incorporation, HR, import/export and other expansion work with the same team or trusted partner organizations.",
-    cta: "View accounting & tax lineup",
+    title: "Integrated Business Services with Accounting at the Core",
+    lead: "We provide accounting, audit and tax services, alongside support for incorporation, HR, import and export operations, and business expansion. Services are delivered by our in-house team or in coordination with trusted partners.",
+    cta: "View Accounting & Tax Services",
   };
 }
 
@@ -414,7 +414,7 @@ export function simpleHeroCtas(locale: SiteLocale) {
     };
   }
   return {
-    services: "Accounting & tax lineup",
+    services: "Accounting & Tax Services",
     pdf: "Company profile (PDF)",
     contact: "Contact us",
     about: "About the company",
@@ -461,7 +461,7 @@ export function contentPreviewsCopy(locale: SiteLocale) {
     calendarKicker: "Compliance",
     calendarTitle: "Filing & compliance calendar",
     calendarLead:
-      "TDS, GST, professional taxes, employee benefits, ECB, advance tax, shareholder meetings and public holidays—see key compliance milestones at a glance.",
+      "Stay on top of key dates for TDS, GST, professional tax, employee benefits, ECB reporting, advance tax and shareholder meetings, along with public holidays.",
     calendarGuideCta: "Monthly / quarterly / annual checklist →",
   };
 }
@@ -484,10 +484,10 @@ export function coreStrengthsSectionTitles(locale: SiteLocale) {
     };
   }
   return {
-    strengthsKicker: "Accounting depth",
-    strengthsTitle: "Core strengths",
-    valuesKicker: "VALUES",
-    valuesTitle: "Principles we operate by",
+    strengthsKicker: "Accounting Expertise",
+    strengthsTitle: "Core Strengths",
+    valuesKicker: "Our Values",
+    valuesTitle: "Our Operating Principles",
   };
 }
 
@@ -498,7 +498,7 @@ export function spotlightCtas(locale: SiteLocale) {
   if (locale !== "en") {
     return { accounting: "회계·세무 서비스 안내", investment: "서비스 상세 보기" };
   }
-  return { accounting: "Accounting & tax services", investment: "Explore services" };
+  return { accounting: "Accounting & Tax Services", investment: "Explore services" };
 }
 
 export function complianceCalendarUi(locale: SiteLocale) {
@@ -523,7 +523,7 @@ export function complianceCalendarUi(locale: SiteLocale) {
     weekSub: en ? "Key dates this week (Mon–Sun)" : "이번 주 주요 일정 (월~일)",
     monthKicker: en ? "Month" : "월간",
     monthSub: en ? "Key dates this calendar month" : "이번 달 주요 일정 (월~일 달력)",
-    monthButton: en ? "Month view" : "한 달 일정 보기",
+    monthButton: en ? "View Full Calendar" : "한 달 일정 보기",
     prevMonth: en ? "Previous month" : "이전 달",
     nextMonth: en ? "Next month" : "다음 달",
     noEntries: en ? "No entries for this day." : "등록된 일정이 없습니다.",

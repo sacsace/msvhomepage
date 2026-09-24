@@ -364,9 +364,9 @@ const en: AccountingServicesPageBody = {
   processSteps: enProcessSteps,
   highlights: enHighlights,
   lineupEyebrow: "Accounting & tax",
-  lineupTitle: "Accounting & tax lineup",
+  lineupTitle: "Accounting & Tax Services",
   lineupIntro:
-    "Delivered by in-house CPAs across recurring, annual and ad hoc mandates. Commercial scope and fees are confirmed after scoping and document review.",
+    "Delivered by our in-house accounting team across recurring, annual and ad hoc mandates. Commercial scope and fees are confirmed after scoping and document review.",
   accountingBlocks: enAccountingBlocks,
   complianceTitle: "Illustrative Indian corporate compliance calendar",
   complianceIntro: enComplianceIntro,
