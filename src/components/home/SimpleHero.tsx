@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { HeroSlider } from "@/components/home/HeroSlider";
 import { homeTypo } from "@/lib/home-typography";
@@ -19,8 +18,6 @@ const btnSecondary =
 const btnQuiet =
   "inline-flex shrink-0 items-center text-sm font-medium text-white/70 underline-offset-4 transition duration-200 hover:text-white hover:underline";
 const ctaSep = "text-white/25";
-
-const HERO_PORTRAIT = "/team/lee-minsub-hero.png";
 
 export function SimpleHero({ locale }: Props) {
   const slides = homeHeroSlides(locale);
@@ -58,22 +55,8 @@ export function SimpleHero({ locale }: Props) {
           </p>
         </div>
 
-        <div className="msv-hero-reveal msv-hero-reveal-2 mt-[1.4rem] grid items-end gap-6 sm:mt-[1.6rem] sm:grid-cols-[minmax(0,1fr)_minmax(9.5rem,14rem)] sm:gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(11rem,16rem)] lg:gap-10">
-          <div className="min-w-0">
-            <HeroSlider slides={slides} locale={locale} flushTop />
-          </div>
-          <div className="relative mx-auto w-[min(42%,11rem)] shrink-0 sm:mx-0 sm:w-full sm:self-end">
-            <div className="pointer-events-none absolute inset-x-[-8%] bottom-0 top-[18%] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(45,91,255,0.22),transparent_68%)] blur-md" aria-hidden />
-            <Image
-              src={HERO_PORTRAIT}
-              alt=""
-              width={684}
-              height={1024}
-              priority
-              className="relative z-[1] mx-auto h-auto w-full object-contain object-bottom drop-shadow-[0_18px_40px_rgba(0,0,0,0.45)]"
-              sizes="(max-width: 640px) 42vw, 16rem"
-            />
-          </div>
+        <div className="msv-hero-reveal msv-hero-reveal-2">
+          <HeroSlider slides={slides} locale={locale} />
         </div>
 
         <div className="msv-hero-reveal msv-hero-reveal-3 mt-[1.8rem] flex flex-wrap items-center gap-x-2.5 gap-y-2 sm:mt-8 sm:gap-x-3">
