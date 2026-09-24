@@ -10,9 +10,8 @@ type Props = {
   locale: SiteLocale;
 };
 
-/** 히어로 CTA — 흰 면 없이 라인형으로 통일 */
 const btnPrimary =
-  "inline-flex min-h-[2.5rem] shrink-0 items-center justify-center rounded-md border border-white/70 bg-transparent px-4 py-2 text-sm font-semibold tracking-tight text-white transition duration-200 hover:border-white hover:bg-white/[0.08] sm:px-5";
+  "inline-flex min-h-[2.5rem] shrink-0 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-semibold tracking-tight text-msv-navy transition duration-200 hover:bg-slate-100 sm:px-5";
 const btnSecondary =
   "inline-flex min-h-[2.5rem] shrink-0 items-center justify-center rounded-md border border-white/35 px-4 py-2 text-sm font-semibold tracking-tight text-white transition duration-200 hover:border-white/60 hover:bg-white/[0.08] sm:px-5";
 const btnQuiet =
@@ -25,7 +24,7 @@ export function SimpleHero({ locale }: Props) {
   const L = (p: string) => withLocalePrefix(p, locale);
 
   return (
-    <section className="relative isolate overflow-hidden border-b border-msv-navy/20 bg-gradient-to-br from-msv-navy via-[#122338] to-slate-950">
+    <section className="relative isolate overflow-x-clip overflow-y-visible border-b border-msv-navy/20 bg-gradient-to-br from-msv-navy via-[#122338] to-slate-950">
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.28] bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] bg-size-[100%_24px]"
         aria-hidden
@@ -44,9 +43,9 @@ export function SimpleHero({ locale }: Props) {
       />
 
       <div
-        className={`relative mx-auto flex min-h-[min(51.84vh,24.48rem)] max-w-6xl flex-col justify-center py-9 sm:min-h-[min(48.96vh,25.92rem)] sm:py-[2.88rem] ${homeTypo.pageInset}`}
+        className={`relative mx-auto flex min-h-[min(51.84vh,24.48rem)] max-w-6xl flex-col justify-center py-9 pb-16 sm:min-h-[min(52vh,28rem)] sm:py-[2.88rem] sm:pb-20 ${homeTypo.pageInset}`}
       >
-        <div className="msv-hero-reveal msv-hero-reveal-1">
+        <div className="msv-hero-reveal msv-hero-reveal-1 relative z-10">
           <p className="text-[10px] font-medium uppercase leading-none tracking-[0.2em] text-white/55 sm:text-[11px]">
             {company.tagline}
           </p>
@@ -55,11 +54,11 @@ export function SimpleHero({ locale }: Props) {
           </p>
         </div>
 
-        <div className="msv-hero-reveal msv-hero-reveal-2">
+        <div className="msv-hero-reveal msv-hero-reveal-2 relative z-10">
           <HeroSlider slides={slides} locale={locale} />
         </div>
 
-        <div className="msv-hero-reveal msv-hero-reveal-3 mt-[1.8rem] flex flex-wrap items-center gap-x-2.5 gap-y-2 sm:mt-8 sm:gap-x-3">
+        <div className="msv-hero-reveal msv-hero-reveal-3 relative z-20 mt-[1.8rem] flex flex-wrap items-center gap-x-2.5 gap-y-2 sm:mt-8 sm:gap-x-3">
           <Link href={L("/services")} className={btnPrimary}>
             {ctas.services}
           </Link>
@@ -80,7 +79,7 @@ export function SimpleHero({ locale }: Props) {
           </Link>
         </div>
 
-        <p className={`msv-hero-reveal msv-hero-reveal-3 mt-3 ${homeTypo.heroFoot}`}>{ctas.foot}</p>
+        <p className={`msv-hero-reveal msv-hero-reveal-3 relative z-20 mt-3 ${homeTypo.heroFoot}`}>{ctas.foot}</p>
       </div>
     </section>
   );

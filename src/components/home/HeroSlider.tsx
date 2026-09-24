@@ -71,7 +71,8 @@ export function HeroSlider({ slides, locale }: Props) {
         }
       }}
     >
-      <div className="relative overflow-hidden">
+      {/* 가로만 클리핑 — 세로 overflow-hidden이면 큰 인물 사진·얼굴이 잘림 */}
+      <div className="relative overflow-x-clip overflow-y-visible">
         <div
           className={`flex ${reduceMotion ? "" : "transition-transform duration-500 ease-out"}`}
           style={{ transform: `translateX(-${activeIndex * 100}%)` }}
@@ -79,24 +80,31 @@ export function HeroSlider({ slides, locale }: Props) {
           {slides.map((slide, index) => (
             <article
               key={slide.id}
-              className="w-full shrink-0"
+              className="w-full shrink-0 overflow-visible"
               aria-hidden={index !== activeIndex}
               inert={index !== activeIndex ? true : undefined}
             >
-              {/* 텍스트 타이포·간격은 기존과 동일. 이미지는 우측 절대배치로 줄간격에 영향 없음 */}
-              <div className="relative min-h-[9.5rem] sm:min-h-[10.5rem]">
+              {/* 텍스트 타이포·간격은 기존과 동일. 이미지는 우측 하단 절대배치 */}
+              <div
+                className={
+                  slide.imageSrc
+                    ? "relative min-h-[9.5rem] overflow-visible sm:min-h-[10.5rem]"
+                    : "relative min-h-[9.5rem] sm:min-h-[10.5rem]"
+                }
+              >
                 {slide.imageSrc ? (
                   <div
-                    className="pointer-events-none absolute -bottom-2 right-0 top-[-0.35rem] z-0 hidden w-[min(48%,22rem)] items-center justify-end sm:flex lg:w-[min(50%,24rem)]"
+                    className="pointer-events-none absolute bottom-[-4.5rem] right-[-0.5rem] z-0 hidden h-[min(36rem,58vh)] w-[min(56%,32rem)] items-end justify-end sm:flex lg:bottom-[-5.5rem] lg:h-[min(39rem,62vh)] lg:w-[min(58%,36rem)]"
                     aria-hidden={index !== activeIndex}
                   >
                     <Image
                       src={slide.imageSrc}
                       alt=""
-                      width={720}
-                      height={720}
-                      className="h-auto max-h-[16.5rem] w-full object-contain object-right drop-shadow-[0_14px_32px_rgba(0,0,0,0.38)] sm:max-h-[18rem] lg:max-h-[19.5rem]"
-                      sizes="(min-width: 1024px) 24rem, 22rem"
+                      width={462}
+                      height={714}
+                      unoptimized
+                      className="h-full w-auto max-w-full object-contain object-bottom object-right drop-shadow-[0_18px_40px_rgba(0,0,0,0.4)]"
+                      sizes="(min-width: 1024px) 36rem, 32rem"
                       priority={slide.id === "operations"}
                     />
                   </div>
