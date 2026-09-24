@@ -13,6 +13,7 @@ const BrowserPathnameProvider = dynamic(
 );
 import { PageViewTracker } from "@/components/layout/PageViewTracker";
 import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { GoogleAnalytics } from "@/components/seo/GoogleAnalytics";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -91,6 +92,7 @@ export default async function RootLayout({
           </main>
         ) : (
           <BrowserPathnameProvider serverPathname={browserPath}>
+            <GoogleAnalytics />
             <PageViewTracker />
             <OrganizationJsonLd />
             <BreadcrumbJsonLd browserPath={browserPath} locale={locale} />

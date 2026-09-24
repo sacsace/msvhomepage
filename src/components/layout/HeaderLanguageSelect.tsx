@@ -29,6 +29,8 @@ export function HeaderLanguageSelect({ activeLocale }: Props) {
         name="site-lang"
         value={activeLocale}
         aria-label={shell.langLabel}
+        // 비밀번호·폼 확장(data-sharkid 등)이 hydration 전에 DOM을 건드리는 경우 경고 억제
+        suppressHydrationWarning
         onChange={(e) => {
           const next = e.target.value as SiteLocale;
           if (next === activeLocale) return;
