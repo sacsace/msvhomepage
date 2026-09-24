@@ -3,10 +3,13 @@
 import Link from "next/link";
 import { useBrowserPathname } from "@/components/layout/BrowserPathnameProvider";
 import { desktopNavMegaMenuItemClass, desktopNavTopSegmentClass } from "@/components/nav/desktop-nav-top-class";
-import type { SiteLocale } from "@/lib/site-locale";
-import { localeFromPathname, pickLocale, stripLocalePrefix, withLocalePrefix } from "@/lib/site-locale";
-
-import type { SiteLocale } from "@/lib/site-locale";
+import {
+  localeFromPathname,
+  pickLocale,
+  stripLocalePrefix,
+  withLocalePrefix,
+  type SiteLocale,
+} from "@/lib/site-locale";
 
 const subKo = [
   { href: "/software/mvs", label: "업무 통합 시스템 (MVS)" },
