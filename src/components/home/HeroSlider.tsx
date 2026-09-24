@@ -11,9 +11,11 @@ const AUTOPLAY_MS = 6500;
 type Props = {
   slides: readonly HomeHeroSlide[];
   locale: SiteLocale;
+  /** 히어로 2열 배치 시 상단 마진 제거 */
+  flushTop?: boolean;
 };
 
-export function HeroSlider({ slides, locale }: Props) {
+export function HeroSlider({ slides, locale, flushTop = false }: Props) {
   const ui = heroSliderUi(locale);
   const [activeIndex, setActiveIndex] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -51,7 +53,7 @@ export function HeroSlider({ slides, locale }: Props) {
 
   return (
     <div
-      className="relative mt-[1.4rem] sm:mt-[1.6rem]"
+      className={`relative ${flushTop ? "" : "mt-[1.4rem] sm:mt-[1.6rem]"}`}
       role="region"
       aria-roledescription="carousel"
       aria-label={ui.autoplay}
