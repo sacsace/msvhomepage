@@ -39,7 +39,7 @@ export default async function SoftwareMvsPage() {
   const topSections = c.sections.slice(0, 2);
   const bottomSections = c.sections.slice(2);
 
-  const sectionBlock = (sections: readonly typeof c.sections, keyPrefix: string) =>
+  const sectionBlock = (sections: typeof c.sections, keyPrefix: string) =>
     sections.map((s, si) => {
       const paras = splitIntroParagraphs(s.body);
       return (
