@@ -40,10 +40,22 @@ export type MvsSoftwarePageCopy = {
   linkContact: string;
 };
 
-/** 그룹웨어(MVS) 제품 사이트 — 외부 링크. */
+/** MVS 업무 통합 시스템 제품 사이트 — 외부 링크. */
 export const MVS_PRODUCT_SITE_URL = "https://www.mvsystem.in";
 
+const KO_SCOPE_BODY =
+  "도입 범위에 따라 모듈 구성이 달라질 수 있습니다. 제품 사이트(www.mvsystem.in)와 사내 MVS 소스 기준으로 대표 기능은 다음과 같습니다.\n\n• 대시보드 — 경영·관리·팀 단위 현황 요약\n\n• 기본정보·조직 — 회사·사용자·부서·직책·조직도, 파트너·고객사·계약\n\n• 인사·근태 — 출퇴근·근태 통계, 휴가 신청·관리, 급여·명세서·명세서 발송, 전자근로계약\n\n• 업무 — 전자결재, 업무 보드(칸반), 업무 보고·업무 통계, 과제·프로젝트, 회의실 예약\n\n• 회계 — 계정과목·전표·총계정원장, 손익·재무상태표, 법인세·선급세, 지출·지출결의, 회계 통계, Tally·SAP 등 외부 가져오기(옵션)\n\n• 재고·거래 문서 — 재고 현황·입고·출고·바코드·재고 보고서, 견적서, 일반 세금계산서(인보이스), 전자세금계산서·프로포마, 지출결의\n\n• 커뮤니케이션 — 공지, 이메일·SMS, 데스크톱 알림(notifier)\n\n• AI 분석(옵션) — 예측·효율 지표·추천·비용 분석\n\n• 호텔 모듈(옵션) — 프론트·예약 현황\n\n• 시스템 — 메뉴·권한, 로그인 이력, SMTP·알림, 개인·시스템 설정\n\n• My — 내 업무·명세서·개인정보·메일 설정\n\n멀티테넌트 SaaS로 회사(테넌트) 단위 데이터 격리, 사용자별 메뉴 권한(조회·생성·수정·삭제), 한국어·영어 UI, 실시간 알림·협업을 지원합니다.\n\n재고는 등록 품목 기준으로 조회·입출고·집계 보고서까지 이어지고, 견적·인보이스·지출결의는 각각 작성·승인·결제·지급 상태를 화면에서 추적합니다. 아래 화면 예시에서 UI 형태를 참고하실 수 있습니다.\n\n회계·세무·신고 실행은 외부 서비스 라인과 연계해 설계할 수 있습니다.";
+
+const EN_SCOPE_BODY =
+  "Module mix depends on scope. Representative capabilities from www.mvsystem.in and the in-house MVS codebase include:\n\n• Dashboard — executive, admin and team summaries\n\n• Master data·organisation — companies·users·departments·positions·org chart, partners·customers·contracts\n\n• HR·attendance — clock-in/out and statistics, leave requests·management, payroll·payslips·payslip email, e-labour contracts\n\n• Work — e-approval, Kanban boards, work reports·statistics, tasks·projects, room booking\n\n• Accounting — chart of accounts·vouchers·GL, P&L·balance sheet, corporate·advance tax, expenses·expense resolutions, accounting statistics, optional Tally·SAP import\n\n• Inventory·documents — stock status·receiving·shipping·barcode·reports, quotations, regular tax invoices, e-invoicing·proforma, expense resolutions\n\n• Communication — notices, email·SMS, desktop notifier\n\n• AI analytics (optional) — forecasting, efficiency metrics, recommendations, cost analysis\n\n• Hotel module (optional) — front desk·reservation status\n\n• System — menu·permissions, login history, SMTP·notifications, personal·system settings\n\n• My workspace — my tasks·payslips·profile·mail settings\n\nMulti-tenant SaaS with per-company data isolation, per-user menu rights (view·create·edit·delete), Korean·English UI and real-time notifications.\n\nInventory follows registered SKUs through inquiry, movements and summary reports; quotations, invoices and expense flows track draft·approval·payment·payout on screen. See the screenshots below for UI patterns.\n\nAccounting, tax and statutory filing can be wired to the external service line where required.";
+
+const ZH_SCOPE_BODY =
+  "按实施范围模块组合可能不同。依据 www.mvsystem.in 与内部 MVS 源码，代表性功能包括：\n\n• 看板 — 经营·管理·团队汇总\n\n• 主数据·组织 — 公司·用户·部门·职位·组织架构，伙伴·客户·合同\n\n• 人事·考勤 — 打卡与统计、休假申请与管理、工资·工资单·邮件发送、电子劳动合同\n\n• 工作 — 电子审批、看板任务、工作报告与统计、任务·项目、会议室预约\n\n• 会计 — 科目·凭证·总账，损益·资产负债表，法人税·预缴、费用·费用报销、会计统计，可选 Tally·SAP 导入\n\n• 库存·单据 — 库存现况·入库·出库·条码·报表，报价单，一般税务发票，电子发票·形式发票，费用报销\n\n• 沟通 — 公告、邮件·短信、桌面通知\n\n• AI 分析（可选）— 预测·效率·推荐·成本\n\n• 酒店模块（可选）— 前台·预订现况\n\n• 系统 — 菜单·权限、登录日志、SMTP·通知、个人与系统设置\n\n• My — 我的任务·工资单·个人信息·邮件设置\n\n多租户 SaaS，按公司隔离数据，用户级菜单权限（查看·创建·修改·删除），韩英界面，实时通知与协作。\n\n库存按登记物料贯穿查询、出入库与汇总报表；报价、发票与费用流程在界面跟踪拟稿·审批·付款·支付状态。界面示例见下文截图。\n\n会计、税务与申报执行可与外部服务线联动设计。";
+
 const SHOTS = [
+  "/software/mvs/dashboard.png",
+  "/software/mvs/attendance.png",
+  "/software/mvs/electronic-approval.png",
   "/software/mvs/inventory-status.png",
   "/software/mvs/receiving.png",
   "/software/mvs/shipping.png",
@@ -54,13 +66,13 @@ const SHOTS = [
 ] as const;
 
 const ko: MvsSoftwarePageCopy = {
-  metaTitle: "그룹웨어 (MVS)",
-  metaDescription: `${company.shortName}이 운영하는 웹 통합 그룹웨어입니다. 인사·근태·휴가·급여, 전자근로계약·전자결재, 업무 보드·보고·통계, 파트너·재고·전자세금계산서 등 법인 운영 업무를 한 로그인 체계에서 다룹니다.`,
-  pageTitle: "그룹웨어 (MVS)",
-  pageHeaderDescription: `${company.shortName}이 운영하는 웹 통합 그룹웨어입니다. 인사·근태·휴가·급여, 전자근로계약·전자결재, 업무 보드·보고·통계, 파트너·재고·전자세금계산서 등 법인 운영 업무를 한 로그인 체계에서 다룹니다.`,
+  metaTitle: "업무 통합 시스템 (MVS)",
+  metaDescription: `${company.shortName}이 운영하는 웹 업무 통합 시스템입니다. 인사·근태·휴가·급여, 전자근로계약·전자결재, 업무 보드·보고·통계, 파트너·재고·전자세금계산서 등 법인 운영 업무를 한 로그인 체계에서 다룹니다.`,
+  pageTitle: "업무 통합 시스템 (MVS)",
+  pageHeaderDescription: `${company.shortName}이 운영하는 웹 업무 통합 시스템입니다. 인사·근태·휴가·급여, 전자근로계약·전자결재, 업무 보드·보고·통계, 파트너·재고·전자세금계산서 등 법인 운영 업무를 한 로그인 체계에서 다룹니다.`,
   overviewEyebrow: "Overview",
   overviewTitle: "개요",
-  heroLead: `MVS(MS Ventures System, 브랜드·자료에 따라 Minsub Ventures System 표기를 함께 쓰기도 합니다)는 ${company.shortName}(${company.legalName})이 보유·운영하는 웹 기반 통합 그룹웨어입니다. 대시보드, 기본정보·조직·사용자·권한, 근태·휴가·급여, 전자근로계약, 전자결재·업무 보드·업무 보고·통계, 파트너·고객사, 재고·전자세금계산서 등 현장에서 매일 이어지는 업무를 모듈로 묶었고, 회사 단위 데이터 격리, SMTP·알림, 언어·통화(예: INR), 출근 반경·세션·비밀번호 정책 같은 운영·보안 항목은 시스템 설정에서 통제합니다.
+  heroLead: `MVS(MS Ventures System, 브랜드·자료에 따라 Minsub Ventures System 표기를 함께 쓰기도 합니다)는 ${company.shortName}(${company.legalName})이 보유·운영하는 웹 기반 업무 통합 시스템입니다. 제품 사이트는 www.mvsystem.in 에서 확인할 수 있습니다. 대시보드, 기본정보·조직·사용자·권한, 근태·휴가·급여, 전자근로계약, 전자결재·업무 보드·업무 보고·통계, 파트너·고객사, 재고·전자세금계산서 등 현장에서 매일 이어지는 업무를 모듈로 묶었고, 회사(테넌트) 단위 데이터 격리, SMTP·알림, 언어·통화(예: INR), 출근 반경·세션·비밀번호 정책 같은 운영·보안 항목은 시스템 설정에서 통제합니다.
 
 직원에게는 출퇴근·근태·휴가 신청·급여 조회, 관리자에게는 결재·엑셀 연동·집계·감사 같은 운영 기능을 같은 제품 안에서 이어 줍니다. 필요 시 회계·세무·컴플라이언스 실행은 상근 CPA 체계의 서비스 라인과 연계해 설계할 수 있습니다.
 
@@ -69,12 +81,12 @@ const ko: MvsSoftwarePageCopy = {
     {
       eyebrow: "Name",
       title: "Minsub Ventures System",
-      body: "MVS는 Minsub Ventures System을 아우르는 제품 브랜드입니다. 벤처(venture)가 갖는 도전과 실행의 이미지를 바탕으로, 그룹웨어로서 사내 업무 흐름을 한데 묶는 것을 목표로 합니다.",
+      body: "MVS는 Minsub Ventures System을 아우르는 제품 브랜드입니다. 벤처(venture)가 갖는 도전과 실행의 이미지를 바탕으로, 업무 통합 시스템으로서 사내 업무 흐름을 한데 묶는 것을 목표로 합니다.",
     },
     {
       eyebrow: "Scope",
       title: "주요 기능",
-      body: "도입 범위에 따라 모듈 구성이 달라질 수 있으며, 일반적으로 다음 영역을 한 제품 안에서 전환하며 사용합니다.\n\n• 기본정보·사용자·부서·역할, 시스템 설정·로그인 이력·SMTP\n\n• 근태(출퇴근, 통계), 휴가, 급여, 전자근로계약\n\n• 전자결재, 업무 보드(칸반), 업무 보고·업무 통계\n\n• 파트너·고객사, 재고(현황·입고·출고·보고서)·견적서·일반 세금계산서(인보이스)·지출결의서·전자세금계산서 등 거래·재무 보조\n\n• 호텔 등 그룹 확장 모듈(옵션)\n\n재고는 등록 품목 기준으로 조회·입출고·집계 보고서까지 이어지고, 견적·인보이스·지출결의는 각각 작성·승인·결제·지급 상태를 화면에서 추적합니다. 아래 화면 예시에서 UI 형태를 참고하실 수 있습니다.\n\n회계·세무·신고 실행은 외부 서비스 라인과 연계해 설계할 수 있습니다.",
+      body: KO_SCOPE_BODY,
     },
     {
       eyebrow: "Next steps",
@@ -85,46 +97,64 @@ const ko: MvsSoftwarePageCopy = {
   screensEyebrow: "Screens",
   screensTitle: "화면 예시",
   screenshotsLead:
-    "아래 캡처는 MVS 재고·견적·일반 세금계산서(인보이스)·지출결의서 등 일부 화면입니다. 테넌트·역할·통화·언어 설정에 따라 숫자·라벨·노출 필드가 달라질 수 있습니다.",
+    "아래 캡처는 MVS 대시보드·근태·전자결재와 재고·견적·일반 세금계산서(인보이스)·지출결의서 등 대표 화면입니다. 테넌트·역할·통화·언어 설정에 따라 숫자·라벨·노출 필드가 달라질 수 있습니다.",
   screenshots: [
     {
       src: SHOTS[0],
+      alt: "MVS 대시보드 화면. 경영·관리·팀 단위 요약 지표와 차트",
+      caption:
+        "대시보드 — 경영·관리·팀 등 역할에 맞는 요약 카드·차트·알림으로 일일 운영 현황을 한 화면에서 확인합니다.",
+    },
+    {
+      src: SHOTS[1],
+      alt: "MVS 출퇴근·근태 화면. 출근·퇴근 기록과 통계",
+      caption:
+        "출퇴근·근태 — 출근·퇴근 기록, 근태 통계·필터로 직원별·기간별 근무 상태를 조회하고 관리합니다.",
+    },
+    {
+      src: SHOTS[2],
+      alt: "MVS 전자결재 화면. 결재 대기·진행·완료 목록",
+      caption:
+        "전자결재 — 결재 요청·승인·반려 흐름을 목록과 상태 필터로 추적하고, 문서 상세에서 결재선·의견을 확인합니다.",
+    },
+    {
+      src: SHOTS[3],
       alt: "MVS 재고 현황 조회 화면. 요약 지표와 상품별 재고 테이블",
       caption:
         "재고 현황 조회 — 총 재고 가치·부족·품목 수 등 요약과 함께 품목별 현재 재고·최소·최대·재고율·단가·총가치·상태를 표시합니다. 행을 선택하면 해당 품목의 입·출고 내역으로 이어질 수 있습니다.",
     },
     {
-      src: SHOTS[1],
+      src: SHOTS[4],
       alt: "MVS 입고 관리 화면. 제품명 검색과 품목코드 입력",
       caption:
         "입고 관리 — 시스템에 등록된 품목만 입고할 수 있도록 제품명 검색·품목코드(바코드) 입력으로 품목을 특정하고, 신규 품목은 재고(제품) 관리에서 먼저 등록하는 흐름과 맞춥니다.",
     },
     {
-      src: SHOTS[2],
+      src: SHOTS[5],
       alt: "MVS 출고 관리 화면. 검색·수량·출고 이유와 출고 버튼",
       caption:
         "출고 관리 — 바코드·품목코드·제품명으로 품목을 찾은 뒤 수량·출고 사유를 입력하고, 출고 전 품목 정보를 읽기 전용으로 확인한 다음 처리합니다.",
     },
     {
-      src: SHOTS[3],
+      src: SHOTS[6],
       alt: "MVS 재고 보고서 화면. 요약·차트·상세 테이블",
       caption:
         "재고 보고서 — 기간·카테고리 필터, 새로고침·인쇄·보고서 내려받기와 함께 추이·카테고리별 분포·회전율 분석 등을 시각화하고, 하단에서 상세 재고 현황을 표로 확인합니다.",
     },
     {
-      src: SHOTS[4],
+      src: SHOTS[7],
       alt: "MVS 견적서 관리 화면. 요약 카드·탭·필터·견적 목록",
       caption:
         "견적서 관리 — 총 견적·총액·승인·대기 건수를 카드로 보여 주고, 내가 요청한 견적·승인 대기 탭과 검색·상태 필터로 목록을 좁힌 뒤 견적서 작성·발송·승인 상태를 관리합니다.",
     },
     {
-      src: SHOTS[5],
+      src: SHOTS[8],
       alt: "MVS 일반 세금계산서 화면. 인보이스 목록·승인·결제 상태",
       caption:
         "일반 세금계산서 — 내가 요청한 인보이스·승인 대기 탭으로 구분하고, 번호·고객명 검색·결제 상태 필터와 새 인보이스 작성으로 발행 건을 관리합니다. 발행일·만기일·금액·승인·결제 상태를 표로 보여 주며 행 단위로 조회·승인·인쇄 등 작업을 이어 갈 수 있습니다.",
     },
     {
-      src: SHOTS[6],
+      src: SHOTS[9],
       alt: "MVS 지출결의서 화면. 요약 카드·탭·지출 목록",
       caption:
         "지출결의서 — 작성한 지출·받은 지출·송금 대기 탭으로 흐름을 나누고, 총 지출·승인·대기·긴급 건을 카드로 요약합니다. 제목·지출번호·신청자 검색과 상태·우선순위 필터로 목록을 좁힌 뒤 금액·지급 상태 등을 표에서 관리합니다.",
@@ -142,13 +172,13 @@ const ko: MvsSoftwarePageCopy = {
 };
 
 const en: MvsSoftwarePageCopy = {
-  metaTitle: "Groupware (MVS)",
-  metaDescription: `${company.shortName} — web-based integrated groupware: HR, attendance, leave, payroll, e-labour contracts, e-approval, tasks, partners, inventory and e-invoicing in one login.`,
-  pageTitle: "Groupware (MVS)",
-  pageHeaderDescription: `${company.shortName} operates web-based integrated groupware. HR, attendance, leave, payroll, e-labour contracts, e-approval, work boards, reporting, statistics, partners, inventory and e-invoicing are handled in one login.`,
+  metaTitle: "Integrated Business System (MVS)",
+  metaDescription: `${company.shortName} — web-based integrated business system: HR, attendance, leave, payroll, e-labour contracts, e-approval, tasks, partners, inventory and e-invoicing in one login.`,
+  pageTitle: "Integrated Business System (MVS)",
+  pageHeaderDescription: `${company.shortName} operates a web-based integrated business system. HR, attendance, leave, payroll, e-labour contracts, e-approval, work boards, reporting, statistics, partners, inventory and e-invoicing are handled in one login.`,
   overviewEyebrow: "Overview",
   overviewTitle: "Overview",
-  heroLead: `MVS (MS Ventures System; some materials also use the full product name Minsub Ventures System) is web-based integrated groupware owned and operated by ${company.shortName} (${company.legalName}). Dashboard, master data·organisation·users·roles, attendance·leave·payroll, e-labour contracts, e-approval·task boards·reports·statistics, partners·customers, inventory·e-invoicing and other day-to-day work are organised as modules. Tenant isolation, SMTP·notifications, language·currency (e.g. INR), clock-in radius·session·password policy and similar controls are managed in system settings.
+  heroLead: `MVS (MS Ventures System; some materials also use the full product name Minsub Ventures System) is a web-based integrated business system owned and operated by ${company.shortName} (${company.legalName}). The product site is www.mvsystem.in. Dashboard, master data·organisation·users·roles, attendance·leave·payroll, e-labour contracts, e-approval·task boards·reports·statistics, partners·customers, inventory·e-invoicing and other day-to-day work are organised as modules. Tenant isolation, SMTP·notifications, language·currency (e.g. INR), clock-in radius·session·password policy and similar controls are managed in system settings.
 
 Employees get clock-in/out, attendance, leave requests and payroll views; administrators get approvals, Excel integration, roll-ups and audit in the same product. Where needed, accounting, tax and compliance execution can be designed together with the in-house CPA-led service line.
 
@@ -157,12 +187,12 @@ Company profile, vision and milestones are on the About page.`,
     {
       eyebrow: "Name",
       title: "Minsub Ventures System",
-      body: "MVS is the product brand encompassing Minsub Ventures System, reflecting venture: initiative, execution and growing operations together. As groupware, it aims to bring internal workflows together in one place.",
+      body: "MVS is the product brand encompassing Minsub Ventures System, reflecting venture: initiative, execution and growing operations together. As an integrated business system, it aims to bring internal workflows together in one place.",
     },
     {
       eyebrow: "Scope",
       title: "Key capabilities",
-      body: "Module mix depends on scope; customers typically run the following areas in one product:\n\n• Master data·users·departments·roles, system settings·login history·SMTP\n\n• Attendance (clock-in/out, statistics), leave, payroll, e-labour contracts\n\n• E-approval, task boards (Kanban), work reports·statistics\n\n• Partners·customers, inventory (status·receiving·shipping·reports)·quotations·general tax invoices·expense resolutions·e-invoicing\n\n• Optional group extensions such as hotel modules\n\nInventory follows registered items through inquiry, movements and summary reports; quotations, invoices and expense flows track draft·approval·payment·payout on screen. See the screenshots below for UI patterns.\n\nAccounting, tax and statutory filing can be wired to the external service line where required.",
+      body: EN_SCOPE_BODY,
     },
     {
       eyebrow: "Next steps",
@@ -173,46 +203,64 @@ Company profile, vision and milestones are on the About page.`,
   screensEyebrow: "Screens",
   screensTitle: "Screenshots",
   screenshotsLead:
-    "The captures below show parts of MVS: inventory, quotations, general tax invoices and expense resolutions. Numbers, labels and visible fields may vary by tenant, role, currency and language settings.",
+    "The captures below show representative MVS screens: dashboard, attendance, e-approval, inventory, quotations, general tax invoices and expense resolutions. Numbers, labels and visible fields may vary by tenant, role, currency and language settings.",
   screenshots: [
     {
       src: SHOTS[0],
+      alt: "MVS dashboard with executive, admin and team summary KPIs and charts",
+      caption:
+        "Dashboard — role-based summary cards, charts and alerts for daily operations in one view.",
+    },
+    {
+      src: SHOTS[1],
+      alt: "MVS attendance screen with clock-in/out records and statistics",
+      caption:
+        "Attendance — clock-in/out records and statistics with filters to review work status by employee and period.",
+    },
+    {
+      src: SHOTS[2],
+      alt: "MVS e-approval screen with pending, in-progress and completed lists",
+      caption:
+        "E-approval — track request, approve and reject flows via list and status filters; open details for approval lines and comments.",
+    },
+    {
+      src: SHOTS[3],
       alt: "MVS inventory status screen with summary KPIs and per-item stock table",
       caption:
         "Inventory status — summary KPIs (total stock value, shortages, SKU count) with per-item on-hand, min/max, stock ratio, unit price, total value and status. Selecting a row can open that item’s movement history.",
     },
     {
-      src: SHOTS[1],
+      src: SHOTS[4],
       alt: "MVS receiving screen with product search and item code entry",
       caption:
         "Receiving — only registered items can be received: locate items by product search or item code (barcode). New SKUs are registered first under inventory (products) to match the workflow.",
     },
     {
-      src: SHOTS[2],
+      src: SHOTS[5],
       alt: "MVS shipping screen with search, quantity, reason and ship action",
       caption:
         "Shipping — find items by barcode, code or name, enter quantity and reason, confirm read-only item details, then post the shipment.",
     },
     {
-      src: SHOTS[3],
+      src: SHOTS[6],
       alt: "MVS inventory report with summary, charts and detail table",
       caption:
         "Inventory report — period and category filters, refresh·print·export, with trend, category mix and turnover visuals and a detailed stock table below.",
     },
     {
-      src: SHOTS[4],
+      src: SHOTS[7],
       alt: "MVS quotation management with summary cards, tabs, filters and list",
       caption:
         "Quotations — cards for totals, amounts, approved and pending counts; “my requests” and “pending approval” tabs plus search and status filters to narrow the list, then manage create·send·approval states.",
     },
     {
-      src: SHOTS[5],
+      src: SHOTS[8],
       alt: "MVS general tax invoice screen with invoice list and approval/payment status",
       caption:
         "General tax invoices — “my requests” vs “pending approval” tabs, number·customer search and payment-status filters, plus new invoice creation. Issue date, due date, amount, approval and payment columns support row-level view·approve·print actions.",
     },
     {
-      src: SHOTS[6],
+      src: SHOTS[9],
       alt: "MVS expense resolution screen with summary cards, tabs and expense list",
       caption:
         "Expense resolutions — tabs for created, received and payout-pending flows, with cards for totals, approved, pending and urgent items. Title·expense no.·requester search and status·priority filters narrow the list; amounts and payout status are managed in the grid.",
@@ -230,13 +278,13 @@ Company profile, vision and milestones are on the About page.`,
 };
 
 const zh: MvsSoftwarePageCopy = {
-  metaTitle: "集团办公（MVS）",
-  metaDescription: `${company.shortName} — 基于网页的一体化集团办公：人事、考勤、休假、工资、电子劳动合同、电子审批、任务看板、伙伴、库存与电子发票等，同一登录体系完成。`,
-  pageTitle: "集团办公（MVS）",
-  pageHeaderDescription: `${company.shortName} 运营的网页一体化集团办公。人事、考勤、休假、工资、电子劳动合同、电子审批、工作看板、报表统计、伙伴、库存与电子发票等法人日常业务可在同一登录体系内处理。`,
+  metaTitle: "业务集成系统（MVS）",
+  metaDescription: `${company.shortName} — 基于网页的业务集成系统：人事、考勤、休假、工资、电子劳动合同、电子审批、任务看板、伙伴、库存与电子发票等，同一登录体系完成。`,
+  pageTitle: "业务集成系统（MVS）",
+  pageHeaderDescription: `${company.shortName} 运营的网页业务集成系统。人事、考勤、休假、工资、电子劳动合同、电子审批、工作看板、报表统计、伙伴、库存与电子发票等法人日常业务可在同一登录体系内处理。`,
   overviewEyebrow: "Overview",
   overviewTitle: "概述",
-  heroLead: `MVS（MS Ventures System；对外资料中也会并列 Minsub Ventures System 全称）是由 ${company.shortName}（${company.legalName}）持有并运营的网页一体化集团办公。将看板、主数据·组织·用户·权限、考勤·休假·工资、电子劳动合同、电子审批·任务看板·工作报告·统计、伙伴·客户、库存·电子发票等日常现场工作模块化；按公司隔离数据，SMTP·通知、语言·币种（如 INR）、打卡半径·会话·密码策略等运营与安全项在系统设置中集中控制。
+  heroLead: `MVS（MS Ventures System；对外资料中也会并列 Minsub Ventures System 全称）是由 ${company.shortName}（${company.legalName}）持有并运营的业务集成系统。产品网站为 www.mvsystem.in。将看板、主数据·组织·用户·权限、考勤·休假·工资、电子劳动合同、电子审批·任务看板·工作报告·统计、伙伴·客户、库存·电子发票等日常现场工作模块化；按公司(租户)隔离数据，SMTP·通知、语言·币种（如 INR）、打卡半径·会话·密码策略等运营与安全项在系统设置中集中控制。
 
 员工侧可完成打卡、考勤、休假申请与工资查询；管理侧可在同一产品内衔接审批、Excel 联动、汇总与审计。如需与会计、税务、合规落地衔接，可与常驻 CPA 体系的服务线一并设计。
 
@@ -245,12 +293,12 @@ const zh: MvsSoftwarePageCopy = {
     {
       eyebrow: "Name",
       title: "Minsub Ventures System",
-      body: "MVS 以 Minsub Ventures System 为产品品牌，体现 venture（创业投入与执行力）的内涵；作为集团办公，将内部业务流程集中在一处。",
+      body: "MVS 以 Minsub Ventures System 为产品品牌，体现 venture（创业投入与执行力）的内涵；作为业务集成系统，将内部业务流程集中在一处。",
     },
     {
       eyebrow: "Scope",
       title: "主要功能",
-      body: "按实施范围模块组合可能不同，常见在同一产品内覆盖：\n\n• 主数据·用户·部门·角色，系统设置·登录日志·SMTP\n\n• 考勤（打卡、统计）、休假、工资、电子劳动合同\n\n• 电子审批、任务看板（看板）、工作报告与统计\n\n• 伙伴·客户，库存（现况·入库·出库·报表）·报价单·一般税务发票（发票）·费用报销单·电子发票等交易与财务辅助\n\n• 酒店等集团扩展模块（可选）\n\n库存按已登记物料贯穿查询、出入库与汇总报表；报价、发票与费用流程在界面跟踪拟稿·审批·付款·支付状态。界面示例见下文截图。\n\n会计、税务与申报执行可与外部服务线联动设计。",
+      body: ZH_SCOPE_BODY,
     },
     {
       eyebrow: "Next steps",
@@ -261,46 +309,64 @@ const zh: MvsSoftwarePageCopy = {
   screensEyebrow: "Screens",
   screensTitle: "界面示例",
   screenshotsLead:
-    "以下截图为 MVS 在库存、报价、一般税务发票（发票）、费用报销等部分界面示例。数字、标签与可见字段可能因租户、角色、币种与语言设置而不同。",
+    "以下截图为 MVS 在看板、考勤、电子审批与库存、报价、一般税务发票（发票）、费用报销等代表性界面。数字、标签与可见字段可能因租户、角色、币种与语言设置而不同。",
   screenshots: [
     {
       src: SHOTS[0],
+      alt: "MVS 看板：经营·管理·团队汇总指标与图表",
+      caption:
+        "看板 — 按角色展示汇总卡片、图表与通知，在一屏查看日常运营概况。",
+    },
+    {
+      src: SHOTS[1],
+      alt: "MVS 考勤界面：打卡记录与统计",
+      caption:
+        "考勤 — 打卡记录与统计、筛选，按员工与期间查询与管理出勤状态。",
+    },
+    {
+      src: SHOTS[2],
+      alt: "MVS 电子审批：待办·进行中·已完成列表",
+      caption:
+        "电子审批 — 通过列表与状态筛选跟踪申请、批准与驳回流程，在详情中查看审批线与意见。",
+    },
+    {
+      src: SHOTS[3],
       alt: "MVS 库存现况界面：汇总指标与按商品库存表",
       caption:
         "库存现况 — 汇总总库存价值、缺货、SKU 数量等，并列出各物料现存量、最低/最高、库存率、单价、总价值与状态；选中行可进入该物料出入库明细。",
     },
     {
-      src: SHOTS[1],
+      src: SHOTS[4],
       alt: "MVS 入库管理：品名搜索与物料编码录入",
       caption:
         "入库管理 — 仅可对系统已登记物料入库：通过品名搜索或物料编码（条码）定位；新品需先在库存（产品）管理中登记以匹配流程。",
     },
     {
-      src: SHOTS[2],
+      src: SHOTS[5],
       alt: "MVS 出库管理：搜索、数量、出库原因与出库按钮",
       caption:
         "出库管理 — 以条码、物料编码或品名查找物料，录入数量与出库原因，在只读确认物料信息后执行出库。",
     },
     {
-      src: SHOTS[3],
+      src: SHOTS[6],
       alt: "MVS 库存报表：汇总、图表与明细表",
       caption:
         "库存报表 — 支持期间与类别筛选、刷新·打印·导出，可视化趋势、类别分布与周转分析，下方以表格展示明细库存。",
     },
     {
-      src: SHOTS[4],
+      src: SHOTS[7],
       alt: "MVS 报价单管理：汇总卡片、页签、筛选与列表",
       caption:
         "报价单管理 — 卡片展示报价总数、金额、已批准与待处理；「我发起的」与「待审批」页签配合搜索与状态筛选缩小列表，并管理创建·发送·审批状态。",
     },
     {
-      src: SHOTS[5],
+      src: SHOTS[8],
       alt: "MVS 一般税务发票：发票列表与审批、付款状态",
       caption:
         "一般税务发票 — 区分「我发起的」与「待审批」页签，支持编号·客户名搜索与付款状态筛选，并可新建发票。列表展示开票日、到期日、金额、审批与付款状态，支持行级查看·审批·打印等操作。",
     },
     {
-      src: SHOTS[6],
+      src: SHOTS[9],
       alt: "MVS 费用报销：汇总卡片、页签与支出列表",
       caption:
         "费用报销 — 以「已创建」「收到」「待打款」等页签划分流程，卡片汇总总支出、已批、待处理与紧急件；支持标题·报销单号·申请人搜索及状态·优先级筛选，在表格中管理金额与支付状态。",

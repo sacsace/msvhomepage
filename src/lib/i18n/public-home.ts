@@ -1,28 +1,31 @@
-import { company } from "@/lib/site-content";
+import { company, homeAccountingHero, accountingOperationsSpotlight, investmentRemittanceSpotlight } from "@/lib/site-content";
+import {
+  defaultSiteDescription,
+  homePageTitle,
+} from "@/lib/seo-site-copy";
 import type { SiteLocale } from "@/lib/site-locale";
 
 /** 홈 — 로케일별 메타 */
 export function homeMetadata(locale: SiteLocale) {
+  const description = defaultSiteDescription(locale);
   if (locale === "en") {
     return {
       title: "Home",
-      absoluteTitle: `${company.shortName} | India accounting, tax & on-the-ground execution`,
-      description:
-        "India entity accounting, tax and compliance—from bookkeeping through statutory filings—with a resident CPA-led team in Bangalore.",
+      absoluteTitle: homePageTitle("en"),
+      description,
     };
   }
   if (locale === "zh") {
     return {
       title: "首页",
-      absoluteTitle: `${company.shortName} | 印度会计、税务与现场执行`,
-      description:
-        "印度实体会计、税务与合规——从记账到法定申报，由班加罗尔常驻注册会计师团队一体化负责。",
+      absoluteTitle: homePageTitle("zh"),
+      description,
     };
   }
   return {
     title: "홈",
-    absoluteTitle: `${company.shortName} | 인도 회계·세무·현장 실행`,
-    description: company.taglineKo,
+    absoluteTitle: homePageTitle("ko"),
+    description,
   };
 }
 
@@ -62,7 +65,10 @@ export const accountingOperationsSpotlightEn = {
 export const investmentRemittanceSpotlightEn = {
   eyebrow: "Capital & remittance",
   title: "Foreign investment / remittance and reporting",
-  body: `Setting up and running an India subsidiary often means aligning FDI rules, equity inflows, shareholder changes and non-resident remittances with tax and FX reporting at the same time. MSV keeps company consulting, accounting and tax in one organization and executes paperwork, banks and revenue authorities from Bangalore with a single accountable team.`,
+  paragraphs: [
+    "Setting up and running an India subsidiary often means aligning FDI rules, equity inflows, shareholder changes and non-resident remittances with tax and FX reporting at the same time.",
+    "MSV keeps company consulting, accounting and tax in one organization and executes paperwork, banks and revenue authorities from Bangalore with a single accountable team. Below is a representative list of workstreams.",
+  ] as const,
   highlights: [
     "Form 41 / Form 10F, DTAA, income-tax filings",
     "Securities account opening",
@@ -167,7 +173,10 @@ export const accountingOperationsSpotlightZh = {
 export const investmentRemittanceSpotlightZh = {
   eyebrow: "资本与汇出",
   title: "外商投资 / 汇出与申报",
-  body: `设立并运营印度子公司往往需要在同一节奏下协调 FDI 规则、股本流入、股东变更与非居民汇出，以及税务与外汇申报。MSV 在同一组织内统筹公司咨询、会计与税务，并由班加罗尔单一负责团队对接文书、银行与税务机关。`,
+  paragraphs: [
+    "设立并运营印度子公司往往需要在同一节奏下协调 FDI 规则、股本流入、股东变更与非居民汇出，以及税务与外汇申报。",
+    "MSV 在同一组织内统筹公司咨询、会计与税务，并由班加罗尔单一负责团队对接文书、银行与税务机关。以下为代表性工作项。",
+  ] as const,
   highlights: [
     "Form 41 / Form 10F、DTAA、所得税申报",
     "证券账户开立",
@@ -254,25 +263,108 @@ export function homeMidServicesSection(locale: SiteLocale) {
   };
 }
 
-export function homeBrochureStrip(locale: SiteLocale) {
+export type HomeHeroSlide = {
+  id: string;
+  eyebrow: string;
+  headline: string;
+  lead: string;
+};
+
+function firstLeadLine(lead: string) {
+  return lead.split("\n").map((s) => s.trim()).find(Boolean) ?? lead;
+}
+
+const homeHeroSlidesKo: readonly HomeHeroSlide[] = [
+  {
+    id: "accounting",
+    eyebrow: homeAccountingHero.badge,
+    headline: homeAccountingHero.headline,
+    lead: firstLeadLine(homeAccountingHero.lead),
+  },
+  {
+    id: "operations",
+    eyebrow: accountingOperationsSpotlight.eyebrow,
+    headline: accountingOperationsSpotlight.title,
+    lead: accountingOperationsSpotlight.paragraphs[0],
+  },
+  {
+    id: "investment",
+    eyebrow: investmentRemittanceSpotlight.eyebrow,
+    headline: investmentRemittanceSpotlight.title,
+    lead: investmentRemittanceSpotlight.paragraphs[0],
+  },
+];
+
+const homeHeroSlidesEn: readonly HomeHeroSlide[] = [
+  {
+    id: "accounting",
+    eyebrow: homeAccountingHeroEn.badge,
+    headline: homeAccountingHeroEn.headline,
+    lead: firstLeadLine(homeAccountingHeroEn.lead),
+  },
+  {
+    id: "operations",
+    eyebrow: accountingOperationsSpotlightEn.eyebrow,
+    headline: accountingOperationsSpotlightEn.title,
+    lead: accountingOperationsSpotlightEn.paragraphs[0],
+  },
+  {
+    id: "investment",
+    eyebrow: investmentRemittanceSpotlightEn.eyebrow,
+    headline: investmentRemittanceSpotlightEn.title,
+    lead: investmentRemittanceSpotlightEn.paragraphs[0],
+  },
+];
+
+const homeHeroSlidesZh: readonly HomeHeroSlide[] = [
+  {
+    id: "accounting",
+    eyebrow: homeAccountingHeroZh.badge,
+    headline: homeAccountingHeroZh.headline,
+    lead: firstLeadLine(homeAccountingHeroZh.lead),
+  },
+  {
+    id: "operations",
+    eyebrow: accountingOperationsSpotlightZh.eyebrow,
+    headline: accountingOperationsSpotlightZh.title,
+    lead: accountingOperationsSpotlightZh.paragraphs[0],
+  },
+  {
+    id: "investment",
+    eyebrow: investmentRemittanceSpotlightZh.eyebrow,
+    headline: investmentRemittanceSpotlightZh.title,
+    lead: investmentRemittanceSpotlightZh.paragraphs[0],
+  },
+];
+
+export function homeHeroSlides(locale: SiteLocale): readonly HomeHeroSlide[] {
+  if (locale === "en") return homeHeroSlidesEn;
+  if (locale === "zh") return homeHeroSlidesZh;
+  return homeHeroSlidesKo;
+}
+
+export function heroSliderUi(locale: SiteLocale) {
   if (locale === "zh") {
     return {
-      lineBefore: "更多详情请参阅",
-      linePdf: "公司简介 PDF",
-      lineAfter: "。",
+      prev: "上一张",
+      next: "下一张",
+      slideOf: (current: number, total: number) => `第 ${current} 张，共 ${total} 张`,
+      autoplay: "自动播放轮播",
     };
   }
-  if (locale !== "en") {
+  if (locale === "en") {
     return {
-      lineBefore: "상세 소개는",
-      linePdf: "회사 프로필 PDF",
-      lineAfter: "를 참고해 주세요.",
+      prev: "Previous slide",
+      next: "Next slide",
+      slideOf: (current: number, total: number) => `Slide ${current} of ${total}`,
+      autoplay: "Hero carousel",
     };
   }
   return {
-    lineBefore: "For more detail, see the",
-    linePdf: "company profile PDF",
-    lineAfter: ".",
+    prev: "이전 슬라이드",
+    next: "다음 슬라이드",
+    slideOf: (current: number, total: number) => `${total}개 중 ${current}번째 슬라이드`,
+    autoplay: "히어로 슬라이드",
   };
 }
 

@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 import { adminApiCatchResponse } from "@/lib/db-api-error-response";
-import { readTaxCalendar, writeTaxCalendar } from "@/lib/tax-calendar-store";
+import { readTaxCalendarTemplates, writeTaxCalendar } from "@/lib/tax-calendar-store";
 import { requireAdmin } from "@/lib/require-admin";
-import { parseTaxCalendarKindInput, type TaxCalendarEvent } from "@/types/tax-calendar-event";
+import {
+  parseTaxCalendarKindInput,
+  parseTaxCalendarRecurrenceInput,
+  type TaxCalendarEvent,
+} from "@/types/tax-calendar-event";
 
 export const runtime = "nodejs";
 
@@ -16,7 +20,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
   const { id } = await ctx.params;
   try {
     const patch = (await request.json()) as Partial<TaxCalendarEvent>;
-    const all = await readTaxCalendar();
+    const all = await readTaxCalendarTemplates();
     const idx = all.findIndex((e) => e.id === id);
     if (idx === -1) return NextResponse.json({ error: "없음" }, { status: 404 });
     const cur = all[idx];
@@ -29,6 +33,13 @@ export async function PATCH(request: Request, ctx: Ctx) {
     if (!parsedKind.ok) {
       return NextResponse.json({ error: parsedKind.message }, { status: 400 });
     }
+    const parsedRecurrence = parseTaxCalendarRecurrenceInput(
+      patch.recurrence !== undefined ? patch.recurrence : cur.recurrence,
+      "YEARLY",
+    );
+    if (!parsedRecurrence.ok) {
+      return NextResponse.json({ error: parsedRecurrence.message }, { status: 400 });
+    }
     const nextKind = parsedKind.kind;
     const nextTitle = patch.title !== undefined ? String(patch.title).trim() : cur.title ?? "";
     const nextNote = patch.note !== undefined ? String(patch.note).trim() : cur.note ?? "";
@@ -38,6 +49,7 @@ export async function PATCH(request: Request, ctx: Ctx) {
       kind: nextKind,
       title: nextTitle || undefined,
       note: nextNote || undefined,
+      recurrence: parsedRecurrence.recurrence,
       updatedAt: new Date().toISOString(),
     };
     all[idx] = next;
@@ -54,7 +66,7 @@ export async function DELETE(_request: Request, ctx: Ctx) {
   if (denied) return denied;
   const { id } = await ctx.params;
   try {
-    const all = await readTaxCalendar();
+    const all = await readTaxCalendarTemplates();
     const next = all.filter((e) => e.id !== id);
     if (next.length === all.length) return NextResponse.json({ error: "없음" }, { status: 404 });
     await writeTaxCalendar(next);

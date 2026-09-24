@@ -26,6 +26,7 @@ async function main() {
     kind: e.kind,
     title: e.title ?? null,
     note: e.note ?? null,
+    recurrence: e.recurrence ?? "FIXED",
     createdAt: new Date(e.createdAt),
     updatedAt: new Date(e.updatedAt),
   }));

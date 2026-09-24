@@ -31,7 +31,10 @@ export const homeAccountingHero = {
 export const investmentRemittanceSpotlight = {
   eyebrow: "자본·송금 관련 서비스",
   title: "해외 투자 / 송금과 신고",
-  body: `인도 법인 설립·운영 과정에서는 외국인 투자(FDI) 규정, 자본금 유치·증자, 주주 구조 변경, 비거주자 송금 시 세무·환율 신고를 동시에 맞춰야 합니다. MSV는 법인 컨설팅·회계·세무를 한 조직에서 다루며, 방갈로르 현장에서 서류·은행·세무 실행까지 일관되게 지원합니다.`,
+  paragraphs: [
+    "인도 법인 설립·운영 과정에서는 외국인 투자(FDI) 규정, 자본금 유치·증자, 주주 구조 변경, 비거주자 송금 시 세무·환율 신고를 동시에 맞춰야 합니다.",
+    "MSV는 법인 컨설팅·회계·세무를 한 조직에서 다루며, 방갈로르 현장에서 서류·은행·세무 실행까지 일관되게 지원합니다. 아래는 주요 수행 업무 항목입니다.",
+  ] as const,
   highlights: [
     "Form 41 / Form 10F·DTAA(이중과세 방지)·소득세 신고",
     "주식 계좌 개설",
@@ -333,15 +336,18 @@ export const teamGreetingLead =
 
 /** MVS 페이지 본문·메타는 `mvsSoftwarePageCopy` (`@/lib/i18n/mvs-software-page-locale`)에서 로케일별로 관리합니다. */
 
+/** Website Information & Security Checker (WISC) */
+export const WISC_PRODUCT_SITE_URL = "https://wisc.mvsystem.in" as const;
+
 /** Software 상위 페이지 (`/software`) */
 export const softwareLanding = {
   headerSummary:
-    "회계·세무·현장 실행을 뒷받침하는 소프트웨어 라인과 운영 도구를 소개합니다. 그룹웨어(MVS), 출퇴근 기록(HeresNow), 급여 명세서 이메일 발송 도구를 선택해 주세요.",
+    "회계·세무·현장 실행을 뒷받침하는 소프트웨어 라인과 운영 도구를 소개합니다. 업무 통합 시스템(MVS), 출퇴근 기록(HeresNow), 급여 명세서 이메일 발송, 웹사이트 정보·보안 점검(WISC) 도구를 선택해 주세요.",
   cards: [
     {
       href: "/software/mvs",
-      title: "그룹웨어 (MVS)",
-      desc: `${company.shortName}이 운영하는 웹 통합 그룹웨어입니다. 인사·근태·급여·전자결재·업무·재고·파트너 등 법인 운영을 한 로그인으로 묶으며, 필요 시 회계·세무 서비스와 연계할 수 있습니다.`,
+      title: "업무 통합 시스템 (MVS)",
+      desc: `${company.shortName}이 운영하는 웹 업무 통합 시스템입니다. 인사·근태·급여·전자결재·업무·재고·파트너 등 법인 운영을 한 로그인으로 묶으며, 필요 시 회계·세무 서비스와 연계할 수 있습니다.`,
     },
     {
       href: "/software/herenow",
@@ -352,6 +358,11 @@ export const softwareLanding = {
       href: "/software/payroll-mailer",
       title: "급여 명세서 이메일 발송 시스템",
       desc: "엑셀 급여표를 업로드해 직원별 HTML 메일과 PDF 명세를 발송합니다. 브라우저·요청 메모리에서만 처리하며 사이트 DB에는 저장하지 않습니다.",
+    },
+    {
+      href: "/software/wisc",
+      title: "Website Information & Security Checker",
+      desc: "웹사이트 도메인의 보안·인증·성능을 점검합니다. SSL·헤더·인증 응답(Cookie/Token) 분석, 사이트 간 성능 비교(TTFB·응답 시간)와 JSON보내기를 지원합니다.",
     },
   ] as const,
 };

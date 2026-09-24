@@ -20,6 +20,7 @@ export function adminNavSections(locale: AdminUiLocale): readonly AdminNavSectio
           { href: "/admin/ongoing-tasks", label: "Projects" },
           { href: "/admin/tax-calendar", label: "Tax & compliance calendar" },
           { href: "/admin/company-history", label: "Company history" },
+          { href: "/admin/company-profile-pdf", label: "Company profile PDF" },
         ],
       },
       {
@@ -54,6 +55,7 @@ export function adminNavSections(locale: AdminUiLocale): readonly AdminNavSectio
         { href: "/admin/ongoing-tasks", label: "프로젝트 현황" },
         { href: "/admin/tax-calendar", label: "신고·준수 달력" },
         { href: "/admin/company-history", label: "회사 연혁" },
+        { href: "/admin/company-profile-pdf", label: "회사 프로필 PDF" },
       ],
     },
     {
@@ -111,7 +113,7 @@ export function adminDashboardData(locale: AdminUiLocale): AdminDashboardData {
     return {
       title: "Dashboard",
       lead:
-        "Manage public site content, people and clients, and delivery settings. Updates go live as soon as you save.",
+        "Manage public content, people, clients, and mail settings. Changes apply on save.",
       sections: [
         {
           id: "content",
@@ -129,6 +131,11 @@ export function adminDashboardData(locale: AdminUiLocale): AdminDashboardData {
               href: "/admin/company-history",
               title: "Company history",
               desc: "Timeline on the About page",
+            },
+            {
+              href: "/admin/company-profile-pdf",
+              title: "Company profile PDF",
+              desc: "Replace the public brochure PDF",
             },
           ],
         },
@@ -179,7 +186,7 @@ export function adminDashboardData(locale: AdminUiLocale): AdminDashboardData {
   return {
     title: "대시보드",
     lead:
-      "공개 사이트의 공지·자료·일정과 조직·고객 정보를 여기서 관리합니다. 저장 즉시 사이트에 반영됩니다. 문의·법인 설립 신청 등 발송 메일은 「시스템」의 SMTP 설정을 사용합니다.",
+      "공개 사이트 공지·자료·일정·조직·고객 관리 — 저장 즉시 반영. 발송 메일은 시스템 SMTP 설정 사용.",
     sections: [
       {
         id: "content",
@@ -197,6 +204,11 @@ export function adminDashboardData(locale: AdminUiLocale): AdminDashboardData {
             href: "/admin/company-history",
             title: "회사 연혁",
             desc: "소개 페이지 연혁 타임라인 편집",
+          },
+          {
+            href: "/admin/company-profile-pdf",
+            title: "회사 프로필 PDF",
+            desc: "공개 사이트 회사 프로필 PDF 교체",
           },
         ],
       },
@@ -251,23 +263,23 @@ export function adminPageViewStatsCopy(locale: AdminUiLocale) {
     return {
       pageTitle: "Site view statistics",
       pageLead:
-        "Recorded opens of the public site by day, URL path, and traffic source (referrer host when available). Admin and API routes are excluded.",
+        "Public site views by day, path, and referrer host. Admin and API routes excluded.",
       sectionTitle: "Site traffic",
       sectionHint:
-        "Each public page load is logged. Top paths and sources use a rolling 30-day window; daily bars are the last 7 UTC calendar days.",
+        "Each public page load is logged. Top paths/sources: rolling 30 days; daily bars: last 7 UTC days.",
       totalLabel: "Total page views",
       totalHint: "All recorded views since tracking started.",
       last30Label: "Last 30 days (rolling)",
-      last30Hint: "Count of views in the last 30 days, for comparison with all-time total.",
+      last30Hint: "Views in the last 30 days vs all-time total.",
       last7Title: "Last 7 days (UTC)",
-      last7Hint: "Views per calendar day in UTC.",
+      last7Hint: "Views per UTC calendar day.",
       topPathsTitle: "Top paths (30 days)",
       topPathsHint: "Most opened URL paths on this site.",
       topSourcesTitle: "Traffic sources (30 days)",
       topSourcesHint:
-        "Grouped by referring site hostname (from the browser’s Referer header). “Direct / unknown” includes typed URLs, bookmarks, and many in-site navigations—single-page transitions often send no referrer.",
+        "Referrer host from browser Referer. “Direct / unknown” includes typed URLs, bookmarks, and in-site navigations without referrer.",
       recentTitle: "Recent views (latest 50)",
-      recentHint: "Newest events first. Timestamps are stored in UTC.",
+      recentHint: "Newest first. Timestamps stored in UTC.",
       pathColumn: "Path",
       countColumn: "Views",
       sourceColumn: "Source (host)",
@@ -275,29 +287,29 @@ export function adminPageViewStatsCopy(locale: AdminUiLocale) {
       referrerColumn: "Referrer (summary)",
       directReferrerLabel: "Direct / no referrer",
       unavailable:
-        "Statistics are unavailable (database not reachable or SitePageView table missing). Run `npx prisma db push` after deploy.",
+        "Stats unavailable (DB unreachable or SitePageView missing). Run `npx prisma db push` after deploy.",
     };
   }
   return {
     pageTitle: "사이트 뷰 통계",
     pageLead:
-      "공개 사이트를 연 횟수를 날짜·경로·유입 출처(가능한 경우 리퍼러)로 확인합니다. 관리자·API 경로는 집계에서 제외됩니다.",
+      "공개 사이트 조회를 날짜·경로·유입(리퍼러)로 확인. 관리자·API 경로는 집계 제외.",
     sectionTitle: "사이트 유입",
     sectionHint:
-      "공개 페이지를 열 때마다 기록됩니다. 상위 경로·유입 출처는 최근 30일(rolling), 일별 막대는 최근 7일(UTC 날짜)입니다.",
+      "공개 페이지 열 때 기록. 상위 경로·유입은 최근 30일(rolling), 일별 막대는 최근 7일(UTC).",
     totalLabel: "누적 페이지뷰",
-    totalHint: "통계를 켠 이후 저장된 조회 수입니다.",
+    totalHint: "통계 시작 이후 저장된 조회 수.",
     last30Label: "최근 30일 (rolling)",
-    last30Hint: "지난 30일 동안의 조회 수로, 누적 대비 최근 활동을 볼 때 참고하세요.",
+    last30Hint: "지난 30일 조회 수 — 누적 대비 최근 활동 참고.",
     last7Title: "최근 7일 (UTC)",
-    last7Hint: "UTC 자정 기준 하루 단위 집계입니다.",
+    last7Hint: "UTC 자정 기준 일별 집계.",
     topPathsTitle: "많이 본 경로 (30일)",
-    topPathsHint: "이 사이트에서 조회가 많았던 URL 경로입니다.",
+    topPathsHint: "조회가 많았던 URL 경로.",
     topSourcesTitle: "유입 출처 (30일)",
     topSourcesHint:
-      "브라우저가 보낸 Referer(리퍼러)에서 사이트 호스트를 묶어 집계합니다. 「직접·리퍼러 없음」은 주소 직접 입력·북마크·앱에서 열기 등과, 같은 사이트 안에서 페이지만 바뀌는 경우(리퍼러가 비는 SPA 이동)에 많이 잡힙니다.",
+      "Referer 호스트별 집계. 「직접·리퍼러 없음」은 직접 입력·북마크·리퍼러 없는 사이트 내 이동 등.",
     recentTitle: "최근 조회 (최신 50건)",
-    recentHint: "가장 최근 기록부터입니다. 시각은 DB에 저장된 UTC 기준입니다.",
+    recentHint: "최신순. 시각은 UTC 저장.",
     pathColumn: "경로",
     countColumn: "조회",
     sourceColumn: "유입(호스트)",
@@ -305,6 +317,6 @@ export function adminPageViewStatsCopy(locale: AdminUiLocale) {
     referrerColumn: "리퍼러 요약",
     directReferrerLabel: "직접·리퍼러 없음",
     unavailable:
-      "통계를 불러올 수 없습니다(DB 연결 실패 또는 SitePageView 테이블 없음). 배포 후 `npx prisma db push` 로 스키마를 맞추세요.",
+      "통계 불가(DB 연결 실패 또는 SitePageView 없음) — 배포 후 `npx prisma db push`로 스키마 맞추기.",
   };
 }

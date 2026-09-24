@@ -1,6 +1,6 @@
 /**
  * 리다이렉트 `Location` 등에 쓸 브라우저가 열 수 있는 절대 origin.
- * `next dev -H 0.0.0.0` 일 때 `request.url` 이 `http://0.0.0.0:3100/...` 이면 브라우저는 `ERR_ADDRESS_INVALID` 가 나므로
+ * `next dev -H 0.0.0.0` 일 때 `request.url` 이 `http://0.0.0.0:3400/...` 이면 브라우저는 `ERR_ADDRESS_INVALID` 가 나므로
  * `Host` / `X-Forwarded-Host` 로 보정합니다.
  */
 export function requestPublicOrigin(request: Request): string {

@@ -11,6 +11,7 @@ import { fileURLToPath } from "node:url";
 import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
 import EmbeddedPostgres from "embedded-postgres";
+import { devError, devInfo, devOk, devVerbose, devWarn } from "./dev-log.mjs";
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
@@ -55,7 +56,7 @@ async function releaseEmbeddedDataDirIfStale(dataDirPath) {
   }
 
   if (!alive) {
-    console.warn("[MSV embedded] 남은 postmaster.pid 만 정리합니다(프로세스 없음).");
+    devInfo("[pg] 남은 postmaster.pid 정리(프로세스 없음)");
     try {
       fs.unlinkSync(pidFile);
     } catch {
@@ -64,9 +65,7 @@ async function releaseEmbeddedDataDirIfStale(dataDirPath) {
     return;
   }
 
-  console.warn(
-    `[MSV embedded] 이전 embedded PostgreSQL(pid ${oldPid})이 동일 데이터 디렉터리를 점유 중입니다. 종료합니다.`,
-  );
+  devInfo(`[pg] 이전 embedded PostgreSQL(pid ${oldPid}) 종료`);
   if (process.platform === "win32") {
     spawnSync("taskkill", ["/PID", String(oldPid), "/F", "/T"], { stdio: "inherit" });
   } else {
@@ -93,6 +92,31 @@ const dataDir = path.join(root, ".msv-embedded-pg", "data");
 const credPath = path.join(root, ".msv-embedded-pg", "credentials.json");
 const envOut = path.join(root, ".msv-embedded.env");
 const readyFlag = path.join(root, ".msv-embedded-pg", ".embedded-ready");
+
+function unlinkReadyFlagQuiet() {
+  try {
+    if (fs.existsSync(readyFlag)) fs.unlinkSync(readyFlag);
+  } catch {
+    /* ok */
+  }
+}
+
+function registerEmbeddedShutdown(pgRef) {
+  let stopping = false;
+  const stop = async () => {
+    if (stopping) return;
+    stopping = true;
+    unlinkReadyFlagQuiet();
+    try {
+      await pgRef?.stop?.();
+    } catch {
+      /* ok */
+    }
+    process.exit(0);
+  };
+  process.once("SIGTERM", () => void stop());
+  process.once("SIGINT", () => void stop());
+}
 
 function tcpListening(host, port) {
   return new Promise((resolve) => {
@@ -166,29 +190,74 @@ function listeningPidsInPortRangeWin32(from, to) {
   return [...pids];
 }
 
-/** taskkill: 0 성공, 128 대상 없음(무시), 그 외 로그 */
+function isProcessAlive(pid) {
+  if (!Number.isFinite(pid) || pid <= 0) return false;
+  if (process.platform === "win32") {
+    const r = spawnSync("tasklist", ["/FI", `PID eq ${pid}`], { encoding: "utf8" });
+    return Boolean(r.stdout && new RegExp(`\\b${pid}\\b`).test(r.stdout));
+  }
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function getListeningPidsOnPort(port) {
+  if (process.platform === "win32") {
+    return listeningPidsOnPortWin32(port);
+  }
+  const out = spawnSync("lsof", ["-t", `-iTCP:${port}`, "-sTCP:LISTEN"], { encoding: "utf8" });
+  if (out.status !== 0 || !out.stdout) return [];
+  const pids = [];
+  for (const line of out.stdout.trim().split(/\n/)) {
+    const pid = Number.parseInt(line, 10);
+    if (Number.isFinite(pid) && pid > 0) pids.push(pid);
+  }
+  return pids;
+}
+
+class ZombiePortError extends Error {
+  constructor(port) {
+    super(`포트 ${port} 좀비`);
+    this.name = "ZombiePortError";
+    this.port = port;
+  }
+}
+
+function wipeEmbeddedClusterData() {
+  const base = path.join(root, ".msv-embedded-pg");
+  try {
+    fs.rmSync(path.join(base, "data"), { recursive: true, force: true });
+  } catch {
+    /* ok */
+  }
+  for (const name of [".schema-pushed", ".seed-done", ".embedded-ready"]) {
+    try {
+      fs.unlinkSync(path.join(base, name));
+    } catch {
+      /* ok */
+    }
+  }
+}
+
 function spawnTaskkillLogged(args, label) {
   const r = spawnSync("taskkill", args, { encoding: "utf8" });
   const msg = [r.stdout, r.stderr].filter(Boolean).join("").trim();
   if (r.status === 0) {
-    if (msg) {
-      console.info(`[MSV embedded] ${label}: ${msg}`);
-    }
+    devInfo(`[pg] ${label}${msg ? `: ${msg}` : ""}`);
     return;
   }
-  if (r.status === 128) {
-    return;
-  }
-  console.warn(`[MSV embedded] ${label} taskkill 실패 (exit ${r.status})${msg ? `: ${msg}` : ""}`);
+  if (r.status === 128) return;
+  devWarn(`[pg] ${label} taskkill 실패 (exit ${r.status})${msg ? `: ${msg}` : ""}`);
 }
 
 /**
  * CommandLine 에 marker 가 포함된 postgres.exe 만 종료(보수적).
  */
 function killWindowsPostgresByCommandLineMarker(marker) {
-  if (process.platform !== "win32") {
-    return;
-  }
+  if (process.platform !== "win32") return;
   const ps =
     "$ErrorActionPreference='SilentlyContinue'; " +
     "Get-CimInstance Win32_Process -Filter \"Name='postgres.exe'\" | " +
@@ -196,66 +265,86 @@ function killWindowsPostgresByCommandLineMarker(marker) {
     marker +
     "*') { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue } }";
   spawnSync("powershell", ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", ps], {
-    stdio: ["pipe", "inherit", "inherit"],
+    stdio: "pipe",
     encoding: "utf8",
   });
 }
 
-/**
- * Windows: initdb 전 공유 메모리 충돌을 줄이기 위해 postgres.exe 를 정리합니다.
- * - 기본: `postgres.exe` 전부 종료(로컬 다른 PostgreSQL 도 꺼질 수 있음).
- * - `MSV_EMBEDDED_PRESERVE_FOREIGN_POSTGRES=1`: embedded 경로만 선택 종료(공유 메모리 오류 시 수동으로 postgres 정리 필요).
- */
-async function killWindowsEmbeddedPostgresInterference() {
-  if (process.platform !== "win32") {
-    return;
+function killWindowsEmbeddedPostgresProcesses() {
+  if (process.platform !== "win32") return;
+  for (const marker of [".msv-embedded-pg", "@embedded-postgres", "embedded-postgres\\windows"]) {
+    killWindowsPostgresByCommandLineMarker(marker);
   }
-  if (process.env.MSV_EMBEDDED_PRESERVE_FOREIGN_POSTGRES === "1") {
-    console.warn(
-      "[MSV embedded] MSV_EMBEDDED_PRESERVE_FOREIGN_POSTGRES=1 — postgres.exe 전체 자동 종료를 건너뜁니다. " +
-        "공유 메모리 오류가 나면 작업 관리자에서 postgres.exe 를 종료하세요.",
-    );
-    killWindowsPostgresByCommandLineMarker(".msv-embedded-pg");
-    await sleep(1500);
-    return;
-  }
-  console.warn(
-    "[MSV embedded] Windows: `pre-existing shared memory block` 방지를 위해 postgres.exe 를 모두 종료합니다. " +
-      "다른 로컬 PostgreSQL 을 유지하려면 `MSV_EMBEDDED_PRESERVE_FOREIGN_POSTGRES=1` 로 `npm run dev` 하세요.",
-  );
-  spawnTaskkillLogged(["/IM", "postgres.exe", "/F", "/T"], "postgres.exe 전체");
-  await sleep(2500);
 }
 
-function killListenersOnPort(port) {
-  if (process.env.MSV_EMBEDDED_NO_KILL_STALE === "1") {
+/**
+ * Windows: initdb 전 공유 메모리 충돌을 줄이기 위해 embedded 관련 postgres.exe 만 정리합니다.
+ * - 기본: `.msv-embedded-pg` 경로가 포함된 postgres.exe 만 종료(다른 로컬 PostgreSQL 유지).
+ * - `MSV_EMBEDDED_KILL_ALL_POSTGRES=1`: postgres.exe 전부 종료(공유 메모리 오류가 계속될 때만).
+ */
+async function killWindowsEmbeddedPostgresInterference() {
+  if (process.platform !== "win32") return;
+  if (process.env.MSV_EMBEDDED_KILL_ALL_POSTGRES === "1") {
+    devWarn("[pg] postgres.exe 전체 종료 (MSV_EMBEDDED_KILL_ALL_POSTGRES=1)");
+    spawnTaskkillLogged(["/IM", "postgres.exe", "/F", "/T"], "postgres.exe 전체");
+    await sleep(2500);
     return;
   }
+  killWindowsEmbeddedPostgresProcesses();
+  await sleep(1500);
+}
+
+function killListenersOnPort(port, { quiet = false } = {}) {
+  if (process.env.MSV_EMBEDDED_NO_KILL_STALE === "1") return;
   if (process.platform === "win32") {
     for (const pid of listeningPidsOnPortWin32(port)) {
-      if (pid === process.pid) {
-        continue;
-      }
-      console.warn(`[MSV embedded] 포트 ${port} LISTENING 프로세스(pid ${pid})를 종료합니다(이전 embedded 잔존 가능).`);
-      spawnTaskkillLogged(["/PID", String(pid), "/F", "/T"], `taskkill pid ${pid}`);
+      if (pid === process.pid) continue;
+      if (!quiet) devWarn(`[pg] 포트 ${port} pid ${pid} 종료`);
+      spawnTaskkillLogged(["/PID", String(pid), "/F", "/T"], `pid ${pid}`);
     }
     return;
   }
   const out = spawnSync("lsof", ["-t", `-iTCP:${port}`, "-sTCP:LISTEN"], { encoding: "utf8" });
-  if (out.status !== 0 || !out.stdout) {
-    return;
-  }
+  if (out.status !== 0 || !out.stdout) return;
   for (const line of out.stdout.trim().split(/\n/)) {
     const pid = Number.parseInt(line, 10);
-    if (!Number.isFinite(pid) || pid === process.pid) {
-      continue;
-    }
-    console.warn(`[MSV embedded] 포트 ${port} LISTENING(pid ${pid})를 종료합니다.`);
+    if (!Number.isFinite(pid) || pid === process.pid) continue;
+    if (!quiet) devWarn(`[pg] 포트 ${port} pid ${pid} 종료`);
     try {
       process.kill(pid, "SIGTERM");
     } catch {
       /* ok */
     }
+  }
+}
+
+/** 포트가 비워질 때까지 embedded postgres·LISTEN 프로세스 정리(재시도) */
+async function ensurePortFree(port) {
+  if (process.env.MSV_EMBEDDED_NO_KILL_STALE === "1") {
+    if (await tcpListening("127.0.0.1", port)) {
+      throw new Error(`포트 ${port} 사용 중 (MSV_EMBEDDED_NO_KILL_STALE=1)`);
+    }
+    return;
+  }
+  const maxAttempts = 12;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    if (!(await tcpListening("127.0.0.1", port))) return;
+
+    const pids = getListeningPidsOnPort(port).filter((p) => p !== process.pid);
+    const alive = pids.filter((p) => isProcessAlive(p));
+    if (pids.length > 0 && alive.length === 0) {
+      throw new ZombiePortError(port);
+    }
+
+    if (attempt === 1) devWarn(`[pg] 포트 ${port} 점유 — 정리 중…`);
+    killListenersOnPort(port, { quiet: true });
+    await killWindowsEmbeddedPostgresInterference();
+    await sleep(600 + attempt * 450);
+  }
+  if (await tcpListening("127.0.0.1", port)) {
+    throw new Error(
+      `포트 ${port}를 비울 수 없습니다. 다른 npm run dev 종료 후 web/.msv-embedded-pg 삭제를 시도하세요.`,
+    );
   }
 }
 
@@ -300,13 +389,12 @@ function writeEnvFile(port, appPassword) {
 }
 
 const pgVersionPath = path.join(dataDir, "PG_VERSION");
-const dataExists = fs.existsSync(pgVersionPath);
+let clusterReady = fs.existsSync(pgVersionPath);
 let creds = loadJson(credPath);
 
-if (dataExists && !creds) {
+if (clusterReady && !creds) {
   console.error(
-    "[MSV embedded] `.msv-embedded-pg/data` 는 있는데 `credentials.json` 이 없습니다.\n" +
-      "  폴더 `web/.msv-embedded-pg` 전체를 삭제한 뒤 `npm run dev` 를 다시 실행하세요.",
+    "[pg] `.msv-embedded-pg/data`는 있는데 `credentials.json` 없음 — `web/.msv-embedded-pg` 삭제 후 재실행",
   );
   process.exit(1);
 }
@@ -321,6 +409,7 @@ if (!creds) {
 }
 
 await (async () => {
+  let pg = null;
   try {
     /**
      * Windows: 사용자/셸 로케일(예: Korean_Korea.949)이 initdb 자식에게 넘어가면
@@ -344,56 +433,56 @@ await (async () => {
     }
 
     try {
-      if (fs.existsSync(readyFlag)) {
-        fs.unlinkSync(readyFlag);
-        console.info(
-          "[MSV embedded] 기동 초기화: `.embedded-ready` 제거됨 — " +
-            "`wait-embedded-ready` 는 이후 새 플래그가 생길 때까지 Next 기동을 지연합니다.",
-        );
-      }
+      if (fs.existsSync(readyFlag)) fs.unlinkSync(readyFlag);
     } catch {
       /* 없으면 무시 */
     }
 
     await releaseEmbeddedDataDirIfStale(dataDir);
-    await killWindowsEmbeddedPostgresInterference();
-
-    if (await tcpListening("127.0.0.1", preferredEmbeddedPort)) {
-      killListenersOnPort(preferredEmbeddedPort);
-      await sleep(2500);
-    }
 
     let port;
     const portMax = preferredEmbeddedPort + 40;
 
-    if (dataExists) {
-      if (await tcpListening("127.0.0.1", preferredEmbeddedPort)) {
-        console.error(
-          `[MSV embedded] 기존 클러스터(.msv-embedded-pg/data)가 있는데 포트 ${preferredEmbeddedPort} 를 비울 수 없습니다.\n` +
-            "  같은 데이터 디렉터리로 다른 포트에 올리면 shared memory 오류가 납니다. 반드시 이전 postgres 를 끈 뒤 같은 포트로 다시 시작하세요.\n" +
-            "  • 다른 터미널의 `npm run dev` 종료\n" +
-            `  • PowerShell: netstat -ano | findstr LISTENING | findstr :${preferredEmbeddedPort}\n` +
-            "  • 처음부터 다시: `web/.msv-embedded-pg` 폴더 삭제 후 재실행\n" +
-            "  • 자동 종료를 끄려면: MSV_EMBEDDED_NO_KILL_STALE=1",
-        );
-        process.exit(1);
+    if (clusterReady) {
+      try {
+        await ensurePortFree(preferredEmbeddedPort);
+        port = preferredEmbeddedPort;
+      } catch (e) {
+        if (e instanceof ZombiePortError) {
+          devWarn(`[pg] 포트 ${e.port} 좀비 — embedded 프로세스 정리 후 클러스터 재생성`);
+          await killWindowsEmbeddedPostgresInterference();
+          wipeEmbeddedClusterData();
+          await sleep(2000);
+          clusterReady = false;
+          port = preferredEmbeddedPort;
+          while (await tcpListening("127.0.0.1", port)) {
+            if (port >= portMax) {
+              devError(`[pg] ${preferredEmbeddedPort}~${portMax} 에 빈 포트 없음`);
+              process.exit(1);
+            }
+            port++;
+          }
+          if (port !== preferredEmbeddedPort) {
+            devInfo(`[pg] 좀비 포트 ${preferredEmbeddedPort} 건너뛰고 ${port} 사용`);
+          }
+        } else {
+          devError("[pg]", e instanceof Error ? e.message : e);
+          devError(`[pg] 점검: netstat -ano | findstr :${preferredEmbeddedPort}`);
+          process.exit(1);
+        }
       }
-      port = preferredEmbeddedPort;
     } else {
       port = preferredEmbeddedPort;
       while (await tcpListening("127.0.0.1", port)) {
         if (port >= portMax) {
-          console.error(
-            `[MSV embedded] ${preferredEmbeddedPort}~${portMax} 범위에 비어 있는 포트가 없습니다.\n` +
-              "  점유 중인 postgres 를 종료하거나 `MSV_EMBEDDED_PORT` 로 다른 시작 포트를 지정하세요.",
-          );
+          devError(`[pg] ${preferredEmbeddedPort}~${portMax} 에 빈 포트 없음`);
           process.exit(1);
         }
-        console.warn(`[MSV embedded] 포트 ${port} 사용 중 — ${port + 1} 로 시도합니다.`);
+        devInfo(`[pg] 포트 ${port} 사용 중 → ${port + 1}`);
         port++;
       }
       if (port !== preferredEmbeddedPort) {
-        console.info(`[MSV embedded] 사용 포트: ${port} (기본 ${preferredEmbeddedPort} 대신)`);
+        devInfo(`[pg] 포트 ${port} 사용 (기본 ${preferredEmbeddedPort})`);
       }
     }
 
@@ -405,7 +494,7 @@ await (async () => {
       ),
     );
 
-    const pg = new EmbeddedPostgres({
+    pg = new EmbeddedPostgres({
       databaseDir: dataDir,
       port,
       user: "postgres",
@@ -423,10 +512,10 @@ await (async () => {
           process.stderr.write(`[MSV embedded][pg] ${msg}`);
         }
       },
-      onError: (err) => console.error("[MSV embedded]", err),
+      onError: (err) => devError("[pg]", err),
     });
 
-    if (!dataExists) {
+    if (!clusterReady) {
       await killWindowsEmbeddedPostgresInterference();
       const rangeLo = preferredEmbeddedPort;
       const rangeHi = preferredEmbeddedPort + 48;
@@ -434,30 +523,24 @@ await (async () => {
         if (pid === process.pid) {
           continue;
         }
-        console.warn(
-          `[MSV embedded] embedded 포트 대역 ${rangeLo}-${rangeHi} LISTENING pid ${pid} 종료(잔류 방지).`,
-        );
+        devInfo(`[pg] embedded 포트 대역 pid ${pid} 종료`);
         spawnTaskkillLogged(["/PID", String(pid), "/F", "/T"], `taskkill embedded-range pid ${pid}`);
       }
-      killListenersOnPort(port);
+      killListenersOnPort(port, { quiet: true });
       await sleep(6000);
-      console.info("[MSV embedded] initdb (최초 1회, 1~2분 걸릴 수 있습니다)…");
+      devInfo("[pg] initdb (최초 1회, 1~2분 소요 가능)…");
       try {
         await pg.initialise();
       } catch (initErr) {
-        console.error("[MSV embedded] initdb 실패:", initErr);
-        console.error(
-          "[MSV embedded] 다음을 시도해 보세요.\n" +
-            "  1) 작업 관리자에서 `postgres.exe`·서비스(PostgreSQL) 완전히 종료 후 `web/.msv-embedded-pg/data` 삭제 → `npm run dev`\n" +
-            "  2) 다른 로컬 PG 를 끄면 안 될 때: `MSV_EMBEDDED_PRESERVE_FOREIGN_POSTGRES=1` 를 켠 채로는 embedded initdb 가 실패할 수 있으니, 잠시 다른 PG 를 중지하세요.\n" +
-            "  3) DB 없이 프론트만: `npm run dev:no-embed`\n" +
-            "  4) 자세한 PG 로그: `MSV_EMBEDDED_DEBUG=1 npm run dev`",
+        devError("[pg] initdb 실패:", initErr);
+        devError(
+          "[pg] postgres.exe 종료 · `web/.msv-embedded-pg/data` 삭제 · `MSV_EMBEDDED_DEBUG=1 npm run dev`",
         );
         throw initErr;
       }
     }
 
-    console.info(`[MSV embedded] PostgreSQL 시작 (포트 ${port})…`);
+    devInfo(`[pg] PostgreSQL 시작 (포트 ${port})…`);
     await pg.start().catch((err) => {
       throw err instanceof Error
         ? err
@@ -486,24 +569,25 @@ await (async () => {
       await client.query(
         `CREATE ROLE ${qi(u)} WITH LOGIN PASSWORD ${escPass}`,
       );
-      console.info("[MSV embedded] 역할 생성:", u);
+      devInfo("[pg] 역할 생성:", u);
     } else {
       await client.query(`ALTER ROLE ${qi(u)} WITH PASSWORD ${escPass}`);
-      console.info("[MSV embedded] 역할 비밀번호 갱신:", u);
+      devInfo("[pg] 역할 비밀번호 갱신:", u);
     }
     const dr = await client.query("SELECT 1 FROM pg_database WHERE datname = $1", [db]);
     if (dr.rowCount === 0) {
       await client.query(`CREATE DATABASE ${qi(db)} OWNER ${qi(u)}`);
-      console.info("[MSV embedded] DB 생성:", db);
+      devInfo("[pg] DB 생성:", db);
     }
     await client.end();
 
     writeEnvFile(port, creds.appPassword);
-    console.info("[MSV embedded] 연결 정보 저장:", path.relative(root, envOut));
+    devInfo("[pg] 연결 정보:", path.relative(root, envOut));
 
     const schemaFlag = path.join(root, ".msv-embedded-pg", ".schema-pushed");
+    const childStdio = devVerbose ? "inherit" : "pipe";
     if (!fs.existsSync(schemaFlag)) {
-      console.info("[MSV embedded] prisma db push…");
+      devInfo("[pg] prisma db push…");
       const push = spawnSync(
         process.execPath,
         [
@@ -516,13 +600,15 @@ await (async () => {
         ],
         {
           cwd: root,
-          stdio: "inherit",
+          stdio: childStdio,
           // `.embedded-ready` 는 push 직후에 쓰이므로, 없으면 load-merged-env 가 `.msv-embedded.env` 를 스킵한다.
           env: { ...process.env, MSV_FORCE_EMBEDDED_ENV: "1" },
         },
       );
       if (push.status !== 0) {
-        console.error("[MSV embedded] prisma db push 실패");
+        if (!devVerbose && push.stderr) devError(push.stderr.toString());
+        if (!devVerbose && push.stdout) devError(push.stdout.toString());
+        devError("[pg] prisma db push 실패");
         process.exit(push.status ?? 1);
       }
       fs.writeFileSync(schemaFlag, `${new Date().toISOString()}\n`, "utf8");
@@ -530,40 +616,39 @@ await (async () => {
 
     const seedFlag = path.join(root, ".msv-embedded-pg", ".seed-done");
     if (!fs.existsSync(seedFlag) && process.env.MSV_SKIP_EMBEDDED_SEED !== "1") {
-      console.info("[MSV embedded] prisma db seed…");
+      devInfo("[pg] prisma db seed…");
       const seed = spawnSync(
         process.execPath,
         [path.join(root, "scripts", "merged-env-run.cjs"), "npx", "prisma", "db", "seed"],
         {
           cwd: root,
-          stdio: "inherit",
+          stdio: childStdio,
           env: { ...process.env, MSV_FORCE_EMBEDDED_ENV: "1" },
         },
       );
       if (seed.status === 0) {
         fs.writeFileSync(seedFlag, `${new Date().toISOString()}\n`, "utf8");
       } else {
-        console.warn("[MSV embedded] seed 실패. 나중에: npm run db:seed");
+        devWarn("[pg] seed 실패 — 나중에 `npm run db:seed`");
+        if (!devVerbose && seed.stderr) devError(seed.stderr.toString());
       }
     }
 
     fs.mkdirSync(path.dirname(readyFlag), { recursive: true });
     fs.writeFileSync(readyFlag, `${process.pid}\n`, "utf8");
 
-    console.info("[MSV embedded] 준비 완료 (Next 와 함께 종료 시 DB 도 중지됩니다).");
+    registerEmbeddedShutdown(pg);
+
+    devOk(`[dev] DB ready 127.0.0.1:${port}`);
   } catch (e) {
     try {
       fs.unlinkSync(readyFlag);
     } catch {
       /* ok */
     }
-    console.error("[MSV embedded] 실패:", e);
+    devError("[pg] 실패:", e);
     if (process.platform === "win32" && String(e).includes("shared memory")) {
-      console.error(
-        "[MSV embedded] shared memory 오류: 다른 PostgreSQL(서비스·Docker 포함)이 떠 있거나 이전 프로세스가 남았을 수 있습니다. " +
-          "`postgres.exe`·관련 서비스를 모두 중지한 뒤 `web/.msv-embedded-pg/data` 를 삭제하고 `npm run dev` 를 다시 실행하세요. " +
-          "(`MSV_EMBEDDED_PRESERVE_FOREIGN_POSTGRES=1` 이면 자동 전체 종료를 건너뛰므로, 그 경우 수동으로 정리해야 합니다.)",
-      );
+      devError("[pg] shared memory — postgres.exe 정리 후 `web/.msv-embedded-pg/data` 삭제");
     }
     process.exit(1);
   }

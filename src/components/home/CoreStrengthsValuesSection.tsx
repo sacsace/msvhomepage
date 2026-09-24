@@ -10,24 +10,26 @@ type Props = {
   locale: SiteLocale;
 };
 
-const cardSection = "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8";
+const itemGrid = "mt-8 grid list-none gap-4 p-0 sm:grid-cols-2 sm:gap-5";
 
 export function CoreStrengthsValuesSection({ strengths, values, locale }: Props) {
   const t = coreStrengthsSectionTitles(locale);
 
   return (
-    <section className="bg-white pt-16 pb-6 sm:pt-20 sm:pb-8">
-      <div className={`mx-auto max-w-6xl space-y-12 sm:space-y-14 ${homeTypo.pageInset}`}>
-        <div className={cardSection}>
+    <section className="bg-[#f7f8fa] py-16 sm:py-20">
+      <div className={`mx-auto max-w-6xl space-y-10 sm:space-y-12 ${homeTypo.pageInset}`}>
+        <div>
           <SectionTitle
             id="home-strengths-heading"
             eyebrow={t.strengthsKicker}
             title={t.strengthsTitle}
             spacing="tight"
             density="compact"
+            headingLevel={3}
             contentWidth="full"
+            visualWeight="editorial"
           />
-          <ul className="mt-6 grid list-none gap-3 p-0 sm:grid-cols-2 sm:gap-4">
+          <ul className={itemGrid}>
             {strengths.map((s, i) => (
               <NumberedHighlightCard key={s} index={String(i + 1).padStart(2, "0")}>
                 {s}
@@ -36,7 +38,7 @@ export function CoreStrengthsValuesSection({ strengths, values, locale }: Props)
           </ul>
         </div>
 
-        <div className={cardSection}>
+        <div>
           <SectionTitle
             id="home-values-heading"
             eyebrow={t.valuesKicker}
@@ -45,8 +47,9 @@ export function CoreStrengthsValuesSection({ strengths, values, locale }: Props)
             density="compact"
             headingLevel={3}
             contentWidth="full"
+            visualWeight="editorial"
           />
-          <ul className="mt-6 grid list-none gap-3 p-0 sm:grid-cols-2 sm:gap-4">
+          <ul className={itemGrid}>
             {values.map((v, i) => (
               <NumberedHighlightCard key={v} index={String(strengths.length + i + 1).padStart(2, "0")}>
                 {v}

@@ -69,7 +69,7 @@ export function buildSiteMegaMenuColumns(locale: SiteLocale): MegaMenuColumn[] {
     },
     {
       href: withLocalePrefix("/software/mvs", locale),
-      label: pickLocale(locale, { ko: "그룹웨어 (MVS)", en: "Groupware (MVS)", zh: "集团办公（MVS）" }),
+      label: pickLocale(locale, { ko: "업무 통합 시스템 (MVS)", en: "Integrated Business System (MVS)", zh: "业务集成系统（MVS）" }),
     },
     {
       href: withLocalePrefix("/software/herenow", locale),
@@ -82,6 +82,10 @@ export function buildSiteMegaMenuColumns(locale: SiteLocale): MegaMenuColumn[] {
         en: "Payroll payslip email",
         zh: "工资单邮件",
       }),
+    },
+    {
+      href: withLocalePrefix("/software/wisc", locale),
+      label: "Website Information & Security Checker",
     },
   ];
 

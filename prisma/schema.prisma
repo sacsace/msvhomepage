@@ -22,9 +22,10 @@ model MailSettings {
   toAddress   String  @default("lee@msventures.in, info@msventures.in")
 }
 
-/// 단일 행(id=1) — 관리자 bcrypt 해시
+/// 단일 행(id=1) — 관리자 로그인 아이디·bcrypt 해시
 model AdminAuth {
   id           Int     @id @default(1)
+  loginId      String  @default("root")
   passwordHash String?
 }
 
@@ -114,6 +115,8 @@ model TaxCalendarEvent {
   kind      String
   title     String?
   note      String?
+  /// YEARLY | MONTHLY | FIXED — 새 등록 API 기본값은 YEARLY, 기존 행은 FIXED
+  recurrence String  @default("FIXED")
   createdAt DateTime
   updatedAt DateTime
 }

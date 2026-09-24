@@ -12,6 +12,7 @@ const BrowserPathnameProvider = dynamic(
   { ssr: true },
 );
 import { PageViewTracker } from "@/components/layout/PageViewTracker";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -20,6 +21,7 @@ import { getRequestBrowserPath } from "@/lib/get-request-browser-path";
 import { getRequestLocale } from "@/lib/get-request-locale";
 import { shellStrings } from "@/lib/i18n/shell";
 import { openGraphFor, siteVerificationMetadata, twitterCard } from "@/lib/seo-metadata";
+import { defaultSiteDescriptionKo, homePageTitleKo } from "@/lib/seo-site-copy";
 import { company, siteUrl } from "@/lib/site-content";
 
 const noto = Noto_Sans_KR({
@@ -29,14 +31,14 @@ const noto = Noto_Sans_KR({
   display: "swap",
 });
 
-const defaultTitle = `${company.shortName} | 인도 회계·세무·현장 실행`;
+const defaultTitle = homePageTitleKo;
 
 export const metadata: Metadata = {
   title: {
     default: defaultTitle,
     template: `%s | ${company.shortName}`,
   },
-  description: company.taglineKo,
+  description: defaultSiteDescriptionKo,
   metadataBase: new URL(siteUrl),
   ...siteVerificationMetadata(),
   robots: {
@@ -47,12 +49,12 @@ export const metadata: Metadata = {
   openGraph: {
     ...openGraphFor("/"),
     title: defaultTitle,
-    description: company.taglineKo,
+    description: defaultSiteDescriptionKo,
   },
   twitter: {
     ...twitterCard(),
     title: defaultTitle,
-    description: company.taglineKo,
+    description: defaultSiteDescriptionKo,
   },
 };
 
@@ -91,6 +93,7 @@ export default async function RootLayout({
           <BrowserPathnameProvider serverPathname={browserPath}>
             <PageViewTracker />
             <OrganizationJsonLd />
+            <BreadcrumbJsonLd browserPath={browserPath} locale={locale} />
             <a
               href="#main-content"
               className="fixed left-4 top-4 z-[100] inline-flex translate-y-[-120vh] rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-lg transition focus:translate-y-0 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-white/80 motion-reduce:transition-none"

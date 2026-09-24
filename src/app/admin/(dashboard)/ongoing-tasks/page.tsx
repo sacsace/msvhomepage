@@ -1,4 +1,5 @@
 import { OngoingTasksManager } from "@/components/admin/OngoingTasksManager";
+import { ADMIN_PAGE_LEAD_CLASS } from "@/lib/admin-page-layout";
 import { readOngoingTasks, sortOngoingTasks } from "@/lib/ongoing-tasks-store";
 
 export default async function AdminOngoingTasksPage() {
@@ -7,7 +8,7 @@ export default async function AdminOngoingTasksPage() {
   return (
     <div>
       <h1 className="text-xl font-semibold text-zinc-900">프로젝트 현황</h1>
-      <p className="mt-1 text-sm text-zinc-600">홈페이지에 노출할 현재 진행 업무를 등록하세요.</p>
+      <p className={ADMIN_PAGE_LEAD_CLASS}>홈페이지에 노출할 현재 진행 업무를 등록합니다.</p>
       <div className="mt-8">
         <OngoingTasksManager initialItems={initialItems} />
       </div>

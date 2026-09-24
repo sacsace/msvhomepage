@@ -174,7 +174,7 @@ export function ComplianceCalendarWidget({
     const blankCls = em ? "min-h-[4rem] rounded-lg bg-slate-100/80 sm:min-h-[4.5rem]" : "min-h-[3.25rem] rounded-md bg-white/[0.02] sm:min-h-[3.75rem]";
     const cellBase = em
       ? "flex min-h-[4rem] w-full flex-col rounded-lg border p-1 text-left transition sm:min-h-[4.5rem] sm:p-1.5"
-      : "flex min-h-[3.25rem] w-full flex-col rounded-md border p-0.5 text-left transition sm:min-h-[3.75rem] sm:p-1";
+      : "flex min-h-[3.25rem] w-full flex-col rounded-lg border p-0.5 text-left transition sm:min-h-[3.75rem] sm:p-1";
     const cellSelected = em
       ? "border-msv-blue ring-2 ring-msv-blue/25 ring-offset-2 ring-offset-slate-50"
       : "border-msv-blue-soft ring-2 ring-msv-blue-soft/45 ring-offset-1 ring-offset-[#0f1f35]";
@@ -281,7 +281,7 @@ export function ComplianceCalendarWidget({
                         title={[taxCalendarKindLabelCompact(ev.kind, 18, kindLocale), ev.title, ev.note]
                           .filter(Boolean)
                           .join(" — ")}
-                        className={`truncate rounded border px-0.5 py-px text-[8px] font-semibold leading-tight sm:text-[9px] ${eventChipClass(ev.kind, chipV)}`}
+                        className={`truncate rounded-md border px-0.5 py-px text-[8px] font-semibold leading-tight sm:text-[9px] ${eventChipClass(ev.kind, chipV)}`}
                       >
                         {taxCalendarKindLabelCompact(ev.kind, 18, kindLocale)}
                       </span>
@@ -325,7 +325,7 @@ export function ComplianceCalendarWidget({
 
         <div className={legendWrap}>
           {TAX_CALENDAR_KINDS.map((k) => (
-            <span key={k} className={`rounded border px-1.5 py-0.5 font-semibold ${eventChipClass(k, chipV)}`}>
+            <span key={k} className={`rounded-md border px-1.5 py-0.5 font-semibold ${eventChipClass(k, chipV)}`}>
               {taxCalendarKindLabelCompact(k, 18, kindLocale)}
             </span>
           ))}
@@ -339,7 +339,7 @@ export function ComplianceCalendarWidget({
     <div className="relative z-10 mt-6">
       <p className={homeTypo.kickerWeek}>{ui.weekKicker}</p>
       <p className={`mt-1 ${homeTypo.bodyWhiteMuted}`}>{ui.weekSub}</p>
-      <div className="mt-4 rounded-xl border border-white/25 bg-white/[0.03] p-2 sm:p-2.5">
+      <div className="mt-4 rounded-2xl border border-white/25 bg-white/[0.03] p-2 sm:p-2.5">
         <div className="grid grid-cols-7 gap-1.5 text-center sm:gap-2">
         {weekDays.map(({ date, ymd }, i) => {
           const list = byDate.get(ymd) ?? [];
@@ -347,7 +347,7 @@ export function ComplianceCalendarWidget({
           return (
             <div
               key={ymd}
-              className={`flex min-h-[5.5rem] flex-col rounded-lg border px-1 py-2 sm:min-h-[6.5rem] sm:px-1.5 ${
+              className={`flex min-h-[5.5rem] flex-col rounded-xl border px-1 py-2 sm:min-h-[6.5rem] sm:px-1.5 ${
                 isTodayCell ? "border-msv-blue-soft/70 bg-white/10" : "border-white/10 bg-white/[0.04]"
               }`}
             >
@@ -364,7 +364,7 @@ export function ComplianceCalendarWidget({
                     title={[taxCalendarKindLabelCompact(ev.kind, 18, kindLocale), ev.title, ev.note]
                       .filter(Boolean)
                       .join(" — ")}
-                    className={`truncate rounded border px-0.5 py-px text-[9px] font-semibold leading-tight sm:text-[10px] ${eventChipClass(ev.kind, "dark")}`}
+                    className={`truncate rounded-md border px-0.5 py-px text-[9px] font-semibold leading-tight sm:text-[10px] ${eventChipClass(ev.kind, "dark")}`}
                   >
                     {taxCalendarKindLabelCompact(ev.kind, 18, kindLocale)}
                   </span>
@@ -383,7 +383,7 @@ export function ComplianceCalendarWidget({
           setSelectedDetailYmd(null);
           setMonthOpen(true);
         }}
-        className="relative z-20 mt-5 w-full touch-manipulation rounded-lg border border-white/25 bg-white/10 py-2.5 text-sm font-semibold text-white transition hover:bg-white/15"
+        className="relative z-20 mt-5 w-full touch-manipulation rounded-xl border border-white/25 bg-white/10 py-2.5 text-sm font-semibold text-white transition hover:bg-white/15"
       >
         {ui.monthButton}
       </button>
@@ -401,11 +401,11 @@ export function ComplianceCalendarWidget({
                 aria-hidden
                 onClick={closeMonth}
               />
-              <div className="relative z-10 max-h-[min(92vh,48rem)] w-full max-w-3xl overflow-auto rounded-xl border border-slate-200 bg-white p-5 shadow-xl sm:max-h-[min(92vh,52rem)] sm:p-7">
+              <div className="relative z-10 max-h-[min(92vh,48rem)] w-full max-w-3xl overflow-auto rounded-2xl border border-slate-200 bg-white p-5 shadow-xl sm:max-h-[min(92vh,52rem)] sm:p-7">
                 <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
                   <button
                     type="button"
-                    className="rounded border border-slate-200 px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-50"
+                    className="rounded-lg border border-slate-200 px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-50"
                     onClick={() => {
                       setMonthCursor(new Date(monthYear, monthIndex - 1, 1));
                       setSelectedDetailYmd(null);
@@ -419,7 +419,7 @@ export function ComplianceCalendarWidget({
                   </h3>
                   <button
                     type="button"
-                    className="rounded border border-slate-200 px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-50"
+                    className="rounded-lg border border-slate-200 px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-50"
                     onClick={() => {
                       setMonthCursor(new Date(monthYear, monthIndex + 1, 1));
                       setSelectedDetailYmd(null);
@@ -481,7 +481,7 @@ export function ComplianceCalendarWidget({
                             {list.slice(0, 3).map((ev) => (
                               <span
                                 key={ev.id}
-                                className={`truncate rounded border px-0.5 py-px text-[9px] font-semibold leading-tight sm:text-[10px] ${eventChipClass(ev.kind, "light")}`}
+                                className={`truncate rounded-md border px-0.5 py-px text-[9px] font-semibold leading-tight sm:text-[10px] ${eventChipClass(ev.kind, "light")}`}
                               >
                                 {taxCalendarKindLabelCompact(ev.kind, 18, kindLocale)}
                               </span>

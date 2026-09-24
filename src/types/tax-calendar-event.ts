@@ -104,6 +104,46 @@ export function parseTaxCalendarKindInput(v: unknown): { ok: true; kind: string 
   return { ok: true, kind: s };
 }
 
+export const TAX_CALENDAR_RECURRENCES = ["YEARLY", "MONTHLY", "FIXED"] as const;
+
+export type TaxCalendarRecurrence = (typeof TAX_CALENDAR_RECURRENCES)[number];
+
+export const TAX_CALENDAR_RECURRENCE_LABELS: Record<TaxCalendarRecurrence, string> = {
+  YEARLY: "매년",
+  MONTHLY: "매월",
+  FIXED: "지정일",
+};
+
+const RECURRENCE_SET = new Set<string>(TAX_CALENDAR_RECURRENCES);
+
+export function normalizeTaxCalendarRecurrence(v: unknown): TaxCalendarRecurrence {
+  if (typeof v === "string" && RECURRENCE_SET.has(v)) return v as TaxCalendarRecurrence;
+  return "FIXED";
+}
+
+export function parseTaxCalendarRecurrenceInput(
+  v: unknown,
+  defaultRecurrence: TaxCalendarRecurrence = "YEARLY",
+): { ok: true; recurrence: TaxCalendarRecurrence } | { ok: false; message: string } {
+  if (v === undefined || v === null || v === "") {
+    return { ok: true, recurrence: defaultRecurrence };
+  }
+  if (typeof v !== "string") return { ok: false, message: "반복 유형이 올바르지 않습니다." };
+  const s = v.trim().toUpperCase();
+  if (!RECURRENCE_SET.has(s)) return { ok: false, message: "반복 유형이 올바르지 않습니다." };
+  return { ok: true, recurrence: s as TaxCalendarRecurrence };
+}
+
+export function parseTaxCalendarYmd(date: string): { year: number; month: number; day: number } | null {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date.trim());
+  if (!m) return null;
+  const year = Number(m[1]);
+  const month = Number(m[2]);
+  const day = Number(m[3]);
+  if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+  return { year, month, day };
+}
+
 export type TaxCalendarEvent = {
   id: string;
   /** YYYY-MM-DD (로컬 기준) */
@@ -112,6 +152,8 @@ export type TaxCalendarEvent = {
   kind: string;
   title?: string;
   note?: string;
+  /** YEARLY(매년) | MONTHLY(매월) | FIXED(지정일 1회) */
+  recurrence?: TaxCalendarRecurrence;
   createdAt: string;
   updatedAt: string;
 };

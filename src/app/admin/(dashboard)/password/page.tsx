@@ -1,17 +1,19 @@
 import { AdminPasswordChangeForm } from "@/components/admin/AdminPasswordChangeForm";
+import { resolvedAdminLoginId } from "@/lib/admin-auth";
+import { ADMIN_FORM_CARD_CLASS, ADMIN_PAGE_LEAD_CLASS } from "@/lib/admin-page-layout";
 
-export default function AdminPasswordPage() {
+export default async function AdminPasswordPage() {
+  const loginId = await resolvedAdminLoginId();
+
   return (
     <div>
-      <h1 className="text-xl font-semibold text-zinc-900">비밀번호 변경</h1>
-      <p className="mt-2 max-w-lg text-sm text-zinc-600">
-        비밀번호는 DB(<code className="rounded bg-zinc-100 px-1 text-xs">AdminAuth</code>)에 bcrypt로
-        저장됩니다. 운영 환경에서는 DB 접근 권한을 제한하고,{" "}
-        <code className="rounded bg-zinc-100 px-1 text-xs">ADMIN_SESSION_SECRET</code>(16자 이상)을 반드시
-        환경 변수로 설정하세요.
+      <h1 className="text-xl font-bold tracking-tight text-slate-900">비밀번호 변경</h1>
+      <p className={ADMIN_PAGE_LEAD_CLASS}>
+        관리자 아이디(<code className="rounded bg-slate-100 px-1 text-xs">{loginId}</code>)·현재 비밀번호 확인 후 새 비밀번호 설정 — DB{" "}
+        <code className="rounded bg-slate-100 px-1 text-xs">AdminAuth</code> bcrypt 저장.
       </p>
-      <div className="mt-8 rounded-lg border border-zinc-200 bg-white p-6">
-        <AdminPasswordChangeForm />
+      <div className={ADMIN_FORM_CARD_CLASS}>
+        <AdminPasswordChangeForm defaultLoginId={loginId} />
       </div>
     </div>
   );

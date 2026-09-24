@@ -1,5 +1,6 @@
 import type { AdminUiLocale } from "@/lib/admin-ui-locale-constants";
 import { adminPageViewStatsCopy } from "@/lib/admin-ui-strings";
+import { ADMIN_HINT_CLASS } from "@/lib/admin-page-layout";
 import {
   formatPageViewReferrerDisplay,
   type AdminPageViewStats,
@@ -46,10 +47,10 @@ export function AdminPageViewStatsPanel({ copy, stats, uiLocale }: Props) {
   return (
     <section className="rounded-2xl border border-zinc-300 bg-white p-6 shadow-md ring-1 ring-zinc-900/5 sm:p-8">
       <h2 className="text-[11px] font-bold uppercase tracking-[0.14em] text-zinc-600">{copy.sectionTitle}</h2>
-      <p className="mt-2 text-[13px] leading-relaxed text-zinc-700">{copy.sectionHint}</p>
+      <p className={`mt-2 ${ADMIN_HINT_CLASS}`}>{copy.sectionHint}</p>
 
       {stats.unavailable ? (
-        <p className="mt-5 text-sm font-medium text-amber-900">{copy.unavailable}</p>
+        <p className="mt-5 text-sm font-medium text-amber-900 break-keep">{copy.unavailable}</p>
       ) : (
         <div className="mt-8 space-y-10">
           <div className="grid gap-6 sm:grid-cols-2">
@@ -58,20 +59,20 @@ export function AdminPageViewStatsPanel({ copy, stats, uiLocale }: Props) {
               <p className="mt-1 text-3xl font-bold tabular-nums tracking-tight text-zinc-950">
                 {nf.format(stats.total)}
               </p>
-              <p className="mt-2 text-[13px] leading-snug text-zinc-600">{copy.totalHint}</p>
+              <p className={`mt-2 ${ADMIN_HINT_CLASS}`}>{copy.totalHint}</p>
             </div>
             <div className="rounded-xl border border-zinc-200 bg-zinc-50/90 px-4 py-4">
               <p className="text-xs font-semibold text-zinc-700">{copy.last30Label}</p>
               <p className="mt-1 text-3xl font-bold tabular-nums tracking-tight text-zinc-950">
                 {nf.format(stats.viewsLast30Days)}
               </p>
-              <p className="mt-2 text-[13px] leading-snug text-zinc-600">{copy.last30Hint}</p>
+              <p className={`mt-2 ${ADMIN_HINT_CLASS}`}>{copy.last30Hint}</p>
             </div>
           </div>
 
           <div>
             <p className="text-xs font-semibold text-zinc-700">{copy.last7Title}</p>
-            <p className="mt-1 text-[13px] leading-relaxed text-zinc-600">{copy.last7Hint}</p>
+            <p className={`mt-1 ${ADMIN_HINT_CLASS}`}>{copy.last7Hint}</p>
             <ul className="mt-4 flex flex-wrap gap-2.5">
               {stats.last7Days.map((row) => (
                 <li
@@ -90,7 +91,7 @@ export function AdminPageViewStatsPanel({ copy, stats, uiLocale }: Props) {
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
             <div>
               <p className="text-xs font-semibold text-zinc-700">{copy.topPathsTitle}</p>
-              <p className="mt-1 text-[13px] leading-relaxed text-zinc-600">{copy.topPathsHint}</p>
+              <p className={`mt-1 ${ADMIN_HINT_CLASS}`}>{copy.topPathsHint}</p>
               {stats.topPaths.length === 0 ? (
                 <p className="mt-3 text-sm font-medium text-zinc-600">—</p>
               ) : (
@@ -124,7 +125,7 @@ export function AdminPageViewStatsPanel({ copy, stats, uiLocale }: Props) {
 
             <div>
               <p className="text-xs font-semibold text-zinc-700">{copy.topSourcesTitle}</p>
-              <p className="mt-1 text-[13px] leading-relaxed text-zinc-600">{copy.topSourcesHint}</p>
+              <p className={`mt-1 ${ADMIN_HINT_CLASS}`}>{copy.topSourcesHint}</p>
               {stats.topReferrerSources.length === 0 ? (
                 <p className="mt-3 text-sm font-medium text-zinc-600">—</p>
               ) : (
@@ -159,7 +160,7 @@ export function AdminPageViewStatsPanel({ copy, stats, uiLocale }: Props) {
 
           <div>
             <p className="text-xs font-semibold text-zinc-700">{copy.recentTitle}</p>
-            <p className="mt-1 text-[13px] leading-relaxed text-zinc-600">{copy.recentHint}</p>
+            <p className={`mt-1 ${ADMIN_HINT_CLASS}`}>{copy.recentHint}</p>
             {stats.recentPageViews.length === 0 ? (
               <p className="mt-3 text-sm font-medium text-zinc-600">—</p>
             ) : (

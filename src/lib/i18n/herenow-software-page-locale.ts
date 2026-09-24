@@ -48,7 +48,7 @@ const ko: HerenowSoftwarePageCopy = {
     "회사(테넌트) 단위 GPS 기반 출퇴근·근태 관리. 위치 기반 출근, 현장 확인, 승인 흐름과 Attendance·Payroll·HR 데이터 연계.",
   pageTitle: "출퇴근 기록 시스템 (HeresNow)",
   pageHeaderDescription:
-    "회사(테넌트) 단위로 운영되는 GPS 기반 출퇴근·근태 관리 시스템입니다.\n\n직원 위치 기반 출근 기록, 출장지·현장 근무 확인, 근태 승인 흐름을 통합하여 Attendance·Payroll·HR 운영 데이터를 연결할 수 있도록 설계하였습니다.",
+    "회사(테넌트) 단위로 운영되는 GPS 기반 출퇴근·근태 관리 시스템입니다.\n직원 위치 기반 출근 기록, 출장지·현장 근무 확인, 근태 승인 흐름을 통합하여 Attendance·Payroll·HR 운영 데이터를 연결할 수 있도록 설계하였습니다.",
   overviewEyebrow: "Overview",
   overviewTitle: "개요",
   heroLead: `HeresNow는 GPS 기반 출퇴근 기록과 근태 운영을 지원하는 웹 기반 시스템입니다.
@@ -227,7 +227,7 @@ const en: HerenowSoftwarePageCopy = {
   metaDescription: `${company.shortName} — GPS-based clock-in/out and attendance per tenant; ties attendance approvals to payroll and HR data.`,
   pageTitle: "Attendance system (HeresNow)",
   pageHeaderDescription:
-    "HeresNow is a GPS-based attendance system operated per company (tenant).\n\nIt brings together location-based clock-in, travel and field-site work checks, and approval flows so Attendance, payroll and HR operating data can be connected.",
+    "HeresNow is a GPS-based attendance system operated per company (tenant).\nIt brings together location-based clock-in, travel and field-site work checks, and approval flows so Attendance, payroll and HR operating data can be connected.",
   overviewEyebrow: "Overview",
   overviewTitle: "Overview",
   heroLead: `HeresNow is a web system that supports GPS-based clock records and attendance operations.
@@ -406,7 +406,7 @@ const zh: HerenowSoftwarePageCopy = {
   metaDescription: `${company.shortName} — 按租户运营的 GPS 考勤；整合打卡、现场核对与审批，衔接考勤与薪酬、HR 数据。`,
   pageTitle: "考勤记录系统（HeresNow）",
   pageHeaderDescription:
-    "HeresNow 是按公司（租户）运营的 GPS 考勤与现场管理系统。\n\n整合基于员工位置的打卡、出差地与现场出勤核对与审批流，使考勤、薪酬与 HR 运营数据能够衔接。",
+    "HeresNow 是按公司（租户）运营的 GPS 考勤与现场管理系统。\n整合基于员工位置的打卡、出差地与现场出勤核对与审批流，使考勤、薪酬与 HR 运营数据能够衔接。",
   overviewEyebrow: "Overview",
   overviewTitle: "概述",
   heroLead: `HeresNow 是基于 GPS 的打卡与考勤运营网页系统。

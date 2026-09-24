@@ -5,6 +5,7 @@ import {
   replaceCompanyHistory,
 } from "@/lib/company-history-store";
 import { requireAdmin } from "@/lib/require-admin";
+import { revalidateCompanyHistoryPublicCaches } from "@/lib/revalidate-company-history";
 
 export const runtime = "nodejs";
 
@@ -52,6 +53,7 @@ export async function PUT(request: Request) {
       items.push({ period, body });
     }
     await replaceCompanyHistory(items);
+    revalidateCompanyHistoryPublicCaches();
     return NextResponse.json(await readCompanyHistoryAdminInitial());
   } catch (e) {
     console.error("[api/admin/company-history PUT]", e);

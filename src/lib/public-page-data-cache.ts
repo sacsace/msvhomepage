@@ -9,7 +9,7 @@ import { readCompanyHistoryPublic } from "@/lib/company-history-store";
 import { getLeadershipForPublic } from "@/lib/leadership-resolve";
 import { readOngoingTasks } from "@/lib/ongoing-tasks-store";
 import { readStaffProfiles } from "@/lib/staff-profiles-store";
-import { readTaxCalendar } from "@/lib/tax-calendar-store";
+import { readTaxCalendarExpanded } from "@/lib/tax-calendar-store";
 
 /**
  * 공개 마케팅 페이지의 DB·파일 읽기 캐시(초).
@@ -20,6 +20,9 @@ import { readTaxCalendar } from "@/lib/tax-calendar-store";
  * 정적 분석됩니다. 값을 바꾸면 `app/page.tsx`, `app/notice/...` 의 `revalidate` 리터럴도 같이 맞출 것.
  */
 export const PUBLIC_PAGE_DATA_REVALIDATE_SEC = 15;
+
+/** `unstable_cache` 태그 — 관리자 연혁 저장 시 `revalidateTag`로 무효화 */
+export const PUBLIC_COMPANY_HISTORY_CACHE_TAG = "msv-public-company-history";
 
 const opts = { revalidate: PUBLIC_PAGE_DATA_REVALIDATE_SEC } as const;
 
@@ -40,7 +43,7 @@ export function getCachedAnnouncementById(id: string) {
 }
 
 export const getCachedTaxCalendar = unstable_cache(
-  () => readTaxCalendar(),
+  () => readTaxCalendarExpanded(),
   ["msv-public-tax-calendar"],
   opts,
 );
@@ -48,7 +51,7 @@ export const getCachedTaxCalendar = unstable_cache(
 export const getCachedCompanyHistoryPublic = unstable_cache(
   () => readCompanyHistoryPublic(),
   ["msv-public-company-history"],
-  opts,
+  { ...opts, tags: [PUBLIC_COMPANY_HISTORY_CACHE_TAG] },
 );
 
 export const getCachedClients = unstable_cache(() => readClients(), ["msv-public-clients"], opts);

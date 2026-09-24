@@ -55,15 +55,36 @@ async function main() {
     },
   });
 
-  const auth = readJson<{ passwordHash?: string }>("admin-auth.json");
+  const auth = readJson<{ passwordHash?: string; loginId?: string }>("admin-auth.json");
   const fromFile = auth?.passwordHash?.trim();
   const passwordHash =
     fromFile && fromFile.length > 12 ? fromFile : bcrypt.hashSync("admin123", 10);
+  const loginId = (auth?.loginId?.trim() || "root").slice(0, 64);
   await prisma.adminAuth.upsert({
     where: { id: 1 },
-    create: { id: 1, passwordHash },
-    update: { passwordHash },
+    create: { id: 1, loginId, passwordHash },
+    update: { loginId, passwordHash },
   });
+
+  const clients = readJson<Client[]>("clients.json");
+  if (clients?.length) {
+    await prisma.client.deleteMany();
+    await prisma.client.createMany({
+      data: clients.map((c) => ({
+        id: c.id,
+        name: c.name,
+        logoSrc: c.logoSrc ?? null,
+        sector: c.sector ?? null,
+        website: c.website ?? null,
+        note: c.note ?? null,
+        sortOrder: c.sortOrder,
+        showOnHome: Boolean(c.showOnHome),
+        createdAt: new Date(c.createdAt),
+        updatedAt: new Date(c.updatedAt),
+      })),
+    });
+    console.log(`Synced ${clients.length} clients from data/clients.json`);
+  }
 
   if ((await prisma.article.count()) > 0) {
     console.log("Skip list tables — already seeded (article count > 0).");
@@ -113,24 +134,6 @@ async function main() {
     });
   }
 
-  const clients = readJson<Client[]>("clients.json");
-  if (clients?.length) {
-    await prisma.client.createMany({
-      data: clients.map((c) => ({
-        id: c.id,
-        name: c.name,
-        logoSrc: c.logoSrc ?? null,
-        sector: c.sector ?? null,
-        website: c.website ?? null,
-        note: c.note ?? null,
-        sortOrder: c.sortOrder,
-        showOnHome: Boolean(c.showOnHome),
-        createdAt: new Date(c.createdAt),
-        updatedAt: new Date(c.updatedAt),
-      })),
-    });
-  }
-
   const profiles = readJson<StaffProfile[]>("staff-profiles.json");
   if (profiles?.length) {
     await prisma.staffProfile.createMany({
@@ -158,6 +161,7 @@ async function main() {
         note: e.note ?? null,
         createdAt: new Date(e.createdAt),
         updatedAt: new Date(e.updatedAt),
+        recurrence: e.recurrence ?? "FIXED",
       })),
     });
   }

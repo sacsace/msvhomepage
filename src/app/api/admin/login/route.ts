@@ -5,7 +5,7 @@ import {
   adminCookieUseSecureForRequest,
   adminPasswordConfigured,
   createAdminToken,
-  verifyAdminPassword,
+  verifyAdminLogin,
 } from "@/lib/admin-auth";
 
 export const runtime = "nodejs";
@@ -18,9 +18,11 @@ export async function POST(request: Request) {
     );
   }
   try {
-    const { password } = (await request.json()) as { password?: string };
-    if (!password || !(await verifyAdminPassword(password))) {
-      return NextResponse.json({ error: "비밀번호가 올바르지 않습니다." }, { status: 401 });
+    const body = (await request.json()) as { loginId?: string; password?: string };
+    const loginId = String(body.loginId || "").trim();
+    const password = String(body.password || "");
+    if (!loginId || !password || !(await verifyAdminLogin(loginId, password))) {
+      return NextResponse.json({ error: "아이디 또는 비밀번호가 올바르지 않습니다." }, { status: 401 });
     }
     const token = await createAdminToken();
     const res = NextResponse.json({ ok: true });

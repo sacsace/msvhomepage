@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { SiteLocale } from "@/lib/site-locale";
 import { withLocalePrefix } from "@/lib/site-locale";
 import { company, siteUrl } from "@/lib/site-content";
+import { defaultSiteDescriptionKo } from "@/lib/seo-site-copy";
 
 /** OG·Twitter 기본 이미지(공개 `public` 기준) */
 const ogImage = "/msv-wordmark.png";
@@ -87,7 +88,7 @@ type StaticPageSeoOpts = {
 export function staticPageSeo(pathname: string, opts: StaticPageSeoOpts): Metadata {
   const path = pathname.startsWith("/") ? pathname : `/${pathname}`;
   const fullTitle = opts.absoluteTitle ?? `${opts.title} | ${company.shortName}`;
-  const description = opts.description ?? company.taglineKo;
+  const description = opts.description ?? defaultSiteDescriptionKo;
   const titleField: Metadata["title"] = opts.absoluteTitle
     ? { absolute: opts.absoluteTitle }
     : opts.title;
@@ -116,7 +117,7 @@ export function staticPageSeoLocalized(
 ): Metadata {
   const canonicalPath = withLocalePrefix(internalPath.startsWith("/") ? internalPath : `/${internalPath}`, locale);
   const fullTitle = opts.absoluteTitle ?? `${opts.title} | ${company.shortName}`;
-  const description = opts.description ?? company.taglineKo;
+  const description = opts.description ?? defaultSiteDescriptionKo;
   const titleField: Metadata["title"] = opts.absoluteTitle
     ? { absolute: opts.absoluteTitle }
     : opts.title;
@@ -150,7 +151,7 @@ export function dynamicPageSeoLocalized(
 /** 404·리다이렉트 전용 페이지 — 검색 색인 제외 */
 export function noIndexPageSeo(opts?: { title?: string; description?: string }): Metadata {
   const title = opts?.title ?? "Page not found";
-  const description = opts?.description ?? company.taglineKo;
+  const description = opts?.description ?? defaultSiteDescriptionKo;
   return {
     title,
     description,

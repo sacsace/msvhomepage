@@ -1,0 +1,7 @@
+Contact: mailto:info@msventures.in
+Preferred-Languages: ko, en, zh
+Canonical: https://www.msventures.in/.well-known/security.txt
+Policy: https://www.msventures.in/contact
+
+# Report security issues related to msventures.in to the address above.
+# We aim to acknowledge reports within a few business days.

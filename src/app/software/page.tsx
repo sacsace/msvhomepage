@@ -12,8 +12,8 @@ function softwareSeo(locale: SiteLocale) {
     title: pickLocale(locale, { ko: "소프트웨어", en: "Software", zh: "软件" }),
     description: pickLocale(locale, {
       ko: softwareLanding.headerSummary,
-      en: "Software and operational tools for accounting, tax, and on-the-ground execution — MVS groupware and HeresNow attendance.",
-      zh: "支持会计、税务与现场执行的软件与运营工具 — MVS 协作平台与 HeresNow 出勤管理。",
+      en: "Software and operational tools for accounting, tax, and on-the-ground execution — MVS integrated business system, HeresNow attendance, payroll mailer, and WISC security checker.",
+      zh: "支持会计、税务与现场执行的软件与运营工具 — MVS 协作平台、HeresNow 出勤、工资单邮件与 WISC 网站安全检测。",
     }),
   };
 }
@@ -34,18 +34,34 @@ export default function SoftwarePage() {
       />
       <StandardPageBody>
         <ul className="grid gap-6 sm:grid-cols-2">
-          {softwareLanding.cards.map((c) => (
-            <li key={c.href}>
-              <Link
-                href={c.href}
-                className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-msv-blue/35 hover:shadow-md"
-              >
-                <h2 className="text-lg font-bold text-msv-navy">{c.title}</h2>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">{c.desc}</p>
-                <span className="mt-4 text-sm font-semibold text-msv-blue">자세히 보기 →</span>
-              </Link>
-            </li>
-          ))}
+          {softwareLanding.cards.map((c) => {
+            const external = c.href.startsWith("http://") || c.href.startsWith("https://");
+            const cardClass =
+              "flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:border-msv-blue/35 hover:shadow-md";
+            const cta = external ? "사이트 열기 ↗" : "자세히 보기 →";
+            return (
+              <li key={c.href}>
+                {external ? (
+                  <a
+                    href={c.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cardClass}
+                  >
+                    <h2 className="text-lg font-bold text-msv-navy">{c.title}</h2>
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">{c.desc}</p>
+                    <span className="mt-4 text-sm font-semibold text-msv-blue">{cta}</span>
+                  </a>
+                ) : (
+                  <Link href={c.href} className={cardClass}>
+                    <h2 className="text-lg font-bold text-msv-navy">{c.title}</h2>
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">{c.desc}</p>
+                    <span className="mt-4 text-sm font-semibold text-msv-blue">{cta}</span>
+                  </Link>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </StandardPageBody>
     </>

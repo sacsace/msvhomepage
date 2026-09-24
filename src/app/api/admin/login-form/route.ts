@@ -5,7 +5,7 @@ import {
   adminCookieUseSecureForRequest,
   adminPasswordConfigured,
   createAdminToken,
-  verifyAdminPassword,
+  verifyAdminLogin,
 } from "@/lib/admin-auth";
 import { requestPublicOrigin } from "@/lib/request-public-origin";
 
@@ -25,14 +25,16 @@ export async function POST(request: Request) {
   if (!(await adminPasswordConfigured())) {
     return NextResponse.redirect(loginUrl(request, "setup"));
   }
+  let loginId = "";
   let password = "";
   try {
     const fd = await request.formData();
+    loginId = String(fd.get("loginId") ?? "").trim();
     password = String(fd.get("password") ?? "").trim();
   } catch {
     return NextResponse.redirect(loginUrl(request, "bad"));
   }
-  if (!password || !(await verifyAdminPassword(password))) {
+  if (!loginId || !password || !(await verifyAdminLogin(loginId, password))) {
     return NextResponse.redirect(loginUrl(request, "invalid"));
   }
   let token: string;

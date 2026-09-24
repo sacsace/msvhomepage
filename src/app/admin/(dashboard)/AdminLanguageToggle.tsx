@@ -22,14 +22,12 @@ export function AdminLanguageToggle({ locale }: Props) {
   }
 
   return (
-    <div className="flex items-center gap-1 rounded-lg border border-zinc-300 bg-zinc-100/90 p-0.5 shadow-sm">
+    <div className="flex items-center gap-0 border border-white/20 bg-black/20 p-0.5">
       <button
         type="button"
         onClick={() => select("ko")}
-        className={`rounded-md px-2.5 py-1 text-xs font-semibold transition ${
-          locale === "ko"
-            ? "bg-white text-zinc-950 shadow-sm ring-1 ring-zinc-300/80"
-            : "text-zinc-700 hover:bg-zinc-200/80 hover:text-zinc-950"
+        className={`px-2.5 py-1 text-xs font-semibold transition ${
+          locale === "ko" ? "bg-white/15 text-white" : "text-slate-400 hover:text-slate-200"
         }`}
         aria-pressed={locale === "ko"}
       >
@@ -38,10 +36,8 @@ export function AdminLanguageToggle({ locale }: Props) {
       <button
         type="button"
         onClick={() => select("en")}
-        className={`rounded-md px-2.5 py-1 text-xs font-semibold transition ${
-          locale === "en"
-            ? "bg-white text-zinc-950 shadow-sm ring-1 ring-zinc-300/80"
-            : "text-zinc-700 hover:bg-zinc-200/80 hover:text-zinc-950"
+        className={`px-2.5 py-1 text-xs font-semibold transition ${
+          locale === "en" ? "bg-white/15 text-white" : "text-slate-400 hover:text-slate-200"
         }`}
         aria-pressed={locale === "en"}
       >

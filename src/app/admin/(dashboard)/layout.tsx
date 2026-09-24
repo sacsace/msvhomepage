@@ -25,15 +25,15 @@ export default async function AdminDashboardLayout({
   const copy = adminLayoutCopy(uiLocale);
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-6xl flex-col md:flex-row md:bg-zinc-200">
-      <aside className="border-b border-zinc-300 bg-zinc-50 px-4 py-7 shadow-[6px_0_20px_-14px_rgba(15,23,42,0.35)] md:w-60 md:border-b-0 md:border-r md:border-zinc-300 md:px-5 md:py-10">
-        <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-zinc-600">Admin</p>
+    <div className="mx-auto flex min-h-screen max-w-6xl flex-col bg-slate-200 md:flex-row">
+      <aside className="border-b border-slate-800 bg-msv-navy px-4 py-6 text-slate-200 md:w-56 md:border-b-0 md:border-r md:px-4 md:py-8">
+        <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Admin</p>
         <div className="mt-4">
           <AdminSidebarNav sections={navSections} />
-          <div className="mt-6 border-t border-zinc-300 pt-5">
+          <div className="mt-6 border-t border-white/15 pt-5">
             <Link
               href="/"
-              className="text-sm font-medium text-zinc-800 underline-offset-2 hover:text-zinc-950 hover:underline"
+              className="text-sm font-medium text-slate-300 underline-offset-2 hover:text-white hover:underline"
             >
               {copy.viewSite}
             </Link>
@@ -46,7 +46,7 @@ export default async function AdminDashboardLayout({
           </div>
         </div>
       </aside>
-      <main className="flex-1 bg-zinc-100 px-4 py-8 md:px-10 md:py-12">{children}</main>
+      <main className="flex-1 bg-slate-100 px-4 py-8 md:px-8 md:py-10">{children}</main>
     </div>
   );
 }

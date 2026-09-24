@@ -12,7 +12,7 @@
 - **데이터**: **PostgreSQL + Prisma**가 주 저장소. **질의응답**은 여전히 **`data/qna.json`** + `src/lib/qna-store.ts` + `src/app/api/qna/route.ts`(서버 전용 스토어).
 - **관리자** (`/admin/login`, `/admin/*`): JWT 쿠키, 공지·글·클라이언트·직원·세무 캘린더·진행 과제·회사 연혁·메일(SMTP) 설정·비밀번호·직원 사진·리더십(정적 프로필/요약/추가 멤버) 등 CRUD API 및 대시보드 페이지.
 - **공개 API**: 문의 메일 `api/contact`, 법인 설립 신청 `api/corporate-incorporation-apply` 등.
-- **로컬 개발**: `npm run dev` 시 **embedded Postgres** + Next **3100** 포트. Prisma 클라이언트 생성 경로는 `prisma/schema.prisma`의 `output = "./generated/client"`.
+- **로컬 개발**: `npm run dev` 시 **embedded Postgres** + Next **3400** 포트. Prisma 클라이언트 생성 경로는 `prisma/schema.prisma`의 `output = "./generated/client"`.
 - **배포**: `railway.toml` — preDeploy에서 `prisma generate` → `db push` → `db seed`. 상세·볼륨·`MSV_UPLOADS_ROOT`는 `RAILWAY_POSTGRES.md`.
 
 ---
@@ -99,12 +99,12 @@ npm install
 npm run db:ping
 npm run db:push
 npm run db:seed    # 선택 — 기사 있으면 seed.ts가 일부 스킵
-npm run dev        # embedded Postgres + Next → http://localhost:3100
+npm run dev        # embedded Postgres + Next → http://localhost:3400
 npm run build
 npm run lint
 ```
 
-- **`npm run dev:no-embed`**: 시스템 PostgreSQL만 쓸 때(같은 3100 포트). `.env.local` 등으로 `DATABASE_URL`/`DB_*` 필요.
+- **`npm run dev:no-embed`**: 시스템 PostgreSQL만 쓸 때(같은 3400 포트). `.env.local` 등으로 `DATABASE_URL`/`DB_*` 필요.
 - **`db:push:prod` / `db:seed:prod` 등**: `MSV_MERGE_PRODUCTION=1` + `.env.production` / `.env.production.local`. 운영 DB 직접 조작 시 주의.
 - **진단**: `npm run db:doctor`
 - **`DATABASE_URL`**: `src/lib/database-url.ts` 검증. Railway는 `RAILWAY_POSTGRES.md`, `MSV_ALLOW_POSTGRES_APP_USER` 등.

@@ -36,6 +36,31 @@ export default async function SoftwareMvsPage() {
   const L = (path: string) => withLocalePrefix(path, locale);
   const overviewParagraphs = splitIntroParagraphs(c.heroLead);
   const { screenshots, screenshotsLead } = c;
+  const topSections = c.sections.slice(0, 2);
+  const bottomSections = c.sections.slice(2);
+
+  const sectionBlock = (sections: readonly typeof c.sections, keyPrefix: string) =>
+    sections.map((s, si) => {
+      const paras = splitIntroParagraphs(s.body);
+      return (
+        <section key={`${keyPrefix}-mvs-section-${si}`} className={cardSection}>
+          <SectionTitle
+            eyebrow={s.eyebrow}
+            title={s.title}
+            spacing="tight"
+            density="compact"
+            contentWidth="full"
+          />
+          <div className="mt-4 space-y-3">
+            {paras.map((para, i) => (
+              <p key={`${keyPrefix}-mvs-section-${si}-p-${i}`} className={bodyText}>
+                {para}
+              </p>
+            ))}
+          </div>
+        </section>
+      );
+    });
 
   return (
     <>
@@ -65,6 +90,8 @@ export default async function SoftwareMvsPage() {
           </div>
         </section>
 
+        {sectionBlock(topSections, "top")}
+
         <section className={cardSection}>
           <SectionTitle
             eyebrow={c.overviewEyebrow}
@@ -81,28 +108,6 @@ export default async function SoftwareMvsPage() {
             ))}
           </div>
         </section>
-
-        {c.sections.map((s, si) => {
-          const paras = splitIntroParagraphs(s.body);
-          return (
-            <section key={`mvs-section-${si}`} className={cardSection}>
-              <SectionTitle
-                eyebrow={s.eyebrow}
-                title={s.title}
-                spacing="tight"
-                density="compact"
-                contentWidth="full"
-              />
-              <div className="mt-4 space-y-3">
-                {paras.map((para, i) => (
-                  <p key={`mvs-section-${si}-p-${i}`} className={bodyText}>
-                    {para}
-                  </p>
-                ))}
-              </div>
-            </section>
-          );
-        })}
 
         <section className={cardSection}>
           <SectionTitle
@@ -136,6 +141,8 @@ export default async function SoftwareMvsPage() {
             ))}
           </div>
         </section>
+
+        {sectionBlock(bottomSections, "bottom")}
 
         <section className="rounded-2xl border border-slate-200 bg-msv-blue-soft/15 p-6 sm:p-8">
           <p className={bodyText}>{c.ctaLead}</p>

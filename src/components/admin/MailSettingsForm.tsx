@@ -169,16 +169,15 @@ export function MailSettingsForm({ deliveryMode }: { deliveryMode: Transactional
   const isApi = deliveryMode !== "smtp";
 
   return (
-    <form onSubmit={onSubmit} className="max-w-xl space-y-5">
+    <form onSubmit={onSubmit} className="space-y-5">
       {isApi ? (
-        <div className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-relaxed text-amber-950">
-          <p className="font-medium">HTTPS API 모드 ({deliveryMode})</p>
-          <p className="mt-1 text-amber-900/90">
-            SMTP 호스트·비밀번호 없이도 테스트 발송·문의 메일이 동작합니다. 발신 도메인은 Resend/SendGrid/Postmark에서
-            검증한 주소와 맞추세요. DB에 「SMTP MAIL FROM」이 비어 있으면{" "}
-            <code className="rounded bg-amber-100/80 px-1">MSV_TRANSACTIONAL_FROM</code> 또는 문의 수신(To) 첫
-            주소가 발신에 쓰입니다.
-          </p>
+        <div className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-950 break-keep">
+          <span className="font-medium">HTTPS API 모드 ({deliveryMode})</span>
+          <span className="text-amber-900/90">
+            {" "}
+            — SMTP 없이 발송. 발신 도메인은 Resend/SendGrid/Postmark 검증 주소와 일치. MAIL FROM 비어 있으면{" "}
+            <code className="rounded bg-amber-100/80 px-1">MSV_TRANSACTIONAL_FROM</code> 또는 문의 수신(To) 첫 주소 사용.
+          </span>
         </div>
       ) : null}
       {msg ? (
@@ -206,8 +205,8 @@ export function MailSettingsForm({ deliveryMode }: { deliveryMode: Transactional
             <option value="gmail">Gmail / Google Workspace</option>
             <option value="custom">직접 입력</option>
           </select>
-          <p className="text-xs text-zinc-500">
-            Gmail은 <code className="rounded bg-zinc-100 px-1">smtp.gmail.com:465</code> + SSL/TLS로 자동 채워집니다.
+          <p className="text-xs text-zinc-500 break-keep">
+            Gmail → <code className="rounded bg-zinc-100 px-1">smtp.gmail.com:465</code> + SSL/TLS 자동 입력
           </p>
         </div>
       </div>
@@ -262,7 +261,9 @@ export function MailSettingsForm({ deliveryMode }: { deliveryMode: Transactional
           autoComplete="new-password"
           className="mt-1 w-full rounded border border-zinc-200 px-3 py-2 text-sm"
         />
-        {form.hasPassword ? <p className="mt-1 text-xs text-zinc-500">이미 저장된 비밀번호가 있습니다. 바꾸려면 새 값을 입력하세요.</p> : null}
+        {form.hasPassword ? (
+          <p className="mt-1 text-xs text-zinc-500 break-keep">저장된 비밀번호 있음 — 변경 시에만 입력</p>
+        ) : null}
       </div>
       <div>
         <label className="block text-xs font-medium text-zinc-600">SMTP MAIL FROM (인증과 맞는 주소)</label>
@@ -272,9 +273,8 @@ export function MailSettingsForm({ deliveryMode }: { deliveryMode: Transactional
           placeholder="info@msventures.in"
           className="mt-1 w-full rounded border border-zinc-200 px-3 py-2 text-sm"
         />
-        <p className="mt-1 text-xs text-zinc-500">
-          Gmail 등 SMTP 인증에 쓰는 주소(예: info@)를 넣습니다. 웹 문의 메일의 &quot;표시 발신자&quot;는 양식에 적은
-          이메일로 보내지며, 회신은 그 주소로 갑니다.
+        <p className="mt-1 text-xs text-zinc-500 break-keep">
+          SMTP 인증 주소(예: info@). 문의 메일 표시 발신·회신은 폼에 적은 이메일입니다.
         </p>
       </div>
       <div>
@@ -285,17 +285,14 @@ export function MailSettingsForm({ deliveryMode }: { deliveryMode: Transactional
           placeholder="lee@msventures.in, info@msventures.in"
           className="mt-1 w-full rounded border border-zinc-200 px-3 py-2 text-sm"
         />
-        <p className="mt-1 text-xs text-zinc-500">여러 명이면 쉼표(,)로 구분합니다.</p>
+        <p className="mt-1 text-xs text-zinc-500 break-keep">여러 명은 쉼표(,)로 구분</p>
       </div>
 
       <div className="rounded-xl border border-zinc-200/90 bg-zinc-50/80 p-4">
         <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">테스트 발송</p>
-        <p className="mt-1 text-xs leading-relaxed text-zinc-600">
-          아래 수신 주소로만 보냅니다(문의 수신·발신·SMTP 사용자에 적은 주소).{" "}
-          <strong className="font-medium text-zinc-800">저장하지 않은</strong> 현재 폼 값으로 연결을 시험합니다.
-          {isApi
-            ? " API 모드에서는 SMTP 비밀번호 없이 발송합니다."
-            : " 비밀번호 칸이 비어 있으면 DB에 저장된 비밀번호를 사용합니다."}
+        <p className="mt-1 text-xs text-zinc-600 break-keep">
+          허용된 주소만 테스트 — <strong className="font-medium text-zinc-800">저장 전</strong> 폼 값으로 연결 시험.
+          {isApi ? " API 모드는 SMTP 비밀번호 불필요." : " 비밀번호 비면 DB 저장값 사용."}
         </p>
         <div className="mt-3">
           <label className="block text-xs font-medium text-zinc-600">테스트 수신</label>

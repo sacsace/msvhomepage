@@ -55,7 +55,7 @@ export function SectionTitle({
         <p
           className={
             visualWeight === "editorial"
-              ? "text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500"
+              ? "text-[13px] font-semibold text-slate-500"
               : "msv-eyebrow"
           }
         >

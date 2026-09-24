@@ -54,14 +54,14 @@ export function PayrollMailerPasswordForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="max-w-md space-y-4">
+    <form onSubmit={onSubmit} className="space-y-4">
       {configured === null ? (
         <p className="text-sm text-zinc-500">불러오는 중…</p>
       ) : (
-        <p className="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700">
+        <p className="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700 break-keep">
           {configured
-            ? "비밀번호가 설정되어 있습니다. 새 비밀번호를 저장하면 기존 비밀번호를 대체합니다."
-            : "아직 비밀번호가 없습니다. 아래에서 설정하면 급여 명세서 발송 페이지에서 입력해야 메일 설정·발송을 사용할 수 있습니다."}
+            ? "비밀번호가 설정되어 있습니다. 새 비밀번호 저장 시 기존 값이 대체됩니다."
+            : "비밀번호가 없습니다. 설정 후 급여 명세서 발송 페이지에서 입력해야 메일 설정·발송을 사용할 수 있습니다."}
         </p>
       )}
       {msg ? (

@@ -4,12 +4,12 @@ type Props = {
   items: readonly string[];
 };
 
-/** 홈 핵심 강점 카드와 동일한 2열 번호 카드 그리드 */
+/** 스포트라이트 카드 내부 — 2열 번호 그리드 */
 export function SpotlightHighlightGrid({ items }: Props) {
   return (
-    <ul className="mt-6 grid list-none gap-2 p-0 sm:grid-cols-2">
+    <ul className="mt-6 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 sm:gap-4">
       {items.map((item, i) => (
-        <NumberedHighlightCard key={item} index={String(i + 1).padStart(2, "0")}>
+        <NumberedHighlightCard key={item} index={String(i + 1).padStart(2, "0")} variant="spotlight">
           {item}
         </NumberedHighlightCard>
       ))}

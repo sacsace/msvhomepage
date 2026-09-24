@@ -78,7 +78,9 @@ export async function ClientsSection(props: Props = {}) {
                   <img
                     src={c.logoSrc}
                     alt={logoAlt(c.name)}
-                    className="max-h-7 max-w-full object-contain opacity-95 transition-opacity duration-200 group-hover:opacity-100 sm:max-h-8"
+                    width={80}
+                    height={32}
+                    className="h-8 w-auto max-w-full object-contain opacity-95 transition-opacity duration-200 group-hover:opacity-100"
                   />
                 ) : (
                   <span className="text-[10px] font-medium leading-tight text-slate-400 sm:text-[11px]">
@@ -106,7 +108,7 @@ export async function ClientsSection(props: Props = {}) {
 
   if (variant === "embedded") {
     return (
-      <section className="pt-12 sm:pt-14" aria-labelledby="home-clients-heading">
+      <section aria-labelledby="home-clients-heading">
         {inner}
       </section>
     );

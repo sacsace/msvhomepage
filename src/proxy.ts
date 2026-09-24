@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { buildSecurityHeaders } from "@/lib/security-headers";
 import type { SiteLocale } from "@/lib/site-locale";
 
 function localeFromPath(pathname: string): SiteLocale | null {
@@ -15,14 +16,23 @@ function stripLocalePath(pathname: string): string {
   return pathname;
 }
 
-export function middleware(request: NextRequest) {
+function withSecurityHeaders(response: NextResponse): NextResponse {
+  const isProduction = process.env.NODE_ENV === "production";
+  for (const { key, value } of buildSecurityHeaders(isProduction)) {
+    response.headers.set(key, value);
+  }
+  return response;
+}
+
+/** Next.js 16+ `proxy` 파일 규약 — 로케일 prefix rewrite + 보안 헤더 */
+export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-msv-browser-path", pathname);
 
   const locale = localeFromPath(pathname);
   if (!locale) {
-    return NextResponse.next({ request: { headers: requestHeaders } });
+    return withSecurityHeaders(NextResponse.next({ request: { headers: requestHeaders } }));
   }
 
   const internalPath = stripLocalePath(pathname);
@@ -30,11 +40,11 @@ export function middleware(request: NextRequest) {
   url.pathname = internalPath;
 
   requestHeaders.set("x-msv-locale", locale);
-  return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
+  return withSecurityHeaders(NextResponse.rewrite(url, { request: { headers: requestHeaders } }));
 }
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\..*).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|\\.well-known|.*\\..*).*)",
   ],
 };

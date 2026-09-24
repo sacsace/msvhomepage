@@ -68,9 +68,9 @@ export async function SiteFooter() {
                     className="text-xs text-slate-400 transition hover:text-white hover:underline"
                   >
                     {pickLocale(locale, {
-                      ko: "그룹웨어 (MVS)",
-                      en: "Groupware (MVS)",
-                      zh: "集团办公（MVS）",
+                      ko: "업무 통합 시스템 (MVS)",
+                      en: "Integrated Business System (MVS)",
+                      zh: "业务集成系统（MVS）",
                     })}
                   </Link>
                 </li>
@@ -96,6 +96,14 @@ export async function SiteFooter() {
                       en: "Payroll payslip email",
                       zh: "工资单邮件发送",
                     })}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={L("/software/wisc")}
+                    className="text-xs text-slate-400 transition hover:text-white hover:underline"
+                  >
+                    Website Information & Security Checker
                   </Link>
                 </li>
               </ul>

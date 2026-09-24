@@ -20,13 +20,13 @@ export function AdminSidebarNav({ sections }: Props) {
   return (
     <nav className="flex flex-col">
       {sections.map((section, si) => (
-        <div key={si} className={si > 0 ? "mt-5 border-t border-zinc-300 pt-5" : ""}>
+        <div key={si} className={si > 0 ? "mt-5 border-t border-white/12 pt-5" : ""}>
           {section.heading ? (
-            <p className="mb-2.5 text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-600">
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
               {section.heading}
             </p>
           ) : null}
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-0.5">
             {section.links.map((n) => {
               const active = isAdminNavActive(n.href, pathname);
               return (
@@ -35,10 +35,10 @@ export function AdminSidebarNav({ sections }: Props) {
                   href={n.href}
                   aria-current={active ? "page" : undefined}
                   className={[
-                    "rounded-lg border-l-[3px] px-2.5 py-2 text-[13px] leading-snug transition-colors duration-150",
+                    "border-l-[3px] px-2.5 py-2 text-[13px] leading-snug transition-colors",
                     active
-                      ? "border-l-msv-blue bg-white font-semibold text-zinc-950 shadow-sm ring-1 ring-zinc-300/90"
-                      : "border-l-transparent font-medium text-zinc-800 hover:border-l-zinc-300 hover:bg-zinc-200/70 hover:text-zinc-950",
+                      ? "border-l-msv-blue bg-white/12 font-semibold text-white"
+                      : "border-l-transparent font-medium text-slate-300 hover:border-l-slate-500 hover:bg-white/8 hover:text-white",
                   ].join(" ")}
                 >
                   {n.label}

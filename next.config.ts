@@ -4,6 +4,7 @@ import type { NextConfig } from "next";
 import path from "path";
 import { createRequire } from "module";
 import { applyMsvEmbeddedDatabaseEnvFromDisk, resolveMsvWebRoot } from "./src/lib/msv-embedded-env-merge";
+import { buildSecurityHeaders } from "./src/lib/security-headers";
 
 const require = createRequire(import.meta.url);
 type WebpackLib = { NormalModuleReplacementPlugin: new (r: RegExp, p: string) => unknown };
@@ -21,9 +22,12 @@ function applyMsvEmbeddedEnv() {
     String(process.env.MSV_IGNORE_EMBEDDED_ENV || "").trim() === "1" ||
     String(process.env.MSV_USE_SYSTEM_DB_ONLY || "").trim() === "1";
   if (skip) {
-    if (process.env.NODE_ENV !== "production") {
+    if (
+      process.env.NODE_ENV !== "production" &&
+      String(process.env.MSV_DEV_VERBOSE || "").trim() === "1"
+    ) {
       console.info(
-        "[MSV] .msv-embedded.env 적용 안 함 — MSV_IGNORE_EMBEDDED_ENV 또는 MSV_USE_SYSTEM_DB_ONLY=1 (.env.local 등)",
+        "[MSV] .msv-embedded.env 적용 안 함 — MSV_IGNORE_EMBEDDED_ENV 또는 MSV_USE_SYSTEM_DB_ONLY=1",
       );
     }
     return;
@@ -35,17 +39,14 @@ function applyMsvEmbeddedEnv() {
   const readyFlag = path.join(webRoot, ".msv-embedded-pg", ".embedded-ready");
   const forceEmbedded = String(process.env.MSV_FORCE_EMBEDDED_ENV || "").trim() === "1";
   if (!forceEmbedded && !fs.existsSync(readyFlag)) {
-    if (process.env.NODE_ENV !== "production") {
+    if (
+      process.env.NODE_ENV !== "production" &&
+      String(process.env.MSV_DEV_VERBOSE || "").trim() === "1"
+    ) {
       const rel = (abs: string) => path.relative(projectDir, abs) || abs;
       console.info(
-        "[MSV] `.msv-embedded.env` 는 있으나 embedded Postgres 준비 신호가 없어 병합하지 않습니다.\n" +
-          `  • webRoot(resolveMsvWebRoot): ${webRoot}\n` +
-          `  • env 파일: ${rel(p)} (존재)\n` +
-          `  • ready 플래그: ${rel(readyFlag)} (없음)\n` +
-          "  • `npm run dev` 는 `wait-embedded-ready` 가 새 `.embedded-ready` 를 본 뒤에 Next 를 띄웁니다. " +
-          "이 메시지가 뜨면 이전 세션 잔여 ready 로 조기 통과했거나, embedded 기동이 느린 경우일 수 있습니다.\n" +
-          "  • 시스템 DB만 쓸 때: `.env.local` 에 DATABASE_URL/DB_* 또는 MSV_IGNORE_EMBEDDED_ENV=1\n" +
-          "  • 잔존 env 만 강제: MSV_FORCE_EMBEDDED_ENV=1",
+        "[MSV] `.msv-embedded.env` 있음, ready 플래그 없음 — 병합 생략\n" +
+          `  env: ${rel(p)} · ready: ${rel(readyFlag)}`,
       );
     }
     return;
@@ -55,7 +56,7 @@ function applyMsvEmbeddedEnv() {
 applyMsvEmbeddedEnv();
 
 /**
- * 다른 PC·휴대폰이 `http://<개발기IP>:3100` 으로 접속할 때 Next 16 dev 가 막는 `_next`/HMR 요청 허용.
+ * 다른 PC·휴대폰이 `http://<개발기IP>:3400` 으로 접속할 때 Next 16 dev 가 막는 `_next`/HMR 요청 허용.
  * `MSV_ALLOWED_DEV_ORIGINS` 에 LAN IP 등을 넣으세요. 쉼표·공백 구분.
  *
  * `127.0.0.1`·`::1` 은 항상 포함합니다. 일부 브라우저/OS에서 `localhost` 와 다른 루프백으로 Origin 이
@@ -74,6 +75,16 @@ const allowedDevOrigins = [
 
 const nextConfig: NextConfig = {
   allowedDevOrigins,
+  poweredByHeader: false,
+  async headers() {
+    const isProduction = process.env.NODE_ENV === "production";
+    return [
+      {
+        source: "/:path*",
+        headers: buildSecurityHeaders(isProduction),
+      },
+    ];
+  },
   // Prisma Client 는 `prisma/schema.prisma` 의 `output` (`prisma/generated/client`) 로 생성됩니다.
   serverExternalPackages: ["puppeteer-core", "@sparticuz/chromium"],
   /**
@@ -92,12 +103,16 @@ const nextConfig: NextConfig = {
     const mergeReal = path.resolve(projectDir, "src/lib/msv-embedded-env-merge.ts");
     const dbCheckStub = path.resolve(projectDir, "src/instrumentation-db-check.client.stub.ts");
     const dbCheckReal = path.resolve(projectDir, "src/instrumentation-db-check.ts");
+    const uploadBlobStub = path.resolve(projectDir, "src/lib/upload-blob-store.client.stub.ts");
+    const uploadBlobReal = path.resolve(projectDir, "src/lib/upload-blob-store.ts");
 
     config.resolve.alias = {
       ...(config.resolve.alias as Record<string, string | string[]>),
       "@/lib/msv-embedded-env-merge": mergeStub,
       [mergeReal]: mergeStub,
       [dbCheckReal]: dbCheckStub,
+      "@/lib/upload-blob-store": uploadBlobStub,
+      [uploadBlobReal]: uploadBlobStub,
     };
 
     config.plugins = config.plugins ?? [];
@@ -109,6 +124,10 @@ const nextConfig: NextConfig = {
       new NextWebpack.NormalModuleReplacementPlugin(
         /(^|[\\/])msv-embedded-env-merge\.ts$/,
         mergeStub,
+      ),
+      new NextWebpack.NormalModuleReplacementPlugin(
+        /(^|[\\/])upload-blob-store\.ts$/,
+        uploadBlobStub,
       ),
     );
     return config;

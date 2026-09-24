@@ -2,13 +2,21 @@
 
 import { useCallback, useMemo, useState } from "react";
 import {
+  formatTaxCalendarTemplateDateLabel,
+  taxCalendarTemplateMatchesPeriod,
+} from "@/lib/tax-calendar-expand";
+import {
   TAX_CALENDAR_FORM_CUSTOM,
   TAX_CALENDAR_KINDS,
   TAX_CALENDAR_KIND_LABEL_FULL,
+  TAX_CALENDAR_RECURRENCE_LABELS,
+  TAX_CALENDAR_RECURRENCES,
   isTaxCalendarPresetKind,
+  normalizeTaxCalendarRecurrence,
   taxCalendarKindLabelFull,
   type TaxCalendarEvent,
   type TaxCalendarKind,
+  type TaxCalendarRecurrence,
 } from "@/types/tax-calendar-event";
 import {
   adminBoardCard,
@@ -23,21 +31,67 @@ import {
 
 type Props = { initialItems: TaxCalendarEvent[] };
 
+const ALL_MONTHS_VALUE = "0";
+
 function initialKindSelect(kind: string): TaxCalendarKind | typeof TAX_CALENDAR_FORM_CUSTOM {
   return isTaxCalendarPresetKind(kind) ? kind : TAX_CALENDAR_FORM_CUSTOM;
 }
 
+function sortTemplates(list: TaxCalendarEvent[]): TaxCalendarEvent[] {
+  return [...list].sort((a, b) => {
+    const ra = normalizeTaxCalendarRecurrence(a.recurrence);
+    const rb = normalizeTaxCalendarRecurrence(b.recurrence);
+    if (ra !== rb) {
+      const order: Record<TaxCalendarRecurrence, number> = { MONTHLY: 0, YEARLY: 1, FIXED: 2 };
+      if (order[ra] !== order[rb]) return order[ra] - order[rb];
+    }
+    return a.date.localeCompare(b.date) || a.kind.localeCompare(b.kind);
+  });
+}
+
+function deriveYearOptions(items: TaxCalendarEvent[], currentYear: number): number[] {
+  const years = new Set<number>();
+  years.add(currentYear);
+  years.add(currentYear - 1);
+  years.add(currentYear + 1);
+  for (const e of items) {
+    const y = Number(e.date.slice(0, 4));
+    if (Number.isFinite(y)) years.add(y);
+  }
+  return [...years].sort((a, b) => a - b);
+}
+
+const fieldInputClass =
+  "mt-1 block w-full rounded border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-slate-500";
+
 export function TaxCalendarManager({ initialItems }: Props) {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1;
+
   const [items, setItems] = useState(initialItems);
   const [error, setError] = useState<string | null>(null);
+  const [filterYear, setFilterYear] = useState(String(currentYear));
+  const [filterMonth, setFilterMonth] = useState(String(currentMonth));
   const [date, setDate] = useState("");
+  const [recurrence, setRecurrence] = useState<TaxCalendarRecurrence>("YEARLY");
   const [kindSelect, setKindSelect] = useState<TaxCalendarKind | typeof TAX_CALENDAR_FORM_CUSTOM>("GST");
   const [customKind, setCustomKind] = useState("");
   const [title, setTitle] = useState("");
   const [note, setNote] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  const sorted = useMemo(() => [...items].sort((a, b) => a.date.localeCompare(b.date) || a.kind.localeCompare(b.kind)), [items]);
+  const yearOptions = useMemo(() => deriveYearOptions(items, currentYear), [items, currentYear]);
+
+  const filtered = useMemo(() => {
+    const year = Number(filterYear);
+    if (!Number.isFinite(year)) return sortTemplates(items);
+    const month = filterMonth === ALL_MONTHS_VALUE ? null : Number(filterMonth);
+    if (month !== null && (month < 1 || month > 12)) {
+      return sortTemplates(items);
+    }
+    return sortTemplates(items.filter((e) => taxCalendarTemplateMatchesPeriod(e, year, month)));
+  }, [items, filterYear, filterMonth]);
 
   const reload = useCallback(async () => {
     setError(null);
@@ -77,7 +131,13 @@ export function TaxCalendarManager({ initialItems }: Props) {
       method: "POST",
       credentials: "same-origin",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ date, kind, title: title || undefined, note: note || undefined }),
+      body: JSON.stringify({
+        date,
+        kind,
+        recurrence,
+        title: title || undefined,
+        note: note || undefined,
+      }),
     });
     const data = await res.json();
     if (!res.ok) {
@@ -88,6 +148,7 @@ export function TaxCalendarManager({ initialItems }: Props) {
     setNote("");
     setCustomKind("");
     setKindSelect("GST");
+    setRecurrence("YEARLY");
     await reload();
   }
 
@@ -122,19 +183,36 @@ export function TaxCalendarManager({ initialItems }: Props) {
   }
 
   const createForm = (
-    <form onSubmit={create} className="space-y-4 border-t border-zinc-100 px-4 py-4 sm:flex sm:flex-wrap sm:items-end sm:gap-3 sm:px-5 sm:py-5">
-      <label className="block text-xs font-medium text-zinc-600 sm:w-40">
-        날짜
+    <form
+      onSubmit={create}
+      className="space-y-4 border-t border-slate-200 px-4 py-4 sm:flex sm:flex-wrap sm:items-end sm:gap-3 sm:px-5 sm:py-5"
+    >
+      <label className="block text-xs font-medium text-slate-600 sm:w-40">
+        기준 날짜
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          className="mt-1 block w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none transition-shadow focus:border-zinc-400 focus:ring-2 focus:ring-zinc-900/5"
+          className={fieldInputClass}
           required
         />
       </label>
+      <label className="block text-xs font-medium text-slate-600 sm:w-28">
+        반복
+        <select
+          value={recurrence}
+          onChange={(e) => setRecurrence(e.target.value as TaxCalendarRecurrence)}
+          className={fieldInputClass}
+        >
+          {TAX_CALENDAR_RECURRENCES.map((r) => (
+            <option key={r} value={r}>
+              {TAX_CALENDAR_RECURRENCE_LABELS[r]}
+            </option>
+          ))}
+        </select>
+      </label>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
-        <label className="block text-xs font-medium text-zinc-600 sm:w-52">
+        <label className="block text-xs font-medium text-slate-600 sm:w-52">
           유형
           <select
             value={kindSelect}
@@ -143,7 +221,7 @@ export function TaxCalendarManager({ initialItems }: Props) {
               setKindSelect(v);
               if (v !== TAX_CALENDAR_FORM_CUSTOM) setCustomKind("");
             }}
-            className="mt-1 block w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none transition-shadow focus:border-zinc-400 focus:ring-2 focus:ring-zinc-900/5"
+            className={fieldInputClass}
           >
             {TAX_CALENDAR_KINDS.map((k) => (
               <option key={k} value={k}>
@@ -154,12 +232,12 @@ export function TaxCalendarManager({ initialItems }: Props) {
           </select>
         </label>
         {kindSelect === TAX_CALENDAR_FORM_CUSTOM ? (
-          <label className="block min-w-[10rem] text-xs font-medium text-zinc-600 sm:min-w-[12rem]">
+          <label className="block min-w-[10rem] text-xs font-medium text-slate-600 sm:min-w-[12rem]">
             유형 직접 입력
             <input
               value={customKind}
               onChange={(e) => setCustomKind(e.target.value)}
-              className="mt-1 block w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none transition-shadow focus:border-zinc-400 focus:ring-2 focus:ring-zinc-900/5"
+              className={fieldInputClass}
               placeholder="예: RBI 보고, FEMA"
               maxLength={60}
               aria-required
@@ -167,26 +245,22 @@ export function TaxCalendarManager({ initialItems }: Props) {
           </label>
         ) : null}
       </div>
-      <label className="block min-w-[8rem] flex-1 text-xs font-medium text-zinc-600">
+      <label className="block min-w-[8rem] flex-1 text-xs font-medium text-slate-600">
         제목 (선택)
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="mt-1 block w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none transition-shadow focus:border-zinc-400 focus:ring-2 focus:ring-zinc-900/5"
+          className={fieldInputClass}
           placeholder="예: 분기 말 TDS"
         />
       </label>
-      <label className="block min-w-[10rem] flex-1 text-xs font-medium text-zinc-600">
+      <label className="block min-w-[10rem] flex-1 text-xs font-medium text-slate-600">
         비고 (선택)
-        <input
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          className="mt-1 block w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none transition-shadow focus:border-zinc-400 focus:ring-2 focus:ring-zinc-900/5"
-        />
+        <input value={note} onChange={(e) => setNote(e.target.value)} className={fieldInputClass} />
       </label>
       <button
         type="submit"
-        className="w-full rounded-lg border border-zinc-900 bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-800 sm:mt-6 sm:w-auto sm:self-end"
+        className="w-full border border-msv-navy bg-msv-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-msv-navy/90 sm:mt-6 sm:w-auto sm:self-end"
       >
         등록
       </button>
@@ -203,18 +277,48 @@ export function TaxCalendarManager({ initialItems }: Props) {
       </details>
 
       <section>
-        <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
-          <h2 className="text-base font-semibold tracking-tight text-zinc-900">게시판</h2>
-          <p className="text-xs tabular-nums text-zinc-500">총 {sorted.length}건</p>
+        <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
+          <h2 className="text-base font-semibold tracking-tight text-slate-900">게시판</h2>
+          <div className="flex flex-wrap items-end gap-2">
+            <label className="text-xs font-medium text-slate-600">
+              연도
+              <select
+                value={filterYear}
+                onChange={(e) => setFilterYear(e.target.value)}
+                className="ml-1 rounded border border-slate-300 bg-white px-2 py-1.5 text-sm"
+              >
+                {yearOptions.map((y) => (
+                  <option key={y} value={String(y)}>{y}</option>
+                ))}
+              </select>
+            </label>
+            <label className="text-xs font-medium text-slate-600">
+              월
+              <select
+                value={filterMonth}
+                onChange={(e) => setFilterMonth(e.target.value)}
+                className="ml-1 rounded border border-slate-300 bg-white px-2 py-1.5 text-sm"
+              >
+                <option value={ALL_MONTHS_VALUE}>전체</option>
+                {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
+                  <option key={m} value={String(m)}>{m}월</option>
+                ))}
+              </select>
+            </label>
+          </div>
         </div>
+        <p className="mb-3 text-xs tabular-nums text-slate-500">
+          총 {items.length}건 · 표시 {filtered.length}건
+        </p>
 
         <div className={adminBoardCard}>
           <div className="hidden overflow-x-auto md:block">
-            <table className="w-full min-w-[720px] border-collapse text-left">
+            <table className="w-full min-w-[800px] border-collapse text-left">
               <thead>
                 <tr>
                   <th className={`${adminBoardTh} w-10 text-center`}>No</th>
-                  <th className={`${adminBoardTh} w-32 whitespace-nowrap`}>날짜</th>
+                  <th className={`${adminBoardTh} w-36 whitespace-nowrap`}>일정</th>
+                  <th className={`${adminBoardTh} w-20`}>반복</th>
                   <th className={adminBoardTh}>유형</th>
                   <th className={adminBoardTh}>제목</th>
                   <th className={`${adminBoardTh} max-w-[12rem]`}>비고</th>
@@ -222,19 +326,20 @@ export function TaxCalendarManager({ initialItems }: Props) {
                 </tr>
               </thead>
               <tbody>
-                {sorted.length === 0 ? (
+                {filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className={`${adminBoardTd} py-10 text-center text-sm text-zinc-500`}>
-                      등록된 일정이 없습니다.
+                    <td colSpan={7} className={`${adminBoardTd} py-10 text-center text-sm text-slate-500`}>
+                      해당 연·월에 일정이 없습니다.
                     </td>
                   </tr>
                 ) : null}
-                {sorted.map((row, i) => {
+                {filtered.map((row, i) => {
                   const no = String(i + 1).padStart(2, "0");
+                  const rec = normalizeTaxCalendarRecurrence(row.recurrence);
                   if (editingId === row.id) {
                     return (
-                      <tr key={row.id} className="bg-zinc-50/70">
-                        <td colSpan={6} className="border-b border-zinc-100 px-4 py-4 sm:px-5">
+                      <tr key={row.id} className="bg-slate-50">
+                        <td colSpan={7} className="border-b border-slate-200 px-4 py-4 sm:px-5">
                           <EditRow
                             row={row}
                             onCancel={() => setEditingId(null)}
@@ -247,15 +352,18 @@ export function TaxCalendarManager({ initialItems }: Props) {
                   }
                   return (
                     <tr key={row.id} className={adminBoardRow}>
-                      <td className={`${adminBoardTd} w-10 text-center text-xs tabular-nums text-zinc-400`}>{no}</td>
-                      <td className={`${adminBoardTd} whitespace-nowrap font-mono text-xs tabular-nums text-zinc-800`}>
-                        {row.date}
+                      <td className={`${adminBoardTd} w-10 text-center text-xs tabular-nums text-slate-400`}>{no}</td>
+                      <td className={`${adminBoardTd} whitespace-nowrap text-sm text-slate-800`}>
+                        {formatTaxCalendarTemplateDateLabel(row)}
+                      </td>
+                      <td className={`${adminBoardTd} text-xs text-slate-600`}>
+                        {TAX_CALENDAR_RECURRENCE_LABELS[rec]}
                       </td>
                       <td className={`${adminBoardTd} text-sm text-msv-blue`}>{taxCalendarKindLabelFull(row.kind)}</td>
-                      <td className={`${adminBoardTd} text-zinc-900`}>
+                      <td className={`${adminBoardTd} text-slate-900`}>
                         <span className="line-clamp-2 text-sm">{(row.title || "").trim() || "—"}</span>
                       </td>
-                      <td className={`${adminBoardTd} max-w-[12rem] text-zinc-600`}>
+                      <td className={`${adminBoardTd} max-w-[12rem] text-slate-600`}>
                         <span className="line-clamp-2 text-xs">{(row.note || "").trim() || "—"}</span>
                       </td>
                       <td className={`${adminBoardTd} text-right`}>
@@ -282,15 +390,16 @@ export function TaxCalendarManager({ initialItems }: Props) {
             </table>
           </div>
 
-          <ul className="divide-y divide-zinc-100 md:hidden" role="list">
-            {sorted.length === 0 ? (
-              <li className="px-4 py-10 text-center text-sm text-zinc-500">등록된 일정이 없습니다.</li>
+          <ul className="divide-y divide-slate-200 md:hidden" role="list">
+            {filtered.length === 0 ? (
+              <li className="px-4 py-10 text-center text-sm text-slate-500">해당 연·월에 일정이 없습니다.</li>
             ) : null}
-            {sorted.map((row, i) => {
+            {filtered.map((row, i) => {
               const no = String(i + 1).padStart(2, "0");
+              const rec = normalizeTaxCalendarRecurrence(row.recurrence);
               if (editingId === row.id) {
                 return (
-                  <li key={row.id} className="bg-zinc-50/70 p-4">
+                  <li key={row.id} className="bg-slate-50 p-4">
                     <EditRow
                       row={row}
                       onCancel={() => setEditingId(null)}
@@ -303,12 +412,13 @@ export function TaxCalendarManager({ initialItems }: Props) {
               return (
                 <li key={row.id} className="px-4 py-3.5">
                   <div className="flex items-start justify-between gap-2">
-                    <span className="text-[11px] font-medium tabular-nums text-zinc-300">{no}</span>
+                    <span className="text-[11px] font-medium tabular-nums text-slate-400">{no}</span>
                     <div className="min-w-0 flex-1">
-                      <p className="font-mono text-xs tabular-nums text-zinc-800">{row.date}</p>
+                      <p className="text-sm text-slate-800">{formatTaxCalendarTemplateDateLabel(row)}</p>
+                      <p className="mt-0.5 text-xs text-slate-500">{TAX_CALENDAR_RECURRENCE_LABELS[rec]}</p>
                       <p className="mt-0.5 text-sm font-medium text-msv-blue">{taxCalendarKindLabelFull(row.kind)}</p>
-                      {row.title ? <p className="mt-1 text-sm text-zinc-900">{row.title}</p> : null}
-                      {row.note ? <p className="mt-1 line-clamp-2 text-xs text-zinc-500">{row.note}</p> : null}
+                      {row.title ? <p className="mt-1 text-sm text-slate-900">{row.title}</p> : null}
+                      {row.note ? <p className="mt-1 line-clamp-2 text-xs text-slate-500">{row.note}</p> : null}
                     </div>
                     <div className="flex shrink-0 flex-col items-end gap-1">
                       <button
@@ -348,6 +458,9 @@ function EditRow({
   onValidationError: (message: string) => void;
 }) {
   const [date, setDate] = useState(row.date);
+  const [recurrence, setRecurrence] = useState<TaxCalendarRecurrence>(
+    () => normalizeTaxCalendarRecurrence(row.recurrence),
+  );
   const [kindSelect, setKindSelect] = useState(() => initialKindSelect(row.kind));
   const [customKind, setCustomKind] = useState(() =>
     isTaxCalendarPresetKind(row.kind) ? "" : row.kind,
@@ -373,20 +486,40 @@ function EditRow({
           onValidationError("유형을 직접 입력해 주세요.");
           return;
         }
-        void onSave({ date, kind, title: title.trim() || undefined, note: note.trim() || undefined });
+        void onSave({
+          date,
+          kind,
+          recurrence,
+          title: title.trim() || undefined,
+          note: note.trim() || undefined,
+        });
       }}
     >
-      <label className="block text-xs font-medium text-zinc-600 sm:w-36">
-        날짜
+      <label className="block text-xs font-medium text-slate-600 sm:w-36">
+        기준 날짜
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          className="mt-1 block w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-900/5"
+          className={fieldInputClass}
         />
       </label>
+      <label className="block text-xs font-medium text-slate-600 sm:w-28">
+        반복
+        <select
+          value={recurrence}
+          onChange={(e) => setRecurrence(e.target.value as TaxCalendarRecurrence)}
+          className={fieldInputClass}
+        >
+          {TAX_CALENDAR_RECURRENCES.map((r) => (
+            <option key={r} value={r}>
+              {TAX_CALENDAR_RECURRENCE_LABELS[r]}
+            </option>
+          ))}
+        </select>
+      </label>
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
-        <label className="block text-xs font-medium text-zinc-600 sm:w-48">
+        <label className="block text-xs font-medium text-slate-600 sm:w-48">
           유형
           <select
             value={kindSelect}
@@ -395,7 +528,7 @@ function EditRow({
               setKindSelect(v);
               if (v !== TAX_CALENDAR_FORM_CUSTOM) setCustomKind("");
             }}
-            className="mt-1 block w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-900/5"
+            className={fieldInputClass}
           >
             {TAX_CALENDAR_KINDS.map((k) => (
               <option key={k} value={k}>
@@ -409,41 +542,41 @@ function EditRow({
           <input
             value={customKind}
             onChange={(e) => setCustomKind(e.target.value)}
-            className="min-w-[12rem] rounded-lg border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-900/5"
+            className="min-w-[12rem] rounded border border-slate-300 px-3 py-2 text-sm outline-none focus:border-slate-500"
             placeholder="유형 입력"
             maxLength={60}
           />
         ) : null}
       </div>
-      <label className="block min-w-[10rem] flex-1 text-xs font-medium text-zinc-600">
+      <label className="block min-w-[10rem] flex-1 text-xs font-medium text-slate-600">
         제목
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="mt-1 block w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-900/5"
+          className={fieldInputClass}
           placeholder="제목"
         />
       </label>
-      <label className="block min-w-[10rem] flex-1 text-xs font-medium text-zinc-600">
+      <label className="block min-w-[10rem] flex-1 text-xs font-medium text-slate-600">
         비고
         <input
           value={note}
           onChange={(e) => setNote(e.target.value)}
-          className="mt-1 block w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-900/5"
+          className={fieldInputClass}
           placeholder="비고"
         />
       </label>
       <div className="flex flex-wrap gap-2 sm:ml-auto sm:self-end">
         <button
           type="submit"
-          className="rounded-lg border border-zinc-900 bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white"
+          className="border border-msv-navy bg-msv-navy px-3 py-1.5 text-sm font-semibold text-white"
         >
           저장
         </button>
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm"
+          className="border border-slate-300 bg-white px-3 py-1.5 text-sm"
         >
           취소
         </button>

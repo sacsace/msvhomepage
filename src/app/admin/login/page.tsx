@@ -39,7 +39,8 @@ export default async function AdminLoginPage({ searchParams }: PageProps) {
               DB에 관리자 해시가 없거나 읽을 수 없습니다.{" "}
               <code className="text-xs">web/.env.development</code>의{" "}
               <code className="text-xs">ADMIN_PASSWORD</code>를 쓰거나,{" "}
-              <code className="text-xs">npm run db:seed</code>로 시드하세요. (시드 기본 비밀번호는{" "}
+              <code className="text-xs">npm run db:seed</code>로 시드하세요. (시드 기본 아이디는{" "}
+              <code className="text-xs">root</code>, 비밀번호는{" "}
               <code className="text-xs">admin123</code>입니다.) 운영에서는{" "}
               <code className="text-xs">ADMIN_SESSION_SECRET</code>을 반드시 설정하세요.
             </p>

@@ -16,6 +16,12 @@ function isUploadPublicPath(publicPath: string): boolean {
   return publicPath.startsWith(`${UPLOADS_PUBLIC_PREFIX}/`) && !publicPath.includes("..");
 }
 
+function uploadFileBytesEqual(stored: Uint8Array | Buffer | null | undefined, disk: Buffer): boolean {
+  if (!stored) return false;
+  const a = Buffer.isBuffer(stored) ? stored : Buffer.from(stored);
+  return a.length === disk.length && a.compare(disk) === 0;
+}
+
 /** 디스크에 쓰고 Postgres에도 백업 — 재배포 후에도 복원 가능 */
 export async function persistUploadFile(
   publicPath: string,
@@ -158,14 +164,19 @@ export async function syncUploadBlobsWithDisk(): Promise<{ restored: number; bac
         if (!st.isFile()) continue;
         const publicPath = `${urlBase}/${name}`;
         try {
+          const data = await fs.readFile(full);
+          const mime = mimeForUploadFile(full);
           const existing = await prisma.uploadedBlob.findUnique({
             where: { publicPath },
-            select: { publicPath: true },
+            select: { data: true, mime: true },
           });
-          if (existing) continue;
-          const data = await fs.readFile(full);
-          await prisma.uploadedBlob.create({
-            data: { publicPath, mime: mimeForUploadFile(full), data: new Uint8Array(data) },
+          if (existing && uploadFileBytesEqual(existing.data, data) && existing.mime === mime) {
+            continue;
+          }
+          await prisma.uploadedBlob.upsert({
+            where: { publicPath },
+            create: { publicPath, mime, data: new Uint8Array(data) },
+            update: { mime, data: new Uint8Array(data) },
           });
           backedUp += 1;
         } catch {
@@ -211,14 +222,19 @@ export async function syncUploadBlobsWithDisk(): Promise<{ restored: number; bac
               await fs.copyFile(full, primaryDisk);
               restored += 1;
             }
+            const data = await fs.readFile(full);
+            const mime = mimeForUploadFile(full);
             const existing = await prisma.uploadedBlob.findUnique({
               where: { publicPath },
-              select: { publicPath: true },
+              select: { data: true, mime: true },
             });
-            if (existing) continue;
-            const data = await fs.readFile(full);
-            await prisma.uploadedBlob.create({
-              data: { publicPath, mime: mimeForUploadFile(full), data: new Uint8Array(data) },
+            if (existing && uploadFileBytesEqual(existing.data, data) && existing.mime === mime) {
+              continue;
+            }
+            await prisma.uploadedBlob.upsert({
+              where: { publicPath },
+              create: { publicPath, mime, data: new Uint8Array(data) },
+              update: { mime, data: new Uint8Array(data) },
             });
             backedUp += 1;
           } catch {
@@ -230,7 +246,9 @@ export async function syncUploadBlobsWithDisk(): Promise<{ restored: number; bac
     }
   }
 
-  if (restored > 0 || backedUp > 0) {
+  if (restored > 0) {
+    console.info(`[uploads] sync blobs: restored=${restored} backedUp=${backedUp}`);
+  } else if (backedUp > 0 && String(process.env.MSV_DEV_VERBOSE || "").trim() === "1") {
     console.info(`[uploads] sync blobs: restored=${restored} backedUp=${backedUp}`);
   }
   return { restored, backedUp };

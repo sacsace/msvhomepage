@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
   );
 }
 
-/** 법인 설립·그룹웨어(MVS) 페이지와 동일한 본문 타이포·카드 */
+/** 법인 설립·업무 통합 시스템(MVS) 페이지와 동일한 본문 타이포·카드 */
 const bodyText = "text-sm leading-relaxed text-slate-600 break-keep";
 
 const cardSection = "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8";

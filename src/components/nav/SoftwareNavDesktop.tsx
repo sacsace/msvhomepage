@@ -6,23 +6,32 @@ import { desktopNavMegaMenuItemClass, desktopNavTopSegmentClass } from "@/compon
 import type { SiteLocale } from "@/lib/site-locale";
 import { localeFromPathname, pickLocale, stripLocalePrefix, withLocalePrefix } from "@/lib/site-locale";
 
+import type { SiteLocale } from "@/lib/site-locale";
+
 const subKo = [
-  { href: "/software/mvs", label: "그룹웨어 (MVS)" },
+  { href: "/software/mvs", label: "업무 통합 시스템 (MVS)" },
   { href: "/software/herenow", label: "출퇴근 기록 시스템 (HeresNow)" },
   { href: "/software/payroll-mailer", label: "급여 명세서 이메일 발송 시스템" },
+  { href: "/software/wisc", label: "Website Information & Security Checker" },
 ] as const;
 
 const subEn = [
-  { href: "/software/mvs", label: "Groupware (MVS)" },
+  { href: "/software/mvs", label: "Integrated Business System (MVS)" },
   { href: "/software/herenow", label: "Attendance (HeresNow)" },
   { href: "/software/payroll-mailer", label: "Payroll payslip email" },
+  { href: "/software/wisc", label: "Website Information & Security Checker" },
 ] as const;
 
 const subZh = [
-  { href: "/software/mvs", label: "集团办公（MVS）" },
+  { href: "/software/mvs", label: "业务集成系统（MVS）" },
   { href: "/software/herenow", label: "考勤系统（HeresNow）" },
   { href: "/software/payroll-mailer", label: "工资单邮件发送" },
+  { href: "/software/wisc", label: "Website Information & Security Checker" },
 ] as const;
+
+function isExternalHref(href: string) {
+  return href.startsWith("http://") || href.startsWith("https://");
+}
 
 function linkClass(active: boolean) {
   return `px-3 py-1.5 text-[13px] tracking-tight transition duration-200 ease-out ${desktopNavTopSegmentClass(active)}`;
@@ -57,12 +66,25 @@ export function SoftwareNavDesktop() {
       >
         <div className="rounded-lg border border-slate-100 bg-white py-1 shadow-lg shadow-slate-900/5">
           {sub.map((item) => {
-            const subActive = bare === item.href || bare.startsWith(`${item.href}/`);
-            return (
+            const external = isExternalHref(item.href);
+            const href = external ? item.href : withLocalePrefix(item.href, locale);
+            const subActive = !external && (bare === item.href || bare.startsWith(`${item.href}/`));
+            const className = `block rounded-md px-3 py-2 text-[13px] transition ${desktopNavMegaMenuItemClass(subActive)}`;
+            return external ? (
+              <a
+                key={item.href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={className}
+              >
+                {item.label}
+              </a>
+            ) : (
               <Link
                 key={item.href}
-                href={withLocalePrefix(item.href, locale)}
-                className={`block rounded-md px-3 py-2 text-[13px] transition ${desktopNavMegaMenuItemClass(subActive)}`}
+                href={href}
+                className={className}
                 aria-current={subActive ? "page" : undefined}
               >
                 {item.label}

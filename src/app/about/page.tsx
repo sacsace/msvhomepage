@@ -21,7 +21,7 @@ import {
   visionZh,
 } from "@/lib/i18n/about-locale";
 import { strengthsEn, strengthsZh } from "@/lib/i18n/public-home";
-import { getCachedCompanyHistoryPublic } from "@/lib/public-page-data-cache";
+import { readCompanyHistoryPublic } from "@/lib/company-history-store";
 import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import type { SiteLocale } from "@/lib/site-locale";
 import { pickLocale, withLocalePrefix } from "@/lib/site-locale";
@@ -80,7 +80,7 @@ function localizeBusinessUnits(locale: SiteLocale) {
 
 export default async function AboutPage() {
   const locale = await getRequestLocale();
-  const companyHistoryEntries = await getCachedCompanyHistoryPublic();
+  const companyHistoryEntries = await readCompanyHistoryPublic();
   const copy = aboutPageCopy(locale);
   const L = (path: string) => withLocalePrefix(path, locale);
 

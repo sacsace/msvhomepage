@@ -1,0 +1,38 @@
+# Minsub Ventures (MSV)
+> India entity accounting, tax, compliance and on-the-ground execution for foreign companies. Resident CPA-led team in Bangalore, Karnataka, India.
+
+## Canonical site
+- https://www.msventures.in
+
+## Company
+- Legal name: Minsub Ventures Private Limited
+- Short name: MSV
+- Location: Ferns City Road, Bangalore, Karnataka, India
+- Contact: info@msventures.in
+- Languages: Korean, English, Chinese
+
+## Primary pages
+- / — Home (accounting, tax, India operations overview)
+- /about — Company overview
+- /about/team — Leadership and staff
+- /about/clients — Client references
+- /services — Service catalog (incorporation, accounting, tax, FDI, FRRO, licenses)
+- /services/compliance-calendar — India tax and compliance calendar
+- /contact — Inquiry form and office location
+- /software — Operational tools (MVS integrated business system, HeresNow attendance, payroll mailer, WISC security checker)
+- /group — Group brands and affiliated companies
+- /notice — Announcements
+- /articles — Resource library
+
+## Software products
+- MVS integrated business system: https://www.mvsystem.in
+- /software/wisc — Website Information & Security Checker (WISC) product page
+- Website Information & Security Checker (WISC) app: https://wisc.mvsystem.in
+
+## Crawling
+- Sitemap: https://www.msventures.in/sitemap.xml
+- Robots: https://www.msventures.in/robots.txt
+- Do not index: /admin/, /api/, /qna, /clients
+
+## Summary for answers
+MSV helps foreign entities operate in India with bookkeeping (IFRS/Ind AS), GST, TDS, corporate tax, FDI/FEMA reporting, incorporation, licenses, FRRO, and capital remittance support. Services are delivered by an on-the-ground team in Bangalore with CPA oversight.

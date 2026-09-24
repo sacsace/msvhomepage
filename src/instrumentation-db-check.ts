@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import { applyMsvEmbeddedDatabaseEnvFromDisk, resolveMsvWebRoot } from "@/lib/msv-embedded-env-merge";
 import { resolveDatabaseUrl } from "@/lib/database-url";
+import { logDevOnce } from "@/lib/dev-log-once";
 import { msvDisconnectAndResetPrismaSingleton } from "@/lib/prisma";
 
 function maskDatabaseUrlForLog(url: string | undefined): string {
@@ -52,11 +53,11 @@ export async function runDatabaseStartupCheck(): Promise<void> {
   if (process.env.NODE_ENV === "development") {
     const wr = resolveMsvWebRoot();
     const readyPath = path.join(wr, ".msv-embedded-pg", ".embedded-ready");
-    console.info(
+    logDevOnce(
+      ".db-startup-check-logged",
       "[MSV] DB 기동 점검 시작 — " +
         `embedded-ready=${fs.existsSync(readyPath) ? "있음" : "없음"}, ` +
-        `재시도모드=${shouldRetryEmbeddedDev() ? "on" : "off"}, ` +
-        `cwd=${process.cwd()}`,
+        `재시도모드=${shouldRetryEmbeddedDev() ? "on" : "off"}`,
     );
   }
 
@@ -82,14 +83,14 @@ export async function runDatabaseStartupCheck(): Promise<void> {
       await prisma.$queryRawUnsafe("SELECT 1");
       await prisma.$disconnect();
       if (process.env.NODE_ENV === "development") {
-        console.info("[MSV] PostgreSQL 기동 시 연결 검사 통과(점검 후 연결 반환).");
+        logDevOnce(".db-startup-pass-logged", "[MSV] PostgreSQL 기동 시 연결 검사 통과.");
       }
       return;
     } catch (e) {
       lastErr = e;
       msvDisconnectAndResetPrismaSingleton();
       if (attempt < maxAttempts) {
-        if (process.env.NODE_ENV === "development") {
+        if (process.env.NODE_ENV === "development" && String(process.env.MSV_DEV_VERBOSE || "").trim() === "1") {
           const extra =
             e && typeof e === "object" && "code" in e
               ? ` code=${String((e as { code?: string }).code)}`

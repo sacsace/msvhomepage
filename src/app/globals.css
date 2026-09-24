@@ -1,10 +1,9 @@
 @import "tailwindcss";
 
 /*
- * Apple Human Interface Guidelines에 가깝게 — Clarity / Deference / Depth
- * - Clarity: 본문·라벨 대비, 여백, 가독 행간·자간
- * - Deference: UI는 콘텐츠 뒤에; 얕은 캔버스·얇은 경계·과한 장식 없음
- * - Depth: 아주 얕은 그림자·층만으로 구분(과한 입체감 없음)
+ * Minsub Ventures 공개 사이트 — 차분한 기업·회계 톤
+ * - 명확한 본문 대비, 여백, 가독 행간
+ * - UI는 콘텐츠 뒤에; 얇은 경계·과한 장식·과도한 모션 없음
  */
 
 :root {
@@ -18,21 +17,21 @@
   --msv-space-16: 64px;
   --msv-space-24: 96px;
 
-  --background: #fbfbfd;
-  --foreground: #1d1d1f;
-  --msv-navy: #1d1d1f;
-  --msv-blue: #0071e3;
-  --msv-blue-soft: #e8f4ff;
+  --background: #fafafa;
+  --foreground: #1a1a1a;
+  --msv-navy: #0f2744;
+  --msv-blue: #1a5490;
+  --msv-blue-soft: #eef3f7;
   --msv-teal: #0a7d73;
-  --msv-mocha: #6e6e73;
+  --msv-mocha: #5c5c5c;
   --msv-card: #ffffff;
-  --msv-border: rgb(0 0 0 / 0.06);
-  --msv-divider: #d2d2d7;
-  --msv-radius-card: 18px;
-  --msv-radius-control: 12px;
-  --msv-shadow-card: 0 1px 3px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.04);
+  --msv-border: rgb(15 39 68 / 0.1);
+  --msv-divider: #d4d4d4;
+  --msv-radius-card: 8px;
+  --msv-radius-control: 6px;
+  --msv-shadow-card: none;
   --msv-ease-standard: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --msv-duration: 0.22s;
+  --msv-duration: 0.18s;
 }
 
 @theme inline {
@@ -45,15 +44,12 @@
   --color-msv-mocha: var(--msv-mocha);
   --color-msv-card: var(--msv-card);
 
-  /* 시스템 스택 + 한글(Noto, layout의 --font-noto) */
   --font-sans:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, var(--font-noto), "Apple SD Gothic Neo", "Noto Sans KR",
     sans-serif;
 
-  /* 콘텐츠 최대 폭 1280px (1200–1400px 가이드) */
   --container-6xl: 80rem;
 
-  /* 타이포 스케일: 본문 16px, 캡션 13px, 헤드라인 여백·행간 */
   --text-xs: 0.8125rem;
   --text-xs--line-height: 1.45;
   --text-sm: 0.875rem;
@@ -77,47 +73,44 @@
   --text-7xl: 3.5rem;
   --text-7xl--line-height: 1.1;
 
-  /* Apple 톤 중립 그레이 (slate 유틸 전역 정제) */
-  --color-slate-50: #fbfbfd;
-  --color-slate-100: #f5f5f7;
-  --color-slate-200: #e5e5e7;
-  --color-slate-300: #d2d2d7;
-  --color-slate-400: #aeaeb2;
-  --color-slate-500: #86868b;
-  --color-slate-600: #6e6e73;
-  --color-slate-700: #424245;
-  --color-slate-800: #323232;
-  --color-slate-900: #111111;
-  --color-slate-950: #0a0a0a;
+  --color-slate-50: #fafafa;
+  --color-slate-100: #f4f4f5;
+  --color-slate-200: #e4e4e7;
+  --color-slate-300: #d4d4d8;
+  --color-slate-400: #a1a1aa;
+  --color-slate-500: #71717a;
+  --color-slate-600: #52525b;
+  --color-slate-700: #3f3f46;
+  --color-slate-800: #27272a;
+  --color-slate-900: #18181b;
+  --color-slate-950: #09090b;
 
-  /* 관리 화면 등 zinc 보조 팔레트 동조 */
-  --color-zinc-50: #fbfbfd;
-  --color-zinc-100: #f5f5f7;
-  --color-zinc-200: #e5e5e7;
-  --color-zinc-300: #d2d2d7;
-  --color-zinc-400: #aeaeb2;
-  --color-zinc-500: #86868b;
-  --color-zinc-600: #6e6e73;
-  --color-zinc-700: #424245;
-  --color-zinc-800: #323232;
-  --color-zinc-900: #111111;
-  --color-zinc-950: #0a0a0a;
+  --color-zinc-50: #fafafa;
+  --color-zinc-100: #f4f4f5;
+  --color-zinc-200: #e4e4e7;
+  --color-zinc-300: #d4d4d8;
+  --color-zinc-400: #a1a1aa;
+  --color-zinc-500: #71717a;
+  --color-zinc-600: #52525b;
+  --color-zinc-700: #3f3f46;
+  --color-zinc-800: #27272a;
+  --color-zinc-900: #18181b;
+  --color-zinc-950: #09090b;
 
-  /* 액센트 블루 계열 (hover:bg-blue-600 등과 톤 맞춤) */
-  --color-blue-500: #0a84ff;
-  --color-blue-600: #0071e3;
-  --color-blue-700: #0058b0;
+  --color-blue-500: #1a5490;
+  --color-blue-600: #164878;
+  --color-blue-700: #123c64;
 
-  --radius-lg: 0.625rem;
-  --radius-xl: 0.875rem;
-  --radius-2xl: 1.125rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.625rem;
+  --radius-2xl: 0.75rem;
 
-  --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.03);
-  --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.04), 0 4px 12px rgb(0 0 0 / 0.03);
-  --shadow-md: 0 4px 16px rgb(0 0 0 / 0.05);
-  --shadow-lg: 0 8px 28px rgb(0 0 0 / 0.06);
-  --shadow-xl: 0 16px 40px rgb(0 0 0 / 0.07);
-  --shadow-2xl: 0 24px 48px rgb(0 0 0 / 0.08);
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.04);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.05);
+  --shadow-md: 0 2px 8px rgb(0 0 0 / 0.06);
+  --shadow-lg: 0 4px 16px rgb(0 0 0 / 0.07);
+  --shadow-xl: 0 8px 24px rgb(0 0 0 / 0.08);
+  --shadow-2xl: 0 12px 32px rgb(0 0 0 / 0.09);
 }
 
 @layer base {
@@ -134,13 +127,11 @@
     font-feature-settings: "kern" 1, "liga" 1;
   }
 
-  /* 헤드라인: 살짝 타이트한 자간(유틸리티 font-weight·크기는 그대로 유지) */
   main#main-content :where(h1, h2, h3) {
-    letter-spacing: -0.015em;
+    letter-spacing: -0.01em;
     text-wrap: balance;
   }
 
-  /* 폼 컨트롤 기본 톤만 보강(컴포넌트 유틸이 우선) */
   main#main-content :where(input:not([type="checkbox"], [type="radio"], [type="range"], [type="file"]), textarea, select) {
     border-radius: var(--msv-radius-control);
     transition:
@@ -155,80 +146,27 @@
   }
 }
 
-/* 본문 블록: 과하지 않은 페이드 + 소폭 이동 (과한 스태거 없음) */
-@media (prefers-reduced-motion: no-preference) {
-  main#main-content > * {
-    animation: msv-content-reveal 0.65s var(--msv-ease-standard) both;
-  }
-}
-
-@keyframes msv-content-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* 스티키 헤더: 스크롤에 따라 살짝 불투명·테두리 정리 — 단축 속성 뒤에 timeline 선언 (MDN 권장) */
-@supports (animation-timeline: scroll()) {
-  body > header {
-    animation-name: msv-header-scroll;
-    animation-duration: 1ms;
-    animation-timing-function: linear;
-    animation-fill-mode: both;
-    animation-timeline: scroll(root block);
-    animation-range: 0 5rem;
-  }
-}
-
-@keyframes msv-header-scroll {
-  from {
-    background-color: rgb(255 255 255 / 0.68);
-    border-bottom-color: rgb(0 0 0 / 0.04);
-  }
-  to {
-    background-color: rgb(255 255 255 / 0.9);
-    border-bottom-color: rgb(0 0 0 / 0.07);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  main#main-content > * {
-    animation: none;
-  }
-
-  body > header {
-    animation: none;
-  }
-}
-
 .msv-card {
   border-radius: var(--msv-radius-card);
   border: 1px solid var(--msv-border);
   background: var(--msv-card);
-  box-shadow: var(--msv-shadow-card);
 }
 
 .msv-eyebrow {
   font-size: 0.8125rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--msv-mocha);
 }
 
 :focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--msv-blue) 55%, transparent);
-  outline-offset: 3px;
+  outline: 2px solid color-mix(in srgb, var(--msv-blue) 70%, transparent);
+  outline-offset: 2px;
   border-radius: var(--msv-radius-control);
 }
 
 ::selection {
-  background-color: color-mix(in srgb, var(--msv-blue) 20%, transparent);
+  background-color: color-mix(in srgb, var(--msv-blue) 18%, transparent);
   color: var(--foreground);
 }
 
@@ -243,7 +181,7 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  border-radius: 99px;
+  border-radius: 4px;
   background: rgb(0 0 0 / 0.22);
   border: 2px solid transparent;
   background-clip: padding-box;
@@ -251,4 +189,37 @@
 
 *::-webkit-scrollbar-track {
   background: transparent;
+}
+
+@keyframes msv-hero-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.msv-hero-reveal {
+  animation: msv-hero-reveal 0.75s var(--msv-ease-standard) both;
+}
+
+.msv-hero-reveal-1 {
+  animation-delay: 0.05s;
+}
+
+.msv-hero-reveal-2 {
+  animation-delay: 0.18s;
+}
+
+.msv-hero-reveal-3 {
+  animation-delay: 0.32s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .msv-hero-reveal {
+    animation: none;
+  }
 }
