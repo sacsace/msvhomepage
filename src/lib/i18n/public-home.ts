@@ -268,6 +268,9 @@ export type HomeHeroSlide = {
   eyebrow: string;
   headline: string;
   lead: string;
+  /** 히어로 우측 인물 등 — 있으면 텍스트 줄간격은 유지한 채 절대 배치 */
+  imageSrc?: string;
+  imageAlt?: string;
 };
 
 function firstLeadLine(lead: string) {
@@ -307,6 +310,8 @@ const homeHeroSlidesKo: readonly HomeHeroSlide[] = [
     eyebrow: accountingOperationsSpotlight.eyebrow,
     headline: accountingOperationsSpotlight.title,
     lead: accountingOperationsSpotlight.paragraphs[0],
+    imageSrc: "/team/ha-heonbeom-hero.png",
+    imageAlt: "하헌범 부대표 · 공인회계사",
   },
   {
     id: "investment",
@@ -329,6 +334,8 @@ const homeHeroSlidesEn: readonly HomeHeroSlide[] = [
     eyebrow: accountingOperationsSpotlightEn.eyebrow,
     headline: accountingOperationsSpotlightEn.title,
     lead: accountingOperationsSpotlightEn.paragraphs[0],
+    imageSrc: "/team/ha-heonbeom-hero.png",
+    imageAlt: "Ha Heon-beom, Vice President · CPA",
   },
   {
     id: "investment",
@@ -351,6 +358,8 @@ const homeHeroSlidesZh: readonly HomeHeroSlide[] = [
     eyebrow: accountingOperationsSpotlightZh.eyebrow,
     headline: accountingOperationsSpotlightZh.title,
     lead: accountingOperationsSpotlightZh.paragraphs[0],
+    imageSrc: "/team/ha-heonbeom-hero.png",
+    imageAlt: "河宪范 副社长 · 注册会计师",
   },
   {
     id: "investment",

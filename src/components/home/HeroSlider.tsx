@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { HomeHeroSlide } from "@/lib/i18n/public-home";
 import { heroSliderUi } from "@/lib/i18n/public-home";
@@ -11,11 +12,9 @@ const AUTOPLAY_MS = 6500;
 type Props = {
   slides: readonly HomeHeroSlide[];
   locale: SiteLocale;
-  /** 히어로 2열 배치 시 상단 마진 제거 */
-  flushTop?: boolean;
 };
 
-export function HeroSlider({ slides, locale, flushTop = false }: Props) {
+export function HeroSlider({ slides, locale }: Props) {
   const ui = heroSliderUi(locale);
   const [activeIndex, setActiveIndex] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -53,7 +52,7 @@ export function HeroSlider({ slides, locale, flushTop = false }: Props) {
 
   return (
     <div
-      className={`relative ${flushTop ? "" : "mt-[1.4rem] sm:mt-[1.6rem]"}`}
+      className="relative mt-[1.4rem] sm:mt-[1.6rem]"
       role="region"
       aria-roledescription="carousel"
       aria-label={ui.autoplay}
@@ -84,16 +83,38 @@ export function HeroSlider({ slides, locale, flushTop = false }: Props) {
               aria-hidden={index !== activeIndex}
               inert={index !== activeIndex ? true : undefined}
             >
-              <div className="min-h-[9.5rem] sm:min-h-[10.5rem]">
-                <p className="text-[10px] font-medium uppercase leading-none tracking-[0.2em] text-white/55 sm:text-[11px]">
-                  {slide.eyebrow}
-                </p>
-                <h1 className="mt-2 max-w-3xl text-pretty break-keep text-[1.35rem] font-medium leading-snug tracking-[-0.02em] text-white/95 sm:text-[1.65rem] sm:leading-[1.35] lg:text-[1.85rem]">
-                  {slide.headline}
-                </h1>
-                <p className={`mt-[0.8rem] max-w-[36rem] text-pretty break-keep ${homeTypo.bodyOnDark}`}>
-                  {slide.lead}
-                </p>
+              {/* 텍스트 타이포·간격은 기존과 동일. 이미지는 우측 절대배치로 줄간격에 영향 없음 */}
+              <div className="relative min-h-[9.5rem] sm:min-h-[10.5rem]">
+                {slide.imageSrc ? (
+                  <div
+                    className="pointer-events-none absolute -bottom-2 right-0 top-[-0.35rem] z-0 hidden w-[min(48%,22rem)] items-center justify-end sm:flex lg:w-[min(50%,24rem)]"
+                    aria-hidden={index !== activeIndex}
+                  >
+                    <Image
+                      src={slide.imageSrc}
+                      alt=""
+                      width={720}
+                      height={720}
+                      className="h-auto max-h-[16.5rem] w-full object-contain object-right drop-shadow-[0_14px_32px_rgba(0,0,0,0.38)] sm:max-h-[18rem] lg:max-h-[19.5rem]"
+                      sizes="(min-width: 1024px) 24rem, 22rem"
+                      priority={slide.id === "operations"}
+                    />
+                  </div>
+                ) : null}
+                <div className="relative z-10">
+                  <p className="text-[10px] font-medium uppercase leading-none tracking-[0.2em] text-white/55 sm:text-[11px]">
+                    {slide.eyebrow}
+                  </p>
+                  <h1 className="mt-2 max-w-3xl text-pretty break-keep text-[1.35rem] font-medium leading-snug tracking-[-0.02em] text-white/95 sm:text-[1.65rem] sm:leading-[1.35] lg:text-[1.85rem]">
+                    {slide.headline}
+                  </h1>
+                  <p className={`mt-[0.8rem] max-w-[36rem] text-pretty break-keep ${homeTypo.bodyOnDark}`}>
+                    {slide.lead}
+                  </p>
+                </div>
+                {slide.imageSrc && slide.imageAlt ? (
+                  <span className="sr-only">{slide.imageAlt}</span>
+                ) : null}
               </div>
             </article>
           ))}
