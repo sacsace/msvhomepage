@@ -401,8 +401,8 @@ export function ComplianceCalendarWidget({
                 aria-hidden
                 onClick={closeMonth}
               />
-              <div className="relative z-10 max-h-[min(92vh,48rem)] w-full max-w-3xl overflow-auto rounded-2xl border border-slate-200 bg-white p-5 shadow-xl sm:max-h-[min(92vh,52rem)] sm:p-7">
-                <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div className="relative z-10 flex max-h-[min(90dvh,44rem)] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-3.5 shadow-xl sm:max-h-[min(88dvh,46rem)] sm:p-5">
+                <div className="flex shrink-0 items-center justify-between gap-2 border-b border-slate-100 pb-2.5 sm:pb-3">
                   <button
                     type="button"
                     className="rounded-lg border border-slate-200 px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-50"
@@ -414,7 +414,7 @@ export function ComplianceCalendarWidget({
                   >
                     ‹
                   </button>
-                  <h3 id="month-calendar-title" className="text-lg font-semibold text-msv-navy sm:text-xl">
+                  <h3 id="month-calendar-title" className="text-base font-semibold text-msv-navy sm:text-lg">
                     {formatMonthTitle(monthYear, monthIndex, locale)}
                   </h3>
                   <button
@@ -429,21 +429,21 @@ export function ComplianceCalendarWidget({
                     ›
                   </button>
                 </div>
-                <div className="mt-4 rounded-xl border border-slate-300 bg-slate-100/50 p-2 shadow-sm sm:mt-5 sm:p-2.5">
-                  <div className="grid grid-cols-7 gap-1 text-center text-xs font-semibold text-slate-500 sm:gap-1.5 sm:text-[13px]">
+                <div className="mt-2.5 flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border border-slate-300 bg-slate-100/50 p-1.5 shadow-sm sm:mt-3 sm:p-2">
+                  <div className="grid shrink-0 grid-cols-7 gap-0.5 text-center text-[11px] font-semibold text-slate-500 sm:gap-1 sm:text-xs">
                     {weekLabels.map((d) => (
-                      <div key={d} className="py-1.5 sm:py-2">
+                      <div key={d} className="py-1 sm:py-1.5">
                         {d}
                       </div>
                     ))}
                   </div>
-                  <div className="mt-2 grid grid-cols-7 gap-1 sm:gap-1.5">
+                  <div className="mt-1 grid min-h-0 flex-1 grid-cols-7 grid-rows-6 gap-0.5 sm:gap-1">
                     {monthCells.map((cell, idx) => {
                       if (cell.type === "blank") {
                         return (
                           <div
                             key={`b-${idx}`}
-                            className="min-h-[4.25rem] rounded-md bg-slate-50/60 sm:min-h-[5.25rem]"
+                            className="min-h-0 rounded-md bg-slate-50/60"
                           />
                         );
                       }
@@ -464,7 +464,7 @@ export function ComplianceCalendarWidget({
                           aria-pressed={isSelected}
                           aria-label={dayAria}
                           onClick={() => setSelectedDetailYmd(ymd)}
-                          className={`flex min-h-[4.25rem] w-full flex-col rounded-md border p-1 text-left transition hover:border-msv-blue/35 hover:bg-slate-50/90 sm:min-h-[5.25rem] sm:p-1.5 ${
+                          className={`flex min-h-0 w-full flex-col overflow-hidden rounded-md border p-0.5 text-left transition hover:border-msv-blue/35 hover:bg-slate-50/90 sm:p-1 ${
                             isSelected
                               ? "border-msv-blue ring-2 ring-msv-blue/30 ring-offset-1"
                               : isTodayCell
@@ -473,21 +473,21 @@ export function ComplianceCalendarWidget({
                           }`}
                         >
                           <span
-                            className={`text-sm font-semibold tabular-nums sm:text-base ${isTodayCell ? "text-msv-blue" : "text-msv-navy"}`}
+                            className={`text-xs font-semibold tabular-nums sm:text-sm ${isTodayCell ? "text-msv-blue" : "text-msv-navy"}`}
                           >
                             {cell.day}
                           </span>
-                          <div className="mt-1 flex flex-col gap-0.5">
-                            {list.slice(0, 3).map((ev) => (
+                          <div className="mt-0.5 flex min-h-0 flex-1 flex-col gap-px overflow-hidden">
+                            {list.slice(0, 2).map((ev) => (
                               <span
                                 key={ev.id}
-                                className={`truncate rounded-md border px-0.5 py-px text-[9px] font-semibold leading-tight sm:text-[10px] ${eventChipClass(ev.kind, "light")}`}
+                                className={`truncate rounded border px-0.5 py-px text-[8px] font-semibold leading-tight sm:text-[9px] ${eventChipClass(ev.kind, "light")}`}
                               >
                                 {taxCalendarKindLabelCompact(ev.kind, 18, kindLocale)}
                               </span>
                             ))}
-                            {list.length > 3 ? (
-                              <span className="text-[9px] text-slate-500 sm:text-[10px]">+{list.length - 3}</span>
+                            {list.length > 2 ? (
+                              <span className="text-[8px] text-slate-500 sm:text-[9px]">+{list.length - 2}</span>
                             ) : null}
                           </div>
                         </button>
@@ -497,28 +497,28 @@ export function ComplianceCalendarWidget({
                 </div>
 
                 {selectedDetailYmd ? (
-                  <div className="mt-5 rounded-lg border border-slate-200 bg-slate-50 p-4 sm:p-5">
-                    <p className="text-sm font-bold text-msv-navy">{formatYmdLong(selectedDetailYmd, locale)}</p>
+                  <div className="mt-2.5 max-h-[6.5rem] shrink-0 overflow-y-auto rounded-lg border border-slate-200 bg-slate-50 p-2.5 sm:mt-3 sm:max-h-[7.5rem] sm:p-3">
+                    <p className="text-xs font-bold text-msv-navy sm:text-sm">{formatYmdLong(selectedDetailYmd, locale)}</p>
                     {selectedDayEvents.length === 0 ? (
-                      <p className="mt-2 text-sm text-slate-500">{ui.noEntries}</p>
+                      <p className="mt-1 text-xs text-slate-500 sm:text-sm">{ui.noEntries}</p>
                     ) : (
-                      <ul className="mt-3 space-y-3">
+                      <ul className="mt-1.5 space-y-1.5">
                         {selectedDayEvents.map((ev) => (
                           <li
                             key={ev.id}
-                            className="rounded-md border border-slate-200 bg-white p-3 text-sm shadow-sm"
+                            className="rounded-md border border-slate-200 bg-white p-2 text-xs shadow-sm sm:text-sm"
                           >
                             <span
-                              className={`inline-block rounded border px-2 py-0.5 text-xs font-semibold ${eventChipClass(ev.kind, "light")}`}
+                              className={`inline-block rounded border px-1.5 py-0.5 text-[10px] font-semibold sm:text-xs ${eventChipClass(ev.kind, "light")}`}
                             >
                               {taxCalendarKindLabelCompact(ev.kind, 18, kindLocale)}
                             </span>
                             {ev.title ? (
-                              <p className="mt-2 font-semibold leading-snug text-msv-navy">{ev.title}</p>
+                              <p className="mt-1 font-semibold leading-snug text-msv-navy">{ev.title}</p>
                             ) : null}
-                            {ev.note ? <p className="mt-1.5 text-xs leading-relaxed text-slate-600">{ev.note}</p> : null}
+                            {ev.note ? <p className="mt-1 text-[11px] leading-relaxed text-slate-600 sm:text-xs">{ev.note}</p> : null}
                             {!ev.title && !ev.note ? (
-                              <p className="mt-1 text-xs text-slate-500">{ui.emptyEvent}</p>
+                              <p className="mt-1 text-[11px] text-slate-500 sm:text-xs">{ui.emptyEvent}</p>
                             ) : null}
                           </li>
                         ))}
@@ -527,7 +527,7 @@ export function ComplianceCalendarWidget({
                   </div>
                 ) : null}
 
-                <div className="mt-5 flex flex-wrap gap-2 border-t border-slate-100 pt-4 text-[10px] text-slate-600 sm:mt-6">
+                <div className="mt-2.5 flex shrink-0 flex-wrap gap-1.5 border-t border-slate-100 pt-2.5 text-[9px] text-slate-600 sm:mt-3 sm:gap-2 sm:pt-3 sm:text-[10px]">
                   {TAX_CALENDAR_KINDS.map((k) => (
                     <span key={k} className={`rounded border px-1.5 py-0.5 font-semibold ${eventChipClass(k, "light")}`}>
                       {taxCalendarKindLabelCompact(k, 18, kindLocale)}
@@ -541,7 +541,7 @@ export function ComplianceCalendarWidget({
                 </div>
                 <button
                   type="button"
-                  className="mt-5 w-full rounded-lg bg-msv-navy py-3 text-sm font-semibold text-white hover:bg-msv-navy/90 sm:py-3.5"
+                  className="mt-2.5 w-full shrink-0 rounded-lg bg-msv-navy py-2.5 text-sm font-semibold text-white hover:bg-msv-navy/90 sm:mt-3 sm:py-3"
                   onClick={closeMonth}
                 >
                   {ui.close}

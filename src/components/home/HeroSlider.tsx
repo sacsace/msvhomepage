@@ -80,7 +80,7 @@ export function HeroSlider({ slides, locale }: Props) {
           {slides.map((slide, index) => (
             <article
               key={slide.id}
-              className="w-full shrink-0 overflow-visible"
+              className={`w-full shrink-0 ${index === activeIndex ? "overflow-visible" : "overflow-hidden"}`}
               aria-hidden={index !== activeIndex}
               inert={index !== activeIndex ? true : undefined}
             >
@@ -92,10 +92,10 @@ export function HeroSlider({ slides, locale }: Props) {
                     : "relative min-h-[9.5rem] sm:min-h-[10.5rem]"
                 }
               >
-                {slide.imageSrc ? (
+                {slide.imageSrc && index === activeIndex ? (
                   <div
-                    className="pointer-events-none absolute bottom-[-8.5rem] right-[-0.5rem] z-[1] hidden items-end gap-3 sm:flex lg:bottom-[-9.5rem]"
-                    aria-hidden={index !== activeIndex}
+                    className="pointer-events-none absolute bottom-[-8.5rem] right-0 z-[1] hidden items-end gap-3 sm:flex lg:bottom-[-9.5rem]"
+                    aria-hidden={false}
                   >
                     <div className="relative flex h-[min(23rem,37vh)] w-[min(35.8vw,20.5rem)] items-end justify-end lg:h-[min(25rem,40vh)] lg:w-[min(37vw,23rem)]">
                       <Image
