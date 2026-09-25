@@ -271,6 +271,10 @@ export type HomeHeroSlide = {
   /** 히어로 우측 인물 등 — 있으면 텍스트 줄간격은 유지한 채 절대 배치 */
   imageSrc?: string;
   imageAlt?: string;
+  /** 인물 사진 왼쪽 캡션 */
+  imageCaption?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 };
 
 function firstLeadLine(lead: string) {
@@ -304,14 +308,22 @@ const homeHeroSlidesKo: readonly HomeHeroSlide[] = [
     eyebrow: homeAccountingHero.badge,
     headline: homeAccountingHero.headline,
     lead: firstLeadLine(homeAccountingHero.lead),
+    imageSrc: "/team/ca-kashul-sharma.png?v=20260925",
+    imageAlt: "카슐 샤르마 / 공인회계사",
+    imageCaption: "카슐 샤르마 / 공인회계사",
+    imageWidth: 759,
+    imageHeight: 826,
   },
   {
     id: "operations",
     eyebrow: accountingOperationsSpotlight.eyebrow,
     headline: accountingOperationsSpotlight.title,
     lead: accountingOperationsSpotlight.paragraphs[0],
-    imageSrc: "/team/ha-heonbeom-hero.png",
-    imageAlt: "하헌범 부대표 · 공인회계사",
+    imageSrc: "/team/ha-heonbeom-hero.png?v=20260925b",
+    imageAlt: "하헌범 부대표 / 공인회계사",
+    imageCaption: "하헌범 부대표 / 공인회계사",
+    imageWidth: 686,
+    imageHeight: 1013,
   },
   {
     id: "investment",
@@ -328,14 +340,22 @@ const homeHeroSlidesEn: readonly HomeHeroSlide[] = [
     eyebrow: homeAccountingHeroEn.badge,
     headline: homeAccountingHeroEn.headline,
     lead: firstLeadLine(homeAccountingHeroEn.lead),
+    imageSrc: "/team/ca-kashul-sharma.png?v=20260925",
+    imageAlt: "Kashul Sharma / Chartered Accountant",
+    imageCaption: "Kashul Sharma / Chartered Accountant",
+    imageWidth: 759,
+    imageHeight: 826,
   },
   {
     id: "operations",
     eyebrow: accountingOperationsSpotlightEn.eyebrow,
     headline: accountingOperationsSpotlightEn.title,
     lead: accountingOperationsSpotlightEn.paragraphs[0],
-    imageSrc: "/team/ha-heonbeom-hero.png",
-    imageAlt: "Ha Heon-beom, Vice President · CPA",
+    imageSrc: "/team/ha-heonbeom-hero.png?v=20260925b",
+    imageAlt: "Ha Heon-beom, Vice President / Certified Public Accountant",
+    imageCaption: "Ha Heon-beom, Vice President / Certified Public Accountant",
+    imageWidth: 686,
+    imageHeight: 1013,
   },
   {
     id: "investment",
@@ -352,14 +372,22 @@ const homeHeroSlidesZh: readonly HomeHeroSlide[] = [
     eyebrow: homeAccountingHeroZh.badge,
     headline: homeAccountingHeroZh.headline,
     lead: firstLeadLine(homeAccountingHeroZh.lead),
+    imageSrc: "/team/ca-kashul-sharma.png?v=20260925",
+    imageAlt: "Kashul Sharma / 特许会计师",
+    imageCaption: "Kashul Sharma / 特许会计师",
+    imageWidth: 759,
+    imageHeight: 826,
   },
   {
     id: "operations",
     eyebrow: accountingOperationsSpotlightZh.eyebrow,
     headline: accountingOperationsSpotlightZh.title,
     lead: accountingOperationsSpotlightZh.paragraphs[0],
-    imageSrc: "/team/ha-heonbeom-hero.png",
-    imageAlt: "河宪范 副社长 · 注册会计师",
+    imageSrc: "/team/ha-heonbeom-hero.png?v=20260925b",
+    imageAlt: "河宪范 副社长 / 注册会计师",
+    imageCaption: "河宪范 副社长 / 注册会计师",
+    imageWidth: 686,
+    imageHeight: 1013,
   },
   {
     id: "investment",
