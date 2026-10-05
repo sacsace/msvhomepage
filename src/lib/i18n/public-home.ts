@@ -304,17 +304,6 @@ const homeHeroSoftwareSlideZh: HomeHeroSlide = {
 
 const homeHeroSlidesKo: readonly HomeHeroSlide[] = [
   {
-    id: "accounting",
-    eyebrow: homeAccountingHero.badge,
-    headline: homeAccountingHero.headline,
-    lead: firstLeadLine(homeAccountingHero.lead),
-    imageSrc: "/team/ca-kashul-sharma.png?v=20260925",
-    imageAlt: "카슐 샤르마 / 공인회계사",
-    imageCaption: "카슐 샤르마 / 공인회계사",
-    imageWidth: 759,
-    imageHeight: 826,
-  },
-  {
     id: "operations",
     eyebrow: accountingOperationsSpotlight.eyebrow,
     headline: accountingOperationsSpotlight.title,
@@ -324,6 +313,17 @@ const homeHeroSlidesKo: readonly HomeHeroSlide[] = [
     imageCaption: "하헌범 부대표 / 공인회계사",
     imageWidth: 686,
     imageHeight: 1013,
+  },
+  {
+    id: "accounting",
+    eyebrow: homeAccountingHero.badge,
+    headline: homeAccountingHero.headline,
+    lead: firstLeadLine(homeAccountingHero.lead),
+    imageSrc: "/team/ca-kashul-sharma.png?v=20260925",
+    imageAlt: "카슐 샤르마 / 공인회계사",
+    imageCaption: "카슐 샤르마 / 공인회계사",
+    imageWidth: 759,
+    imageHeight: 826,
   },
   {
     id: "investment",
@@ -336,17 +336,6 @@ const homeHeroSlidesKo: readonly HomeHeroSlide[] = [
 
 const homeHeroSlidesEn: readonly HomeHeroSlide[] = [
   {
-    id: "accounting",
-    eyebrow: homeAccountingHeroEn.badge,
-    headline: homeAccountingHeroEn.headline,
-    lead: firstLeadLine(homeAccountingHeroEn.lead),
-    imageSrc: "/team/ca-kashul-sharma.png?v=20260925",
-    imageAlt: "Kashul Sharma / Chartered Accountant",
-    imageCaption: "Kashul Sharma / Chartered Accountant",
-    imageWidth: 759,
-    imageHeight: 826,
-  },
-  {
     id: "operations",
     eyebrow: accountingOperationsSpotlightEn.eyebrow,
     headline: accountingOperationsSpotlightEn.title,
@@ -356,6 +345,17 @@ const homeHeroSlidesEn: readonly HomeHeroSlide[] = [
     imageCaption: "Ha Heon-beom, Vice President / Certified Public Accountant",
     imageWidth: 686,
     imageHeight: 1013,
+  },
+  {
+    id: "accounting",
+    eyebrow: homeAccountingHeroEn.badge,
+    headline: homeAccountingHeroEn.headline,
+    lead: firstLeadLine(homeAccountingHeroEn.lead),
+    imageSrc: "/team/ca-kashul-sharma.png?v=20260925",
+    imageAlt: "Kashul Sharma / Chartered Accountant",
+    imageCaption: "Kashul Sharma / Chartered Accountant",
+    imageWidth: 759,
+    imageHeight: 826,
   },
   {
     id: "investment",
@@ -368,17 +368,6 @@ const homeHeroSlidesEn: readonly HomeHeroSlide[] = [
 
 const homeHeroSlidesZh: readonly HomeHeroSlide[] = [
   {
-    id: "accounting",
-    eyebrow: homeAccountingHeroZh.badge,
-    headline: homeAccountingHeroZh.headline,
-    lead: firstLeadLine(homeAccountingHeroZh.lead),
-    imageSrc: "/team/ca-kashul-sharma.png?v=20260925",
-    imageAlt: "Kashul Sharma / 特许会计师",
-    imageCaption: "Kashul Sharma / 特许会计师",
-    imageWidth: 759,
-    imageHeight: 826,
-  },
-  {
     id: "operations",
     eyebrow: accountingOperationsSpotlightZh.eyebrow,
     headline: accountingOperationsSpotlightZh.title,
@@ -388,6 +377,17 @@ const homeHeroSlidesZh: readonly HomeHeroSlide[] = [
     imageCaption: "河宪范 副社长 / 注册会计师",
     imageWidth: 686,
     imageHeight: 1013,
+  },
+  {
+    id: "accounting",
+    eyebrow: homeAccountingHeroZh.badge,
+    headline: homeAccountingHeroZh.headline,
+    lead: firstLeadLine(homeAccountingHeroZh.lead),
+    imageSrc: "/team/ca-kashul-sharma.png?v=20260925",
+    imageAlt: "Kashul Sharma / 特许会计师",
+    imageCaption: "Kashul Sharma / 特许会计师",
+    imageWidth: 759,
+    imageHeight: 826,
   },
   {
     id: "investment",
