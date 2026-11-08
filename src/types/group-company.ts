@@ -1,6 +1,6 @@
 /** 그룹사 소개 페이지 갤러리 한 장 — 파일은 `web/public` 아래에 두고 `src`는 루트 기준 경로 */
 export type GroupCompanyImage = {
-  /** 예: `/group/wilmat/showroom-1.jpg` */
+  /** 예: `/group/neocle-international/warehouse-1.jpg` */
   src: string;
   alt: string;
   /** 썸네일 아래 짧은 설명(선택) */

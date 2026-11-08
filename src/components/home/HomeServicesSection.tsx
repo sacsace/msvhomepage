@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MagazineSectionFrame } from "@/components/home/MagazineSectionFrame";
 import { homeTypo } from "@/lib/home-typography";
 import type { SiteLocale } from "@/lib/site-locale";
 import { withLocalePrefix } from "@/lib/site-locale";
@@ -21,42 +22,46 @@ type Props = {
   mid: MidCopy;
 };
 
-const serviceCard =
-  "flex flex-col rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm transition duration-200 hover:border-msv-blue/40 hover:bg-msv-blue-soft/80 hover:shadow-md sm:p-6";
-
 export function HomeServicesSection({ locale, services, mid }: Props) {
   const L = (path: string) => withLocalePrefix(path, locale);
 
   return (
-    <section className="border-t border-slate-200 bg-[#f7f8fa] py-16 sm:py-20" aria-labelledby="home-services-heading">
-      <div className={`mx-auto max-w-6xl ${homeTypo.pageInset}`}>
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,17.5rem)_minmax(0,1fr)] lg:gap-10 lg:items-stretch">
-          <div className="flex h-full min-h-0 flex-col rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:p-8">
-            <div>
-              <p className={homeTypo.kickerBlue}>{mid.kicker}</p>
-              <h2 id="home-services-heading" className={`mt-2 ${homeTypo.sectionHeading}`}>
-                {mid.title}
-              </h2>
-              <p className={`mt-4 ${homeTypo.body}`}>{mid.lead}</p>
-            </div>
-            <Link
-              href={L("/services")}
-              className="mt-8 inline-flex min-h-[2.75rem] w-full items-center justify-center rounded-full bg-msv-navy px-6 py-2.5 text-sm font-semibold text-white transition duration-200 hover:bg-msv-navy/90 sm:mt-10 lg:mt-auto lg:w-auto"
-            >
-              {mid.cta}
-            </Link>
-          </div>
-
-          <ul className="grid list-none gap-4 p-0 sm:grid-cols-2 sm:gap-5">
-            {services.map((s) => (
-              <li key={s.title} className={serviceCard}>
-                <h3 className={homeTypo.itemTitle}>{s.title}</h3>
-                <p className={`mt-2.5 flex-1 ${homeTypo.bodySm}`}>{s.description}</p>
-              </li>
-            ))}
-          </ul>
+    <MagazineSectionFrame
+      index="02"
+      verticalLabel="Services"
+      className="border-t border-msv-ink/10 bg-[#f7f7f7]"
+    >
+      <div className="grid gap-14 lg:grid-cols-12 lg:gap-12 lg:items-start">
+        <div className="lg:col-span-4 lg:sticky lg:top-28">
+          <p className={homeTypo.kickerBlue}>{mid.kicker}</p>
+          <h2 id="home-services-heading" className={`mt-4 ${homeTypo.sectionHeading}`}>
+            {mid.title}
+          </h2>
+          <div className="msv-magazine-rule mt-7 max-w-[8rem]" aria-hidden />
+          <p className={`mt-7 ${homeTypo.body}`}>{mid.lead}</p>
+          <Link
+            href={L("/services")}
+            className="mt-10 inline-flex min-h-[2.75rem] items-center border border-msv-ink bg-msv-ink px-6 text-xs font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-transparent hover:text-msv-ink"
+          >
+            {mid.cta}
+          </Link>
         </div>
+
+        <ul className="grid list-none grid-cols-1 gap-0 border-t border-msv-ink/15 p-0 sm:grid-cols-2 lg:col-span-8">
+          {services.map((s, i) => (
+            <li
+              key={s.title}
+              className={`border-b border-msv-ink/15 py-8 sm:px-6 ${i % 2 === 0 ? "sm:border-r" : ""}`}
+            >
+              <p className="font-sans text-4xl font-bold tabular-nums leading-none tracking-[-0.06em] text-msv-ink/15">
+                {String(i + 1).padStart(2, "0")}
+              </p>
+              <h3 className={`mt-5 ${homeTypo.itemTitle}`}>{s.title}</h3>
+              <p className={`mt-3 ${homeTypo.bodySm}`}>{s.description}</p>
+            </li>
+          ))}
+        </ul>
       </div>
-    </section>
+    </MagazineSectionFrame>
   );
 }

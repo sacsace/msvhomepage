@@ -6,49 +6,48 @@ type Props = {
   sectionTitle?: string;
 };
 
-const cardSection = "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8";
-
 function StrengthCard({ index, text }: { index: number; text: string }) {
   const label = String(index).padStart(2, "0");
   return (
-    <article className="flex items-center gap-4 rounded-xl border border-slate-200 bg-slate-50/40 px-5 py-6 shadow-sm sm:gap-5 sm:px-6 sm:py-7">
-      <div
-        className="flex h-9 w-9 shrink-0 items-center justify-center self-center rounded-full border border-slate-200 bg-white text-xs font-medium tabular-nums text-slate-500 sm:h-10 sm:w-10"
+    <article className="flex gap-5 border-t border-msv-ink/10 py-6 sm:gap-6">
+      <span
+        className="w-10 shrink-0 font-sans text-2xl font-bold tabular-nums leading-none tracking-[-0.05em] text-msv-ink/15"
         aria-hidden
       >
         {label}
-      </div>
-      <p className="min-w-0 flex-1 text-sm leading-relaxed text-slate-600">{text}</p>
+      </span>
+      <p className="min-w-0 flex-1 pt-1 text-sm font-normal leading-[1.75] text-slate-600">{text}</p>
     </article>
   );
 }
 
-/** 회사 소개 — 강점 요약 */
+/** 회사 소개 — 강점 요약 (magazine open rows) */
 export function StrengthsInfographic({ items, sectionTitle = "강점 요약" }: Props) {
   const left = items.slice(0, 3);
   const right = items.slice(3, 5);
 
   return (
-    <section className={cardSection}>
+    <div>
       <SectionTitle
         eyebrow="Strengths"
         title={sectionTitle}
         spacing="tight"
         density="compact"
         contentWidth="full"
+        visualWeight="editorial"
       />
-      <div className="mt-4 grid gap-4 md:grid-cols-2 md:items-start md:gap-5">
-        <div className="flex flex-col gap-4">
+      <div className="mt-6 grid gap-x-12 md:grid-cols-2 md:items-start">
+        <div>
           {left.map((text, i) => (
             <StrengthCard key={text} index={i + 1} text={text} />
           ))}
         </div>
-        <div className="flex flex-col gap-4">
+        <div>
           {right.map((text, i) => (
             <StrengthCard key={text} index={i + 4} text={text} />
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

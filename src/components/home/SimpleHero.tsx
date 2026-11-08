@@ -1,5 +1,9 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { HeroSlider } from "@/components/home/HeroSlider";
+import { HeroTeamCollage } from "@/components/home/HeroTeamCollage";
 import { homeTypo } from "@/lib/home-typography";
 import { homeHeroSlides, simpleHeroCtas } from "@/lib/i18n/public-home";
 import type { SiteLocale } from "@/lib/site-locale";
@@ -11,75 +15,91 @@ type Props = {
 };
 
 const btnPrimary =
-  "inline-flex min-h-[2.5rem] shrink-0 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-semibold tracking-tight text-msv-navy transition duration-200 hover:bg-slate-100 sm:px-5";
+  "inline-flex min-h-[2.75rem] shrink-0 items-center justify-center border border-msv-ink bg-msv-ink px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-white transition duration-200 hover:bg-transparent hover:text-msv-ink";
 const btnSecondary =
-  "inline-flex min-h-[2.5rem] shrink-0 items-center justify-center rounded-md border border-white/35 px-4 py-2 text-sm font-semibold tracking-tight text-white transition duration-200 hover:border-white/60 hover:bg-white/[0.08] sm:px-5";
-const btnQuiet =
-  "inline-flex shrink-0 items-center text-sm font-medium text-white/70 underline-offset-4 transition duration-200 hover:text-white hover:underline";
-const ctaSep = "text-white/25";
+  "inline-flex min-h-[2.75rem] shrink-0 items-center justify-center border border-msv-ink/30 bg-transparent px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-msv-ink transition duration-200 hover:border-msv-ink";
 
 export function SimpleHero({ locale }: Props) {
   const slides = homeHeroSlides(locale);
   const ctas = simpleHeroCtas(locale);
   const L = (p: string) => withLocalePrefix(p, locale);
+  const [focusSlideId, setFocusSlideId] = useState(slides[0]?.id ?? "");
 
   return (
-    <section className="relative isolate overflow-x-clip overflow-y-visible border-b border-msv-navy/20 bg-gradient-to-br from-msv-navy via-[#122338] to-slate-950">
+    <section className="relative isolate min-h-[min(92vh,46rem)] overflow-x-clip overflow-y-visible border-b border-msv-ink/10 bg-[#f3f3f3]">
+      {/* 회색 면 + 잡지형 인물 콜라주 — max-w-6xl 우측에 고정 */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.28] bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] bg-size-[100%_24px]"
+        className={`pointer-events-none absolute inset-y-0 left-1/2 z-[5] hidden h-full w-full max-w-6xl -translate-x-1/2 lg:block ${homeTypo.pageInset}`}
         aria-hidden
-      />
+      >
+        <div className="absolute inset-y-0 right-0 w-[min(42vw,28rem)] bg-msv-slate-wash/40">
+          <HeroTeamCollage locale={locale} focusId={focusSlideId} />
+        </div>
+      </div>
+      {/* 와이드 화면에서 콘텐츠 박스 밖까지 이어지는 회색 배경 */}
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_55%_at_12%_-10%,rgba(45,91,255,0.28),transparent_55%)]"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_45%_at_92%_110%,rgba(10,125,115,0.18),transparent_50%)]"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,transparent_42%,rgba(255,255,255,0.045)_50%,transparent_58%)]"
+        className="pointer-events-none absolute inset-y-0 right-0 -z-[1] hidden w-[42%] bg-msv-slate-wash/40 lg:block"
         aria-hidden
       />
 
       <div
-        className={`relative mx-auto flex min-h-[min(51.84vh,24.48rem)] max-w-6xl flex-col justify-center py-9 sm:min-h-[min(48.96vh,25.92rem)] sm:py-[2.88rem] ${homeTypo.pageInset}`}
+        className="pointer-events-none absolute bottom-10 left-6 z-10 hidden lg:block"
+        aria-hidden
       >
-        <div className="msv-hero-reveal msv-hero-reveal-1 relative z-10">
-          <p className="text-[10px] font-medium uppercase leading-none tracking-[0.2em] text-white/55 sm:text-[11px]">
-            {company.tagline}
-          </p>
-          <p className="mt-px text-[clamp(1.4rem,3.6vw,2.2rem)] font-semibold leading-tight tracking-[-0.04em] text-white sm:mt-0.5">
+        <span className="msv-vertical-label">Portfolio</span>
+      </div>
+
+      <div
+        className={`relative z-10 mx-auto flex min-h-[min(92vh,46rem)] max-w-6xl flex-col justify-center py-16 sm:py-20 ${homeTypo.pageInset}`}
+      >
+        <div className="msv-hero-reveal msv-hero-reveal-1 relative z-10 max-w-3xl">
+          <p className={homeTypo.heroMeta}>{company.tagline}</p>
+          <p className="font-sans mt-4 text-[clamp(1.85rem,4.4vw,3rem)] font-semibold leading-[1.1] tracking-[-0.035em] text-msv-ink">
             {company.legalName}
           </p>
+          <div className="msv-ink-sweep mt-6 h-px w-16 bg-msv-mint" aria-hidden />
         </div>
 
-        <div className="msv-hero-reveal msv-hero-reveal-2 relative z-10">
-          <HeroSlider slides={slides} locale={locale} />
+        <div className="msv-hero-reveal msv-hero-reveal-2 relative z-10 mt-10 max-w-[36rem] overflow-x-clip sm:mt-12">
+          <HeroSlider
+            slides={slides}
+            locale={locale}
+            theme="light"
+            hidePortraits
+            onActiveSlideChange={setFocusSlideId}
+          />
         </div>
 
-        <div className="msv-hero-reveal msv-hero-reveal-3 relative z-20 mt-[1.8rem] flex flex-wrap items-center gap-x-2.5 gap-y-2 sm:mt-8 sm:gap-x-3">
+        <div className="msv-hero-reveal msv-hero-reveal-3 relative z-20 mt-12 flex flex-wrap items-center gap-3">
           <Link href={L("/services")} className={btnPrimary}>
             {ctas.services}
           </Link>
           <Link href={L("/contact")} className={btnSecondary}>
             {ctas.contact}
           </Link>
-          <span className={ctaSep} aria-hidden>·</span>
-          <Link href={company.brochurePath} className={btnQuiet}>
-            {ctas.pdf}
-          </Link>
-          <span className={ctaSep} aria-hidden>·</span>
-          <Link href={L("/about")} className={btnQuiet}>
-            {ctas.about}
-          </Link>
-          <span className={ctaSep} aria-hidden>·</span>
-          <Link href={L("/software")} className={btnQuiet}>
-            {ctas.software}
-          </Link>
         </div>
 
-        <p className={`msv-hero-reveal msv-hero-reveal-3 relative z-20 mt-3 ${homeTypo.heroFoot}`}>{ctas.foot}</p>
+        <p className={`msv-hero-reveal msv-hero-reveal-3 relative z-20 mt-6 ${homeTypo.heroFoot}`}>
+          <Link href={company.brochurePath} className="underline-offset-4 hover:underline">
+            {ctas.pdf}
+          </Link>
+          <span className="mx-3 text-msv-ink/20" aria-hidden>
+            /
+          </span>
+          <Link href={L("/about")} className="underline-offset-4 hover:underline">
+            {ctas.about}
+          </Link>
+          <span className="mx-3 text-msv-ink/20" aria-hidden>
+            /
+          </span>
+          <Link href={L("/software")} className="underline-offset-4 hover:underline">
+            {ctas.software}
+          </Link>
+          <span className="mx-3 text-msv-ink/20" aria-hidden>
+            /
+          </span>
+          {ctas.foot}
+        </p>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import { Noto_Sans_KR } from "next/font/google";
+import { Gothic_A1 } from "next/font/google";
 import "./globals.css";
 
 /** 관리자 경로에서는 렌더하지 않지만, 정적 import 시 Turbopack이 RSC 번들에서 클라이언트 팩토리를 끌어와 오류가 날 수 있어 dynamic으로 분리합니다. */
@@ -25,10 +25,11 @@ import { openGraphFor, siteVerificationMetadata, twitterCard } from "@/lib/seo-m
 import { defaultSiteDescriptionKo, homePageTitleKo } from "@/lib/seo-site-copy";
 import { company, siteUrl } from "@/lib/site-content";
 
-const noto = Noto_Sans_KR({
+/** 모던 지오메트릭 산세리프 — 제목·본문 단일 패밀리 */
+const gothic = Gothic_A1({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-noto",
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-gothic",
   display: "swap",
 });
 
@@ -82,7 +83,7 @@ export default async function RootLayout({
   return (
     <html
       lang={htmlLang}
-      className={`${noto.variable} h-full scroll-smooth`}
+      className={`${gothic.variable} h-full scroll-smooth`}
       data-scroll-behavior="smooth"
     >
       <body className="flex min-h-full flex-col bg-background font-sans text-slate-800 antialiased">

@@ -139,7 +139,7 @@ export const guideHrLabour: GuideBundle = {
       { href: "/services/frro", label: "FRRO 서비스" },
       { href: "/services/guide-india-tax", label: "인도 세무 가이드" },
       { href: "/services/personal-income-tax-calculator", label: "급여 TDS 계산기" },
-      { href: "/services/compliance-calendar", label: "신고준수 달력" },
+      { href: "/services/compliance-calendar", label: "주요 신고·납부 일정" },
       { href: "/services/contracts-legal", label: "계약·법률 문서" },
     ],
     closingNote:

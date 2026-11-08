@@ -11,7 +11,7 @@ const related = [
   { href: "/services/corporate-liquidation", label: { ko: "청산 안내", en: "Liquidation guide", zh: "清算指引" } },
   { href: "/services/contracts-legal", label: { ko: "계약·법률 문서", en: "Contracts & legal", zh: "合同与法律" } },
   { href: "/services/corporate-incorporation", label: { ko: "법인 설립", en: "Incorporation", zh: "公司设立" } },
-  { href: "/services/compliance-calendar", label: { ko: "신고준수 달력", en: "Compliance calendar", zh: "合规日历" } },
+  { href: "/services/compliance-calendar", label: { ko: "주요 신고·납부 일정", en: "Compliance calendar", zh: "合规日历" } },
 ] as const;
 
 export const guideCompaniesActHub: GuideBundle = {

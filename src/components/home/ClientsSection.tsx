@@ -15,13 +15,13 @@ type Props = {
   locale?: SiteLocale;
 };
 
-/** 법인 설립·고객사 페이지 등과 동일한 카드·본문 타이포 */
-const cardSection = "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8";
+/** magazine open panel */
+const cardSection = "border border-msv-ink/10 bg-white p-6 sm:p-8";
 
-const bodyText = "text-sm leading-relaxed text-slate-600 break-keep";
+const bodyText = "text-sm font-light leading-[1.8] text-slate-600 break-keep";
 
 const logoTile =
-  "group flex h-[5.75rem] w-full flex-col items-stretch justify-between gap-1 rounded-xl border border-slate-200 bg-white px-2 py-1.5 text-center shadow-sm transition duration-200 ease-out hover:-translate-y-0.5 hover:border-msv-navy/15 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue sm:h-24 sm:px-2 sm:py-2";
+  "group flex h-[5.75rem] w-full flex-col items-stretch justify-between gap-1 border border-msv-ink/10 bg-white px-2 py-1.5 text-center transition duration-200 ease-out hover:border-msv-ink/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-mint sm:h-24 sm:px-2 sm:py-2";
 
 export async function ClientsSection(props: Props = {}) {
   const variant = props.variant ?? "default";
@@ -42,10 +42,10 @@ export async function ClientsSection(props: Props = {}) {
     <div className={cardSection}>
       <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-10">
         <div className="shrink-0 text-left">
-          <p className="font-mono text-[2.25rem] font-semibold leading-none tracking-tight text-msv-navy sm:text-4xl">
+          <p className="font-sans text-[3.25rem] font-bold leading-none tracking-[-0.06em] text-msv-ink sm:text-6xl">
             80+
           </p>
-          <p className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-500">
+          <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-slate-500">
             {pickLocale(locale, { ko: "고객사", en: "CLIENTS", zh: "客户" })}
           </p>
         </div>
@@ -98,7 +98,7 @@ export async function ClientsSection(props: Props = {}) {
       <div className="mt-6">
         <Link
           href={L("/about/clients")}
-          className="inline-flex rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
+          className="inline-flex border border-msv-ink bg-msv-ink px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.18em] text-white transition hover:bg-transparent hover:text-msv-ink"
         >
           {more}
         </Link>

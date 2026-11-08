@@ -87,6 +87,22 @@ export function buildSiteMegaMenuColumns(locale: SiteLocale): MegaMenuColumn[] {
       href: withLocalePrefix("/software/wisc", locale),
       label: "Website Information & Security Checker",
     },
+    {
+      href: `${withLocalePrefix("/software", locale)}#si`,
+      label: pickLocale(locale, {
+        ko: "SI · 솔루션 · SaaS · CRM",
+        en: "SI · Solution · SaaS · CRM",
+        zh: "SI · 解决方案 · SaaS · CRM",
+      }),
+    },
+    {
+      href: `${withLocalePrefix("/software", locale)}#web`,
+      label: pickLocale(locale, {
+        ko: "웹사이트 개발",
+        en: "Website development",
+        zh: "网站建设",
+      }),
+    },
   ];
 
   const groupItems: MegaMenuLink[] = [

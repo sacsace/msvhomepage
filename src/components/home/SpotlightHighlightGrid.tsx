@@ -7,7 +7,7 @@ type Props = {
 /** 스포트라이트 카드 내부 — 2열 번호 그리드 */
 export function SpotlightHighlightGrid({ items }: Props) {
   return (
-    <ul className="mt-6 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 sm:gap-4">
+    <ul className="mt-8 grid list-none grid-cols-1 gap-x-10 gap-y-0 border-t border-slate-200 p-0 sm:grid-cols-2">
       {items.map((item, i) => (
         <NumberedHighlightCard key={item} index={String(i + 1).padStart(2, "0")} variant="spotlight">
           {item}

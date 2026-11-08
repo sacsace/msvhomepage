@@ -22,6 +22,7 @@ const INQUIRY_MAIL_LINE: Record<string, string> = {
   visa_frro: "비자·FRRO / Visa & FRRO",
   import_export_iec: "수출입·IEC / Import-export & IEC",
   groupware_mvs: "업무 통합 시스템(MVS) / Integrated Business System (MVS)",
+  development: "개발 업무 / Development work",
   other: "기타 / Other",
 };
 

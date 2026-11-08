@@ -3,8 +3,6 @@ import { SectionTitle } from "@/components/SectionTitle";
 import { company, companyCredentialPreviews } from "@/lib/site-content";
 import { publicFileExists } from "@/lib/public-file";
 
-const cardSection = "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8";
-
 type Props = {
   title?: string;
   subtitle?: string;
@@ -22,7 +20,7 @@ export async function CompanyCredentialSection({
   if (items.length === 0) return null;
 
   return (
-    <section className={cardSection}>
+    <div>
       <SectionTitle
         eyebrow="Credentials"
         title={title}
@@ -30,10 +28,11 @@ export async function CompanyCredentialSection({
         spacing="tight"
         density="compact"
         contentWidth="full"
+        visualWeight="editorial"
       />
-      <div className="mt-4">
+      <div className="mt-8 border-t border-msv-ink/10 pt-8">
         <CompanyCredentialGalleryClient items={items} />
       </div>
-    </section>
+    </div>
   );
 }

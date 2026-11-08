@@ -17,7 +17,7 @@ type Props = {
    * `full`: 상위 `max-w-6xl` 컨테이너와 같은 너비(파트너 상세 등).
    */
   contentWidth?: "narrow" | "full";
-  /** `editorial`: h2를 slate·semibold로(회사 소개 등 미니멀 섹션). */
+  /** `editorial`: magazine display 타이포 */
   visualWeight?: "default" | "editorial";
 };
 
@@ -35,16 +35,18 @@ export function SectionTitle({
   const Tag = headingLevel === 1 ? "h1" : headingLevel === 3 ? "h3" : "h2";
   const size =
     headingLevel === 1
-      ? "text-3xl font-bold tracking-tight text-msv-navy sm:text-4xl"
+      ? "font-sans text-3xl font-semibold tracking-[-0.035em] text-msv-ink sm:text-4xl"
       : headingLevel === 3
-        ? "text-lg font-semibold text-msv-navy"
+        ? visualWeight === "editorial"
+          ? "font-sans text-[clamp(1.55rem,2.6vw,2rem)] font-semibold tracking-[-0.03em] text-msv-ink"
+          : "font-sans text-xl font-semibold tracking-[-0.025em] text-msv-ink"
         : visualWeight === "editorial"
-          ? "text-2xl font-semibold tracking-[-0.02em] text-slate-900 sm:text-[1.75rem] sm:leading-tight"
-          : "text-xl font-bold tracking-tight text-msv-navy sm:text-2xl";
+          ? "font-sans text-[clamp(1.7rem,3vw,2.25rem)] font-semibold tracking-[-0.035em] text-msv-ink sm:leading-tight"
+          : "font-sans text-2xl font-semibold tracking-[-0.03em] text-msv-ink sm:text-[1.85rem]";
 
   const mb = spacing === "tight" ? "mb-4" : "mb-8";
-  const titleMt = density === "compact" ? "mt-1.5" : "mt-2";
-  const subMt = density === "compact" ? "mt-2" : "mt-3";
+  const titleMt = density === "compact" ? "mt-2" : "mt-3";
+  const subMt = density === "compact" ? "mt-2.5" : "mt-3.5";
   const subLeading = density === "compact" ? "leading-snug" : "leading-relaxed";
 
   const widthClass = contentWidth === "full" ? "max-w-none" : "max-w-3xl";
@@ -55,7 +57,7 @@ export function SectionTitle({
         <p
           className={
             visualWeight === "editorial"
-              ? "text-[13px] font-semibold text-slate-500"
+              ? "font-sans text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500"
               : "msv-eyebrow"
           }
         >

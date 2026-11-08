@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { GroupCompaniesList } from "@/components/group/GroupCompaniesList";
 import { PageHeader } from "@/components/layout/PageHeader";
-import { StandardPageBody } from "@/components/layout/StandardPageBody";
-import { SectionTitle } from "@/components/SectionTitle";
+import { MagazineSpreadSection } from "@/components/magazine/MagazineSpreadSection";
+import { homeTypo } from "@/lib/home-typography";
 import { getRequestLocale } from "@/lib/get-request-locale";
 import { groupIndexPageCopy } from "@/lib/i18n/group-pages-locale";
+import { publicPageBodyShell } from "@/lib/public-page-styles";
 import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import { withLocalePrefix } from "@/lib/site-locale";
 
@@ -15,10 +16,6 @@ export async function generateMetadata(): Promise<Metadata> {
   return staticPageSeoLocalized("/group", { title: c.metaTitle, description: c.metaDescription }, locale);
 }
 
-const cardSection = "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8";
-
-const bodyText = "text-sm leading-relaxed text-slate-600 break-keep";
-
 export default async function GroupPage() {
   const locale = await getRequestLocale();
   const L = (path: string) => withLocalePrefix(path, locale);
@@ -27,42 +24,31 @@ export default async function GroupPage() {
   return (
     <>
       <PageHeader title={c.pageTitle} description={c.pageDescription} descriptionWide />
-      <StandardPageBody className="space-y-12 sm:space-y-14">
-        <section className={cardSection}>
-          <SectionTitle
-            eyebrow={c.sectionPartnersEyebrow}
-            title={c.sectionPartnersTitle}
-            subtitle={c.sectionPartnersSubtitle}
-            spacing="tight"
-            density="compact"
-            contentWidth="full"
-          />
-          <div className="mt-6">
+      <div className={`${publicPageBodyShell} !pt-0`}>
+        <div className="mx-auto max-w-6xl">
+          <MagazineSpreadSection index="01" label={c.sectionPartnersEyebrow} tone="white">
+            <h2 className={homeTypo.sectionHeading}>{c.sectionPartnersTitle}</h2>
+            <div className="msv-magazine-rule mt-6 max-w-[6rem]" aria-hidden />
+            {c.sectionPartnersSubtitle ? (
+              <p className={`mt-6 max-w-2xl ${homeTypo.body}`}>{c.sectionPartnersSubtitle}</p>
+            ) : null}
             <GroupCompaniesList locale={locale} />
-          </div>
-        </section>
+          </MagazineSpreadSection>
 
-        <section className={cardSection}>
-          <SectionTitle
-            eyebrow={c.sectionCompanyEyebrow}
-            title={c.sectionCompanyTitle}
-            spacing="tight"
-            density="compact"
-            headingLevel={3}
-            contentWidth="full"
-          />
-          <p className={`mt-4 max-w-3xl ${bodyText}`}>
-            {c.aboutLeadBefore}
-            <Link
-              href={L("/about")}
-              className="font-semibold text-msv-navy underline-offset-2 transition hover:text-msv-blue hover:underline"
-            >
-              {c.aboutLinkLabel}
-            </Link>
-            {c.aboutLeadAfter}
-          </p>
-        </section>
-      </StandardPageBody>
+
+          <MagazineSpreadSection index="02" label={c.sectionCompanyEyebrow} tone="paper">
+            <h2 className={homeTypo.sectionHeading}>{c.sectionCompanyTitle}</h2>
+            <div className="msv-magazine-rule mt-6 max-w-[6rem]" aria-hidden />
+            <p className={`mt-6 max-w-2xl ${homeTypo.body}`}>
+              {c.aboutLeadBefore}
+              <Link href={L("/about")} className={`${homeTypo.linkCta} mx-1`}>
+                {c.aboutLinkLabel}
+              </Link>
+              {c.aboutLeadAfter}
+            </p>
+          </MagazineSpreadSection>
+        </div>
+      </div>
     </>
   );
 }

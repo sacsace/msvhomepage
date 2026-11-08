@@ -113,13 +113,13 @@ const ko: AccountingServicesPageBody = {
   coreIntro: "법인 컨설팅·회계 사업부에서 인도 현지에서 직접 실행하는 서비스입니다.",
   coreServices: services,
   detailTitle: "회계 서비스 상세 안내",
-  detailIntro: "정기 회계·세무 라인업에 실제 운영 프로세스와 주요 신고 항목을 함께 반영해 안내합니다.",
+  detailIntro: "정기 회계·세무 서비스에 실제 운영 프로세스와 주요 신고 항목을 함께 반영해 안내합니다.",
   processTitle: "회계 운영 프로세스 (고객사 협업형)",
   processByline: "Account Mapping → Booking → Approval → Filing",
   processSteps: koProcessSteps,
   highlights: koHighlights,
   lineupEyebrow: "Accounting & Tax",
-  lineupTitle: "회계·세무 서비스 라인업",
+  lineupTitle: "회계·세무 서비스",
   lineupIntro:
     "상근 공인회계사 체계로 정기·연간·건단위 업무를 지원합니다. 구체 범위·견적은 사업 규모와 자료 검토 후 안내드립니다.",
   accountingBlocks: accountingServiceBlocks,
@@ -199,7 +199,7 @@ const enCoreServices: readonly ServiceLineItem[] = [
       "Site visits, investment memos, feasibility studies, brokerage introductions and legal coordination for hotel and property projects.",
   },
   {
-    title: "Non-stop operations support",
+    title: "Integrated entity operations support",
     description:
       "Corporate administration, ledgers, group reporting and ERP rollout/training from incorporation through steady-state operations.",
   },
@@ -221,9 +221,9 @@ const enAccountingBlocks: readonly AccountingServiceBlock[] = [
       "TDS monthly/quarterly returns and reconciliations",
       "Advance tax computation, filing and payment schedule",
       "SFT (specified financial transaction) support",
-      "FLA (foreign assets/liabilities) preparation and filing",
+      "FLA (foreign assets/liabilities) preparation and filing via FLAIR",
       "DPT-3 (deposits and similar) compliance",
-      "FDI reporting (RBI FIRMS: FC-GPR/FC-TRS/FLA) and related FEMA filings",
+      "FDI reporting (RBI FIRMS: FC-GPR/FC-TRS) and related FEMA filings",
       "Compliance around capital changes and shareholder movements",
       "PF and ESI computation and remittance",
       "Professional tax registration, state-specific cycles and payments",
@@ -265,7 +265,8 @@ const enComplianceMonthly: readonly ComplianceRow[] = [
   { item: "Professional tax", schedule: "Due by the 20th (rules vary by state)" },
   {
     item: "ECB (external commercial borrowing)",
-    schedule: "ECB-2 and related RBI FIRMS filings by the 7th of the next month when a balance is outstanding",
+    schedule:
+      "ECB-2 and related reporting via the designated AD Category-I bank by the 7th of the next month when a balance is outstanding",
   },
 ];
 
@@ -297,18 +298,31 @@ const enComplianceAnnual: readonly ComplianceRow[] = [
   { item: "DIR-3 KYC", schedule: "By 30 September (non-compliance may deactivate DIN)" },
   { item: "Professional tax annual return", schedule: "1–30 April (state dependent)" },
   { item: "SFT", schedule: "1–31 May (where applicable)" },
-  { item: "FLA", schedule: "1–20 July (where applicable)" },
-  { item: "Statutory audit of financial statements", schedule: "Before 30 September (as agreed)" },
-  { item: "Corporate income tax return (ITR)", schedule: "Before 30 September (general deadline; extensions may apply)" },
-  { item: "ROC AOC-4 / MGT-7 (or MGT-7A)", schedule: "Before 30 October (general deadline)" },
-  { item: "TP audit report", schedule: "Before 30 November (where international transactions apply)" },
+  { item: "FLA", schedule: "Generally by 15 July each year via FLAIR (where applicable)" },
+  {
+    item: "Statutory audit of financial statements",
+    schedule: "Per FY and engagement (illustrative: before 30 September)",
+  },
+  {
+    item: "Corporate income tax return (ITR)",
+    schedule: "Varies by audit status, ITR type and year (illustrative: before 30 September; extensions may apply)",
+  },
+  {
+    item: "ROC AOC-4 / MGT-7 (or MGT-7A)",
+    schedule: "Varies by AGM, form type and year (illustrative: before 30 October)",
+  },
+  {
+    item: "TP audit report",
+    schedule: "Where international transactions apply; varies by year (illustrative: before 30 November)",
+  },
   {
     item: "GSTR-9 (annual GST)",
     schedule: "Mandatory above INR 2 Cr turnover; optional below · subject to annual notifications",
   },
   {
-    item: "GSTR-9C (GST reconciliation/audit)",
-    schedule: "Currently generally optional · watch government circulars for changes",
+    item: "GSTR-9C (GST reconciliation statement)",
+    schedule:
+      "Except carved-out cases, registered persons with aggregate turnover above ₹5 crore must file a self-certified reconciliation statement · confirm exemptions/notifications",
   },
 ];
 
@@ -321,7 +335,8 @@ const enPortalRows: readonly PortalRow[] = [
   },
   { label: "Traces (TDS)", href: "https://www.tdscpc.gov.in", note: "TDS certificates and forms" },
   { label: "FRRO", href: "https://indianfrro.gov.in", note: "Visa and stay formalities" },
-  { label: "FIRMS (RBI)", href: "https://firms.rbi.org.in", note: "FDI, ECB and forex reporting" },
+  { label: "FIRMS (RBI)", href: "https://firms.rbi.org.in", note: "FDI and related foreign investment reporting" },
+  { label: "FLAIR (RBI)", href: "https://flair.rbi.org.in", note: "FLA (foreign liabilities and assets)" },
   { label: "E-way bill", href: "https://ewaybillgst.gov.in", note: "Goods movement" },
   { label: "Ice Gate", href: "https://www.icegate.gov.in", note: "Customs duty payment" },
   { label: "MCA", href: "https://www.mca.gov.in", note: "Ministry of corporate affairs / ROC" },
@@ -444,7 +459,7 @@ const zhCoreServices: readonly ServiceLineItem[] = [
       "为酒店等投资项目提供标的尽调、投资备忘录、可行性分析，以及不动产中介与法律顾问衔接。",
   },
   {
-    title: "持续运营支持",
+    title: "法人运营综合支持",
     description:
       "法人管理、账簿、总部报告、ERP 搭建与培训等，从设立到稳定运营阶段的一站式支持。",
   },
@@ -465,9 +480,9 @@ const zhAccountingBlocks: readonly AccountingServiceBlock[] = [
       "代扣代缴（TDS）月度/季度申报与对账",
       "预缴所得税（Advance Tax）计算、申报与缴纳计划",
       "SFT（特定金融交易申报）对应",
-      "FLA（境外资产负债申报）编制与提交",
+      "FLA（境外资产负债申报）编制与提交（FLAIR 门户）",
       "DPT-3（存款及类似安排申报）对应",
-      "外商投资申报（RBI FIRMS：FC-GPR/FC-TRS/FLA）及 FEMA 相关报送",
+      "外商投资申报（RBI FIRMS：FC-GPR/FC-TRS）及 FEMA 相关报送",
       "资本金变动、股东结构变化相关合规管理",
       "PF（公积金）、ESI（雇员保险）结算与缴纳",
       "Professional Tax 登记、各邦申报周期管理与缴纳",
@@ -509,7 +524,7 @@ const zhComplianceMonthly: readonly ComplianceRow[] = [
   { item: "Professional Tax", schedule: "每月 20 日前（各邦税法不同）" },
   {
     item: "ECB（对外商业借款）",
-    schedule: "有余额时通常须于次月 7 日前在 RBI FIRMS 等渠道报送 ECB-2 等",
+    schedule: "有余额时通常须于次月 7 日前经指定 AD Category-I 银行报送 ECB-2 等",
   },
 ];
 
@@ -540,18 +555,28 @@ const zhComplianceAnnual: readonly ComplianceRow[] = [
   { item: "DIR-3 KYC", schedule: "9 月 30 日前（未履行可能导致 DIN 停用）" },
   { item: "Professional Tax 年度申报", schedule: "4 月 1–30 日（各邦不同）" },
   { item: "SFT", schedule: "5 月 1–31 日（如适用）" },
-  { item: "FLA", schedule: "7 月 1–20 日（如适用）" },
-  { item: "财务报表法定审计", schedule: "9 月 30 日前（以约定为准）" },
-  { item: "企业所得税申报（ITR）", schedule: "9 月 30 日前（一般期限，个案可延期或调整）" },
-  { item: "ROC AOC-4 / MGT-7（或 MGT-7A）", schedule: "10 月 30 日前（一般期限）" },
-  { item: "转让定价审计报告", schedule: "11 月 30 日前（存在跨境交易等适用情形时）" },
+  { item: "FLA", schedule: "原则上每年 7 月 15 日前通过 FLAIR 提交（如适用）" },
+  { item: "财务报表法定审计", schedule: "依会计年度与约定（参考：9 月 30 日前）" },
+  {
+    item: "企业所得税申报（ITR）",
+    schedule: "依审计状态、申报类型与年度公告而异（参考：9 月 30 日前，可延期或调整）",
+  },
+  {
+    item: "ROC AOC-4 / MGT-7（或 MGT-7A）",
+    schedule: "依 AGM、表格类型与年度公告而异（参考：10 月 30 日前）",
+  },
+  {
+    item: "转让定价审计报告",
+    schedule: "存在跨境交易等适用情形时；依年度而异（参考：11 月 30 日前）",
+  },
   {
     item: "GSTR-9（年度 GST）",
     schedule: "年营业额超过 2 千万卢比时强制；以下可选择（以年度公告为准）",
   },
   {
-    item: "GSTR-9C（GST 调节/审计）",
-    schedule: "目前一般为可选；请以政府最新公告为准",
+    item: "GSTR-9C（GST 调节表）",
+    schedule:
+      "除适用排除情形外，会计年度总营业额超过 ₹5 crore 的注册纳税人须提交自评认证调节表（请核对豁免与公告）",
   },
 ];
 
@@ -564,7 +589,8 @@ const zhPortalRows: readonly PortalRow[] = [
   },
   { label: "Traces（TDS）", href: "https://www.tdscpc.gov.in", note: "TDS 与表格" },
   { label: "FRRO", href: "https://indianfrro.gov.in", note: "签证与居留等" },
-  { label: "FIRMS（RBI）", href: "https://firms.rbi.org.in", note: "FDI、ECB 等外汇报送" },
+  { label: "FIRMS（RBI）", href: "https://firms.rbi.org.in", note: "FDI 等外商投资报送" },
+  { label: "FLAIR（RBI）", href: "https://flair.rbi.org.in", note: "FLA（境外资产负债）报送" },
   { label: "E-Way Bill", href: "https://ewaybillgst.gov.in", note: "货物运输" },
   { label: "Ice Gate", href: "https://www.icegate.gov.in", note: "关税与税费缴纳" },
   { label: "MCA", href: "https://www.mca.gov.in", note: "企业事务部·ROC 等" },

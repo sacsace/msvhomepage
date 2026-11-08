@@ -8,16 +8,16 @@ type GuideBundle = {
 
 export const complianceCalendar: GuideBundle = {
   ko: {
-    metaTitle: "신고준수 달력 | 인도 컴플라이언스 캘린더",
+    metaTitle: "주요 신고·납부 일정 | 인도 컴플라이언스 캘린더",
     metaDescription:
       "인도 법인 신고·준수 허브 · 월간 운영 달력, FDI/FEMA 거래형 일정, 세무·외환 운영 팁.",
     pageEyebrow: "컴플라이언스 캘린더",
-    pageTitle: "신고준수 달력",
+    pageTitle: "주요 신고·납부 일정",
     pageDescription:
       "‘언제 무엇을 제출하는지’가 고객 신뢰와 운영 효율에 직결됩니다. 본 페이지는 홈과 동일한 운영 달력과 FDI/FEMA 이벤트 축·운영 팁을 한곳에 묶었습니다.",
     calendarWidgetKicker: "Live",
     calendarWidgetTitle: "운영 일정 달력",
-    calendarWidgetLead: "관리자 등록 마감(TDS·GST·ECB 등)은 홈과 동일 데이터이며 월간으로 확인하고 아래 법정 일정 표와 병행하면 됩니다.",
+    calendarWidgetLead: "등록된 마감(TDS·GST·ECB 등)은 홈과 동일 데이터이며 월간으로 확인하고 아래 법정 일정 표와 병행하면 됩니다.",
     disclaimer:
       "연도·법 개정·연장 공고·업종·등록 유형·매출 규모·주(邦)법에 따라 마감이 달라질 수 있습니다. 최종 일정은 공식 공지·거주 세무사(CPA) 등 전문 자문으로 확정하세요.",
     introParagraphs: [
@@ -36,7 +36,7 @@ export const complianceCalendar: GuideBundle = {
           { item: "GSTR-3B(매입·ITC)", summary: "월 신고자 · 매월 20일경(월별 filer 기준)" },
           { item: "PF·ESI", summary: "납부·신고 · 매월 15일경" },
           { item: "Professional Tax", summary: "매월 20일경(주·邦별 상이)" },
-          { item: "ECB", summary: "차입 잔액 시 RBI FIRMS 월별 보고(예: ECB-2) · 익월 초·통상 7일 이내 등, 지침 확인" },
+          { item: "ECB", summary: "차입 잔액 시 지정 AD Category-I 은행 경유 월별 보고(예: ECB-2) · 익월 초·통상 7일 이내 등, 지침 확인" },
           { item: "급여·원천징수", summary: "회사 내부 SLA와 TDS 일정 정렬" },
         ],
       },
@@ -60,7 +60,7 @@ export const complianceCalendar: GuideBundle = {
           { item: "DIR-3 KYC", summary: "9월 30일경 · 미이행 시 DIN 비활성 등 리스크" },
           { item: "Professional Tax(연간)", summary: "4월 1일~30일경(주·邦별 상이)" },
           { item: "SFT", summary: "5월 1일~30일경(해당 시)" },
-          { item: "FLA", summary: "7월 1일~20일경 · 대외 채권·채무(FDI·ECB 등과 연계)" },
+          { item: "FLA", summary: "원칙적으로 매년 7월 15일까지 · FLAIR 포털 · 대외 채권·채무(FDI·ECB 등과 연계)" },
           {
             item: "세무감사인/감사 준비",
             summary: "통상 8월 말 전후 감사인 확정·자료 준비 진행(법인·감사 범위별 상이)",
@@ -70,7 +70,7 @@ export const complianceCalendar: GuideBundle = {
           { item: "ROC AOC-4 / MGT-7(MGT-7A)", summary: "10월 전후 등 일반 제출 시즌(연장·면제 공고 확인)" },
           { item: "TP(국제거래) 감사보고", summary: "11월 30일경(해당·임계 시)" },
           { item: "GSTR-9", summary: "매출 규모 등에 따라 의무·면제(공지 기준 확인)" },
-          { item: "GSTR-9C", summary: "제도·통지에 따름(면제·의무 변동 시 확인)" },
+          { item: "GSTR-9C", summary: "총매출 ₹5 crore 초과 등록사업자 자체 인증 조정명세서(적용 제외·고시 확인)" },
         ],
       },
     ],
@@ -98,8 +98,8 @@ export const complianceCalendar: GuideBundle = {
         {
           item: "월간·연간 FEMA 라인 (참고)",
           summary: [
-            "ECB 잔액이 있으면 ECB-2 월별 보고를 세무 7일·GST 일정과 같은 운영 보드에 올립니다.",
-            "FLA(7/1~7/20)는 외채·대외지분 스냅샷 성격이므로 회계·FEMA·세무 숫자 정합을 미리 맞춥니다.",
+            "ECB 잔액이 있으면 지정 AD Category-I 은행을 통한 ECB-2 월별 보고를 세무 7일·GST 일정과 같은 운영 보드에 올립니다.",
+            "FLA(원칙 7/15, FLAIR)는 외채·대외지분 스냅샷 성격이므로 회계·FEMA·세무 숫자 정합을 미리 맞춥니다.",
             "LUT·기타 FEMA 신고는 [FEMA·외환 가이드](/services/guide-fema-fx)와 함께, 지분 심화는 [FDI·FEMA 안내](/services/fdi-fema-guide)를 병행하면 좋습니다.",
           ].join("\n"),
         },

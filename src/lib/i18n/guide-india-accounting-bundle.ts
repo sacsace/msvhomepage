@@ -169,7 +169,7 @@ export const guideIndiaAccounting: GuideBundle = {
       { href: "/services/guide-fema-fx", label: "FEMA·외환 가이드" },
       { href: "/services/hr-payroll", label: "HR·Payroll 서비스" },
       { href: "/services/import-export-iec", label: "수출입(IEC)·통관 안내" },
-      { href: "/services/compliance-calendar", label: "신고준수 달력" },
+      { href: "/services/compliance-calendar", label: "주요 신고·납부 일정" },
       { href: "/services", label: "서비스 개요(허브)" },
       { href: "/services/india-accounting-glossary", label: "지식 베이스" },
     ],

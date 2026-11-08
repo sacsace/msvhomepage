@@ -1,6 +1,6 @@
 import { ClientsSection } from "@/components/home/ClientsSection";
 import { HomeSpotlightPanel } from "@/components/home/HomeSpotlightPanel";
-import { homeTypo } from "@/lib/home-typography";
+import { MagazineSectionFrame } from "@/components/home/MagazineSectionFrame";
 import {
   investmentRemittanceSpotlightEn,
   investmentRemittanceSpotlightZh,
@@ -25,11 +25,8 @@ export async function InvestmentRemittanceSpotlight({ locale }: Props) {
   const ctas = spotlightCtas(locale);
 
   return (
-    <section
-      className="overflow-x-hidden bg-[#f7f8fa] pb-16 sm:pb-20"
-      aria-labelledby="investment-remittance-heading"
-    >
-      <div className={`mx-auto max-w-6xl space-y-6 sm:space-y-8 ${homeTypo.pageInset}`}>
+    <MagazineSectionFrame index="05" verticalLabel="Capital" className="border-t border-msv-ink/10">
+      <div className="space-y-12">
         <HomeSpotlightPanel
           headingId="investment-remittance-heading"
           eyebrow={eyebrow}
@@ -41,6 +38,6 @@ export async function InvestmentRemittanceSpotlight({ locale }: Props) {
         />
         <ClientsSection variant="embedded" locale={locale} />
       </div>
-    </section>
+    </MagazineSectionFrame>
   );
 }

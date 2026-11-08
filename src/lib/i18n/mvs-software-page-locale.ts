@@ -44,7 +44,7 @@ export type MvsSoftwarePageCopy = {
 export const MVS_PRODUCT_SITE_URL = "https://www.mvsystem.in";
 
 const KO_SCOPE_BODY =
-  "도입 범위에 따라 모듈 구성이 달라질 수 있습니다. 제품 사이트(www.mvsystem.in)와 사내 MVS 소스 기준으로 대표 기능은 다음과 같습니다.\n\n• 대시보드 — 경영·관리·팀 단위 현황 요약\n\n• 기본정보·조직 — 회사·사용자·부서·직책·조직도, 파트너·고객사·계약\n\n• 인사·근태 — 출퇴근·근태 통계, 휴가 신청·관리, 급여·명세서·명세서 발송, 전자근로계약\n\n• 업무 — 전자결재, 업무 보드(칸반), 업무 보고·업무 통계, 과제·프로젝트, 회의실 예약\n\n• 회계 — 계정과목·전표·총계정원장, 손익·재무상태표, 법인세·선급세, 지출·지출결의, 회계 통계, Tally·SAP 등 외부 가져오기(옵션)\n\n• 재고·거래 문서 — 재고 현황·입고·출고·바코드·재고 보고서, 견적서, 일반 세금계산서(인보이스), 전자세금계산서·프로포마, 지출결의\n\n• 커뮤니케이션 — 공지, 이메일·SMS, 데스크톱 알림(notifier)\n\n• AI 분석(옵션) — 예측·효율 지표·추천·비용 분석\n\n• 호텔 모듈(옵션) — 프론트·예약 현황\n\n• 시스템 — 메뉴·권한, 로그인 이력, SMTP·알림, 개인·시스템 설정\n\n• My — 내 업무·명세서·개인정보·메일 설정\n\n멀티테넌트 SaaS로 회사(테넌트) 단위 데이터 격리, 사용자별 메뉴 권한(조회·생성·수정·삭제), 한국어·영어 UI, 실시간 알림·협업을 지원합니다.\n\n재고는 등록 품목 기준으로 조회·입출고·집계 보고서까지 이어지고, 견적·인보이스·지출결의는 각각 작성·승인·결제·지급 상태를 화면에서 추적합니다. 아래 화면 예시에서 UI 형태를 참고하실 수 있습니다.\n\n회계·세무·신고 실행은 외부 서비스 라인과 연계해 설계할 수 있습니다.";
+  "주요 기능은 다음과 같으며, 도입 범위에 따라 제공 모듈이 달라집니다.\n\n• 대시보드 — 경영·관리·팀 단위 현황 요약\n\n• 기본정보·조직 — 회사·사용자·부서·직책·조직도, 파트너·고객사·계약\n\n• 인사·근태 — 출퇴근·근태 통계, 휴가 신청·관리, 급여·명세서·명세서 발송, 전자근로계약\n\n• 업무 — 전자결재, 업무 보드(칸반), 업무 보고·업무 통계, 과제·프로젝트, 회의실 예약\n\n• 회계 — 계정과목·전표·총계정원장, 손익·재무상태표, 법인세·선급세, 지출·지출결의, 회계 통계, Tally·SAP 등 외부 가져오기(옵션)\n\n• 재고·거래 문서 — 재고 현황·입고·출고·바코드·재고 보고서, 견적서, 일반 세금계산서(인보이스), 전자세금계산서·프로포마, 지출결의\n\n• 커뮤니케이션 — 공지, 이메일·SMS, 데스크톱 알림\n\n• AI 분석(옵션) — 예측·효율 지표·추천·비용 분석\n\n• 호텔 모듈(옵션) — 프론트·예약 현황\n\n• 시스템 — 메뉴·권한, 로그인 이력, SMTP·알림, 개인·시스템 설정\n\n• My — 내 업무·명세서·개인정보·메일 설정\n\n회사별로 데이터를 분리하여 관리하며, 사용자별 메뉴 권한(조회·생성·수정·삭제), 한국어·영어 UI, 실시간 알림·협업을 지원합니다.\n\n재고는 등록 품목 기준으로 조회·입출고·집계 보고서까지 이어지고, 견적·인보이스·지출결의는 각각 작성·승인·결제·지급 상태를 화면에서 추적합니다. 아래 화면 예시에서 UI 형태를 참고하실 수 있습니다.\n\n회계·세무·신고 실행은 외부 서비스와 연계해 설계할 수 있습니다.";
 
 const EN_SCOPE_BODY =
   "Module mix depends on scope. Representative capabilities from www.mvsystem.in and the in-house MVS codebase include:\n\n• Dashboard — executive, admin and team summaries\n\n• Master data·organisation — companies·users·departments·positions·org chart, partners·customers·contracts\n\n• HR·attendance — clock-in/out and statistics, leave requests·management, payroll·payslips·payslip email, e-labour contracts\n\n• Work — e-approval, Kanban boards, work reports·statistics, tasks·projects, room booking\n\n• Accounting — chart of accounts·vouchers·GL, P&L·balance sheet, corporate·advance tax, expenses·expense resolutions, accounting statistics, optional Tally·SAP import\n\n• Inventory·documents — stock status·receiving·shipping·barcode·reports, quotations, regular tax invoices, e-invoicing·proforma, expense resolutions\n\n• Communication — notices, email·SMS, desktop notifier\n\n• AI analytics (optional) — forecasting, efficiency metrics, recommendations, cost analysis\n\n• Hotel module (optional) — front desk·reservation status\n\n• System — menu·permissions, login history, SMTP·notifications, personal·system settings\n\n• My workspace — my tasks·payslips·profile·mail settings\n\nMulti-tenant SaaS with per-company data isolation, per-user menu rights (view·create·edit·delete), Korean·English UI and real-time notifications.\n\nInventory follows registered SKUs through inquiry, movements and summary reports; quotations, invoices and expense flows track draft·approval·payment·payout on screen. See the screenshots below for UI patterns.\n\nAccounting, tax and statutory filing can be wired to the external service line where required.";
@@ -67,14 +67,14 @@ const SHOTS = [
 
 const ko: MvsSoftwarePageCopy = {
   metaTitle: "업무 통합 시스템 (MVS)",
-  metaDescription: `${company.shortName}이 운영하는 웹 업무 통합 시스템입니다. 인사·근태·휴가·급여, 전자근로계약·전자결재, 업무 보드·보고·통계, 파트너·재고·전자세금계산서 등 법인 운영 업무를 한 로그인 체계에서 다룹니다.`,
+  metaDescription: `${company.shortName}가 운영하는 웹 업무 통합 시스템입니다. 인사·근태·휴가·급여, 전자근로계약·전자결재, 업무 보드·보고·통계, 파트너·재고·전자세금계산서 등 주요 업무를 하나의 계정으로 통합 관리할 수 있습니다.`,
   pageTitle: "업무 통합 시스템 (MVS)",
-  pageHeaderDescription: `${company.shortName}이 운영하는 웹 업무 통합 시스템입니다. 인사·근태·휴가·급여, 전자근로계약·전자결재, 업무 보드·보고·통계, 파트너·재고·전자세금계산서 등 법인 운영 업무를 한 로그인 체계에서 다룹니다.`,
+  pageHeaderDescription: `${company.shortName}가 운영하는 웹 업무 통합 시스템입니다. 인사·근태·휴가·급여, 전자근로계약·전자결재, 업무 보드·보고·통계, 파트너·재고·전자세금계산서 등 주요 업무를 하나의 계정으로 통합 관리할 수 있습니다.`,
   overviewEyebrow: "Overview",
   overviewTitle: "개요",
-  heroLead: `MVS(MS Ventures System, 브랜드·자료에 따라 Minsub Ventures System 표기를 함께 쓰기도 합니다)는 ${company.shortName}(${company.legalName})이 보유·운영하는 웹 기반 업무 통합 시스템입니다. 제품 사이트는 www.mvsystem.in 에서 확인할 수 있습니다. 대시보드, 기본정보·조직·사용자·권한, 근태·휴가·급여, 전자근로계약, 전자결재·업무 보드·업무 보고·통계, 파트너·고객사, 재고·전자세금계산서 등 현장에서 매일 이어지는 업무를 모듈로 묶었고, 회사(테넌트) 단위 데이터 격리, SMTP·알림, 언어·통화(예: INR), 출근 반경·세션·비밀번호 정책 같은 운영·보안 항목은 시스템 설정에서 통제합니다.
+  heroLead: `MVS(MS Ventures System, 브랜드·자료에 따라 Minsub Ventures System 표기를 함께 쓰기도 합니다)는 ${company.shortName}(${company.legalName})가 보유·운영하는 웹 기반 업무 통합 시스템입니다. 제품 사이트는 www.mvsystem.in 에서 확인할 수 있습니다. 대시보드, 기본정보·조직·사용자·권한, 근태·휴가·급여, 전자근로계약, 전자결재·업무 보드·업무 보고·통계, 파트너·고객사, 재고·전자세금계산서 등 현장에서 매일 이어지는 업무를 모듈로 묶었고, 회사별로 데이터를 분리하여 관리하며 SMTP·알림, 언어·통화(예: INR), 출근 반경·세션·비밀번호 정책 같은 운영·보안 항목은 시스템 설정에서 통제합니다.
 
-직원에게는 출퇴근·근태·휴가 신청·급여 조회, 관리자에게는 결재·엑셀 연동·집계·감사 같은 운영 기능을 같은 제품 안에서 이어 줍니다. 필요 시 회계·세무·컴플라이언스 실행은 상근 CPA 체계의 서비스 라인과 연계해 설계할 수 있습니다.
+직원에게는 출퇴근·근태·휴가 신청·급여 조회, 관리자에게는 결재·엑셀 연동·집계·감사 같은 운영 기능을 같은 제품 안에서 이어 줍니다. 필요 시 회계·세무·컴플라이언스 실행은 상근 CPA 체계의 서비스와 연계해 설계할 수 있습니다.
 
 법인 소개·비전·연혁은 회사 소개 페이지에서 확인하실 수 있습니다.`,
   sections: [
@@ -97,7 +97,7 @@ const ko: MvsSoftwarePageCopy = {
   screensEyebrow: "Screens",
   screensTitle: "화면 예시",
   screenshotsLead:
-    "아래 캡처는 MVS 대시보드·근태·전자결재와 재고·견적·일반 세금계산서(인보이스)·지출결의서 등 대표 화면입니다. 테넌트·역할·통화·언어 설정에 따라 숫자·라벨·노출 필드가 달라질 수 있습니다.",
+    "아래 캡처는 MVS 대시보드·근태·전자결재와 재고·견적·일반 세금계산서(인보이스)·지출결의서 등 대표 화면입니다. 회사·역할·통화·언어 설정에 따라 숫자·라벨·노출 필드가 달라질 수 있습니다.",
   screenshots: [
     {
       src: SHOTS[0],

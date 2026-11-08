@@ -45,10 +45,10 @@ export type HerenowSoftwarePageCopy = {
 const ko: HerenowSoftwarePageCopy = {
   metaTitle: "출퇴근 기록 시스템 (HeresNow)",
   metaDescription:
-    "회사(테넌트) 단위 GPS 기반 출퇴근·근태 관리. 위치 기반 출근, 현장 확인, 승인 흐름과 Attendance·Payroll·HR 데이터 연계.",
+    "회사별로 데이터를 분리하여 관리하는 GPS 기반 출퇴근·근태 관리. 위치 기반 출근, 현장 확인, 승인 흐름과 Attendance·Payroll·HR 데이터 연계.",
   pageTitle: "출퇴근 기록 시스템 (HeresNow)",
   pageHeaderDescription:
-    "회사(테넌트) 단위로 운영되는 GPS 기반 출퇴근·근태 관리 시스템입니다.\n직원 위치 기반 출근 기록, 출장지·현장 근무 확인, 근태 승인 흐름을 통합하여 Attendance·Payroll·HR 운영 데이터를 연결할 수 있도록 설계하였습니다.",
+    "회사별로 데이터를 분리하여 관리하는 GPS 기반 출퇴근·근태 관리 시스템입니다.\n직원 위치 기반 출근 기록, 출장지·현장 근무 확인, 근태 승인 흐름을 통합하여 Attendance·Payroll·HR 운영 데이터를 연결할 수 있도록 설계하였습니다.",
   overviewEyebrow: "Overview",
   overviewTitle: "개요",
   heroLead: `HeresNow는 GPS 기반 출퇴근 기록과 근태 운영을 지원하는 웹 기반 시스템입니다.
@@ -57,7 +57,7 @@ const ko: HerenowSoftwarePageCopy = {
 
 본 시스템은 단순 출퇴근 체크 기능이 아니라 Attendance·근태 승인·근무 시간·지각·조퇴·현장 근무 기록을 연결하여 Payroll 및 HR 운영과 연계될 수 있도록 설계되었습니다.
 
-주요 기능은 회사(테넌트) 단위로 분리 운영되며, 고객별 근무 정책·근무지·승인 구조를 별도로 설정할 수 있습니다.
+주요 기능은 회사별로 데이터를 분리하여 운영되며, 고객별 근무 정책·근무지·승인 구조를 별도로 설정할 수 있습니다.
 
 법인 ${company.shortName}의 회계·세무 실행은 서비스 페이지와 동일한 전문 조직이 담당합니다.`,
   sections: [
@@ -113,8 +113,8 @@ const ko: HerenowSoftwarePageCopy = {
           ],
         },
         {
-          title: "3. 조직·테넌트 분리",
-          bullets: ["회사(테넌트)별 데이터 분리", "고객사별 근무 정책 독립 운영", "부서·지점·현장 단위 관리"],
+          title: "3. 조직·회사별 분리",
+          bullets: ["회사별 데이터 분리", "고객사별 근무 정책 독립 운영", "부서·지점·현장 단위 관리"],
         },
         {
           title: "4. 승인 및 운영 흐름",
@@ -141,7 +141,7 @@ const ko: HerenowSoftwarePageCopy = {
 
 HeresNow는 다음과 같은 운영 구조를 고려하여 설계됩니다.`,
       bullets: [
-        "테넌트 기반 데이터 분리",
+        "회사별 데이터 분리",
         "관리자 권한 분리",
         "Attendance 변경 이력 관리",
         "승인 기록(Audit trail) 관리",

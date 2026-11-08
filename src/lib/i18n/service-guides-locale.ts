@@ -69,7 +69,7 @@ export type ServiceGuideTimelineRow = {
   readonly duration: string;
 };
 
-/** 신고준수 달력 등: 항목 | 일정·요약 2열 표 */
+/** 주요 신고·납부 일정 등: 항목 | 일정·요약 2열 표 */
 export type ServiceGuideScheduleTableRow = {
   readonly item: string;
   readonly summary: string;
@@ -105,7 +105,7 @@ export type ServiceGuideCopy = {
   readonly roadmapCards?: readonly ServiceGuideDetailCard[];
   readonly governanceTitle?: string;
   readonly governanceBlocks?: readonly ServiceGuideDetailCard[];
-  /** `governanceBlocks` 대신 법정 일정과 동일한 2열 표만 사용(신고준수 달력 등) */
+  /** `governanceBlocks` 대신 법정 일정과 동일한 2열 표만 사용(주요 신고·납부 일정 등) */
   readonly governanceScheduleTable?: ServiceGuideScheduleTable;
   /** governance 다음·practicalIssues 앞에 렌더(예: GST/회계 가이드 월별 체크) */
   readonly nestedChecklistTitle?: string;
@@ -138,7 +138,7 @@ export type ServiceGuideCopy = {
   readonly relatedIntro?: string;
   readonly relatedTitle?: string;
   readonly relatedLinks?: readonly { readonly href: string; readonly label: string }[];
-  /** 신고준수 달력 등: 본문 상단 인터랙티브 달력 블록(관리자 등록 일정) */
+  /** 주요 신고·납부 일정 등: 본문 상단 인터랙티브 달력 블록(관리자 등록 일정) */
   readonly calendarWidgetKicker?: string;
   readonly calendarWidgetTitle?: string;
   readonly calendarWidgetLead?: string;
@@ -287,7 +287,7 @@ const gstPracticeGuide: Bundle = {
       { href: "/services/personal-income-tax-calculator", label: "급여 TDS 계산기" },
       { href: "/services", label: "회계·세무 서비스" },
       { href: "/services/import-export-iec", label: "수출입(IEC)·통관" },
-      { href: "/services/compliance-calendar", label: "신고준수 달력" },
+      { href: "/services/compliance-calendar", label: "주요 신고·납부 일정" },
       { href: "/services/india-accounting-glossary", label: "지식 베이스" },
       { href: "/contact", label: "문의" },
     ],
@@ -1078,7 +1078,7 @@ const indiaEntryGuide: Bundle = {
         ],
       },
       {
-        title: "신고준수 달력·문서·감사 추적",
+        title: "주요 신고·납부 일정·문서·감사 추적",
         bullets: [
           "GST/TDS/PF/ESI/ROC 등 Due date tracking",
           "세관·외환·노무 Notice 대응 이력 관리",
@@ -1154,7 +1154,7 @@ const indiaEntryGuide: Bundle = {
       { href: "/services", label: "회계·세무 서비스" },
       { href: "/services/hr-payroll", label: "HR·Payroll" },
       { href: "/services/import-export-iec", label: "수출입(IEC)·통관" },
-      { href: "/services/compliance-calendar", label: "신고준수 달력" },
+      { href: "/services/compliance-calendar", label: "주요 신고·납부 일정" },
       { href: "/services/personal-income-tax-calculator", label: "급여 TDS 계산기" },
     ],
     closingNote:

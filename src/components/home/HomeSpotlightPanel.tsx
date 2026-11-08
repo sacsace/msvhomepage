@@ -13,7 +13,6 @@ type Props = {
   ctaLabel: string;
 };
 
-/** 홈 스포트라이트 — 밝은 배경 위 흰 카드 + 2열 번호 그리드 */
 export function HomeSpotlightPanel({
   headingId,
   eyebrow,
@@ -24,10 +23,14 @@ export function HomeSpotlightPanel({
   ctaLabel,
 }: Props) {
   return (
-    <div className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-md ring-1 ring-slate-900/5 sm:p-8 lg:p-10">
+    <div className="relative border-y border-msv-ink/15 py-12 sm:py-14">
+      <div className="absolute left-0 top-0 h-3 w-3 border-l border-t border-msv-ink/30" aria-hidden />
+      <div className="absolute right-0 top-0 h-3 w-3 border-r border-t border-msv-ink/30" aria-hidden />
+      <div className="absolute bottom-0 left-0 h-3 w-3 border-b border-l border-msv-ink/30" aria-hidden />
+      <div className="absolute bottom-0 right-0 h-3 w-3 border-b border-r border-msv-ink/30" aria-hidden />
       <HomeSpotlightIntro id={headingId} eyebrow={eyebrow} title={title} paragraphs={paragraphs} />
       <SpotlightHighlightGrid items={highlights} />
-      <Link href={ctaHref} className={`mt-7 inline-flex ${homeTypo.linkCta}`}>
+      <Link href={ctaHref} className={`mt-10 inline-flex ${homeTypo.linkCta}`}>
         {ctaLabel}
       </Link>
     </div>

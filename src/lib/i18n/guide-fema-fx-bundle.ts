@@ -207,7 +207,7 @@ export const guideFemaFx: GuideBundle = {
       { href: "/services/guide-india-accounting", label: "인도 회계 가이드" },
       { href: "/services/import-export-iec", label: "수출입(IEC)·통관 안내" },
       { href: "/services/contracts-legal", label: "계약·법률 문서" },
-      { href: "/services/compliance-calendar", label: "신고준수 달력" },
+      { href: "/services/compliance-calendar", label: "주요 신고·납부 일정" },
     ],
     closingNote:
       "인도 외환(FEMA) 운영은 단순 송금 업무보다 투자·은행·세무·계약·RBI 보고가 함께 연결되는 운영 영역이며, 초기 거래 구조와 문서 체계 설계에 따라 이후 리스크와 자금 운영 효율이 크게 달라질 수 있습니다.",

@@ -67,10 +67,12 @@ export type ComplianceCalendarVariant = "week" | "month";
 type Props = {
   events: TaxCalendarEvent[];
   locale?: SiteLocale;
-  /** `month`: 인라인 월 그리드(신고준수 달력 페이지). 기본 `week`는 홈과 동일. */
+  /** `month`: 인라인 월 그리드(주요 신고·납부 일정 페이지). 기본 `week`는 홈과 동일. */
   variant?: ComplianceCalendarVariant;
   /** `variant="month"`일 때 본문 흰 카드 안에 넣을 때 true — 라이트 그리드·슬레이트 테두리 */
   embedMonthOnLight?: boolean;
+  /** 홈 잡지 스프레드용 — 주간 뷰를 paper 톤으로 */
+  tone?: "ink" | "paper";
 };
 
 type MonthCell = { type: "blank" } | { type: "day"; day: number };
@@ -92,7 +94,9 @@ export function ComplianceCalendarWidget({
   locale = "ko",
   variant = "week",
   embedMonthOnLight = false,
+  tone = "ink",
 }: Props) {
+  const paper = tone === "paper";
   const ui = useMemo(() => complianceCalendarUi(locale), [locale]);
   const weekLabels = useMemo(() => weekdayShortLabels(locale), [locale]);
   const kindLocale: "ko" | "en" | "zh" = locale === "en" ? "en" : locale === "zh" ? "zh" : "ko";
@@ -337,43 +341,75 @@ export function ComplianceCalendarWidget({
 
   return (
     <div className="relative z-10 mt-6">
-      <p className={homeTypo.kickerWeek}>{ui.weekKicker}</p>
-      <p className={`mt-1 ${homeTypo.bodyWhiteMuted}`}>{ui.weekSub}</p>
-      <div className="mt-4 rounded-2xl border border-white/25 bg-white/[0.03] p-2 sm:p-2.5">
-        <div className="grid grid-cols-7 gap-1.5 text-center sm:gap-2">
-        {weekDays.map(({ date, ymd }, i) => {
-          const list = byDate.get(ymd) ?? [];
-          const isTodayCell = todayYmd === ymd;
-          return (
-            <div
-              key={ymd}
-              className={`flex min-h-[5.5rem] flex-col rounded-xl border px-1 py-2 sm:min-h-[6.5rem] sm:px-1.5 ${
-                isTodayCell ? "border-msv-blue-soft/70 bg-white/10" : "border-white/10 bg-white/[0.04]"
-              }`}
-            >
-              <span className="text-[10px] font-semibold text-white/50">{weekLabels[i]}</span>
-              <span
-                className={`text-sm font-semibold tabular-nums ${isTodayCell ? "text-msv-blue-soft" : "text-white"}`}
+      <p className={paper ? homeTypo.kickerBlue : homeTypo.kickerWeek}>{ui.weekKicker}</p>
+      <p className={`mt-1 ${paper ? homeTypo.bodySm : homeTypo.bodyWhiteMuted}`}>{ui.weekSub}</p>
+      <div
+        className={
+          paper
+            ? "mt-5 border-y border-msv-ink/15 py-1"
+            : "mt-4 rounded-2xl border border-white/25 bg-white/[0.03] p-2 sm:p-2.5"
+        }
+      >
+        <div className={`grid grid-cols-7 text-center ${paper ? "gap-0" : "gap-1.5 sm:gap-2"}`}>
+          {weekDays.map(({ date, ymd }, i) => {
+            const list = byDate.get(ymd) ?? [];
+            const isTodayCell = todayYmd === ymd;
+            return (
+              <div
+                key={ymd}
+                className={
+                  paper
+                    ? `flex min-h-[5.75rem] flex-col border-msv-ink/10 px-1.5 py-3 sm:min-h-[6.5rem] sm:px-2 ${
+                        i > 0 ? "border-l" : ""
+                      } ${isTodayCell ? "bg-msv-ink/[0.04]" : ""}`
+                    : `flex min-h-[5.5rem] flex-col rounded-xl border px-1 py-2 sm:min-h-[6.5rem] sm:px-1.5 ${
+                        isTodayCell
+                          ? "border-msv-blue-soft/70 bg-white/10"
+                          : "border-white/10 bg-white/[0.04]"
+                      }`
+                }
               >
-                {date.getDate()}
-              </span>
-              <div className="mt-1 flex flex-1 flex-col gap-0.5">
-                {list.map((ev) => (
-                  <span
-                    key={ev.id}
-                    title={[taxCalendarKindLabelCompact(ev.kind, 18, kindLocale), ev.title, ev.note]
-                      .filter(Boolean)
-                      .join(" — ")}
-                    className={`truncate rounded-md border px-0.5 py-px text-[9px] font-semibold leading-tight sm:text-[10px] ${eventChipClass(ev.kind, "dark")}`}
-                  >
-                    {taxCalendarKindLabelCompact(ev.kind, 18, kindLocale)}
-                  </span>
-                ))}
+                <span
+                  className={`text-[10px] font-semibold uppercase tracking-[0.12em] ${
+                    paper ? "text-slate-400" : "text-white/50"
+                  }`}
+                >
+                  {weekLabels[i]}
+                </span>
+                <span
+                  className={`mt-1 font-sans text-lg font-semibold tabular-nums tracking-[-0.03em] sm:text-xl ${
+                    paper
+                      ? isTodayCell
+                        ? "text-msv-mint"
+                        : "text-msv-ink"
+                      : isTodayCell
+                        ? "text-msv-blue-soft"
+                        : "text-white"
+                  }`}
+                >
+                  {date.getDate()}
+                </span>
+                <div className="mt-2 flex flex-1 flex-col gap-0.5">
+                  {list.map((ev) => (
+                    <span
+                      key={ev.id}
+                      title={[taxCalendarKindLabelCompact(ev.kind, 18, kindLocale), ev.title, ev.note]
+                        .filter(Boolean)
+                        .join(" — ")}
+                      className={`truncate border px-0.5 py-px text-[9px] font-semibold leading-tight sm:text-[10px] ${
+                        paper
+                          ? eventChipClass(ev.kind, "light")
+                          : eventChipClass(ev.kind, "dark")
+                      } ${paper ? "rounded-none" : "rounded-md"}`}
+                    >
+                      {taxCalendarKindLabelCompact(ev.kind, 18, kindLocale)}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
       </div>
 
       <button
@@ -383,7 +419,11 @@ export function ComplianceCalendarWidget({
           setSelectedDetailYmd(null);
           setMonthOpen(true);
         }}
-        className="relative z-20 mt-5 w-full touch-manipulation rounded-xl border border-white/25 bg-white/10 py-2.5 text-sm font-semibold text-white transition hover:bg-white/15"
+        className={
+          paper
+            ? "relative z-20 mt-6 inline-flex min-h-[2.75rem] w-full items-center justify-center border border-msv-ink bg-transparent px-6 text-xs font-semibold uppercase tracking-[0.18em] text-msv-ink transition hover:bg-msv-ink hover:text-white sm:w-auto"
+            : "relative z-20 mt-5 w-full touch-manipulation rounded-xl border border-white/25 bg-white/10 py-2.5 text-sm font-semibold text-white transition hover:bg-white/15"
+        }
       >
         {ui.monthButton}
       </button>

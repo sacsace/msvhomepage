@@ -8,6 +8,7 @@ type Props = {
 };
 
 export function ContactForm({ copy }: Props) {
+  const [mounted, setMounted] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [inquiryType, setInquiryType] = useState<"" | InquiryTypeValue>("");
@@ -17,6 +18,10 @@ export function ContactForm({ copy }: Props) {
   const [status, setStatus] = useState<"idle" | "loading" | "err">("idle");
   const [errMsg, setErrMsg] = useState("");
   const [toast, setToast] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!toast) return;
@@ -85,109 +90,129 @@ export function ContactForm({ copy }: Props) {
             </p>
           ) : null}
 
-          <form onSubmit={onSubmit} className="flex min-h-0 flex-1 flex-col gap-6">
-            <input
-              type="text"
-              name="company"
-              value={honeypot}
-              onChange={(e) => setHoneypot(e.target.value)}
-              className="hidden"
-              tabIndex={-1}
-              autoComplete="off"
-              aria-hidden
-            />
-            <div className="grid shrink-0 gap-6 sm:grid-cols-2 sm:gap-x-6">
-              <div className="min-w-0 sm:col-span-1">
-                <label htmlFor="inq-name" className="block text-sm font-semibold text-msv-navy">
-                  {copy.labelName} <span className="text-red-500">*</span>
-                </label>
-                <input
-                  id="inq-name"
-                  required
-                  maxLength={120}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className={fieldClass}
-                />
-              </div>
-              <div className="min-w-0 sm:col-span-1">
-                <label htmlFor="inq-email" className="block text-sm font-semibold text-msv-navy">
-                  {copy.labelEmail} <span className="text-red-500">*</span>
-                </label>
-                <input
-                  id="inq-email"
-                  type="email"
-                  required
-                  maxLength={254}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={fieldClass}
-                />
-              </div>
+          {/* 비밀번호·자동완성 확장이 DOM에 data-*를 붙여 SSR 하이드레이션이 깨지는 것을 막기 위해 마운트 후 폼 렌더 */}
+          {!mounted ? (
+            <div className="flex min-h-[28rem] flex-1 items-center justify-center text-sm text-slate-400" aria-hidden>
+              …
             </div>
-
-            <div className="shrink-0">
-              <label htmlFor="inq-type" className="block text-sm font-semibold text-msv-navy">
-                {copy.labelInquiryType} <span className="text-red-500">*</span>
-              </label>
-              <select
-                id="inq-type"
-                required
-                value={inquiryType}
-                onChange={(e) => setInquiryType(e.target.value as InquiryTypeValue | "")}
-                className={`${fieldClass} cursor-pointer`}
-              >
-                <option value="" disabled>
-                  {copy.inquiryTypeUnset}
-                </option>
-                {copy.inquiryTypes.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="shrink-0">
-              <label htmlFor="inq-subject" className="block text-sm font-semibold text-msv-navy">
-                {copy.labelSubject}
-              </label>
+          ) : (
+            <form
+              onSubmit={onSubmit}
+              className="flex min-h-0 flex-1 flex-col gap-6"
+              autoComplete="on"
+              suppressHydrationWarning
+            >
               <input
-                id="inq-subject"
-                maxLength={200}
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
-                placeholder={copy.placeholderSubject}
-                className={fieldClass}
+                type="text"
+                name="company"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                className="hidden"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden
               />
-            </div>
+              <div className="grid shrink-0 gap-6 sm:grid-cols-2 sm:gap-x-6">
+                <div className="min-w-0 sm:col-span-1">
+                  <label htmlFor="inq-name" className="block text-sm font-semibold text-msv-navy">
+                    {copy.labelName} <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="inq-name"
+                    name="name"
+                    required
+                    maxLength={120}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className={fieldClass}
+                    autoComplete="name"
+                  />
+                </div>
+                <div className="min-w-0 sm:col-span-1">
+                  <label htmlFor="inq-email" className="block text-sm font-semibold text-msv-navy">
+                    {copy.labelEmail} <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="inq-email"
+                    name="email"
+                    type="email"
+                    required
+                    maxLength={254}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className={fieldClass}
+                    autoComplete="email"
+                  />
+                </div>
+              </div>
 
-            <div className="flex min-h-0 flex-1 flex-col">
-              <label htmlFor="inq-msg" className="block text-sm font-semibold text-msv-navy">
-                {copy.labelMessage} <span className="text-red-500">*</span>
-              </label>
-              <textarea
-                id="inq-msg"
-                required
-                rows={8}
-                maxLength={20000}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder={copy.placeholderMessage}
-                className={`${fieldClass} min-h-[12rem] flex-1 resize-y leading-relaxed`}
-              />
-            </div>
+              <div className="shrink-0">
+                <label htmlFor="inq-type" className="block text-sm font-semibold text-msv-navy">
+                  {copy.labelInquiryType} <span className="text-red-500">*</span>
+                </label>
+                <select
+                  id="inq-type"
+                  name="inquiryType"
+                  required
+                  value={inquiryType}
+                  onChange={(e) => setInquiryType(e.target.value as InquiryTypeValue | "")}
+                  className={`${fieldClass} cursor-pointer`}
+                >
+                  <option value="" disabled>
+                    {copy.inquiryTypeUnset}
+                  </option>
+                  {copy.inquiryTypes.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            <div className="mt-auto shrink-0 pt-0.5">
-              <button
-                type="submit"
-                disabled={status === "loading"}
-                className="min-h-[44px] w-full rounded-xl bg-msv-navy px-8 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-msv-navy/90 disabled:opacity-60 sm:w-auto"
-              >
-                {status === "loading" ? copy.submitting : copy.submit}
-              </button>
-            </div>
-          </form>
+              <div className="shrink-0">
+                <label htmlFor="inq-subject" className="block text-sm font-semibold text-msv-navy">
+                  {copy.labelSubject}
+                </label>
+                <input
+                  id="inq-subject"
+                  name="subject"
+                  maxLength={200}
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  placeholder={copy.placeholderSubject}
+                  className={fieldClass}
+                  autoComplete="off"
+                />
+              </div>
+
+              <div className="flex min-h-0 flex-1 flex-col">
+                <label htmlFor="inq-msg" className="block text-sm font-semibold text-msv-navy">
+                  {copy.labelMessage} <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  id="inq-msg"
+                  name="message"
+                  required
+                  rows={8}
+                  maxLength={20000}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder={copy.placeholderMessage}
+                  className={`${fieldClass} min-h-[12rem] flex-1 resize-y leading-relaxed`}
+                />
+              </div>
+
+              <div className="mt-auto shrink-0 pt-0.5">
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="min-h-[44px] w-full rounded-xl bg-msv-navy px-8 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-msv-navy/90 disabled:opacity-60 sm:w-auto"
+                >
+                  {status === "loading" ? copy.submitting : copy.submit}
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </div>
     </div>

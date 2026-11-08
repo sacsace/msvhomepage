@@ -12,22 +12,101 @@ const AUTOPLAY_MS = 6500;
 type Props = {
   slides: readonly HomeHeroSlide[];
   locale: SiteLocale;
+  /** light paper hero (reference magazine) vs ink */
+  theme?: "light" | "dark";
+  /** 외부 콜라주 사용 시 슬라이드 인물 숨김 */
+  hidePortraits?: boolean;
+  onActiveSlideChange?: (slideId: string) => void;
 };
 
-export function HeroSlider({ slides, locale }: Props) {
+function PortraitBlock({
+  slide,
+  light,
+  priority,
+}: {
+  slide: HomeHeroSlide;
+  light: boolean;
+  priority: boolean;
+}) {
+  if (!slide.imageSrc) return null;
+
+  return (
+    <div className="pointer-events-none absolute bottom-[-8.5rem] right-0 z-[1] hidden w-[min(35.8vw,20.5rem)] flex-col items-stretch sm:flex lg:bottom-[-9.5rem] lg:w-[min(37vw,23rem)]">
+      <div className="relative flex h-[min(23rem,37vh)] w-full items-end justify-end">
+        <Image
+          src={slide.imageSrc}
+          alt=""
+          width={slide.imageWidth ?? 686}
+          height={slide.imageHeight ?? 1013}
+          unoptimized
+          className={`h-full w-auto max-w-full object-contain object-bottom object-right ${
+            light ? "" : "drop-shadow-[0_18px_40px_rgba(0,0,0,0.4)]"
+          }`}
+          sizes="20.5rem"
+          priority={priority}
+        />
+      </div>
+      {slide.imageCaption ? (
+        <p
+          className={`mt-2 w-full text-center font-sans text-[11px] font-medium leading-snug tracking-[-0.01em] sm:text-xs ${
+            light ? "text-msv-ink/70" : "text-white/80"
+          }`}
+        >
+          {slide.imageCaption}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+export function HeroSlider({
+  slides,
+  locale,
+  theme = "dark",
+  hidePortraits = false,
+  onActiveSlideChange,
+}: Props) {
+  const light = theme === "light";
   const ui = heroSliderUi(locale);
   const [activeIndex, setActiveIndex] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [skipTransition, setSkipTransition] = useState(false);
   const pausedRef = useRef(false);
+  const activeIndexRef = useRef(0);
+  const onActiveRef = useRef(onActiveSlideChange);
   const total = slides.length;
+
+  useEffect(() => {
+    onActiveRef.current = onActiveSlideChange;
+  }, [onActiveSlideChange]);
+
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+    const id = slides[activeIndex]?.id;
+    if (id) onActiveRef.current?.(id);
+  }, [activeIndex, slides]);
 
   const goTo = useCallback(
     (index: number) => {
       if (total === 0) return;
       const next = ((index % total) + total) % total;
+      const current = activeIndexRef.current;
+      const wrapping =
+        total > 1 &&
+        ((current === total - 1 && next === 0) || (current === 0 && next === total - 1));
+
+      if (wrapping && !reduceMotion) {
+        setSkipTransition(true);
+        setActiveIndex(next);
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => setSkipTransition(false));
+        });
+        return;
+      }
+
       setActiveIndex(next);
     },
-    [total],
+    [total, reduceMotion],
   );
 
   useEffect(() => {
@@ -42,13 +121,15 @@ export function HeroSlider({ slides, locale }: Props) {
     if (reduceMotion || total <= 1) return;
     const id = window.setInterval(() => {
       if (!pausedRef.current) {
-        setActiveIndex((i) => (i + 1) % total);
+        goTo(activeIndexRef.current + 1);
       }
     }, AUTOPLAY_MS);
     return () => window.clearInterval(id);
-  }, [reduceMotion, total]);
+  }, [reduceMotion, total, goTo]);
 
   if (total === 0) return null;
+
+  const animateSlide = !reduceMotion && !skipTransition;
 
   return (
     <div
@@ -71,65 +152,46 @@ export function HeroSlider({ slides, locale }: Props) {
         }
       }}
     >
-      {/* 가로만 클리핑 — 세로 overflow-hidden이면 큰 인물 사진·얼굴이 잘림 */}
       <div className="relative overflow-x-clip overflow-y-visible">
         <div
-          className={`flex ${reduceMotion ? "" : "transition-transform duration-500 ease-out"}`}
+          className={`flex ${animateSlide ? "transition-transform duration-500 ease-out" : ""}`}
           style={{ transform: `translateX(-${activeIndex * 100}%)` }}
         >
           {slides.map((slide, index) => (
             <article
               key={slide.id}
-              className={`w-full shrink-0 ${index === activeIndex ? "overflow-visible" : "overflow-hidden"}`}
+              className="w-full shrink-0 overflow-hidden"
               aria-hidden={index !== activeIndex}
               inert={index !== activeIndex ? true : undefined}
             >
-              {/* 텍스트 타이포·간격은 기존과 동일. 이미지는 우측 하단 절대배치 */}
-              <div
-                className={
-                  slide.imageSrc
-                    ? "relative min-h-[9.5rem] overflow-visible sm:min-h-[10.5rem]"
-                    : "relative min-h-[9.5rem] sm:min-h-[10.5rem]"
-                }
-              >
-                {slide.imageSrc && index === activeIndex ? (
-                  <div
-                    className="pointer-events-none absolute bottom-[-8.5rem] right-0 z-[1] hidden items-end gap-3 sm:flex lg:bottom-[-9.5rem]"
-                    aria-hidden={false}
-                  >
-                    <div className="relative flex h-[min(23rem,37vh)] w-[min(35.8vw,20.5rem)] items-end justify-end lg:h-[min(25rem,40vh)] lg:w-[min(37vw,23rem)]">
-                      <Image
-                        src={slide.imageSrc}
-                        alt=""
-                        width={slide.imageWidth ?? 686}
-                        height={slide.imageHeight ?? 1013}
-                        unoptimized
-                        className="h-full w-auto max-w-full object-contain object-bottom object-right drop-shadow-[0_18px_40px_rgba(0,0,0,0.4)]"
-                        sizes="(min-width: 1024px) 23rem, 20.5rem"
-                        priority={index === 0 || slide.id === "operations"}
-                      />
-                      {slide.imageCaption ? (
-                        <p
-                          className={`absolute bottom-[0.35rem] whitespace-nowrap text-right text-[11px] font-medium leading-snug tracking-[-0.01em] text-white/80 sm:text-xs ${
-                            slide.id === "accounting"
-                              ? "right-[calc(100%+1.25rem)]"
-                              : "right-[calc(100%-4rem)]"
-                          }`}
-                        >
-                          {slide.imageCaption}
-                        </p>
-                      ) : null}
-                    </div>
-                  </div>
+              <div className="relative min-h-[9.5rem] overflow-hidden sm:min-h-[10.5rem]">
+                {!hidePortraits && slide.imageSrc && index === activeIndex ? (
+                  <PortraitBlock
+                    slide={slide}
+                    light={light}
+                    priority={index === 0 || slide.id === "operations"}
+                  />
                 ) : null}
-                <div className="relative z-10">
-                  <p className="text-[10px] font-medium uppercase leading-none tracking-[0.2em] text-white/55 sm:text-[11px]">
+                <div className="relative z-10 max-w-[36rem]">
+                  <p
+                    className={`font-sans text-[11px] font-semibold uppercase leading-none tracking-[0.28em] ${
+                      light ? "text-slate-500" : "text-white/55"
+                    }`}
+                  >
                     {slide.eyebrow}
                   </p>
-                  <h1 className="mt-2 max-w-3xl text-pretty break-keep text-[1.35rem] font-medium leading-snug tracking-[-0.02em] text-white/95 sm:text-[1.65rem] sm:leading-[1.35] lg:text-[1.85rem]">
+                  <h1
+                    className={`mt-4 max-w-3xl text-pretty break-keep font-sans text-[1.55rem] font-semibold leading-[1.18] tracking-[-0.03em] sm:text-[1.9rem] lg:text-[2.2rem] ${
+                      light ? "text-msv-ink" : "text-white"
+                    }`}
+                  >
                     {slide.headline}
                   </h1>
-                  <p className={`mt-[0.8rem] max-w-[36rem] text-pretty break-keep ${homeTypo.bodyOnDark}`}>
+                  <p
+                    className={`mt-5 max-w-[34rem] text-pretty break-keep ${
+                      light ? homeTypo.body : homeTypo.bodyOnDark
+                    }`}
+                  >
                     {slide.lead}
                   </p>
                 </div>
@@ -154,8 +216,14 @@ export function HeroSlider({ slides, locale }: Props) {
                 <button
                   key={slide.id}
                   type="button"
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    selected ? "w-6 bg-white" : "w-2 bg-white/35 hover:bg-white/55"
+                  className={`h-px transition-all duration-300 ${
+                    selected
+                      ? light
+                        ? "w-10 bg-msv-ink"
+                        : "w-10 bg-white"
+                      : light
+                        ? "w-5 bg-msv-ink/25 hover:bg-msv-ink/50"
+                        : "w-5 bg-white/35 hover:bg-white/60"
                   }`}
                   onClick={() => goTo(index)}
                   aria-label={ui.slideOf(index + 1, total)}

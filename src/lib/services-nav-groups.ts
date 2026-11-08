@@ -178,7 +178,7 @@ const SERVICE_NAV_GROUP_DEFS: readonly NavGroupDef[] = [
     items: [
       {
         path: "/services/compliance-calendar",
-        label: { ko: "신고준수 달력", en: "Compliance calendar", zh: "合规日历" },
+        label: { ko: "주요 신고·납부 일정", en: "Compliance calendar", zh: "合规日历" },
       },
       {
         path: "/services/personal-income-tax-calculator",

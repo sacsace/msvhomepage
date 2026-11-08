@@ -33,19 +33,19 @@ export type WiscSoftwarePageCopy = {
 const ko: WiscSoftwarePageCopy = {
   metaTitle: "Website Information & Security Checker (WISC)",
   metaDescription:
-    "웹사이트 도메인의 SSL·보안 헤더·인증 응답(Cookie/Token)·성능(TTFB·응답 시간)을 점검하고, 사이트 간 비교·JSON보내기를 지원하는 WISC 도구.",
+    "웹사이트 도메인의 SSL·보안 헤더·인증 응답(Cookie/Token)·성능(TTFB·응답 시간)을 점검하고, 사이트 간 비교·분석 결과 내보내기(JSON)를 지원하는 WISC 도구.",
   pageTitle: "Website Information & Security Checker",
   pageHeaderDescription:
-    "웹사이트 도메인의 보안·인증·성능을 한 번에 점검하는 온라인 도구입니다.\nSSL·보안 헤더·인증 응답(Cookie/Token) 분석, 사이트 간 성능 비교(TTFB·응답 시간)와 JSON보내기를 지원합니다.",
+    "웹사이트 도메인의 보안·인증·성능을 한 번에 점검하는 온라인 도구입니다.\nSSL·보안 헤더·인증 응답(Cookie/Token) 분석, 사이트 간 성능 비교(TTFB·응답 시간)와 분석 결과 내보내기(JSON)를 지원합니다.",
   overviewEyebrow: "Overview",
   overviewTitle: "개요",
   heroLead: `Website Information & Security Checker(WISC)는 공개 웹사이트의 기본 보안·인증·응답 성능을 빠르게 확인하는 도구입니다.
 
 운영·개발·보안 점검 전에 도메인을 입력하면 SSL 인증서 상태, 주요 보안 헤더, 인증 관련 응답(Cookie·Token)과 응답 시간 지표를 한 화면에서 확인할 수 있습니다.
 
-여러 사이트를 나란히 비교하거나 결과를 JSON으로보내 내부 보고·이력 관리에 활용할 수 있습니다.
+여러 사이트를 나란히 비교하거나 분석 결과 내보내기(JSON)로 내부 보고·이력 관리에 활용할 수 있습니다.
 
-본 도구는 ${company.shortName} 소프트웨어 라인의 일부로 제공되며, 웹 운영·컴플라이언스·대외 사이트 품질 점검 보조용으로 활용할 수 있습니다.`,
+본 도구는 ${company.shortName} 실무 지원 도구의 일부로 제공되며, 웹 운영·컴플라이언스·대외 사이트 품질 점검 보조용으로 활용할 수 있습니다.`,
   sections: [
     {
       eyebrow: "Security",
@@ -97,7 +97,7 @@ const ko: WiscSoftwarePageCopy = {
     },
     {
       eyebrow: "Export",
-      title: "JSON보내기",
+      title: "분석 결과 내보내기(JSON)",
       body: "점검 결과를 JSON 형식으로보내 내부 티켓·감사·개발 이슈에 붙일 수 있습니다.",
       bullets: [
         "헤더·인증서·성능 필드 구조화",

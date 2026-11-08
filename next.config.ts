@@ -76,6 +76,14 @@ const allowedDevOrigins = [
 const nextConfig: NextConfig = {
   allowedDevOrigins,
   poweredByHeader: false,
+  async redirects() {
+    const removedGroupSlugs = ["jw-industrial-tech-service", "wilmat"] as const;
+    return removedGroupSlugs.flatMap((slug) => [
+      { source: `/group/${slug}`, destination: "/group", permanent: true },
+      { source: `/en/group/${slug}`, destination: "/en/group", permanent: true },
+      { source: `/zh/group/${slug}`, destination: "/zh/group", permanent: true },
+    ]);
+  },
   async headers() {
     const isProduction = process.env.NODE_ENV === "production";
     return [

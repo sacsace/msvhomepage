@@ -25,7 +25,7 @@ function GuideBulletLine({ text }: { readonly text: string }) {
   return <>{text}</>;
 }
 
-/** `[표시 텍스트](/경로)` → locale-aware Link (신고준수 달력 등 표 셀용) */
+/** `[표시 텍스트](/경로)` → locale-aware Link (주요 신고·납부 일정 등 표 셀용) */
 function ScheduleSummaryCell({ text, L }: { readonly text: string; readonly L: (path: string) => string }) {
   const re = /\[([^\]]+)\]\((\/[^)]+)\)/g;
   const out: ReactNode[] = [];

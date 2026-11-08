@@ -123,10 +123,10 @@ export const strengthsEn = [
 
 /** 홈 고객사 리드 — `clientsShowcaseLead`(한국어)와 톤 맞춤 */
 export const clientsShowcaseLeadEn =
-  "We support 80+ companies from India market entry through operations, accounting, tax and compliance as an integrated practice, with service churn at 7% or below—reflecting stable, long-term partnerships.";
+  "As of 2026 we support 80+ companies from India market entry through operations, accounting, tax and compliance—and continue long-term partnerships with our clients.";
 
 export const clientsShowcaseLeadZh =
-  "我们以运营、会计、税务与合规的一体化实务支持 80 余家客户进入印度市场，服务流失率控制在 7% 及以下，体现稳定、长期的合作关系。";
+  "截至 2026 年，我们以运营、会计、税务与合规的一体化实务支持 80 余家客户进入印度市场，并持续维系长期合作关系。";
 
 export const valuesEn = [
   "Tailored consulting with practical implementation support.",
@@ -252,7 +252,7 @@ export function homeMidServicesSection(locale: SiteLocale) {
       kicker: "Services",
       title: "회계를 중심으로 한 실행형 서비스",
       lead: "회계·세무·감사를 기반으로, 법인설립·HR·수출입 등 확장 업무를 동일 팀 또는 협업 조직과 연계하여 제공합니다.",
-      cta: "회계·세무 라인업 보기",
+      cta: "회계·세무 서비스 보기",
     };
   }
   return {
@@ -286,6 +286,11 @@ const homeHeroSoftwareSlideKo: HomeHeroSlide = {
   eyebrow: "MSV 고객 전용 프로그램",
   headline: "업무 통합 시스템과 GPS 기반 출퇴근 기록을 제공합니다.",
   lead: "고객사에 업무 통합 시스템(MVS)·GPS 기반 출퇴근 기록 시스템(HeresNow)을 제공해, 회계·세무 서비스와 현장 운영 데이터를 한 흐름으로 연결합니다.",
+  imageSrc: "/team/lee-minsub-hero.png?v=20261108d",
+  imageAlt: "이민섭 대표",
+  imageCaption: "대표 / 이민섭",
+  imageWidth: 716,
+  imageHeight: 1024,
 };
 
 const homeHeroSoftwareSlideEn: HomeHeroSlide = {
@@ -293,6 +298,11 @@ const homeHeroSoftwareSlideEn: HomeHeroSlide = {
   eyebrow: "MSV client programs",
   headline: "Integrated business system and GPS attendance for clients.",
   lead: "We provide clients with the MVS integrated business system and HeresNow GPS attendance, so accounting and tax work stay connected to on-the-ground operations.",
+  imageSrc: "/team/lee-minsub-hero.png?v=20261108d",
+  imageAlt: "Lee Min-seop, CEO",
+  imageCaption: "CEO / Lee Min-seop",
+  imageWidth: 716,
+  imageHeight: 1024,
 };
 
 const homeHeroSoftwareSlideZh: HomeHeroSlide = {
@@ -300,6 +310,11 @@ const homeHeroSoftwareSlideZh: HomeHeroSlide = {
   eyebrow: "MSV 客户专用程序",
   headline: "提供业务集成系统与基于 GPS 的考勤记录。",
   lead: "为客户提供业务集成系统（MVS）与基于 GPS 的考勤系统（HeresNow），使会计税务服务与现场运营数据贯通。",
+  imageSrc: "/team/lee-minsub-hero.png?v=20261108d",
+  imageAlt: "李旻燮 代表",
+  imageCaption: "代表 / 李旻燮",
+  imageWidth: 716,
+  imageHeight: 1024,
 };
 
 const homeHeroSlidesKo: readonly HomeHeroSlide[] = [
@@ -319,11 +334,11 @@ const homeHeroSlidesKo: readonly HomeHeroSlide[] = [
     eyebrow: homeAccountingHero.badge,
     headline: homeAccountingHero.headline,
     lead: firstLeadLine(homeAccountingHero.lead),
-    imageSrc: "/team/ca-kashul-sharma.png?v=20260925",
+    imageSrc: "/team/ca-kashul-sharma.png?v=20261108c",
     imageAlt: "카슐 샤르마 / 공인회계사",
     imageCaption: "카슐 샤르마 / 공인회계사",
-    imageWidth: 759,
-    imageHeight: 826,
+    imageWidth: 744,
+    imageHeight: 819,
   },
   {
     id: "investment",
@@ -351,11 +366,11 @@ const homeHeroSlidesEn: readonly HomeHeroSlide[] = [
     eyebrow: homeAccountingHeroEn.badge,
     headline: homeAccountingHeroEn.headline,
     lead: firstLeadLine(homeAccountingHeroEn.lead),
-    imageSrc: "/team/ca-kashul-sharma.png?v=20260925",
+    imageSrc: "/team/ca-kashul-sharma.png?v=20261108c",
     imageAlt: "Kashul Sharma / Chartered Accountant",
     imageCaption: "Kashul Sharma / Chartered Accountant",
-    imageWidth: 759,
-    imageHeight: 826,
+    imageWidth: 744,
+    imageHeight: 819,
   },
   {
     id: "investment",
@@ -383,11 +398,11 @@ const homeHeroSlidesZh: readonly HomeHeroSlide[] = [
     eyebrow: homeAccountingHeroZh.badge,
     headline: homeAccountingHeroZh.headline,
     lead: firstLeadLine(homeAccountingHeroZh.lead),
-    imageSrc: "/team/ca-kashul-sharma.png?v=20260925",
+    imageSrc: "/team/ca-kashul-sharma.png?v=20261108c",
     imageAlt: "Kashul Sharma / 特许会计师",
     imageCaption: "Kashul Sharma / 特许会计师",
-    imageWidth: 759,
-    imageHeight: 826,
+    imageWidth: 744,
+    imageHeight: 819,
   },
   {
     id: "investment",
@@ -442,7 +457,7 @@ export function simpleHeroCtas(locale: SiteLocale) {
   }
   if (locale !== "en") {
     return {
-      services: "회계·세무 라인업",
+      services: "회계·세무 서비스",
       pdf: "회사 프로필 PDF",
       contact: "문의하기",
       about: "회사 소개",
@@ -483,9 +498,9 @@ export function contentPreviewsCopy(locale: SiteLocale) {
       noticeEmpty: "등록된 공지가 없습니다.",
       pinned: "고정",
       calendarKicker: "Compliance",
-      calendarTitle: "신고준수 달력",
+      calendarTitle: "주요 신고·납부 일정",
       calendarLead:
-        "원천징수세·부가가치세·전문세·종업원 보험·대외상업차입·선급세·주주회의·공휴일 등 주요 신고·준수 일정을 한눈에 확인합니다.",
+        "원천징수세·부가가치세·전문세·종업원 보험·대외상업차입·선급세·주주회의·공휴일 등 주요 신고·납부 일정을 한눈에 확인합니다.",
       calendarGuideCta: "월·분기·연 체크리스트 가이드 →",
     };
   }

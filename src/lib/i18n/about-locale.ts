@@ -80,13 +80,13 @@ export const milestonesEn = [
     phase: "Network",
     title: "Group & partner ecosystem",
     description:
-      "Strengthened delivery with Wilmat (premium entrance matting) in India, Lotus Korean Hotel, and export/engineering affiliates (Neocle, Seda)—from consulting through logistics and accommodation.",
+      "Strengthened delivery with Lotus Korean Hotel and export/engineering affiliates (Neocle, Seda)—from consulting through logistics and accommodation.",
   },
   {
     phase: "Today",
     title: "Nationwide consulting & operations",
     description:
-      "Supports incorporation, non-stop operations and investment reviews across India including Bangalore, Chennai and Delhi.",
+      "Supports incorporation, integrated entity operations and investment reviews across India including Bangalore, Chennai and Delhi.",
   },
 ] as const;
 
@@ -95,7 +95,7 @@ export const overviewEn = {
   paragraphs: [
     `${company.shortName} is an execution-led partner for India entities, centered on accounting, tax and compliance.`,
     `Monthly, quarterly and annual bookkeeping, GST, TDS, corporate tax and FDI filings, audit and transfer-pricing responses are delivered by a resident CPA-led team in Bangalore. Accounting and tax are led on a day-to-day basis by Vice President Ha Heon-beom (Korean CPA) and Kashul Sharma (Indian CA), aligning IFRS with India regulatory practice.`,
-    `Company formation, licensing, HR, import/export and expatriate support, plus Wilmat entrance-mat supply and Lotus Korean Hotel, are coordinated with group brands so accounting data and operations stay connected. Headquartered at ${company.address}, we integrate incorporation, accounting, tax, licensing and HR in one organization.`,
+    `Company formation, licensing, HR, import/export and expatriate support, plus Lotus Korean Hotel and related group brands, are coordinated so accounting data and operations stay connected. Headquartered at ${company.address}, we integrate incorporation, accounting, tax, licensing and HR in one organization.`,
   ] as const,
 } as const;
 
@@ -136,7 +136,7 @@ export const milestonesZh = [
     phase: "网络",
     title: "集团与合作伙伴生态",
     description:
-      "与 Wilmat（高端入口地垫）、Lotus Korean Hotel 及进出口/工程关联企业（Neocle、Seda）等协同交付，从咨询到物流与住宿形成闭环。",
+      "与 Lotus Korean Hotel 及进出口/工程关联企业（Neocle、Seda）等协同交付，从咨询到物流与住宿形成闭环。",
   },
   {
     phase: "今天",
@@ -151,7 +151,7 @@ export const overviewZh = {
   paragraphs: [
     `${company.shortName} 是面向印度实体的执行型合作伙伴，以会计、税务与合规为核心。`,
     `由常驻班加罗尔的注册会计师团队负责月度、季度与年度账务、GST、TDS、法人税与外商投资申报、审计及转让定价应对。会计与税务日常工作由副总裁河宪范（韩国注册会计师）与 Kashul Sharma（印度特许会计师）牵头，在 IFRS 与印度监管实践之间对齐。`,
-    `公司设立、许可、人力、进出口与外籍支持，以及 Wilmat 入口地垫与 Lotus Korean Hotel 等业务，与集团品牌协同衔接，使会计数据与运营保持一致。总部位于 ${company.address}，将设立、会计、税务、许可与人力整合在同一组织内。`,
+    `公司设立、许可、人力、进出口与外籍支持，以及 Lotus Korean Hotel 等集团品牌业务协同衔接，使会计数据与运营保持一致。总部位于 ${company.address}，将设立、会计、税务、许可与人力整合在同一组织内。`,
   ] as const,
 } as const;
 
@@ -204,12 +204,11 @@ const aboutPageEn: AboutPageI18n = {
   pageDescription: `${company.legalName} (${company.shortName}) is a one-stop business partner for India incorporation, accounting, tax and operations—with accountable execution on the ground.`,
   historyEyebrow: "History",
   historyTitle: "Company history",
-  historySubtitle:
-    "The timeline below reflects what administrators save under “Company history”. Wording can be aligned with official external materials when updated.",
+  historySubtitle: "Key milestones in MSV’s founding and growth.",
   milestonesEyebrow: "Milestones",
   milestonesTitle: "Milestones",
   milestonesSubtitle:
-    "Key growth phases. Specific dates can be synchronized with official publications and updated in site content when needed.",
+    "We have expanded our professional teams and service coverage to support clients’ India businesses.",
   divisionsEyebrow: "Divisions",
   divisionsTitle: "Business divisions",
   divisionsSubtitle: `Major operating areas led directly by ${company.shortName}.`,
@@ -228,10 +227,10 @@ const aboutPageZh: AboutPageI18n = {
   pageDescription: `${company.legalName}（${company.shortName}）是面向印度公司设立、会计、税务与运营的一站式商业伙伴，并在现场承担可问责的执行。`,
   historyEyebrow: "沿革",
   historyTitle: "公司沿革",
-  historySubtitle: "以下时间线反映管理员在「公司沿革」中保存的内容。措辞可与对外正式资料对齐后更新。",
+  historySubtitle: "以下为 MSV 的主要设立与成长历程。",
   milestonesEyebrow: "里程碑",
   milestonesTitle: "里程碑",
-  milestonesSubtitle: "主要成长阶段。具体日期可与官方出版物同步，并在站点内容中按需更新。",
+  milestonesSubtitle: "我们持续扩展专业组织与服务领域，支持客户的印度业务。",
   divisionsEyebrow: "事业部",
   divisionsTitle: "业务板块",
   divisionsSubtitle: `${company.shortName} 直接运营的主要业务领域。`,

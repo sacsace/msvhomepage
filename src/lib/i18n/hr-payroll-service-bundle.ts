@@ -147,7 +147,7 @@ export const hrPayroll: GuideBundle = {
       { href: "/services/guide-india-accounting", label: "인도 회계 가이드" },
       { href: "/services/guide-india-tax", label: "인도 세무 가이드" },
       { href: "/services/personal-income-tax-calculator", label: "급여 TDS 계산기" },
-      { href: "/services/compliance-calendar", label: "신고준수 달력" },
+      { href: "/services/compliance-calendar", label: "주요 신고·납부 일정" },
       { href: "/services/guide-hr-labour", label: "HR·노무 가이드" },
       { href: "/services/recruitment-support", label: "채용지원" },
       { href: "/services/contracts-legal", label: "계약·법률 문서" },

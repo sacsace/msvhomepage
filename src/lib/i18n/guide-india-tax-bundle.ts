@@ -163,7 +163,7 @@ export const guideIndiaTax: GuideBundle = {
       { href: "/services/hr-payroll", label: "HR·Payroll 서비스" },
       { href: "/services/personal-income-tax-calculator", label: "급여 TDS 계산기" },
       { href: "/services/india-accounting-glossary", label: "지식 베이스" },
-      { href: "/services/compliance-calendar", label: "신고준수 달력" },
+      { href: "/services/compliance-calendar", label: "주요 신고·납부 일정" },
     ],
     closingNote:
       "인도 세무 운영은 단순 신고보다 GST·회계·은행·수출입·본사 정책이 함께 연결되는 운영 영역이며, 초기 거래 구조와 내부 대사 체계에 따라 이후 리스크 수준과 운영 효율이 크게 달라질 수 있습니다.",

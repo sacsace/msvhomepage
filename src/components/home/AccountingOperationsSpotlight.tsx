@@ -1,5 +1,5 @@
 import { HomeSpotlightPanel } from "@/components/home/HomeSpotlightPanel";
-import { homeTypo } from "@/lib/home-typography";
+import { MagazineSectionFrame } from "@/components/home/MagazineSectionFrame";
 import {
   accountingOperationsSpotlightEn,
   accountingOperationsSpotlightZh,
@@ -24,21 +24,20 @@ export function AccountingOperationsSpotlight({ locale }: Props) {
   const ctas = spotlightCtas(locale);
 
   return (
-    <section
-      className="bg-[#f7f8fa] pb-8 sm:pb-10"
-      aria-labelledby="accounting-operations-heading"
+    <MagazineSectionFrame
+      index="04"
+      verticalLabel="Accounting"
+      className="border-t border-msv-ink/10 bg-[#f7f7f7]"
     >
-      <div className={`mx-auto max-w-6xl ${homeTypo.pageInset}`}>
-        <HomeSpotlightPanel
-          headingId="accounting-operations-heading"
-          eyebrow={eyebrow}
-          title={title}
-          paragraphs={paragraphs}
-          highlights={highlights}
-          ctaHref={withLocalePrefix("/services", locale)}
-          ctaLabel={ctas.accounting}
-        />
-      </div>
-    </section>
+      <HomeSpotlightPanel
+        headingId="accounting-operations-heading"
+        eyebrow={eyebrow}
+        title={title}
+        paragraphs={paragraphs}
+        highlights={highlights}
+        ctaHref={withLocalePrefix("/services", locale)}
+        ctaLabel={ctas.accounting}
+      />
+    </MagazineSectionFrame>
   );
 }

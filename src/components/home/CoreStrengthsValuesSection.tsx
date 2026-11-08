@@ -1,6 +1,6 @@
+import { MagazineSectionFrame } from "@/components/home/MagazineSectionFrame";
 import { NumberedHighlightCard } from "@/components/home/NumberedHighlightCard";
 import { SectionTitle } from "@/components/SectionTitle";
-import { homeTypo } from "@/lib/home-typography";
 import { coreStrengthsSectionTitles } from "@/lib/i18n/public-home";
 import type { SiteLocale } from "@/lib/site-locale";
 
@@ -10,14 +10,14 @@ type Props = {
   locale: SiteLocale;
 };
 
-const itemGrid = "mt-8 grid list-none gap-4 p-0 sm:grid-cols-2 sm:gap-5";
+const itemGrid = "mt-6 grid list-none gap-x-12 gap-y-0 border-b border-msv-ink/15 p-0 sm:grid-cols-2";
 
 export function CoreStrengthsValuesSection({ strengths, values, locale }: Props) {
   const t = coreStrengthsSectionTitles(locale);
 
   return (
-    <section className="bg-[#f7f8fa] py-16 sm:py-20">
-      <div className={`mx-auto max-w-6xl space-y-10 sm:space-y-12 ${homeTypo.pageInset}`}>
+    <MagazineSectionFrame index="03" verticalLabel="Practice" className="border-t border-msv-ink/10">
+      <div className="space-y-20">
         <div>
           <SectionTitle
             id="home-strengths-heading"
@@ -58,6 +58,6 @@ export function CoreStrengthsValuesSection({ strengths, values, locale }: Props)
           </ul>
         </div>
       </div>
-    </section>
+    </MagazineSectionFrame>
   );
 }

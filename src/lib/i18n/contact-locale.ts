@@ -9,6 +9,7 @@ export const INQUIRY_TYPE_VALUES = [
   "visa_frro",
   "import_export_iec",
   "groupware_mvs",
+  "development",
   "other",
 ] as const;
 
@@ -72,6 +73,7 @@ const ko: ContactFormStrings = {
     { value: "visa_frro", label: "비자/FRRO" },
     { value: "import_export_iec", label: "수출입/IEC" },
     { value: "groupware_mvs", label: "업무 통합 시스템(MVS)" },
+    { value: "development", label: "개발 업무" },
     { value: "other", label: "기타" },
   ],
   placeholderSubject: "예: 인도 법인 설립 문의",
@@ -110,6 +112,7 @@ const en: ContactFormStrings = {
     { value: "visa_frro", label: "Visa / FRRO" },
     { value: "import_export_iec", label: "Import-export / IEC" },
     { value: "groupware_mvs", label: "Integrated Business System (MVS)" },
+    { value: "development", label: "Development work" },
     { value: "other", label: "Other" },
   ],
   placeholderSubject: "e.g. India incorporation inquiry",
@@ -148,6 +151,7 @@ const zh: ContactFormStrings = {
     { value: "visa_frro", label: "签证/FRRO" },
     { value: "import_export_iec", label: "进出口/IEC" },
     { value: "groupware_mvs", label: "业务集成系统（MVS）" },
+    { value: "development", label: "开发业务" },
     { value: "other", label: "其他" },
   ],
   placeholderSubject: "例如：印度公司设立咨询",

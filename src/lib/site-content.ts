@@ -32,7 +32,7 @@ export const investmentRemittanceSpotlight = {
   eyebrow: "자본·송금 관련 서비스",
   title: "해외 투자 / 송금과 신고",
   paragraphs: [
-    "인도 법인 설립·운영 과정에서는 외국인 투자(FDI) 규정, 자본금 유치·증자, 주주 구조 변경, 비거주자 송금 시 세무·환율 신고를 동시에 맞춰야 합니다.",
+    "인도 법인 설립·운영 과정에서는 외국인 투자(FDI) 규정, 자본금 유치·증자, 주주 구조 변경, 비거주자 송금 시 세무·외환 관련 신고를 동시에 맞춰야 합니다.",
     "MSV는 법인 컨설팅·회계·세무를 한 조직에서 다루며, 방갈로르 현장에서 서류·은행·세무 실행까지 일관되게 지원합니다. 아래는 주요 수행 업무 항목입니다.",
   ] as const,
   highlights: [
@@ -86,13 +86,6 @@ export const businessUnits = [
     variant: "navy" as const,
   },
   {
-    abbr: "WM",
-    title: "Wilmat",
-    subtitle: "입구 매트 · 매트팅",
-    href: "https://www.wilmat.in",
-    variant: "teal" as const,
-  },
-  {
     abbr: "LKH",
     title: "Lotus Korean Hotel",
     subtitle: "호텔 · 숙박",
@@ -102,47 +95,52 @@ export const businessUnits = [
 ] as const;
 
 /** 그룹사 로고 PNG를 교체했는데도 예전 이미지가 보이면 숫자만 올려 캐시를 끊습니다. */
-const GROUP_LOGO_VER = "?v=3";
+const GROUP_LOGO_VER = "?v=4";
 
 /** 인도 현지 파트너(계열·관련 법인) — `/group`, `/group/[slug]` */
 export const groupCompanies = [
   /** 그룹사 카드·상세 문구는 `@/lib/i18n/group-pages-locale`과 동기화할 것 */
   {
-    slug: "jw-industrial-tech-service",
-    menuLabel: "JW Industrial Tech Service",
-    legalName: "JW Industrial Tech Service Private Limited",
-    role: "도장·공장 설비 설치 및 엔지니어링",
-    logoSrc: `/group/jw-industrial-tech-service/jwits-logo.png${GROUP_LOGO_VER}`,
+    slug: "neocle-international",
+    menuLabel: "Neocle International",
+    legalName: "Neocle International Private Limited",
+    role: "원자재 공급·수출입 대행",
+    logoSrc: `/group/neocle-international/neocle-logo.png${GROUP_LOGO_VER}`,
     highlights: [
-      "상용 인력·장비·도비·운송을 포함한 기계·전기 설비 턴키(Turn-key) 설치 작업",
-      "자동차 생산 설비(도장·조립·프레스·바디샵 라인) 기계·전기 설비 설치·이전·개조·수리",
-      "FCS·CPC 컨베이어 및 전착도장(E-coating)·오븐·덕트·배관 등 주요 설비 공사",
-      "제관물·지그(Jig)·고정구(Fixture) 설계 및 제작, 팔레트·트롤리·안전 가드·SS 탱크 제작",
-      "차량 생산 설비 관련 한국산 산업 소모품 공급",
-      "현장 공정 개발·양산 대응 및 엔지니어링 AMC 서비스 제공",
+      "PA66 에어백 원단(코팅·비코팅) 선별·톤백 포장 후 태국·한국 수출",
+      "스크랩(scrap) 한국 수출",
+      "석영·자단(Red Sandalwood) 구매·공급 상담(허가·서류 확인 후 거래)",
+      "인도 수입·해외 수출 대행 및 무역 서류·인코텀즈·운송 조율",
+      "타밀나두 파파람바캄 창고(약 836㎡) 보관·선별·출고, 벵갈루루 사무실",
     ],
-    intro: `JWITS (JW Industrial Tech Service Private Limited)는 인도에서 자동차 생산 설비를 중심으로 기계·전기 설비의 설치, 이전, 개조 및 수리 업무를 수행하고 있습니다.
+    intro: `Neocle International Private Limited는 인도 타밀나두주 파파람바캄에 약 836㎡ 규모 창고를, 카르나타카주 벵갈루루에 사무실을 두고 원자재 공급과 수출입 대행을 수행하는 법인입니다.
 
-주요 수행 분야는 도장(Paint Shop), 조립(Assembly), 프레스(Press), 바디샵(Body Shop) 설비를 비롯하여 FCS·CPC 컨베이어, 도장 라인 컨베이어, 워크스테이션, 오븐, 덕트 및 배관 설비 등의 설치 작업입니다.
+코팅·비코팅 PA66 에어백 원단을 색상·규격별로 선별해 톤백으로 포장한 뒤 태국과 한국으로 수출하며, 스크랩은 한국으로 공급합니다. 석영과 자단(Red Sandalwood)은 구매를 희망하는 기업과 공급 조건을 협의하며, 자단은 관련 허가와 필수 서류가 확인된 물량에 한해 거래를 진행합니다.
 
-또한 상용 인력, 장비, 도비 등 운송 업무부터 기계 하역, 설치까지 턴키(Turn-key) 방식으로 인도 전역 대응이 가능하며, 2008년부터 약 20년간 다양한 설치 실적을 보유하고 있습니다.
+상업송장·포장명세서·선하증권·원산지증명서 등 무역 서류 준비, 신용장·거래 조건 검토, 해상·항공·내륙 운송 조율까지 문의부터 화물 인도·정산까지 이어지는 수출입 실무를 지원합니다. MSV의 법인 설립·운영 고객과도 연계해 견적·선적·문서·현지 창고 실행력을 보강합니다.
 
-이 외에도 제관물, 지그(Jig), 고정구(Fixture) 설계 및 제작, 팔레트·트롤리·안전 가드·도어·그레이팅·스테인리스 탱크 제작, 차량 생산 설비용 한국산 산업 소모품 공급, 현장 공정 개발 및 양산 대응, 엔지니어링 AMC 서비스 등을 제공하고 있습니다.
-
-페이지 상단의 PDF는 2025년 8월 기준 영문 비즈니스 소개 자료입니다. 실적·조직·거점·주요 고객사 등이 수록되어 있으니, 대외 공유 시에는 최신본과 맞춰 주세요.`,
-    website: "https://www.jwits.in",
-    profilePdf: "/jwits-business-intro-20250815.pdf",
+공식 웹사이트(www.neocle.in)에서 품목·거래 안내와 문의 양식을 확인할 수 있습니다.`,
+    website: "https://www.neocle.in",
     location: {
-      /**
-       * 공식 Google Maps 핀(단축 URL)이 확보되면 Neocle/Seda/Lotus와 동일하게 좌표 embed로 교체 권장.
-       * 현재는 법인명 검색 기준 지도·외부 링크.
-       */
-      embedSrc: `https://maps.google.com/maps?q=${encodeURIComponent(
-        "JW Industrial Tech Service Private Limited, Karnataka, India",
-      )}&z=9&output=embed`,
-      mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-        "JW Industrial Tech Service Private Limited",
-      )}`,
+      /** Google Maps 단축 링크가 가리키는 좌표(13.0498988, 79.9621672) 기준 embed — 창고(타밀나두) */
+      embedSrc: "https://www.google.com/maps?q=13.0498988%2C79.9621672&z=16&output=embed",
+      mapUrl: "https://maps.app.goo.gl/2Mei8zZ8QUSZmGwF7",
+      addressLine:
+        "Warehouse: Papparambakkam, Thiruvallur, Tamil Nadu 602123 · Office: 24/1, Ferns City Road, Doddanekundi, Bengaluru 560037",
+    },
+  },
+  {
+    slug: "seda-engineering-india",
+    menuLabel: "Seda Engineering India",
+    legalName: "Seda Engineering India Private Limited",
+    role: "엔지니어링 회사",
+    logoSrc: `/group/seda-engineering-india/deers-seda-logo.png${GROUP_LOGO_VER}`,
+    highlights: ["산업용 장비·압축기 엔지니어링", "플랜트·공장 설비 도입 및 유지보수"],
+    intro: `Seda Engineering India Private Limited는 산업용 장비·압축기 등 엔지니어링 분야에서 제조·플랜트 현장의 설비 도입·유지보수와 관련된 기술·공급 체계를 바탕으로, 인도 내 공장·설비 프로젝트에 실질적인 엔지니어링 파트너로 기여합니다.`,
+    location: {
+      /** Google Maps 단축 링크가 가리키는 좌표(13.9534786, 77.6610694) 기준 embed */
+      embedSrc: "https://www.google.com/maps?q=13.9534786%2C77.6610694&z=16&output=embed",
+      mapUrl: "https://maps.app.goo.gl/3M3sdACigqNEKqbZ6",
     },
   },
   {
@@ -161,76 +159,6 @@ MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등�
       embedSrc: "https://www.google.com/maps?q=12.9785591%2C77.6974959&z=16&output=embed",
       mapUrl: "https://maps.app.goo.gl/JueFi9TdfD7cHec2A",
     },
-  },
-  {
-    slug: "neocle-international",
-    menuLabel: "Neocle International",
-    legalName: "Neocle International Private Limited",
-    role: "수출입 전문회사",
-    logoSrc: `/group/neocle-international/neocle-logo.png${GROUP_LOGO_VER}`,
-    highlights: ["스크랩(scrap) 수출", "수출입 대행", "창고 운영"],
-    intro: `Neocle International Private Limited는 인도 현지에서 수출입을 전문으로 하는 법인으로, 스크랩(scrap) 수출·수입 대행·창고 운영 등을 통해 물류·통관 실행력을 제공합니다.
-
-MSV의 법인 설립·운영 고객과 연계해, 견적·선적·문서·현지 창고까지 실무 단에서 이어지는 수출입 지원을 강화하는 역할을 합니다.`,
-    location: {
-      /** Google Maps 단축 링크가 가리키는 좌표(13.0498988, 79.9621672) 기준 embed */
-      embedSrc: "https://www.google.com/maps?q=13.0498988%2C79.9621672&z=16&output=embed",
-      mapUrl: "https://maps.app.goo.gl/2Mei8zZ8QUSZmGwF7",
-    },
-  },
-  {
-    slug: "seda-engineering-india",
-    menuLabel: "Seda Engineering India",
-    legalName: "Seda Engineering India Private Limited",
-    role: "엔지니어링 회사",
-    logoSrc: `/group/seda-engineering-india/deers-seda-logo.png${GROUP_LOGO_VER}`,
-    highlights: ["산업용 장비·압축기 엔지니어링", "플랜트·공장 설비 도입 및 유지보수"],
-    intro: `Seda Engineering India Private Limited는 산업용 장비·압축기 등 엔지니어링 분야에서 제조·플랜트 현장의 설비 도입·유지보수와 관련된 기술·공급 체계를 바탕으로, 인도 내 공장·설비 프로젝트에 실질적인 엔지니어링 파트너로 기여합니다.`,
-    location: {
-      /** Google Maps 단축 링크가 가리키는 좌표(13.9534786, 77.6610694) 기준 embed */
-      embedSrc: "https://www.google.com/maps?q=13.9534786%2C77.6610694&z=16&output=embed",
-      mapUrl: "https://maps.app.goo.gl/3M3sdACigqNEKqbZ6",
-    },
-  },
-  {
-    slug: "wilmat",
-    menuLabel: "Wilmat",
-    legalName: "Wilmat",
-    role: "프리미엄 입구 매트·매트팅 시스템",
-    logoSrc: `/group/wilmat/wilmat-logo.png${GROUP_LOGO_VER}`,
-    highlights: [
-      "ANAB·IAF·TRA 및 KS Q ISO 9001:2015 품질경영",
-      "매립(Recessed)·노출(Surface)형 등 맞춤 입구 솔루션",
-      "먼지 유입 차단, 미끄럼·넘어짐 방지, 외관·청소 비용 절감",
-      "알루미늄 베이스·나일론 카펫·EPDM 등 내구·내후성",
-      "카세트형으로 부분 교체·롤업 청소 용이",
-      "인도 현지 공급 및 A/S",
-    ],
-    website: "https://www.wilmat.in",
-    majorCustomers: [
-      "Kempegowda International Airport",
-      "Embassy Group",
-      "DLF Mall",
-      "Sheraton Grand Hotel",
-      "Hilton Hotel Convention Center",
-      "Lido Mall, MG Road",
-      "Kia Motors India",
-      "Brigade Group",
-      "Hyatt",
-      "Kia Motors Showroom",
-      "Marriott Hotel",
-      "Prestige Group",
-    ] as const,
-    intro: `Wilmat은 건물 입구용 프리미엄 매트팅(Entrance Matting) 시스템입니다. 한국 Ecosys의 연구·개발을 바탕으로 하며, 신발에 붙은 먼지를 걸러 실내를 깨끗이 유지하고 미끄럼·넘어짐 위험을 줄입니다. 대리석·타일 등 마감과 조화를 이루는 색·패턴을 선택할 수 있습니다.
-
-국제 인증(예: ANAB, ANSI National Accreditation Board)과 IAF·TRA, KS Q ISO 9001:2015에 맞는 품질경영을 갖추었습니다. 친환경 소재와 긴 수명으로 건물 운영의 지속가능성에도 도움이 됩니다.
-
-알루미늄 프로파일과 나일론 카펫·EPDM 등으로 내구·내후성을 확보했고, 재활용 가능한 구성 요소를 사용합니다. 카세트형이라 손상된 부분만 교체할 수 있으며, 매트를 말아 올리면 프레임 아래에 모인 먼지를 비우기 쉽습니다. 내·외부와 중간 출입 구간에 맞게 배치할 수 있고, 젖은 신발에도 물이 빠지도록 설계되어 외관과 사용감을 오래 유지합니다.
-
-쇼핑몰·호텔·병원·학교·조립 공장 등 통행량이 많은 출입구에 적합합니다. 인도에서 제품을 공급하며 A/S를 지원합니다.
-
-페이지 상단의 PDF 링크는 2022년 12월 기준 영문 제품 카탈로그입니다. 모델 사양·성능 검증·시공 절차·타사 비교·설치 사례가 수록되어 있습니다. 최신 사양은 wilmat.in 또는 담당자에게 문의해 주세요.`,
-    profilePdf: "/wilmat-catalog-20221219.pdf",
   },
 ] satisfies readonly GroupCompany[];
 
@@ -273,13 +201,13 @@ export const milestones = [
     phase: "연계",
     title: "그룹·협력 네트워크 강화",
     description:
-      "Wilmat(프리미엄 입구 매트) 인도 현지 공급·A/S, Lotus Korean Hotel, 수출입·엔지니어링(Neocle·Seda) 등 그룹·브랜드와 연계해, 컨설팅부터 물류·숙박까지 고객 요구에 맞춘 실행력을 보강했습니다.",
+      "Lotus Korean Hotel, 수출입·엔지니어링(Neocle·Seda) 등 그룹·브랜드와 연계해, 컨설팅부터 물류·숙박까지 고객 요구에 맞춘 실행력을 보강했습니다.",
   },
   {
     phase: "지금",
     title: "전국 단위 컨설팅·운영 지원",
     description:
-      "방갈로르·첸나이·델리 등 인도 전역에서 법인 설립, 논스톱 운영, 투자 검토까지 통합 지원을 이어가고 있습니다.",
+      "방갈로르·첸나이·델리 등 인도 전역에서 법인 설립, 법인 운영 통합 지원, 투자 검토까지 이어가고 있습니다.",
   },
 ] as const;
 
@@ -287,7 +215,7 @@ export const milestones = [
 export const companyHistory = [
   { when: "2018년", what: "Buza Food Private Limited, Co-Founder" },
   { when: "2018년", what: "Daily Sushi 오픈" },
-  { when: "2018년", what: "Lotus Korean Hotel" },
+  { when: "2018년", what: "Lotus Korean Hotel 오픈" },
   { when: "2018년 9월", what: "법인 회계 서비스" },
   { when: "2019년", what: "법인 컨설팅" },
   { when: "2020년 2월", what: "Minsub Ventures Private Limited 설립" },
@@ -318,13 +246,13 @@ export const overview = {
   paragraphs: [
     `${company.shortName}는 인도 법인의 회계·세무·컴플라이언스를 축으로 하는 실행형 파트너입니다.`,
     `월·분기·연간 기장과 GST·TDS·법인세·FDI 신고, 감사·TP 대응까지 상근 CPA 체계로 방갈로르에서 직접 처리합니다. 회계·세무는 한국 공인회계사(CPA) 출신 하헌범 부대표와 인도 공인회계사(CA) 카슐 샤르마가 상근으로 직접 수행하며, IFRS와 인도 현지 규제(GST·TDS 등)를 동시에 맞출 수 있도록 전문적으로 지원합니다.`,
-    `법인 설립·인허가·HR·수출입·주재원 지원과 Wilmat(입구 매트) 현지 공급·A/S, Lotus Korean Hotel 등 확장 서비스는 그룹 브랜드·협력 조직과 연계해 제공하며, 회계 데이터와 운영 실무가 끊기지 않도록 설계합니다. 본사는 ${company.address}에 있으며, 인도 내 법인 설립·회계·세무·인허가·HR 등 핵심 경영 지원을 한 조직에서 통합적으로 돕습니다.`,
+    `법인 설립·인허가·HR·수출입·주재원 지원과 Lotus Korean Hotel 등 확장 서비스는 그룹 브랜드·협력 조직과 연계해 제공하며, 회계 데이터와 운영 실무가 끊기지 않도록 설계합니다. 본사는 ${company.address}에 있으며, 인도 내 법인 설립·회계·세무·인허가·HR 등 핵심 경영 지원을 한 조직에서 통합적으로 돕습니다.`,
   ] as const,
 } as const;
 
 /** 홈 「고객사」·통계 리드 — 한 문단(한 줄 표시는 뷰포트·CSS에 맡김). 대외 문구와 맞출 것. */
 export const clientsShowcaseLead =
-  "80여 개 이상의 기업에 인도 진출부터 운영·회계·세무·컴플라이언스까지 실무를 통합 지원하고 있으며, 서비스 종료율 7% 이하로 안정적인 파트너십을 유지하고 있습니다.";
+  "2026년 기준 80개 이상의 기업에 인도 진출부터 운영·회계·세무·컴플라이언스까지 실무를 통합 지원하고 있으며, 고객사와 장기적인 협력 관계를 이어가고 있습니다.";
 
 /** 팀원 소개 보조 문구 — `/about/team` 제목 블록 (대외 문구·PDF와 맞출 것) */
 export const teamIntro = {
@@ -341,29 +269,30 @@ export const teamGreetingLead =
 export const WISC_PRODUCT_SITE_URL = "https://wisc.mvsystem.in" as const;
 
 /** Software 상위 페이지 (`/software`) */
+/** @deprecated 본문·메타는 `softwareLandingCopy` (`@/lib/i18n/software-landing-locale`) 사용 */
 export const softwareLanding = {
   headerSummary:
-    "회계·세무·현장 실행을 뒷받침하는 소프트웨어 라인과 운영 도구를 소개합니다. 업무 통합 시스템(MVS), 출퇴근 기록(HeresNow), 급여 명세서 이메일 발송, 웹사이트 정보·보안 점검(WISC) 도구를 선택해 주세요.",
+    "회계·세무·현장 실행을 뒷받침하는 업무 관리 시스템과 실무 지원 도구, SI·웹사이트 개발을 소개합니다. 업무 통합 시스템(MVS), 출퇴근 기록(HeresNow), 급여 명세서 이메일, WISC, 맞춤 SI(솔루션·SaaS·CRM), 웹사이트 구축 사례를 확인하세요.",
   cards: [
     {
       href: "/software/mvs",
       title: "업무 통합 시스템 (MVS)",
-      desc: `${company.shortName}이 운영하는 웹 업무 통합 시스템입니다. 인사·근태·급여·전자결재·업무·재고·파트너 등 법인 운영을 한 로그인으로 묶으며, 필요 시 회계·세무 서비스와 연계할 수 있습니다.`,
+      desc: `${company.shortName}가 운영하는 웹 업무 통합 시스템입니다. 인사·근태·급여·전자결재·업무·재고·파트너 등 법인 운영을 하나의 계정으로 통합 관리할 수 있으며, 필요 시 회계·세무 서비스와 연계할 수 있습니다.`,
     },
     {
       href: "/software/herenow",
       title: "출퇴근 기록 시스템 (HeresNow)",
-      desc: "회사(테넌트) 단위로 격리되는 출퇴근·근태 관리 웹앱입니다.",
+      desc: "회사별로 데이터를 분리하여 관리하는 출퇴근·근태 관리 웹앱입니다.",
     },
     {
       href: "/software/payroll-mailer",
       title: "급여 명세서 이메일 발송 시스템",
-      desc: "엑셀 급여표를 업로드해 직원별 HTML 메일과 PDF 명세를 발송합니다. 브라우저·요청 메모리에서만 처리하며 사이트 DB에는 저장하지 않습니다.",
+      desc: "엑셀 급여표를 업로드해 직원별 HTML 메일과 PDF 명세를 발송합니다. 발송 처리 과정에서 사이트 DB에는 급여 원본을 저장하지 않습니다.",
     },
     {
       href: "/software/wisc",
       title: "Website Information & Security Checker",
-      desc: "웹사이트 도메인의 보안·인증·성능을 점검합니다. SSL·헤더·인증 응답(Cookie/Token) 분석, 사이트 간 성능 비교(TTFB·응답 시간)와 JSON보내기를 지원합니다.",
+      desc: "웹사이트 도메인의 보안·인증·성능을 점검합니다. SSL·헤더·인증 응답(Cookie/Token) 분석, 사이트 간 성능 비교(TTFB·응답 시간)와 분석 결과 내보내기(JSON)를 지원합니다.",
     },
   ] as const,
 };
@@ -383,7 +312,7 @@ export const values = [
 export const strengths = [
   "상근 CPA·인도 기장·월·분기·연간 신고 일괄 체계",
   "외주 없는 회계·세무·컴플라이언스 직접 대응",
-  "한국 본사 보고와 인도 법정 마감 동시 맞춤",
+  "한국 본사 보고 일정과 인도 법정 신고 기한을 함께 관리합니다.",
   "한국-인도 간 법·문화 차이에 대한 이해와 조율",
   "다국어 커뮤니케이션",
   "빠른 의사결정과 책임감 있는 대응",
@@ -416,13 +345,13 @@ export const services = [
       "호텔 사업 진출을 위한 매물 실사, 투자 보고서, 사업성 분석, 부동산 중개 및 법률 자문 연계를 제공합니다.",
   },
   {
-    title: "논스톱 운영 지원",
+    title: "법인 운영 통합 지원",
     description:
       "법인 관리, 회계 장부, 본사 보고, ERP 구축·교육 등 설립 이후 운영 단계까지 원스톱으로 지원합니다.",
   },
 ];
 
-/** 회계·세무 라인업 상세 (서비스 페이지). 금액은 표시하지 않습니다. */
+/** 회계·세무 서비스 상세 (서비스 페이지). 금액은 표시하지 않습니다. */
 export type AccountingServiceBlock = {
   eyebrow: string;
   title: string;
@@ -446,9 +375,9 @@ export const accountingServiceBlocks: readonly AccountingServiceBlock[] = [
       "원천징수(TDS) 월별·분기별 신고 및 정산",
       "Advance Tax 계산·신고·납부 스케줄 관리",
       "SFT(금융거래 명세 보고) 대응",
-      "FLA(해외 부채 및 자산 보고) 준비·제출",
+      "FLA(해외 부채 및 자산 보고) 준비·제출(FLAIR 포털)",
       "DPT-3(예금 및 유사 금융거래 보고) 대응",
-      "FDI Reporting (RBI-FIRMS: FC-GPR/FC-TRS/FLA) 및 FEMA 연계 신고",
+      "FDI Reporting (RBI-FIRMS: FC-GPR/FC-TRS) 및 FEMA 연계 신고",
       "자본금 변동·주주 구조 변경 관련 컴플라이언스 관리",
       "PF(연금), ESI(건강보험) 정산·납부",
       "Professional Tax 등록, 주별 신고 주기 관리 및 납부",
@@ -496,7 +425,7 @@ export const indiaComplianceMonthlyRows: readonly IndiaComplianceScheduleRow[] =
   { item: "Professional Tax", schedule: "매월 20일 전 신고·납부(주별 세법 상이)" },
   {
     item: "ECB(대외상업차입)",
-    schedule: "차입 잔액이 있는 경우 익월 7일 이내 ECB-2 등 보고(RBI FIRMS 포털)",
+    schedule: "차입 잔액이 있는 경우 익월 7일 이내 ECB-2 등 보고(지정 AD Category-I 은행 경유)",
   },
 ];
 
@@ -529,18 +458,28 @@ export const indiaComplianceAnnualRows: readonly IndiaComplianceScheduleRow[] = 
   { item: "DIR-3 KYC", schedule: "9월 30일까지(미이행 시 DIN 비활성화 가능)" },
   { item: "Professional Tax 연간 신고", schedule: "4월 1일~4월 30일(주별 상이)" },
   { item: "SFT", schedule: "5월 1일~5월 30일(해당 시)" },
-  { item: "FLA", schedule: "7월 1일~7월 20일(해당 시)" },
-  { item: "재무제표 감사", schedule: "9월 30일 이전(협의된 일정)" },
-  { item: "ITR(법인소득세 신고)", schedule: "9월 30일 이전(일반적 기한, 사례별 연장·조정 가능)" },
-  { item: "ROC AOC-4 / MGT-7(또는 MGT-7A)", schedule: "10월 30일 이전(일반적 기한)" },
-  { item: "TP Audit Report", schedule: "11월 30일 이전(국제거래·해당 법인에 적용 시)" },
+  { item: "FLA", schedule: "원칙적으로 매년 7월 15일까지 제출(FLAIR 포털, 해당 시)" },
+  { item: "재무제표 감사", schedule: "해당 회계연도·감사 계약에 따른 일정(일반적 참고: 9월 30일 이전)" },
+  {
+    item: "ITR(법인소득세 신고)",
+    schedule: "감사·적용 유형·연도별 고시에 따라 상이(일반적 참고: 9월 30일 이전, 연장·조정 가능)",
+  },
+  {
+    item: "ROC AOC-4 / MGT-7(또는 MGT-7A)",
+    schedule: "AGM·적용 양식·연도별 고시에 따라 상이(일반적 참고: 10월 30일 이전)",
+  },
+  {
+    item: "TP Audit Report",
+    schedule: "국제거래·적용 법인·연도별 고시에 따라 상이(일반적 참고: 11월 30일 이전)",
+  },
   {
     item: "GSTR-9(연간 GST)",
     schedule: "연매출 2 Cr 초과 시 의무, 이하 시 선택(연도·고시에 따름)",
   },
   {
-    item: "GSTR-9C(GST 조정·감사)",
-    schedule: "현재 일반적으로 선택(Optional), 정부 고시에 따라 변동 가능",
+    item: "GSTR-9C(GST 조정명세서)",
+    schedule:
+      "적용 제외 대상을 제외하고, 회계연도 총매출이 ₹5 crore를 초과하는 등록사업자는 자체 인증 조정명세서 제출 대상(고시·면제 요건 확인)",
   },
 ];
 
@@ -559,7 +498,8 @@ export const indiaCompliancePortalRows: readonly IndiaCompliancePortalRow[] = [
   },
   { label: "Traces(TDS)", href: "https://www.tdscpc.gov.in", note: "TDS·Form 등" },
   { label: "FRRO", href: "https://indianfrro.gov.in", note: "비자·체류 등" },
-  { label: "FIRMS(RBI)", href: "https://firms.rbi.org.in", note: "FDI·ECB 등 외환 보고" },
+  { label: "FIRMS(RBI)", href: "https://firms.rbi.org.in", note: "FDI 등 외국인투자 보고" },
+  { label: "FLAIR(RBI)", href: "https://flair.rbi.org.in", note: "FLA(해외 부채·자산) 보고" },
   { label: "E-Way Bill", href: "https://ewaybillgst.gov.in", note: "물류 이동" },
   { label: "Ice Gate", href: "https://www.icegate.gov.in", note: "관세·세금 납부" },
   { label: "MCA", href: "https://www.mca.gov.in", note: "기업부·ROC 등" },
@@ -589,20 +529,16 @@ export const leadership: LeadershipMember[] = [
     email: "ca@msventures.in",
     summary:
       "인도 회계·세무·기업 규제 전반과 IFRS에 대한 전문성으로 외국계 기업의 인도 재무·세무를 총괄합니다. 한국 기업의 회계 기준과 인도 정부 요구 간 조율, GST·TDS·컴플라이언스까지 원스톱으로 지원합니다.",
-    photoSrc: "/team/ca-kashul-sharma.png",
+    photoSrc: "/team/ca-kashul-sharma.png?v=20261108c",
   },
 ];
 
 /** 회사 소개 페이지 대표이사 인사말 전문. 대외 PDF와 문구를 맞출 때는 이 상수만 수정하면 됩니다. */
-export const ceoStatementFull = `MSV는 인도 시장에서 활동하는 외국계 기업들에게 단순한 컨설팅을 넘어, 현장에서 실행까지 책임지는 실무형 파트너가 되기 위해 설립되었습니다. 인도는 세계에서 가장 빠르게 성장하는 시장이지만, 복잡한 제도와 언어, 문화, 행정 시스템으로 인해 외국 기업에게는 진입 장벽이 높은 곳입니다.
+export const ceoStatementFull = `MSV는 인도 시장에서 활동하는 외국계 기업에게 단순한 컨설팅을 넘어, 현장에서 실행까지 책임지는 실무형 파트너가 되기 위해 설립되었습니다. 복잡한 제도와 언어·문화·행정 환경 속에서도 의사결정이 지연되지 않도록, 현장에서 직접 수행하는 것을 원칙으로 합니다.
 
-호텔, 제조업, 부동산, 유통 등 다양한 산업의 수십여 개 한국 기업들과 함께하며 설립 → 정착 → 운영 → 확장까지 전 과정의 경험을 축적해왔습니다.
+호텔·제조·부동산·유통 등 다양한 산업의 수십 개 한국 기업과 함께 설립부터 정착·운영·확장까지 경험을 쌓아 왔습니다. MSV의 실무팀이 주요 업무를 직접 수행하며, 전문 자격과 별도 검토가 필요한 업무는 해당 분야 전문가와 협업하여 지원합니다. IFRS와 인도 규제를 아우르는 상근 공인회계사 체계로 투명한 재무 보고와 컴플라이언스를 뒷받침합니다.
 
-저희는 법인 설립부터 회계·세무·수출입·주재원 비자·HR·호텔·부동산·인허가까지 외주 없이 내부 팀이 직접 실행하는 통합 구조를 갖추었습니다. 한국 본사와 인도 현장 사이의 간극을 줄이고, 의사결정이 지연되지 않도록 현장에서 책임지는 것을 원칙으로 합니다.
-
-IFRS와 인도 규제를 아우르는 상근 공인회계사 체계로 투명한 재무 보고와 컴플라이언스를 지원하며, 초기 진입부터 논스톱 운영까지 고객의 성장 단계에 맞춰 동행합니다.
-
-앞으로도 인도에서 비즈니스를 준비하시는 모든 분께 검증된 현장 경험과 실행력을 바탕으로 든든한 파트너가 되겠습니다. 감사합니다.`;
+앞으로도 인도에서 비즈니스를 준비하시는 분들께 검증된 현장 경험과 실행력을 바탕으로 든든한 파트너가 되겠습니다. 감사합니다.`;
 
 /** 회사 소개 페이지 부대표(하헌범) 소개 본문. 대외 자료와 문구를 맞출 때는 이 상수만 수정하면 됩니다. */
 export const vpHaStatementFull = `하헌범 부대표는 공인회계사(CPA) 자격을 보유한 재무 및 경영 전문인으로, 현재 MSV의 한·인도 간 전략적 협력 및 고객 커뮤니케이션을 총괄하고 있습니다.

@@ -1,16 +1,12 @@
 import type { SiteLocale } from "@/lib/site-locale";
 import { pickLocale } from "@/lib/site-locale";
 import { company } from "@/lib/site-content";
-import { jwitsMajorCustomerDisplayRows } from "@/lib/jwits-major-customers";
-import { wilmatMajorCustomerDisplayRows, type WilmatMajorCustomerDisplayRow } from "@/lib/wilmat-major-customers";
 
 /** `groupCompanies` 슬러그와 동일 순서로 유지 */
 export const GROUP_COMPANY_SLUGS = [
-  "jw-industrial-tech-service",
-  "lotus-korean-hotel",
   "neocle-international",
   "seda-engineering-india",
-  "wilmat",
+  "lotus-korean-hotel",
 ] as const;
 
 export type GroupCompanySlug = (typeof GROUP_COMPANY_SLUGS)[number];
@@ -42,7 +38,7 @@ const groupIndexKo: GroupIndexPageCopy = {
   pageDescription: `${company.shortName}가 인도 현지에서 역량을 보완하는 그룹사 법인·브랜드입니다.`,
   sectionPartnersEyebrow: "Partners",
   sectionPartnersTitle: "브랜드 · 법인",
-  sectionPartnersSubtitle: "카드를 선택하면 상세 소개·웹사이트·소개 자료를 확인할 수 있습니다.",
+  sectionPartnersSubtitle: "각 법인을 선택하면 상세 소개·웹사이트·소개 자료를 확인할 수 있습니다.",
   sectionCompanyEyebrow: "Company",
   sectionCompanyTitle: "MSV 소개",
   aboutLeadBefore: "",
@@ -57,7 +53,7 @@ const groupIndexEn: GroupIndexPageCopy = {
   pageDescription: `${company.shortName} works with India-based group companies and brands that complement our capabilities.`,
   sectionPartnersEyebrow: "Partners",
   sectionPartnersTitle: "Brands & entities",
-  sectionPartnersSubtitle: "Select a card for profiles, websites and downloadable materials where available.",
+  sectionPartnersSubtitle: "Open each profile for details, websites and downloadable materials where available.",
   sectionCompanyEyebrow: "Company",
   sectionCompanyTitle: "About MSV",
   aboutLeadBefore: "Visit ",
@@ -72,7 +68,7 @@ const groupIndexZh: GroupIndexPageCopy = {
   pageDescription: `${company.shortName} 在印度本土与集团公司、品牌协同，补足执行能力。`,
   sectionPartnersEyebrow: "Partners",
   sectionPartnersTitle: "品牌 · 法人",
-  sectionPartnersSubtitle: "点击卡片可查看简介、网站及资料下载（如有）。",
+  sectionPartnersSubtitle: "点击各法人可查看简介、网站及资料下载（如有）。",
   sectionCompanyEyebrow: "Company",
   sectionCompanyTitle: "MSV 简介",
   aboutLeadBefore: "在",
@@ -182,55 +178,91 @@ export type GroupCompanyContentCopy = {
   logoAlt: string;
   /** 문자열 목록만(로고 없음) — `majorCustomerRows`가 있으면 우선 */
   majorCustomers?: readonly string[];
-  /** Wilmat: 이름 + 선택적 파비콘 URL */
-  majorCustomerRows?: readonly WilmatMajorCustomerDisplayRow[];
+  /** 이름 + 선택적 로고 URL */
+  majorCustomerRows?: readonly { name: string; logoSrc?: string }[];
 };
 
 const bodies: Record<GroupCompanySlug, { ko: GroupCompanyContentCopy; en: GroupCompanyContentCopy; zh: GroupCompanyContentCopy }> = {
   "neocle-international": {
     ko: {
       metaDescription:
-        "Neocle International Private Limited — 인도 현지 수출입 전문 법인. 스크랩 수출·수입 대행·창고 운영으로 물류·통관 실행력을 제공합니다.",
-      role: "수출입 전문회사",
-      intro: `Neocle International Private Limited는 인도 현지에서 수출입을 전문으로 하는 법인으로, 스크랩(scrap) 수출·수입 대행·창고 운영 등을 통해 물류·통관 실행력을 제공합니다.
+        "Neocle International Private Limited — PA66 에어백 원단·스크랩 수출, 석영·자단 상담, 인도 수출입 대행. www.neocle.in",
+      role: "원자재 공급·수출입 대행",
+      intro: `Neocle International Private Limited는 인도 타밀나두주 파파람바캄에 약 836㎡ 규모 창고를, 카르나타카주 벵갈루루에 사무실을 두고 원자재 공급과 수출입 대행을 수행하는 법인입니다.
 
-MSV의 법인 설립·운영 고객과 연계해, 견적·선적·문서·현지 창고까지 실무 단에서 이어지는 수출입 지원을 강화하는 역할을 합니다.`,
-      highlights: ["스크랩(scrap) 수출", "수출입 대행", "창고 운영"],
+코팅·비코팅 PA66 에어백 원단을 색상·규격별로 선별해 톤백으로 포장한 뒤 태국과 한국으로 수출하며, 스크랩은 한국으로 공급합니다. 석영과 자단(Red Sandalwood)은 구매를 희망하는 기업과 공급 조건을 협의하며, 자단은 관련 허가와 필수 서류가 확인된 물량에 한해 거래를 진행합니다.
+
+상업송장·포장명세서·선하증권·원산지증명서 등 무역 서류 준비, 신용장·거래 조건 검토, 해상·항공·내륙 운송 조율까지 문의부터 화물 인도·정산까지 이어지는 수출입 실무를 지원합니다. MSV의 법인 설립·운영 고객과도 연계해 견적·선적·문서·현지 창고 실행력을 보강합니다.
+
+공식 웹사이트(www.neocle.in)에서 품목·거래 안내와 문의 양식을 확인할 수 있습니다.`,
+      highlights: [
+        "PA66 에어백 원단(코팅·비코팅) 선별·톤백 포장 후 태국·한국 수출",
+        "스크랩(scrap) 한국 수출",
+        "석영·자단(Red Sandalwood) 구매·공급 상담(허가·서류 확인 후 거래)",
+        "인도 수입·해외 수출 대행 및 무역 서류·인코텀즈·운송 조율",
+        "타밀나두 파파람바캄 창고(약 836㎡) 보관·선별·출고, 벵갈루루 사무실",
+      ],
       logoAlt: "Neocle International 로고",
       majorCustomers: [
+        "태국·한국 PA66 에어백 원단 바이어",
+        "한국 스크랩·이차 원료 구매처",
+        "석영·자단 등 원자재 구매 희망 기업",
         "Minsub Ventures 법인 고객(물류·수출입·창고 연계)",
-        "인도·인근 지역 스크랩·자원 수출 거래처",
-        "한국계 및 인도 현지 제조·유통사(수입 대행)",
+        "한국계 및 인도 현지 제조·유통사(수입·수출 대행)",
       ],
     },
     en: {
       metaDescription:
-        "Neocle International Private Limited — India-based import/export company: scrap exports, trade agency, warehousing and customs-ready logistics.",
-      role: "Import & export",
-      intro: `Neocle International Private Limited is an India-based company focused on import and export, delivering logistics and customs execution through scrap exports, import/export agency work and warehouse operations.
+        "Neocle International Private Limited — PA66 airbag fabric & scrap exports, quartz & red sandalwood inquiry, India trade agency. www.neocle.in",
+      role: "Raw materials & trade agency",
+      intro: `Neocle International Private Limited supplies raw materials and provides import/export agency services from India, with an ~836㎡ warehouse in Papparambakkam, Tamil Nadu, and an office in Bengaluru, Karnataka.
 
-It strengthens hands-on export/import support—quotations, shipments, documentation and local warehouses—for MSV clients in company formation and ongoing operations.`,
-      highlights: ["Scrap exports", "Import/export agency", "Warehouse operations"],
+Coated and uncoated PA66 airbag fabrics are sorted by colour and specification, packed in ton bags, and exported to Thailand and Korea. Scrap is supplied to Korea. Quartz and red sandalwood are offered to interested buyers; red sandalwood trades proceed only after permits and required documents are confirmed.
+
+Support covers trade documentation (commercial invoice, packing list, B/L, certificate of origin), LC and Incoterms review, and sea/air/inland logistics—from inquiry through delivery and settlement. The company also backs MSV clients with quotation, shipment, paperwork and warehouse execution.
+
+Visit www.neocle.in for product details and the inquiry form.`,
+      highlights: [
+        "PA66 airbag fabric (coated/uncoated): sort, ton-bag pack, export to Thailand & Korea",
+        "Scrap exports to Korea",
+        "Quartz & red sandalwood supply inquiries (permits/docs required for sandalwood)",
+        "India import & overseas export agency; trade docs, Incoterms & freight coordination",
+        "~836㎡ Tamil Nadu warehouse (storage, sorting, dispatch) and Bengaluru office",
+      ],
       logoAlt: "Neocle International logo",
       majorCustomers: [
+        "PA66 airbag fabric buyers in Thailand and Korea",
+        "Scrap and secondary-material buyers in Korea",
+        "Companies seeking quartz or red sandalwood supply",
         "Minsub Ventures incorporated clients (logistics, trade & warehousing)",
-        "Scrap and secondary-material buyers in India and nearby regions",
-        "Korean and India-based manufacturers and distributors (import agency)",
+        "Korean and India-based manufacturers and distributors (trade agency)",
       ],
     },
     zh: {
       metaDescription:
-        "Neocle International Private Limited — 印度本土进出口法人，提供废料出口、进出口代理、仓储及关务落地执行。",
-      role: "进出口专业公司",
-      intro: `Neocle International Private Limited 为注册于印度的进出口专业法人，通过废料（scrap）出口、进出口代理与仓储运营等，提供物流与关务执行能力。
+        "Neocle International Private Limited — PA66 安全气囊面料与废料出口、石英与紫檀咨询、印度进出口代理。www.neocle.in",
+      role: "原材料供应与进出口代理",
+      intro: `Neocle International Private Limited 在印度泰米尔纳德邦帕帕兰巴卡姆运营约 836㎡ 仓库，并在卡纳塔克邦班加罗尔设有办公室，从事原材料供应与进出口代理。
 
-与 MSV 法人设立及运营客户衔接，在报价、出运、单证及当地仓库等实务层面强化进出口支持。`,
-      highlights: ["废料（scrap）出口", "进出口代理", "仓储运营"],
+将涂层/非涂层 PA66 安全气囊面料按颜色与规格分选后以吨袋包装，出口至泰国与韩国；废料供应韩国。石英与紫檀（Red Sandalwood）面向有采购意向的企业协商供应条件，紫檀仅在相关许可与必要单证齐备后进行交易。
+
+支持商业发票、装箱单、提单、原产地证等贸易单证准备，信用证与贸易条款审核，以及海运、空运、内陆运输协调——从询价到交货与结算。亦与 MSV 法人设立及运营客户衔接，强化报价、出运、单证与当地仓库执行。
+
+详情与询盘表单见官网 www.neocle.in。`,
+      highlights: [
+        "PA66 安全气囊面料（涂层/非涂层）分选、吨袋包装后出口泰国与韩国",
+        "废料（scrap）出口韩国",
+        "石英与紫檀采购/供应咨询（紫檀需许可与单证确认）",
+        "印度进口与海外出口代理，贸易单证、Incoterms 与运输协调",
+        "泰米尔纳德仓库（约 836㎡）仓储分选出库，班加罗尔办公室",
+      ],
       logoAlt: "Neocle International 标志",
       majorCustomers: [
+        "泰国与韩国 PA66 安全气囊面料买方",
+        "韩国废料与次生原料买方",
+        "寻求石英或紫檀供应的企业",
         "Minsub Ventures 法人客户（物流、进出口与仓储衔接）",
-        "印度及周边地区的废料与次生资源买方",
-        "韩国及印度本土制造与流通企业（进口代理）",
+        "韩国及印度本土制造与流通企业（进出口代理）",
       ],
     },
   },
@@ -320,146 +352,6 @@ Together with MSV we support base lodging for client teams and visitors, project
         "印度长期外派与项目周期住宿团队",
         "韩国及国际企业商务与长住宾客",
       ],
-    },
-  },
-  wilmat: {
-    ko: {
-      metaDescription:
-        "Wilmat — 건물 입구 프리미엄 매트팅, 인도 공급·A/S. ANAB·IAF·TRA·KS Q ISO 9001:2015 품질경영.",
-      role: "프리미엄 입구 매트·매트팅 시스템",
-      intro: `Wilmat은 건물 입구용 프리미엄 매트팅(Entrance Matting) 시스템입니다. 한국 Ecosys의 연구·개발을 바탕으로 하며, 신발에 붙은 먼지를 걸러 실내를 깨끗이 유지하고 미끄럼·넘어짐 위험을 줄입니다. 대리석·타일 등 마감과 조화를 이루는 색·패턴을 선택할 수 있습니다.
-
-국제 인증(예: ANAB, ANSI National Accreditation Board)과 IAF·TRA, KS Q ISO 9001:2015에 맞는 품질경영을 갖추었습니다. 친환경 소재와 긴 수명으로 건물 운영의 지속가능성에도 도움이 됩니다.
-
-알루미늄 프로파일과 나일론 카펫·EPDM 등으로 내구·내후성을 확보했고, 재활용 가능한 구성 요소를 사용합니다. 카세트형이라 손상된 부분만 교체할 수 있으며, 매트를 말아 올리면 프레임 아래에 모인 먼지를 비우기 쉽습니다. 내·외부와 중간 출입 구간에 맞게 배치할 수 있고, 젖은 신발에도 물이 빠지도록 설계되어 외관과 사용감을 오래 유지합니다.
-
-쇼핑몰·호텔·병원·학교·조립 공장 등 통행량이 많은 출입구에 적합합니다. 인도에서 제품을 공급하며 A/S를 지원합니다.
-
-페이지 상단의 PDF 링크는 2022년 12월 기준 영문 제품 카탈로그입니다. 모델 사양·성능 검증·시공 절차·타사 비교·설치 사례가 수록되어 있습니다. 최신 사양은 wilmat.in 또는 담당자에게 문의해 주세요.`,
-      highlights: [
-        "ANAB·IAF·TRA 및 KS Q ISO 9001:2015 품질경영",
-        "매립(Recessed)·노출(Surface)형 등 맞춤 입구 솔루션",
-        "먼지 유입 차단, 미끄럼·넘어짐 방지, 외관·청소 비용 절감",
-        "알루미늄 베이스·나일론 카펫·EPDM 등 내구·내후성",
-        "카세트형으로 부분 교체·롤업 청소 용이",
-        "인도 현지 공급 및 A/S",
-      ],
-      logoAlt: "Wilmat 로고",
-      majorCustomerRows: wilmatMajorCustomerDisplayRows(),
-    },
-    en: {
-      metaDescription:
-        "Wilmat — premium entrance matting for buildings; India supply & service. ANAB, IAF, TRA and KS Q ISO 9001:2015 aligned QMS.",
-      role: "Premium entrance matting",
-      intro: `Wilmat is a premium entrance matting system for building entrances, built on R&D from Ecosys in Korea. It traps dirt from footwear to keep interiors clean and reduce slip-and-trip risk, with colours and patterns that harmonise with marble, tile and other finishes.
-
-International accreditation (e.g. ANAB, ANSI National Accreditation Board), IAF and TRA, and quality management aligned with KS Q ISO 9001:2015. Long-lasting, environmentally conscious materials support sustainable operations.
-
-Aluminium profiles with nylon carpet, EPDM and similar materials provide durability and weather resistance, with recyclable components. The cassette format allows partial replacement; rolling up the mat makes it easy to empty dust under the frame. Suitable for indoor, outdoor and intermediate thresholds, with drainage for wet footwear.
-
-Suited to high-traffic entries such as malls, hotels, hospitals, schools and assembly plants. Supplied in India with after-sales support.
-
-The PDF at the top of the page is the English product catalogue as of December 2022 (models, validation, installation, comparisons and case studies). For the latest specifications, see wilmat.in or contact us.`,
-      highlights: [
-        "ANAB, IAF, TRA and KS Q ISO 9001:2015 quality management",
-        "Recessed & surface-mounted tailored entrance solutions",
-        "Dirt control, slip/trip reduction, appearance and cleaning cost benefits",
-        "Aluminium base, nylon carpet, EPDM — durable and weather-resistant",
-        "Cassette format for partial replacement and easy roll-up cleaning",
-        "India supply and after-sales service",
-      ],
-      logoAlt: "Wilmat logo",
-      majorCustomerRows: wilmatMajorCustomerDisplayRows(),
-    },
-    zh: {
-      metaDescription:
-        "Wilmat — 建筑入口高端地垫系统，印度供货与售后。符合 ANAB、IAF、TRA 及 KS Q ISO 9001:2015 等质量管理要求。",
-      role: "高端入口地垫系统",
-      intro: `Wilmat 是建筑入口用的高端地垫（Entrance Matting）系统，依托韩国 Ecosys 的研发，过滤鞋底尘土以保持室内清洁并降低滑倒风险，可选配色与纹理以配合大理石、瓷砖等饰面。
-
-具备国际认可（如 ANAB、ANSI National Accreditation Board）、IAF、TRA 及符合 KS Q ISO 9001:2015 的质量管理；耐用、环保材料有助于可持续运营。
-
-铝型材搭配尼龙毯面、EPDM 等，兼顾耐久与耐候，并采用可回收组件。卡式结构可局部更换；卷起地垫便于清理框架下积尘。适用于室内外及过渡区，湿鞋亦可排水，外观与使用体验更持久。
-
-适合商场、酒店、医院、学校及装配厂等高流量出入口。在印度供货并提供售后。
-
-页面顶部 PDF 为 2022 年 12 月版英文产品目录（型号、验证、安装、对比与案例）。最新规格请以 wilmat.in 或联系我方为准。`,
-      highlights: [
-        "ANAB、IAF、TRA 及 KS Q ISO 9001:2015 质量管理",
-        "嵌入式（Recessed）与表面式（Surface）等定制入口方案",
-        "控尘、防滑防摔、外观与清洁成本优化",
-        "铝底座、尼龙毯面、EPDM 等耐久耐候",
-        "卡式结构便于局部更换与卷起清洁",
-        "印度本地供货与售后",
-      ],
-      logoAlt: "Wilmat 标志",
-      majorCustomerRows: wilmatMajorCustomerDisplayRows(),
-    },
-  },
-  "jw-industrial-tech-service": {
-    ko: {
-      metaDescription:
-        "JW Industrial Tech Service Private Limited — 자동차 생산 설비 기계·전기 설치·개조·수리, 도장·조립 라인, 엔지니어링 AMC.",
-      role: "도장·공장 설비 설치 및 엔지니어링",
-      intro: `JWITS (JW Industrial Tech Service Private Limited)는 인도에서 자동차 생산 설비를 중심으로 기계·전기 설비의 설치, 이전, 개조 및 수리 업무를 수행하고 있습니다.
-
-주요 수행 분야는 도장(Paint Shop), 조립(Assembly), 프레스(Press), 바디샵(Body Shop) 설비를 비롯하여 FCS·CPC 컨베이어, 도장 라인 컨베이어, 워크스테이션, 오븐, 덕트 및 배관 설비 등의 설치 작업입니다.
-
-또한 상용 인력, 장비, 도비 등 운송 업무부터 기계 하역, 설치까지 턴키(Turn-key) 방식으로 인도 전역 대응이 가능하며, 2008년부터 약 20년간 다양한 설치 실적을 보유하고 있습니다.
-
-이 외에도 제관물, 지그(Jig), 고정구(Fixture) 설계 및 제작, 팔레트·트롤리·안전 가드·도어·그레이팅·스테인리스 탱크 제작, 차량 생산 설비용 한국산 산업 소모품 공급, 현장 공정 개발 및 양산 대응, 엔지니어링 AMC 서비스 등을 제공하고 있습니다.
-
-페이지 상단의 PDF는 2025년 8월 기준 영문 비즈니스 소개 자료입니다. 실적·조직·거점·주요 고객사 등이 수록되어 있으니, 대외 공유 시에는 최신본과 맞춰 주세요.`,
-      highlights: [
-        "상용 인력·장비·도비·운송을 포함한 기계·전기 설비 턴키(Turn-key) 설치 작업",
-        "자동차 생산 설비(도장·조립·프레스·바디샵 라인) 기계·전기 설비 설치·이전·개조·수리",
-        "FCS·CPC 컨베이어 및 전착도장(E-coating)·오븐·덕트·배관 등 주요 설비 공사",
-        "제관물·지그(Jig)·고정구(Fixture) 설계 및 제작, 팔레트·트롤리·안전 가드·SS 탱크 제작",
-        "차량 생산 설비 관련 한국산 산업 소모품 공급",
-        "현장 공정 개발·양산 대응 및 엔지니어링 AMC 서비스 제공",
-      ],
-      majorCustomerRows: jwitsMajorCustomerDisplayRows("ko"),
-      logoAlt: "JW Industrial Tech Service 로고",
-    },
-    en: {
-      metaDescription:
-        "JW Industrial Tech Service Private Limited — automotive plant mechanical & electrical installation, relocation, retrofit and repair; paint & assembly lines; engineering AMC.",
-      role: "Paint line & plant installation engineering",
-      intro: `JWITS (JW Industrial Tech Service Private Limited) performs mechanical and electrical installation, relocation, retrofit and repair for automotive production facilities in India—including paint, assembly, press and body shop lines, FCS/CPC conveyors, electrode coating lines, workstations, ovens and ducting.
-
-We also design and build jigs and fixtures, pallets, trolleys, safety guards, doors, gratings and stainless tanks; supply Korean industrial consumables for vehicle plants; support process development for production ramp-up and engineering AMC.
-
-The PDF at the top is the English business introduction as of August 2025 (track record, organisation, locations and key customers). Align with the latest version before external distribution.`,
-      highlights: [
-        "Turn-key mechanical & electrical installation including commercial manpower, equipment, tools and transport",
-        "Automotive production equipment (paint, assembly, press, body shop lines) — ME installation, relocation, retrofit & repair",
-        "FCS/CPC conveyors, e-coating lines, ovens, ducts and piping for major equipment works",
-        "Custom fabrications, jigs & fixtures, pallets, trolleys, safety guards, SS tank fabrication",
-        "Korean industrial consumables for vehicle production equipment",
-        "On-site process development, mass-production ramp-up and engineering AMC services",
-      ],
-      majorCustomerRows: jwitsMajorCustomerDisplayRows("en"),
-      logoAlt: "JW Industrial Tech Service logo",
-    },
-    zh: {
-      metaDescription:
-        "JW Industrial Tech Service Private Limited — 印度汽车产线机电安装、搬迁、改造与维修；涂装与总装；工程 AMC。",
-      role: "涂装与工厂设备安装工程",
-      intro: `JWITS（JW Industrial Tech Service Private Limited）在印度从事以汽车生产装备为核心的机电安装、搬迁、改造与维修，涵盖涂装、总装、冲压、车身以及 FCS/CPC 输送线、电极涂装线、工位、烘箱与风管等主设备。
-
-同时提供治具与夹具设计制造、托盘与台车、安全护栏、门、格栅与不锈钢罐体制作，车辆产线用韩国工业耗材供应，以及现场工艺开发与量产爬坡、工程 AMC。
-
-页面顶部 PDF 为 2025 年 8 月版英文业务介绍（业绩、组织、据点与主要客户等），对外分享前请与最新版本核对。`,
-      highlights: [
-        "含商用人力、设备、机具与物流的机电设备交钥匙(Turn-key)安装",
-        "汽车产线(涂装、总装、冲压、车身)机电安装、搬迁、改造与维修",
-        "FCS/CPC 输送线、电泳涂装(E-coating)、烘箱、风管与管道等主设备安装工程",
-        "定制构件、治具(Jig)、夹具(Fixture)设计制造，托盘、台车、安全护栏、不锈钢罐制作",
-        "车辆产线用韩国工业耗材供应",
-        "现场工艺开发、量产爬坡与工程 AMC 服务",
-      ],
-      majorCustomerRows: jwitsMajorCustomerDisplayRows("zh"),
-      logoAlt: "JW Industrial Tech Service 标志",
     },
   },
 };
