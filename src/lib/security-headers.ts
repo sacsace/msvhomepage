@@ -7,8 +7,8 @@ export type SecurityHeader = { key: string; value: string };
 
 export function buildContentSecurityPolicy(isProduction: boolean): string {
   const scriptSrc = isProduction
-    ? "script-src 'self' 'unsafe-inline'"
-    : "script-src 'self' 'unsafe-inline' 'unsafe-eval'";
+    ? "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com"
+    : "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com";
 
   const connectSrc = isProduction
     ? "connect-src 'self' https:"
@@ -21,7 +21,7 @@ export function buildContentSecurityPolicy(isProduction: boolean): string {
     "img-src 'self' data: blob: https:",
     "font-src 'self' data:",
     connectSrc,
-    "frame-src 'self' blob: https://maps.google.com https://www.google.com",
+    "frame-src 'self' blob: https://maps.google.com https://www.google.com https://www.googletagmanager.com",
     "frame-ancestors 'self'",
     "base-uri 'self'",
     "form-action 'self'",

@@ -1,26 +1,33 @@
 import Script from "next/script";
 
-/** Google Analytics 4 (gtag.js) — 측정 ID는 `NEXT_PUBLIC_GA_MEASUREMENT_ID` 또는 기본값 */
-const GA_MEASUREMENT_ID =
-  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() || "G-ZT3EFC768N";
+/** Google Tag Manager — `NEXT_PUBLIC_GTM_ID` 또는 기본 컨테이너 */
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID?.trim() || "GTM-KQZR2GFW";
 
 export function GoogleAnalytics() {
-  if (!GA_MEASUREMENT_ID) return null;
+  if (!GTM_ID) return null;
 
   return (
     <>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
+      <Script id="gtm-datalayer" strategy="afterInteractive">
         {`
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '${GA_MEASUREMENT_ID}');
 `}
       </Script>
+      <Script
+        src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}
+        strategy="afterInteractive"
+      />
+      <noscript>
+        <iframe
+          src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+          height="0"
+          width="0"
+          style={{ display: "none", visibility: "hidden" }}
+          title="Google Tag Manager"
+        />
+      </noscript>
     </>
   );
 }
