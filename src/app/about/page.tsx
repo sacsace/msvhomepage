@@ -37,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const description =
     copy?.metaDescription ??
     pickLocale(locale, {
-      ko: `${company.shortName} — 법인 설립·회계·세무·운영까지 현장 실행형 원스톱 파트너, 비전·사업 소개`,
+      ko: `${company.shortName} — 법인 설립·회계·세무·운영까지 인도 현지 실무를 직접 지원하는 파트너, 비전·사업 소개`,
       en: `${company.legalName} (${company.shortName}) — India incorporation, accounting, tax, operations and vision.`,
       zh: `${company.legalName}（${company.shortName}）— 印度公司设立、会计、税务与运营一站式伙伴。`,
     });
@@ -322,6 +322,12 @@ export default async function AboutPage() {
                 className="inline-flex min-h-[2.75rem] items-center border border-msv-ink bg-msv-ink px-5 text-xs font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-transparent hover:text-msv-ink"
               >
                 {footerNav.team}
+              </Link>
+              <Link
+                href={L("/about/ci")}
+                className="inline-flex min-h-[2.75rem] items-center border border-msv-ink/30 px-5 text-xs font-semibold uppercase tracking-[0.16em] text-msv-ink transition hover:border-msv-ink"
+              >
+                {pickLocale(locale, { ko: "CI 소개", en: "Brand & CI", zh: "CI 介绍" })}
               </Link>
               <Link
                 href={L("/services")}

@@ -98,7 +98,7 @@ export const guideHrLabour: GuideBundle = {
     practicalIssuesTitle: "실무상 자주 발생하는 이슈",
     practicalIssues: [
       "Offer와 Payroll 불일치",
-      "Attendance 누락·지각 데이터 정합 실패",
+      "Attendance 누락·지각 자료 간 일치 실패",
       "PF/PT 적용 오류",
       "Final settlement 지연",
       "Leave balance mismatch",
@@ -132,7 +132,7 @@ export const guideHrLabour: GuideBundle = {
       "HR 문서·승인 체계 구축",
       "본사 HR 보고 지원",
     ],
-    relatedIntro: "같은 운영 스택에서 자주 이어집니다.",
+    relatedIntro: "관련 업무는 아래 페이지에서 확인하실 수 있습니다.",
     relatedTitle: "연결 페이지",
     relatedLinks: [
       { href: "/services/hr-payroll", label: "HR·Payroll 서비스" },
@@ -270,7 +270,7 @@ export const guideHrLabour: GuideBundle = {
       "HR document and approval spine design",
       "HQ HR reporting support",
     ],
-    relatedIntro: "Often read in the same operating stack.",
+    relatedIntro: "Related topics are on the pages below.",
     relatedTitle: "Linked pages",
     relatedLinks: [
       { href: "/services/hr-payroll", label: "HR & payroll services" },
@@ -408,7 +408,7 @@ export const guideHrLabour: GuideBundle = {
       "人事文件与审批体系搭建",
       "总部 HR 报告支持",
     ],
-    relatedIntro: "常与同一运营栈一并阅读。",
+    relatedIntro: "相关事项请见下方页面。",
     relatedTitle: "关联页面",
     relatedLinks: [
       { href: "/services/hr-payroll", label: "HR·薪酬服务" },

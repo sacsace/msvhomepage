@@ -181,7 +181,7 @@ const gstPracticeGuide: Bundle = {
           "일반적으로 회계연도(FY) 기준 갱신·만료 관리가 캘린더에 올라갑니다.",
           "Export invoice·Shipping bill·FIRC/BRC 등 자금·세무 흐름과 함께 운영됩니다.",
           "[실무] LUT 만료 누락 시 자금·신고 정합에 영향",
-          "[실무] 수출 신고와 GST 신고 데이터 정합성",
+          "[실무] 수출 신고와 GST 신고 자료 간 일치성",
           "[실무] SEZ·특수 구역 거래는 별도 검토가 필요할 수 있음",
         ],
       },
@@ -189,7 +189,7 @@ const gstPracticeGuide: Bundle = {
         title: "GST Refund",
         bullets: [
           "Export refund·Inverted duty refund·Excess balance refund 등 유형별로 절차·증빙이 달라질 수 있습니다.",
-          "신청 전 GSTR-1·3B·Shipping bill·EGM 등 데이터 정합을 먼저 보는 경우가 많습니다.",
+          "신청 전 GSTR-1·3B·Shipping bill·EGM 등 자료 간 일치을 먼저 보는 경우가 많습니다.",
           "ITC 누락·불일치를 정리한 뒤 환급 스택을 설계합니다.",
           "[실무] ICEGATE mismatch",
           "[실무] Invoice mismatch / BRC·FIRC 누락",
@@ -281,7 +281,7 @@ const gstPracticeGuide: Bundle = {
       "GST Notice 대응",
       "수출 기업 GST 운영 지원",
     ],
-    relatedIntro: "같은 운영 스택에서 자주 이어집니다.",
+    relatedIntro: "관련 업무는 아래 페이지에서 확인하실 수 있습니다.",
     relatedTitle: "관련 페이지",
     relatedLinks: [
       { href: "/services/personal-income-tax-calculator", label: "급여 TDS 계산기" },
@@ -575,11 +575,11 @@ const importExportIec: Bundle = {
       "IEC, AD Code, ICEGATE, HS classification, Port registration, BRC/FIRC, Customs valuation, EPCG, DGFT reporting, SIMS/PIMS · 인도 수출입을 은행·세관·GST·물류·FEMA 관점에서 정리한 실무 허브.",
     pageTitle: "수출입(IEC)·통관 안내",
     pageDescription:
-      "제조·유통·본사 조달을 인도와 연결할 때, IEC·은행 AD·세관(ICEGATE)·면세 스킴이 한꺼번에 등장합니다. 운영·자금·은행·세무가 맞물리는 축을 실무 흐름 순으로 정리했습니다.",
+      "제조·유통·본사 조달을 인도와 연결할 때, IEC·은행 AD·세관(ICEGATE)·관세 감면·수출 지원 제도가 한꺼번에 등장합니다. 운영·자금·은행·세무가 맞물리는 축을 실무 흐름 순으로 정리했습니다.",
     disclaimer:
-      "품목 분류(HS Code)·관세율·면세 스킴 적용 여부는 제품 사양·원산지·수입 목적·DGFT/세관 해석에 따라 달라질 수 있습니다. 실제 계약·선적 전 최신 규정 및 적용 가능 여부 검토가 필요할 수 있으며, 본 페이지는 참고용 개요입니다.",
+      "품목 분류(HS Code)·관세율·관세 감면 제도 적용 여부는 제품 사양·원산지·수입 목적·DGFT/세관 해석에 따라 달라질 수 있습니다. 실제 계약·선적 전 최신 규정 및 적용 가능 여부 검토가 필요할 수 있으며, 본 페이지는 참고용 개요입니다.",
     introParagraphs: [
-      "인도 수출입 운영은 단순 IEC 등록이 아니라, 은행(AD Code)·세관(ICEGATE)·GST·물류·외환(FEMA)·면세 스킴(EPCG 등)이 함께 연결되는 구조입니다.",
+      "인도 수출입 운영은 단순 IEC 등록이 아니라, 은행(AD Code)·세관(ICEGATE)·GST·물류·외환(FEMA)·관세 감면·수출 지원 제도(EPCG 등)가 함께 연결되는 구조입니다.",
       "실제 운영에서는 Invoice·HS Code·송금·통관 데이터가 서로 맞물리므로 초기 설정과 문서 정합성이 중요합니다.",
     ],
     roadmapCardsTitle: "수출입 운영 축 · IEC → AD Code → ICEGATE → EPCG → SIMS/PIMS",
@@ -611,7 +611,7 @@ const importExportIec: Bundle = {
         title: "ICEGATE & Customs",
         bullets: [
           "세관 신고·검사·평가·통관 절차가 디지털 기반으로 운영됩니다.",
-          "Invoice·Packing list·BL/AWB·BOE·Shipping bill 간 데이터 정합성이 중요합니다.",
+          "Invoice·Packing list·BL/AWB·BOE·Shipping bill 간 자료 간 일치성이 중요합니다.",
           "HS Code·Valuation·Country of origin 기준 검토가 필요할 수 있습니다.",
           "[실무] HS classification dispute, Customs valuation issue, Query hold",
           "[실무] RMS 검사 여부, Documentation mismatch",
@@ -677,7 +677,7 @@ const importExportIec: Bundle = {
       { industry: "공장 인허가", issues: "용량·품목·환경 NOC와 수입 원자재·기계 스펙 정합" },
       { industry: "원자재 수입", issues: "HS·원산지·제한 품목·SIMS/PIMS 등 사전 조건" },
       { industry: "EPCG", issues: "EO·Utility·Bond/LUT·세관·DGFT 리포팅 한 타임라인" },
-      { industry: "GST·환급", issues: "수출·자본재·면세 스킴과 신고·장부·ICEGATE 정합" },
+      { industry: "GST·환급", issues: "수출·자본재·관세 감면 제도와 신고·장부·ICEGATE 정합" },
       { industry: "Export incentive", issues: "스킴별 증빙·RoDTEP 등 적용 가능성(시점·품목)" },
       { industry: "HT power / machinery import", issues: "전력·설비 수입 시 라이선스·세관 분류·검사" },
       { industry: "DG set import", issues: "규제·소음·환경 조건 및 통관 서류" },
@@ -689,12 +689,12 @@ const importExportIec: Bundle = {
       "AD Code 등록·항만 매핑",
       "DGFT 실무·스킴 검토 지원",
       "EPCG 및 수출입 스킴(AA·RoDTEP 등) 검토",
-      "GST·ICEGATE·은행 데이터 정합 검토",
+      "GST·ICEGATE·은행 자료 간 일치 검토",
       "수출입 회계·세무 구조",
       "FEMA·송금·BRC/FIRC 흐름 지원",
       "제조업 프로젝트 수입·설비 구조 검토",
     ],
-    relatedIntro: "같은 운영 스택에서 자주 이어집니다.",
+    relatedIntro: "관련 업무는 아래 페이지에서 확인하실 수 있습니다.",
     relatedTitle: "함께 보면 좋은 페이지",
     relatedLinks: [
       { href: "/services/gst-practice-guide", label: "GST 실무 안내" },
@@ -998,7 +998,7 @@ const indiaEntryGuide: Bundle = {
       "법인 설립을 넘어 세무·FEMA·은행·인허가·노무·비자·공장·본사 보고까지 병렬 설계하는 인도 진출 실무 허브. 로드맵·거버넌스·이슈·단계·산업별 체크포인트.",
     pageTitle: "인도 진출 가이드",
     pageDescription:
-      "인도 진출은 단일 인허가가 아니라 세무·외환·은행·인허가·노무·비자·공장 운영이 동시에 연결되는 프로젝트입니다. 병렬 워크스트림으로 설계할수록 의사결정 지연이 줄어듭니다.",
+      "인도 진출은 단일 인허가가 아니라 세무·외환·은행·인허가·노무·비자·공장 운영이 동시에 연결되는 프로젝트입니다. 동시에 진행할 업무와 순서를 미리 정리할수록 의사결정 지연이 줄어듭니다.",
     disclaimer:
       "산업·주(邦)·시점·거래 구조에 따라 우선순위와 필수 절차가 달라질 수 있습니다. 본 페이지는 참고용 개요이며, 실행 전 전문가 검토가 필요합니다.",
     introParagraphs: [
@@ -1098,7 +1098,7 @@ const indiaEntryGuide: Bundle = {
       "공장 전기 연결·시운전 지연으로 가동일 미루어짐",
       "GST 등록 주소와 임대차 계약·실제 사업장 불일치",
       "직원 Offer letter 현지법·그룹 HR 정책과의 정합 문제",
-      "본사 승인 지연으로 세무 신고·납부·송금이 밀리며 페널티 리스크",
+      "본사 승인 지연으로 세무 신고·납부·송금이 밀리며 지연에 따른 가산세·과태료 위험",
     ],
     processFlowTitle: "일반적인 진행 흐름(참고)",
     processPhases: [
@@ -1472,7 +1472,7 @@ const factoryLicensing: Bundle = {
       "Factory licence, Pollution consent, Fire NOC, HT/LT 전력, Building approval, Layout, DG set, Inspector · 인도 제조·공장 PM 관점의 인허가·일정·업종별 체크포인트.",
     pageTitle: "공장·산업 인허가 안내",
     pageDescription:
-      "공장은 단일 허가가 아니라 패키지입니다. 전력·환경·건축·세무·수출입 구조가 동시에 걸리므로, 현장 일정을 기준으로 로드맵을 짜는 PM 관점이 중요합니다.",
+      "공장 가동에는 건축·환경·소방·전력 등 여러 인허가가 필요합니다. 전력·환경·건축·세무·수출입 구조가 동시에 걸리므로, 현장 일정을 기준으로 로드맵을 짜는 PM 관점이 중요합니다.",
     disclaimer:
       "동일 업종이라도 주(State)·산업단지·관할 기관에 따라 요구 서류 및 승인 절차가 달라질 수 있습니다. 실제 적용 기준은 현장 위치·전력 사용량·배출 유형·건축 구조·산업 분류에 따라 달라질 수 있으며, 본 페이지는 참고용 개요입니다.",
     introParagraphs: [
@@ -1494,7 +1494,7 @@ const factoryLicensing: Bundle = {
         title: "Pollution NOC / Consent",
         bullets: [
           "환경 관련 승인·배출 동의 절차로, 업종별 Red / Orange / Green category 분류에 따라 요건이 달라질 수 있습니다.",
-          "Air / Water consent, 폐수·배출·소음·폐기물 기준을 초기에 스코프링합니다.",
+          "Air / Water consent, 폐수·배출·소음·폐기물 기준의 적용 범위를 초기에 확인합니다.",
           "[실무] 일부 업종은 ETP/STP 요구가 붙을 수 있고, DG set(발전기) 포함 여부도 환경 조건과 연계됩니다.",
           "[실무] 생산 개시 전 Consent to Operate(CTO) 등 운영 단계 동의가 별도로 필요할 수 있습니다.",
         ],

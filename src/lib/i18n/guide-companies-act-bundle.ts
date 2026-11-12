@@ -16,11 +16,11 @@ const related = [
 
 export const guideCompaniesActHub: GuideBundle = {
   ko: {
-    metaTitle: "회사법 가이드 허브 | Companies Act, 2013",
+    metaTitle: "인도 회사법 안내 | Companies Act, 2013",
     metaDescription:
       "이사회·주총·법정장부·ROC·감사·배당·합병·청산 등 Companies Act, 2013 기준 거버넌스 허브. MCA·ROC·정관·주주간 계약을 함께 봅니다.",
     pageEyebrow: "Companies Act, 2013",
-    pageTitle: "회사법 가이드 허브",
+    pageTitle: "인도 회사법 안내",
     pageDescription:
       "인도 회사법 운영은 단순 ROC 신고가 아니라, 이사회·주주총회·의사록·법정장부·배당·감사·합병·청산 절차가 함께 연결되는 거버넌스 체계입니다. 실제 실무에서는 Companies Act, 2013, MCA 포털, ROC 제출 일정, 정관 및 주주간 계약을 함께 검토해야 합니다.",
     disclaimer:
@@ -130,7 +130,7 @@ export const guideCompaniesActHub: GuideBundle = {
           },
           {
             item: "법정장부",
-            summary: "주요: 회원명부, 이사명부, 담보(Charges) 등록\n리스크: 지분·담보 기록 불일치",
+            summary: "주요: 주주명부, 이사명부, 담보(Charges) 등록\n리스크: 지분·담보 기록 불일치",
           },
           {
             item: "배당",

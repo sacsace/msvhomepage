@@ -7,6 +7,7 @@ import { corporateLiquidationServiceCopy } from "@/lib/i18n/corporate-liquidatio
 import { getRequestLocale } from "@/lib/get-request-locale";
 import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import { withLocalePrefix } from "@/lib/site-locale";
+import { contactHref } from "@/lib/contact-inquiry";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getRequestLocale();
@@ -167,7 +168,7 @@ export default async function CorporateLiquidationServicePage() {
               {c.navBackServices}
             </Link>
             <Link
-              href={L("/contact")}
+              href={contactHref(locale, { type: "other" })}
               className="rounded-lg bg-msv-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-msv-navy/90"
             >
               {c.navContact}

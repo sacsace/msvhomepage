@@ -57,7 +57,7 @@ const ko: CorporateMergerServiceCopy = {
   overview: {
     title: "1. 개요",
     paragraphs: [
-      "인도에서의 합병(Merger)과 구조조정은 법인 통합에 그치지 않고, 주주·채권자 보호, 계약 승계, 세무, 외환(FEMA), 산업별 라이선스, 노사 관계 등이 함께 다뤄지는 절차입니다. 구조와 규모에 따라 ROC 신고만으로 마무리되는 경우도 있으나, 일정 규모 이상이거나 특수 구조이면 NCLT 승인이 필요할 수 있습니다. 실무에서는 합병 외에도 사업양수도(Business Transfer), 그룹 내 재편, 자산 이전, JV 통합 등으로 진행하는 사례도 흔합니다.",
+      "인도에서의 합병(Merger)과 구조조정은 법인 통합에 그치지 않고, 주주·채권자 보호, 계약 승계, 세무, 외환(FEMA), 산업별 라이선스, 노사 관계 등이 함께 다뤄지는 절차입니다. ROC에 서류를 제출하는 것만으로 합병·재편이 완료되는 것은 아니며, NCLT 승인·등기 반영, PAN·GST 등 사후 정리까지 포함한 전체 흐름으로 봐야 합니다. 일반 합병(스킴·NCLT 경로 포함 가능)과 신속절차(fast-track merger, Companies Act 및 관련 규정상 자격 요건 충족 시)에 따라 승인 주체·문서·기간이 달라집니다. 실무에서는 합병 외에도 사업양수도(Business Transfer), 그룹 내 재편, 자산 이전, JV 통합 등으로 진행하는 사례도 흔합니다.",
     ],
   },
   structureTypes: {
@@ -111,6 +111,7 @@ const ko: CorporateMergerServiceCopy = {
         title: "3.1 법률 검토",
         items: [
           "Companies Act상 요건·절차 적합성",
+          "일반 합병 vs 신속절차(fast-track) 해당 여부·승인 경로(NCLT·ROC 등)",
           "NCLT 승인 필요 여부(스킴·규모·구조에 따라 상이)",
           "주주 특별결의·주주총회 절차",
           "채권자 보호·통지·이의 관련 절차",
@@ -226,10 +227,10 @@ const ko: CorporateMergerServiceCopy = {
     colStructure: "구조",
     colDuration: "일반적인 기간(참고)",
     rows: [
-      { structure: "단순 그룹 내 재편", duration: "약 1~3개월" },
+      { structure: "단순 그룹 내 재편(합병 외 구조 포함)", duration: "약 1~3개월" },
       { structure: "사업양수도(Business Transfer 등)", duration: "약 2~4개월" },
-      { structure: "ROC 중심의 상대적으로 단순한 합병", duration: "약 3~6개월" },
-      { structure: "NCLT 승인이 포함되는 합병·스킴", duration: "약 6~12개월 이상" },
+      { structure: "신속절차(fast-track) 자격 충족 합병", duration: "약 3~6개월(자격·사전 심사에 따라 상이)" },
+      { structure: "일반 스킴·NCLT 승인 포함 합병", duration: "약 6~12개월 이상" },
     ],
     footnote:
       "실제 기간은 회사 규모, 미해결 세무·법률 이슈, 산업 규제 및 NCLT·당국 일정에 따라 크게 달라질 수 있습니다.",
@@ -270,7 +271,7 @@ const en: CorporateMergerServiceCopy = {
   overview: {
     title: "1. Overview",
     paragraphs: [
-      "Mergers and corporate reorganisations in India go beyond consolidating entities on paper: shareholder and creditor protections, contract succession, tax, FEMA, sector licences, and labour relations are usually reviewed together. Depending on scale and structure, ROC filings may be enough; larger or more complex schemes may need NCLT approval. In practice, teams often pursue business transfers, intra-group reshapes, asset moves, and JV integrations · not only statutory mergers.",
+      "Mergers and corporate reorganisations in India go beyond consolidating entities on paper: shareholder and creditor protections, contract succession, tax, FEMA, sector licences, and labour relations are usually reviewed together. Filing with ROC does not by itself complete a merger; the full chain typically includes tribunal/court steps where required, registration updates, and post-close PAN/GST and operational clean-up. Ordinary merger schemes (often NCLT-led) differ from fast-track mergers under Companies Act eligibility rules on approving authority, documents and timing. In practice, teams often pursue business transfers, intra-group reshapes, asset moves, and JV integrations · not only statutory mergers.",
     ],
   },
   structureTypes: {
@@ -323,6 +324,7 @@ const en: CorporateMergerServiceCopy = {
         title: "3.1 Legal",
         items: [
           "Companies Act fit and process design",
+          "Ordinary merger vs fast-track eligibility and approval route (NCLT/ROC, etc.)",
           "Whether NCLT approval is required",
           "Board and shareholder resolutions",
           "Creditor protection, notice, and objection routes",
@@ -434,10 +436,10 @@ const en: CorporateMergerServiceCopy = {
     colStructure: "Structure",
     colDuration: "Typical range (illustrative)",
     rows: [
-      { structure: "Simple intra-group reshape", duration: "About 1–3 months" },
+      { structure: "Simple intra-group reshape (non-merger paths included)", duration: "About 1–3 months" },
       { structure: "Business transfer", duration: "About 2–4 months" },
-      { structure: "Relatively straightforward ROC-led merger", duration: "About 3–6 months" },
-      { structure: "Merger / scheme requiring NCLT", duration: "About 6–12+ months" },
+      { structure: "Fast-track merger (eligible cases)", duration: "About 3–6 months (varies with eligibility and pre-checks)" },
+      { structure: "Ordinary scheme / NCLT-approved merger", duration: "About 6–12+ months" },
     ],
     footnote:
       "Actual duration varies with scale, open tax and legal issues, sector regulation, and tribunal/authority scheduling.",
@@ -478,7 +480,7 @@ const zh: CorporateMergerServiceCopy = {
   overview: {
     title: "1. 概述",
     paragraphs: [
-      "印度境内的合并与重组通常不仅是法人主体的合并，还需同时梳理股东与债权人保护、合同承继、税务、外汇(FEMA)、行业许可与劳动关系等。视规模与方案复杂度，可能以 ROC 申报为主完成，也可能需要 NCLT 批准。实务上除传统合并外，也常见以业务收购、集团内部重组、资产转移、合资公司整合等方式推进。",
+      "印度境内的合并与重组通常不仅是法人主体的合并，还需同时梳理股东与债权人保护、合同承继、税务、外汇(FEMA)、行业许可与劳动关系等。向 ROC 提交材料本身并不等于合并完成，通常还须涵盖法定审批/审理(如适用)、登记更新及 PAN/GST 等事后整合。一般合并方案(常涉 NCLT)与符合 Companies Act 资格要求的 fast-track 合并，在审批机关、文件与周期上均有差异。实务上除传统合并外，也常见以业务收购、集团内部重组、资产转移、合资公司整合等方式推进。",
     ],
   },
   structureTypes: {
@@ -520,6 +522,7 @@ const zh: CorporateMergerServiceCopy = {
         title: "3.1 法律",
         items: [
           "Companies Act 路径与合规",
+          "一般合并与 fast-track 资格及审批路径(NCLT/ROC 等)",
           "是否需要 NCLT 批准",
           "董事会与股东(特别)决议",
           "债权人保护与通知/异议程序",
@@ -587,10 +590,10 @@ const zh: CorporateMergerServiceCopy = {
     colStructure: "结构",
     colDuration: "常见区间(参考)",
     rows: [
-      { structure: "简单集团内部重组", duration: "约 1~3 个月" },
+      { structure: "简单集团内部重组(含非合并路径)", duration: "约 1~3 个月" },
       { structure: "业务转让等", duration: "约 2~4 个月" },
-      { structure: "以 ROC 为主的相对简明合并", duration: "约 3~6 个月" },
-      { structure: "含 NCLT 批准的合并/方案", duration: "约 6~12 个月或更长" },
+      { structure: "符合 fast-track 条件的合并", duration: "约 3~6 个月(视资格与预审而定)" },
+      { structure: "一般方案/NCLT 批准合并", duration: "约 6~12 个月或更长" },
     ],
     footnote: "实际周期因公司规模、未决税务与法律问题、行业监管及审理排期等差异很大。",
   },

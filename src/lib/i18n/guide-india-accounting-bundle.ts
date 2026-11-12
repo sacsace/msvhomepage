@@ -98,7 +98,7 @@ export const guideIndiaAccounting: GuideBundle = {
       {
         title: "감사 및 연말 대응",
         bullets: [
-          "Statutory audit·Tax audit 일정·증빙 번들",
+          "Statutory audit·Tax audit 일정·증빙자료",
           "GST reconciliation·GSTR-2B·장부 정합",
           "Related party transaction review",
           "Fixed asset verification·Physical count",
@@ -113,7 +113,7 @@ export const guideIndiaAccounting: GuideBundle = {
         title: "ERP 및 운영 연계",
         bullets: [
           "ERP 계정 구조와 GST·TDS 코드·세그먼트 연결 검토",
-          "Purchase·Inventory·Finance 모듈 간 데이터 정합성",
+          "Purchase·Inventory·Finance 모듈 간 자료 간 일치성",
           "Dropbox·Approval flow·Document retention 정책",
           "[실무] Manual entry 과다",
           "[실무] Duplicate invoice",
@@ -162,7 +162,7 @@ export const guideIndiaAccounting: GuideBundle = {
       "감사·세무조사 대응 지원",
       "제조업·수출기업 회계 운영 지원",
     ],
-    relatedIntro: "같은 운영 스택에서 자주 이어집니다.",
+    relatedIntro: "관련 업무는 아래 페이지에서 확인하실 수 있습니다.",
     relatedTitle: "연결 페이지",
     relatedLinks: [
       { href: "/services/gst-practice-guide", label: "GST 실무 안내" },
@@ -331,7 +331,7 @@ export const guideIndiaAccounting: GuideBundle = {
       "Audit and scrutiny support",
       "Manufacturing and export-heavy accounting operations",
     ],
-    relatedIntro: "Often read together in the same operating stack.",
+    relatedIntro: "Related topics are on the pages below.",
     relatedTitle: "Linked pages",
     relatedLinks: [
       { href: "/services/gst-practice-guide", label: "GST practice guide" },
@@ -500,7 +500,7 @@ export const guideIndiaAccounting: GuideBundle = {
       "审计与稽查应对",
       "制造与出口导向企业的会计运营",
     ],
-    relatedIntro: "常与同一运营栈一并阅读。",
+    relatedIntro: "相关事项请见下方页面。",
     relatedTitle: "关联页面",
     relatedLinks: [
       { href: "/services/gst-practice-guide", label: "GST 实务指南" },

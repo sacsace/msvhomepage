@@ -28,13 +28,13 @@ const ko: Form41RegistrationServiceCopy = {
   metaDescription: `${company.shortName} · Form 41·Form 10F·비거주자 정보·전자등록, 적용 대상·구비서류·실무 절차·유의사항·DTAA·TDS·TRC·PAN·Form 15CA/CB 연계 안내`,
   pageTitle: "Form 41 / Form 10F 관련 등록·신고 지원",
   pageDescription:
-    "인도 소득세 관련 비거주자 정보 제출 및 DTAA 적용 검토 절차(Form 10F·전자등록 체계 포함)를 정리하고, 관련 TDS·송금 신고 실무를 지원합니다.",
+    "인도 소득세 관련 비거주자 정보 제출 및 DTAA 적용 검토 절차(Form 41·Form 10F 및 해당 시기 전자등록 체계)를 정리하고, 관련 TDS·송금 신고 실무를 지원합니다.",
   sec1: {
     title: "1. Form 41 / Form 10F 개요",
     p1:
-      "Form 41은 인도 비거주자(Non-resident)가 인도 내 소득에 대해 원천징수(TDS)와 관련하여 DTAA 적용 및 원천징수(TDS) 경감 검토를 위해 제출하는 비거주자 정보 신고 절차에 해당합니다.",
+      "Form 41은 인도 Income Tax e-Filing Portal에서 비거주자(Non-resident)가 인도 원천소득에 대한 DTAA 적용·원천징수(TDS) 경감 검토를 위해 제출하는 전자 비거주자 정보 신고입니다. 최근 체계 개편 이후 Form 10F가 담당하던 비거주자 정보 제출 기능을 이어 받는 신규 양식·경로로 이해됩니다.",
     p2:
-      "Form 10F, 전자 등록 및 Form 41 관련 신고 요건은 사안·시기·포털 규정에 따라 병행·연계될 수 있으며, PAN·TRC(Tax Residency Certificate)·전자 등록 요건 등에 따라 제출 방식, 포털 절차 및 요구 서류가 달라질 수 있습니다.",
+      "Form 10F는 과거 동일 목적으로 널리 쓰이던 양식으로, 신 구조(Form 41)·전자등록 요건과 적용 시기가 구분될 수 있습니다. 거래·신고 시점, PAN·TRC(Tax Residency Certificate) 보유 여부 및 포털 안내에 따라 어느 양식·절차를 따를지 달라지므로, 해당 기간의 CBDT 공지와 Income Tax Portal 메뉴를 함께 확인하는 것이 좋습니다.",
   },
   sec2: {
     title: "2. 주요 적용 대상",
@@ -70,7 +70,7 @@ const ko: Form41RegistrationServiceCopy = {
       "거래 구조 및 지급 성격(royalty, FTS, interest 등) 검토",
       "DTAA 적용 가능 여부 및 요건 정리",
       "TRC 및 비거주자 식별·등록 정보 확인",
-      "비거주자 정보 등록(Form 10F·전자등록 체계) 검토 및 제출",
+      "비거주자 정보 등록(Form 41 또는 해당 시기의 Form 10F·전자등록 경로) 검토 및 제출",
       "적용 세율 및 TDS 산출·반영 방식 검토",
       "송금·외환 신고와 연계된 Form 15CA/CB 필요 여부 검토",
     ],
@@ -106,11 +106,11 @@ const ko: Form41RegistrationServiceCopy = {
     entries: [
       {
         term: "Form 41",
-        desc: "인도 소득세상 비거주자 정보 제출과 연계된 전자 절차의 하나로, 사안·시기에 따라 Form 10F 문서와 전자등록 요건이 함께 검토됩니다.",
+        desc: "Income Tax e-Filing Portal에서 비거주자 DTAA·TDS 관련 정보를 제출하는 전자 신고. 체계 개편 이후 구 Form 10F 역할을 이어받는 신규 양식·경로로 이해되며, 신고·거래 시점에 따라 적용 여부를 확인합니다.",
       },
       {
         term: "Form 10F",
-        desc: "비거주자 DTAA 적용 관련 정보 제출에 사용되는 양식(전자등록 체계와 함께 운영)",
+        desc: "과거 비거주자 DTAA 적용 관련 정보 제출에 쓰이던 양식. 구 체계·과거 기간 신고 또는 전자등록과 연계된 사안에서 여전히 검토될 수 있으나, 최근 거래는 Form 41 경로가 우선 검토되는 경우가 많습니다.",
       },
       { term: "DTAA", desc: "Double Taxation Avoidance Agreement(이중과세방지협약)" },
       { term: "TDS", desc: "Tax Deducted at Source(원천징수)" },
@@ -134,13 +134,13 @@ const en: Form41RegistrationServiceCopy = {
   metaDescription: `${company.shortName} · Form 41 and Form 10F, non-resident information and e-registration, scope, documents, process, DTAA, TDS, TRC, PAN and Form 15CA/CB linkages.`,
   pageTitle: "Form 41 / Form 10F registration and reporting support",
   pageDescription:
-    "We structure India income-tax non-resident information submissions and DTAA review steps (including Form 10F and e-registration pathways) and support related TDS and remittance reporting work.",
+    "We structure India income-tax non-resident information submissions and DTAA review steps (Form 41, Form 10F and e-registration pathways for the relevant period) and support related TDS and remittance reporting work.",
   sec1: {
     title: "1. Form 41 / Form 10F overview",
     p1:
-      "Form 41 is the non-resident information filing used in India in connection with withholding tax (TDS) on India-source income, including to support review of DTAA benefits and reduced TDS where applicable.",
+      "Form 41 is the electronic non-resident information return on the Income Tax e-Filing portal, used to support DTAA benefit and reduced withholding (TDS) positions on India-source income. Under recent portal reforms it is widely understood as the successor pathway to what Form 10F used to cover for non-resident particulars.",
     p2:
-      "Form 10F, electronic registration and Form 41-related e-filing requirements can coexist depending on facts, timing and portal rules. Required steps, workflows and documents can vary with PAN, TRC (tax residency certificate) and e-registration conditions.",
+      "Form 10F was the long-standing form for the same purpose under the earlier structure. Which form and workflow applies depends on the transaction and filing period, PAN and TRC status, and current portal menus — verify CBDT notices and portal guidance for the period in question rather than assuming both always run in parallel.",
   },
   sec2: {
     title: "2. Who typically needs to review this?",
@@ -176,7 +176,7 @@ const en: Form41RegistrationServiceCopy = {
       "Review transaction structure and payment character (royalty, FTS, interest, etc.)",
       "Document DTAA eligibility and conditions",
       "Validate TRC and non-resident identification/registration details",
-      "Review and submit non-resident registration (Form 10F requirements and e-registration pathways, as applicable)",
+      "Review and submit non-resident registration (Form 41 or period-appropriate Form 10F / e-registration pathway)",
       "Review applicable rates and how TDS should be calculated and reflected",
       "Assess whether Form 15CA/CB and forex reporting steps are needed alongside remittance",
     ],
@@ -212,11 +212,11 @@ const en: Form41RegistrationServiceCopy = {
     entries: [
       {
         term: "Form 41",
-        desc: "Electronic steps under Indian income tax tied to non-resident information; Form 10F items and e-registration checks are often reviewed together, depending on the case.",
+        desc: "E-filing return on the Income Tax portal for non-resident DTAA/TDS information; successor-style pathway after reforms that previously centred on Form 10F — confirm applicability by filing period.",
       },
       {
         term: "Form 10F",
-        desc: "Form used for non-resident information supporting DTAA positions, commonly read alongside electronic registration requirements.",
+        desc: "Earlier form for non-resident DTAA-related disclosures; still relevant for legacy periods, e-registration linkages or past filings, while many current transactions are routed via Form 41.",
       },
       { term: "DTAA", desc: "Double Taxation Avoidance Agreement" },
       { term: "TDS", desc: "Tax Deducted at Source (withholding)" },
@@ -241,13 +241,13 @@ const zh: Form41RegistrationServiceCopy = {
   metaDescription: `${company.shortName} · Form 41 与 Form 10F、非居民信息及电子登记，适用情形、资料、流程、注意事项及 DTAA、TDS、TRC、PAN、Form 15CA/CB 衔接。`,
   pageTitle: "Form 41 / Form 10F 相关登记与申报支持",
   pageDescription:
-    "梳理印度所得税项下非居民信息提交及 DTAA 适用审阅流程（含 Form 10F 与电子登记路径），并协助相关 TDS 与汇款申报实务。",
+    "梳理印度所得税项下非居民信息提交及 DTAA 适用审阅流程（Form 41、Form 10F 及对应期间的电子登记路径），并协助相关 TDS 与汇款申报实务。",
   sec1: {
     title: "1. Form 41 / Form 10F 概述",
     p1:
-      "Form 41 是印度非居民（Non-resident）就与印度来源所得相关的预扣税（TDS），为申请税收协定（DTAA）待遇及评估是否适用较低预扣税等而提交的非居民信息申报程序。",
+      "Form 41 是印度 Income Tax e-Filing Portal 上非居民就印度来源所得申请税收协定（DTAA）待遇及较低预扣税（TDS）而提交的电子非居民信息申报。门户改革后，通常被视为承接原 Form 10F 非居民信息职能的新路径。",
     p2:
-      "Form 10F、电子登记与 Form 41 相关申报要求可能并存，具体取决于事实、时点与门户规则；所需步骤、流程及材料可能因 PAN、TRC（税务居民证明）及电子登记条件等而异。",
+      "Form 10F 为旧体系下长期使用的同类用途表格；与 Form 41、电子登记要求的适用时点可能不同。应以交易与申报期间、PAN/TRC 状况及当时门户菜单为准，查阅 CBDT 通告与门户说明，不宜默认二者始终并行适用。",
   },
   sec2: {
     title: "2. 主要适用情形",
@@ -283,7 +283,7 @@ const zh: Form41RegistrationServiceCopy = {
       "审阅交易结构与支付性质（特许权使用费、技术服务费、利息等）",
       "梳理 DTAA 适用可能性及条件",
       "核对 TRC 及非居民身份/登记信息",
-      "非居民信息登记（Form 10F 与电子登记路径，视个案）审阅与提交",
+      "非居民信息登记（Form 41 或对应期间的 Form 10F/电子登记路径）审阅与提交",
       "审阅适用税率及 TDS 计算与反映方式",
       "评估与汇款、外汇申报相关的 Form 15CA/CB 是否需要",
     ],
@@ -319,11 +319,11 @@ const zh: Form41RegistrationServiceCopy = {
     entries: [
       {
         term: "Form 41",
-        desc: "与印度所得税非居民信息提交相关的电子环节之一，视个案常与 Form 10F 材料及电子登记要求一并审阅。",
+        desc: "所得税电子申报门户上用于非居民 DTAA/TDS 信息的申报表；改革后常视为承接原 Form 10F 职能的新路径，须按申报期间确认适用性。",
       },
       {
         term: "Form 10F",
-        desc: "用于非居民与 DTAA 适用相关的信息申报表格（常与电子登记体系并行使用）",
+        desc: "旧体系下非居民 DTAA 相关信息披露表格；过往期间申报、电子登记衔接或历史案件仍可能涉及，许多现行交易则优先走 Form 41 路径。",
       },
       { term: "DTAA", desc: "Double Taxation Avoidance Agreement（避免双重征税协定）" },
       { term: "TDS", desc: "Tax Deducted at Source（源泉扣缴）" },

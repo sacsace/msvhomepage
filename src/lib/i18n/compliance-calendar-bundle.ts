@@ -36,7 +36,7 @@ export const complianceCalendar: GuideBundle = {
           { item: "GSTR-1(매출 등)", summary: "월 신고자 · 매월 11일경(월별 filer 기준)" },
           { item: "GSTR-3B(매입·ITC)", summary: "월 신고자 · 매월 20일경(월별 filer 기준)" },
           { item: "PF·ESI", summary: "납부·신고 · 매월 15일경" },
-          { item: "Professional Tax", summary: "매월 20일경(주·邦별 상이)" },
+          { item: "Professional Tax", summary: "매월 20일경(주별 상이)" },
           { item: "ECB", summary: "차입 잔액 시 지정 AD Category-I 은행 경유 월별 보고(예: ECB-2) · 익월 초·통상 7일 이내 등, 지침 확인" },
           { item: "급여·원천징수", summary: "회사 내부 SLA와 TDS 일정 정렬" },
         ],
@@ -58,18 +58,37 @@ export const complianceCalendar: GuideBundle = {
         colItem: "항목",
         colSummary: "일정·요건(요약)",
         rows: [
-          { item: "DIR-3 KYC", summary: "9월 30일경 · 미이행 시 DIN 비활성 등 리스크" },
-          { item: "Professional Tax(연간)", summary: "4월 1일~30일경(주·邦별 상이)" },
-          { item: "SFT", summary: "5월 1일~30일경(해당 시)" },
+          {
+            item: "DIR-3 KYC",
+            summary:
+              "2026년 시행 기준 3년 주기 KYC(해당 연도·MCA 공지 확인). 미이행 시 DIN 비활성 등 리스크",
+          },
+          { item: "Professional Tax(연간)", summary: "4월 1일~30일경(주별 상이)" },
+          { item: "SFT", summary: "해당 시 일반적으로 5월 31일까지(연도·공지 확인)" },
           { item: "FLA", summary: "원칙적으로 매년 7월 15일까지 · FLAIR 포털 · 대외 채권·채무(FDI·ECB 등과 연계)" },
           {
             item: "세무감사인/감사 준비",
             summary: "통상 8월 말 전후 감사인 확정·자료 준비 진행(법인·감사 범위별 상이)",
           },
-          { item: "재무제표 감사", summary: "제출·주총 전 준비 · 통상 9월 전후 밀집(법인별 상이)" },
-          { item: "법인세 ITR", summary: "9월 전후 등 일반론(연장·세무 상태별 상이)" },
-          { item: "ROC AOC-4 / MGT-7(MGT-7A)", summary: "10월 전후 등 일반 제출 시즌(연장·면제 공고 확인)" },
-          { item: "TP(국제거래) 감사보고", summary: "11월 30일경(해당·임계 시)" },
+          { item: "재무제표 감사", summary: "제출·주총 전 준비 · 법인·감사 범위별 일정 상이" },
+          {
+            item: "법인세 ITR(일반)",
+            summary:
+              "일반 법인 기본기한은 통상 10월 31일. 해당 연도 연장 공지(예: AY 2026-27 일부 감사 대상 11월 21일 등)는 별도 확인",
+          },
+          {
+            item: "법인세 ITR(이전가격 보고 대상)",
+            summary: "이전가격 보고가 필요한 경우 통상 11월 30일(연도·공지 확인)",
+          },
+          {
+            item: "ROC AOC-4",
+            summary: "원칙적으로 AGM 후 30일 이내(연장·면제 공고 확인)",
+          },
+          {
+            item: "ROC MGT-7 / MGT-7A",
+            summary: "원칙적으로 AGM 후 60일 이내(연장·면제 공고 확인)",
+          },
+          { item: "TP(국제거래) 감사보고", summary: "해당·임계 시 통상 11월 30일경(연도·공지 확인)" },
           { item: "GSTR-9", summary: "매출 규모 등에 따라 의무·면제(공지 기준 확인)" },
           { item: "GSTR-9C", summary: "총매출 ₹5 crore 초과 등록사업자 자체 인증 조정명세서(적용 제외·고시 확인)" },
         ],
@@ -186,9 +205,13 @@ export const complianceCalendar: GuideBundle = {
         colItem: "Item",
         colSummary: "Schedule (summary)",
         rows: [
-          { item: "DIR-3 KYC", summary: "~30 September (DIN deactivation risk if missed)." },
+          {
+            item: "DIR-3 KYC",
+            summary:
+              "From 2026: typically a 3-year KYC cycle (confirm MCA notices). DIN deactivation risk if missed.",
+          },
           { item: "Professional tax (annual)", summary: "Often 1–30 April (state-specific)." },
-          { item: "SFT", summary: "May window where applicable." },
+          { item: "SFT", summary: "Generally by 31 May where applicable (confirm year-wise notices)." },
           { item: "FLA", summary: "~1–20 July · foreign assets/liabilities snapshot (FDI/ECB linkages)." },
           {
             item: "Tax auditor / audit readiness",
@@ -196,8 +219,23 @@ export const complianceCalendar: GuideBundle = {
               "Typically late August · confirm/appoint the statutory auditor and advance data packs (varies by entity and audit scope).",
           },
           { item: "Audit of financials", summary: "Ahead of ROC/ITR season (entity-specific)." },
-          { item: "Corporate ITR", summary: "Commonly cited September window · verify extensions and facts." },
-          { item: "ROC AOC-4 / MGT-7 or MGT-7A", summary: "~October season · check ROC notifications/extensions." },
+          {
+            item: "Corporate ITR (general)",
+            summary:
+              "Default due date for many companies is 31 October. Check separate year-specific extensions (e.g. AY 2026-27 for some audited cases).",
+          },
+          {
+            item: "Corporate ITR (transfer-pricing cases)",
+            summary: "Where TP reporting applies, commonly 30 November (confirm notices).",
+          },
+          {
+            item: "ROC AOC-4",
+            summary: "In principle within 30 days of the AGM (check extensions/exemptions).",
+          },
+          {
+            item: "ROC MGT-7 / MGT-7A",
+            summary: "In principle within 60 days of the AGM (check extensions/exemptions).",
+          },
           { item: "TP audit report", summary: "~30 November where international transactions exceed thresholds." },
           { item: "GSTR-9", summary: "Mandatory above notified turnover bands · verify current law." },
           { item: "GSTR-9C", summary: "Follow government notifications on applicability." },
@@ -313,17 +351,35 @@ export const complianceCalendar: GuideBundle = {
         colItem: "事项",
         colSummary: "日程·要点（概要）",
         rows: [
-          { item: "DIR-3 KYC", summary: "约 9 月 30 日（逾期可能影响 DIN）。" },
+          {
+            item: "DIR-3 KYC",
+            summary: "自 2026 年起多为 3 年周期 KYC（以 MCA 公告为准）。逾期可能影响 DIN。",
+          },
           { item: "Professional Tax（年报）", summary: "常见 4 月窗口（因邦而异）。" },
-          { item: "SFT", summary: "5 月窗口（如适用）。" },
+          { item: "SFT", summary: "一般适用时为 5 月 31 日前（以当年公告为准）。" },
           { item: "FLA", summary: "约 7 月 1–20 日；对外资产负债快照（与 FDI/ECB 等衔接）。" },
           {
             item: "税务审计师/审计准备",
             summary: "通常在 8 月底前后确定审计师并推进资料准备（因公司与审计范围而异）。",
           },
           { item: "财务报表审计", summary: "随 ROC/所得税季节前置（因主体而异）。" },
-          { item: "企业所得税申报", summary: "常见 9 月窗口等（以延期与事实为准）。" },
-          { item: "ROC AOC-4 / MGT-7 或 MGT-7A", summary: "常见 10 月前后季节（以 ROC 公告为准）。" },
+          {
+            item: "企业所得税申报（一般）",
+            summary:
+              "多数公司默认截止日为 10 月 31 日。当年延期公告（如 AY 2026-27 部分审计对象）需另行确认。",
+          },
+          {
+            item: "企业所得税申报（转让定价对象）",
+            summary: "需转让定价报告时常见 11 月 30 日（以公告为准）。",
+          },
+          {
+            item: "ROC AOC-4",
+            summary: "原则上 AGM 后 30 日内（以延期/豁免公告为准）。",
+          },
+          {
+            item: "ROC MGT-7 / MGT-7A",
+            summary: "原则上 AGM 后 60 日内（以延期/豁免公告为准）。",
+          },
           { item: "转让定价审计报告", summary: "国际交易达门槛时约 11 月 30 日前后。" },
           { item: "GSTR-9", summary: "营业额等达门槛时强制；以政府通知为准。" },
           { item: "GSTR-9C", summary: "以当年制度与通知为准。" },

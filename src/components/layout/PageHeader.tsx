@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { getRequestBrowserPath } from "@/lib/get-request-browser-path";
+import { getRequestLocale } from "@/lib/get-request-locale";
+import { pickLocale, type SiteLocale } from "@/lib/site-locale";
 import {
   pageHeroMeta,
   resolvePageHeroPattern,
@@ -11,7 +13,7 @@ type Props = {
   title: string;
   /** 히어로 제목 위 소형 라벨(서비스 랜딩 등, 선택) */
   eyebrow?: string;
-  /** split 패턴 우측 패널 큰 제목(기본 Practice) */
+  /** split 패턴 우측 패널 큰 제목(미지정 시 로케일별 Our Services) */
   asideTitle?: string;
   description?: string;
   /** true면 설명을 줄바꿈 없이 한 줄로 표시하고, 넘치면 가로 스크롤합니다. */
@@ -32,7 +34,15 @@ type Props = {
   pattern?: PageHeroPattern;
 };
 
-function HomeCrumb({ onDark }: { onDark: boolean }) {
+function homeCrumbLabel(locale: SiteLocale): string {
+  return pickLocale(locale, { ko: "홈", en: "Home", zh: "首页" });
+}
+
+function defaultAsideTitle(locale: SiteLocale): string {
+  return pickLocale(locale, { ko: "서비스", en: "Our Services", zh: "服务" });
+}
+
+function HomeCrumb({ onDark, locale }: { onDark: boolean; locale: SiteLocale }) {
   return (
     <p className={`text-sm ${onDark ? "text-white/60" : "text-slate-500"}`}>
       <Link
@@ -43,7 +53,7 @@ function HomeCrumb({ onDark }: { onDark: boolean }) {
             : "font-medium text-msv-ink underline-offset-4 hover:underline"
         }
       >
-        홈
+        {homeCrumbLabel(locale)}
       </Link>
     </p>
   );
@@ -52,15 +62,16 @@ function HomeCrumb({ onDark }: { onDark: boolean }) {
 export async function PageHeader({
   title,
   eyebrow,
-  asideTitle = "Practice",
+  asideTitle: asideTitleProp,
   description,
   descriptionSingleLine,
   descriptionWide,
   belowDescription,
   pattern: patternProp,
 }: Props) {
-  const browserPath = await getRequestBrowserPath();
+  const [browserPath, locale] = await Promise.all([getRequestBrowserPath(), getRequestLocale()]);
   const pattern = patternProp ?? resolvePageHeroPattern(browserPath);
+  const resolvedAsideTitle = asideTitleProp ?? defaultAsideTitle(locale);
   const meta = pageHeroMeta(pattern);
   const onDark = pattern === "ink";
   const showEyebrow = Boolean(eyebrow);
@@ -83,7 +94,7 @@ export async function PageHeader({
 
   const content = (
     <>
-      <HomeCrumb onDark={onDark} />
+      <HomeCrumb onDark={onDark} locale={locale} />
       {showEyebrow ? (
         <p
           className={`mt-5 text-[11px] font-semibold uppercase tracking-[0.22em] ${
@@ -172,7 +183,7 @@ export async function PageHeader({
                 {meta.label}
               </p>
               <p className="mt-3 font-sans text-3xl font-semibold tracking-[-0.035em] text-white">
-                {asideTitle}
+                {resolvedAsideTitle}
               </p>
             </div>
           </div>

@@ -8,6 +8,7 @@ import type { RecruitmentProcessStep } from "@/lib/i18n/recruitment-support-serv
 import { recruitmentSupportServiceCopy } from "@/lib/i18n/recruitment-support-service-locale";
 import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import { withLocalePrefix } from "@/lib/site-locale";
+import { contactHref } from "@/lib/contact-inquiry";
 
 const body = "text-sm leading-relaxed text-slate-700 break-keep";
 const sectionShell = "rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8";
@@ -163,7 +164,7 @@ export default async function RecruitmentSupportServicePage() {
               {copy.backToServices}
             </Link>
             <Link
-              href={L("/contact")}
+              href={contactHref(locale, { type: "accounting_tax" })}
               className="rounded-lg bg-msv-navy px-4 py-2 text-sm font-semibold text-white transition hover:bg-msv-navy/90"
             >
               {copy.contactCta}

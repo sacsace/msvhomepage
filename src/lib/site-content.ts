@@ -10,7 +10,7 @@ export const company = {
   infoEmail: "info@msventures.in",
   tagline: "ACCOUNTING · TAX · INDIA",
   /** 메타 설명·히어로 보조 문구 등에 사용 */
-  taglineKo: "인도 법인 회계·세무와 현장 실행을 한 팀에서 지원합니다.",
+  taglineKo: "인도 법인 회계·세무와 인도 현지 실무를 한 팀에서 지원합니다.",
   address: "Ferns City Road, Bangalore, Karnataka, India",
   websites: [] as readonly { label: string; href: string }[],
   brochurePath: "/company-profile-ms-ventures.pdf",
@@ -23,22 +23,21 @@ export const siteUrl = "https://www.msventures.in" as const;
 export const homeAccountingHero = {
   headline: "인도 법인 회계·세무, 기장부터 법정 신고까지 한 팀이 마감을 책임집니다.",
   lead:
-    "상근 공인회계사(CPA) 체계를 기반으로 GST·TDS·법인세·FDI·FEMA 신고를 운영합니다.\n자본 송금·증자·ECB·DTAA·주식 계좌·Demat 계좌 등 인도 법인 운영에 필요한 실무를 통합 지원합니다.",
-  badge: "CPA-led · Bangalore",
+    "한국 공인회계사(CPA)와 인도 공인회계사(CA)가 함께 GST·TDS·법인세·FDI·FEMA 신고를 지원합니다.\n자본 송금·증자·ECB·DTAA·주식 전자등록 계좌(Demat) 등 인도 법인 운영에 필요한 실무를 통합 지원합니다.",
+  badge: "인도 법인 회계·세무 · Bangalore",
 } as const;
 
 /** 홈 — 해외 투자·송금(회계 운영 스포트라이트와 동일한 밝은 레이아웃) */
 export const investmentRemittanceSpotlight = {
   eyebrow: "자본·송금 관련 서비스",
-  title: "해외 투자 / 송금과 신고",
+  title: "외국인 투자·해외 송금 지원",
   paragraphs: [
     "인도 법인 설립·운영 과정에서는 외국인 투자(FDI) 규정, 자본금 유치·증자, 주주 구조 변경, 비거주자 송금 시 세무·외환 관련 신고를 동시에 맞춰야 합니다.",
     "MSV는 법인 컨설팅·회계·세무를 한 조직에서 다루며, 방갈로르 현장에서 서류·은행·세무 실행까지 일관되게 지원합니다. 아래는 주요 수행 업무 항목입니다.",
   ] as const,
   highlights: [
     "Form 41 / Form 10F·DTAA(이중과세 방지)·소득세 신고",
-    "주식 계좌 개설",
-    "Demat 계좌 개설",
+    "주식 전자등록 계좌(Demat) 개설 지원",
     "자본금 송금·증자",
     "대외상업차입(ECB)",
     "주주 간 지분율 변경",
@@ -48,16 +47,16 @@ export const investmentRemittanceSpotlight = {
 
 /** 홈 — 회계·관리 지원(밝은 배경, 왼쪽 정렬 + 파이프 키워드) */
 export const accountingOperationsSpotlight = {
-  eyebrow: "인도 법인 · 회계·세무 핵심",
+  eyebrow: "인도 법인 회계·세무 서비스",
   title: "안정적인 회계 운영",
   paragraphs: [
-    "인도 현지 규정(IFRS·Ind AS·GST·TDS 등)에 맞춘 장부 관리 및 신고 체계를 상근 공인회계사(CPA) 기반으로 안정적으로 운영합니다. 또한 본사 보고 일정과 인도 법정 마감 일정을 동시에 충족할 수 있도록 표준화된 프로세스와 체크리스트를 적용하고 있습니다.",
+    "인도 회계기준(Ind AS)·세법(GST·TDS 등)과 본사 보고 자료 요건에 맞춘 장부 관리 및 신고 체계를 한국 공인회계사(CPA)와 인도 공인회계사(CA)가 함께 운영합니다. 본사 보고 일정과 인도 법정 마감 일정을 동시에 맞출 수 있도록 표준화된 프로세스와 체크리스트를 적용하고 있습니다.",
     "거래 규모와 산업 특성에 따라 업무 범위를 유연하게 조정하며, 월·분기·연간 단위의 기장, 세무, 자문 서비스를 통합 제공하고 있습니다. 아래는 주요 수행 업무 항목입니다.",
   ] as const,
   highlights: [
-    "기장·월 회계",
+    "장부 기장·월별 결산",
     "세무 신고",
-    "법인세·납부",
+    "법인세 신고·납부",
     "원천세(TDS)",
     "부가세(GST)",
     "이전가격(TP)",
@@ -65,7 +64,7 @@ export const accountingOperationsSpotlight = {
     "직원 의료보험(ESIC)",
     "직원 연금(EPF)",
     "전문세(PT)",
-    "급여·대장 제공",
+    "급여 계산·급여대장 작성",
     "SFT",
     "FLA",
     "연결재무제표",
@@ -153,7 +152,7 @@ export const groupCompanies = [
     website: "https://www.hotellotus.in",
     intro: `Lotus Korean Hotel은 방갈로르에서 비즈니스·장기 체류에 맞춘 한국형 호텔·숙박 서비스를 제공합니다.
 
-MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등을 함께 지원하며, 현지 업무와 연계된 숙박 옵션을 제공합니다.`,
+기업 출장자와 장기 체류 고객을 위한 숙박 서비스를 제공하며, MSV 고객사와 협력해 프로젝트 기간 체류 등도 함께 지원합니다.`,
     location: {
       /** Google Maps 단축 링크가 가리키는 좌표(12.9785591, 77.6974959) 기준 embed */
       embedSrc: "https://www.google.com/maps?q=12.9785591%2C77.6974959&z=16&output=embed",
@@ -164,13 +163,13 @@ MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등�
 
 /** 비전 — 회사 소개 페이지용 (수정 시 PDF·대외 메시지와 맞출 것) */
 export const vision = {
-  headline: "인도에서 가장 믿을 수 있는 실행 파트너",
+  headline: "인도 현지 실무를 직접 지원하는 신뢰의 파트너",
   statement:
     "복잡한 제도와 문화 속에서도 고객의 법인 설립부터 운영·확장까지 끊김 없이 함께하며, 한국과 인도를 잇는 신뢰의 허브가 되는 것을 지향합니다.",
   pillars: [
     {
       title: "실행력",
-      text: "문서와 조언에 그치지 않고, 현장에서 직접 처리·책임지는 원스톱 실무를 제공합니다.",
+      text: "문서와 조언에 그치지 않고, 회계·세무·운영을 인하우스로 책임지고 전문·승인 업무는 CPA·CA와 협업하는 원스톱 실무를 제공합니다.",
     },
     {
       title: "투명성",
@@ -189,7 +188,7 @@ export const milestones = [
     phase: "기반",
     title: "원스톱 운영 체계 수립",
     description:
-      "법인 회계·수출입·HR·주재원 비자·인허가 등을 내부 팀이 직접 수행하는 실무 중심 조직을 갖추고, 외주에 의존하지 않는 대응 체계를 완성했습니다.",
+      "법인 회계·수출입·HR·주재원 비자·인허가 등 핵심 운영을 내부 팀이 인하우스로 수행하는 실무 중심 조직을 갖추고, 전문·승인 업무는 CPA·CA와 협업하는 대응 체계를 완성했습니다.",
   },
   {
     phase: "성장",
@@ -244,8 +243,8 @@ export const overview = {
   title: "회사 개요",
   /** 3문단 — MSV 소개 / 운영·CPA / 그룹·지원 범위. 수정 시 PDF·대외 문구와 맞출 것. */
   paragraphs: [
-    `${company.shortName}는 인도 법인의 회계·세무·컴플라이언스를 축으로 하는 실행형 파트너입니다.`,
-    `월·분기·연간 기장과 GST·TDS·법인세·FDI 신고, 감사·TP 대응까지 상근 CPA 체계로 방갈로르에서 직접 처리합니다. 회계·세무는 한국 공인회계사(CPA) 출신 하헌범 부대표와 인도 공인회계사(CA) 카슐 샤르마가 상근으로 직접 수행하며, IFRS와 인도 현지 규제(GST·TDS 등)를 동시에 맞출 수 있도록 전문적으로 지원합니다.`,
+    `${company.shortName}는 인도 법인의 회계·세무·컴플라이언스를 축으로, 인도 현지 실무를 직접 지원하는 파트너입니다.`,
+    `월·분기·연간 기장과 GST·TDS·법인세·FDI 신고, 감사·TP 대응은 방갈로르 실무팀이 인하우스로 운영합니다. 공인 서명·감사·TP 등 전문 영역은 한국 공인회계사(CPA) 출신 하헌범 부대표와 인도 공인회계사(CA) 카슐 샤르마가 함께 검토·승인 체계로 지원하며, Ind AS·인도 세법과 본사 보고 자료 요건을 동시에 맞출 수 있도록 돕습니다.`,
     `법인 설립·인허가·HR·수출입·주재원 지원과 Lotus Korean Hotel 등 확장 서비스는 그룹 브랜드·협력 조직과 연계해 제공하며, 회계 데이터와 운영 실무가 끊기지 않도록 설계합니다. 본사는 ${company.address}에 있으며, 인도 내 법인 설립·회계·세무·인허가·HR 등 핵심 경영 지원을 한 조직에서 통합적으로 돕습니다.`,
   ] as const,
 } as const;
@@ -300,7 +299,7 @@ export const softwareLanding = {
 /** HeresNow 페이지 본문·메타는 `herenowSoftwarePageCopy` (`@/lib/i18n/herenow-software-page-locale`)에서 로케일별로 관리합니다. */
 
 export const values = [
-  "실행 중심의 맞춤형 컨설팅 제공",
+  "인도 현지 실무에 맞춘 맞춤형 컨설팅 제공",
   "투명하고 검증 가능한 회계·세무 운영",
   "한국·인도 간 실무 커뮤니케이션 지원",
   "산업별 실전 경험 기반 문제 해결",
@@ -310,8 +309,8 @@ export const values = [
 
 /** 인포그래픽(좌 3·우 2) 순서와 동일하게 유지 */
 export const strengths = [
-  "상근 CPA·인도 기장·월·분기·연간 신고 일괄 체계",
-  "외주 없는 회계·세무·컴플라이언스 직접 대응",
+  "한·인 CPA·CA 협업 기반의 기장·월·분기·연간 신고 일괄 체계",
+  "회계·세무·컴플라이언스 핵심 업무를 내부 팀이 직접 지원",
   "한국 본사 보고 일정과 인도 법정 신고 기한을 함께 관리합니다.",
   "한국-인도 간 법·문화 차이에 대한 이해와 조율",
   "다국어 커뮤니케이션",
@@ -322,7 +321,7 @@ export const services = [
   {
     title: "회계·세무·컴플라이언스",
     description:
-      "IFRS와 인도 규정을 기반으로 회계·감사·세무 신고(GST·TDS 등)를 수행하며, 법인 구조 자문까지 상근 공인회계사 체계로 지원합니다.",
+      "Ind AS·인도 세법을 기반으로 회계·감사·세무 신고(GST·TDS 등)를 수행하며, 본사 보고 자료와 법인 구조 자문까지 한·인 회계 전문가가 지원합니다.",
   },
   {
     title: "법인 설립 및 인허가",
@@ -398,10 +397,10 @@ export const accountingServiceBlocks: readonly AccountingServiceBlock[] = [
     title: "기타 서비스",
     subtitle: "건별 이슈, 인원 단위 신고, 비정기 행정·세무 요청을 신속하게 처리합니다.",
     items: [
-      "이사 등록·삭제(1인 단위)",
+      "이사 선임·사임 및 변경 신고(1인 단위)",
       "Form 15CA/CB(비거주자 송금 관련 세무 인증, 건별)",
       "ECB(대외상업차입), 해외 송금 Form 41 / Form 10F·DTAA(이중과세 방지) 관련 지원(해당 시)",
-      "DIR-3 KYC(이사 식별번호 연간 갱신, 1인 단위)",
+      "DIR-3 KYC(2026년부터 3년 주기 이사 DIN 갱신, 1인 단위)",
       "공인회계사 서명 필요 문서(서류 건별)",
     ],
   },
@@ -455,22 +454,34 @@ export const indiaComplianceQuarterlyRows: readonly IndiaComplianceScheduleRow[]
 ];
 
 export const indiaComplianceAnnualRows: readonly IndiaComplianceScheduleRow[] = [
-  { item: "DIR-3 KYC", schedule: "9월 30일까지(미이행 시 DIN 비활성화 가능)" },
-  { item: "Professional Tax 연간 신고", schedule: "4월 1일~4월 30일(주별 상이)" },
-  { item: "SFT", schedule: "5월 1일~5월 30일(해당 시)" },
-  { item: "FLA", schedule: "원칙적으로 매년 7월 15일까지 제출(FLAIR 포털, 해당 시)" },
-  { item: "재무제표 감사", schedule: "해당 회계연도·감사 계약에 따른 일정(일반적 참고: 9월 30일 이전)" },
   {
-    item: "ITR(법인소득세 신고)",
-    schedule: "감사·적용 유형·연도별 고시에 따라 상이(일반적 참고: 9월 30일 이전, 연장·조정 가능)",
+    item: "DIR-3 KYC",
+    schedule: "2026년부터 3년 주기 · 해당 연도 9월 30일까지(미이행 시 DIN 비활성화 가능)",
+  },
+  { item: "Professional Tax 연간 신고", schedule: "4월 1일~4월 30일(주별 상이)" },
+  { item: "SFT", schedule: "5월 31일까지(해당 시)" },
+  { item: "FLA", schedule: "원칙적으로 매년 7월 15일까지 제출(FLAIR 포털, 해당 시)" },
+  { item: "재무제표 감사", schedule: "해당 회계연도·감사 계약에 따른 일정(법인별 상이)" },
+  {
+    item: "ITR(법인소득세 신고) · 일반",
+    schedule:
+      "일반 법인 기본기한은 통상 10월 31일. 해당 연도 연장 공지(예: AY 2026-27 일부 감사 대상 11월 21일 등)는 별도 확인",
   },
   {
-    item: "ROC AOC-4 / MGT-7(또는 MGT-7A)",
-    schedule: "AGM·적용 양식·연도별 고시에 따라 상이(일반적 참고: 10월 30일 이전)",
+    item: "ITR(법인소득세 신고) · 이전가격 보고 대상",
+    schedule: "이전가격 보고가 필요한 경우 통상 11월 30일(연도·공지 확인)",
+  },
+  {
+    item: "ROC AOC-4(재무제표)",
+    schedule: "원칙적으로 AGM 종료 후 30일 이내(연장·면제 공고 확인)",
+  },
+  {
+    item: "ROC MGT-7 / MGT-7A(연간 법인 신고)",
+    schedule: "원칙적으로 AGM 종료 후 60일 이내(연장·면제 공고 확인)",
   },
   {
     item: "TP Audit Report",
-    schedule: "국제거래·적용 법인·연도별 고시에 따라 상이(일반적 참고: 11월 30일 이전)",
+    schedule: "국제거래·적용 법인 등 해당 시, 통상 11월 30일 ITR 일정과 연동(연도별 확인)",
   },
   {
     item: "GSTR-9(연간 GST)",
@@ -511,7 +522,7 @@ export const leadership: LeadershipMember[] = [
     name: "이민섭",
     email: "lee@msventures.in",
     summary:
-      "인도 시장의 복잡한 제도와 행정 환경 속에서 실행까지 책임지는 실무형 파트너로서, 법인 설립부터 회계·세무·수출입·비자·호텔·HR까지 외주 없이 직접 실행하는 통합 솔루션을 이끕니다.",
+      "인도 시장의 복잡한 제도와 행정 환경에서 인도 현지 실무를 직접 지원하는 파트너로서, 법인 설립부터 회계·세무·수출입·비자·호텔·HR까지 운영을 인하우스로 관리하고 전문·승인 업무는 CPA·CA와 협업하는 통합 솔루션을 이끕니다.",
     /** `web/public/team/lee-minsub-2026.png` — 파일명 변경 시 브라우저·이미지 캐시 무효화에 유리합니다. */
     photoSrc: "/team/lee-minsub-2026.png",
   },
@@ -534,9 +545,9 @@ export const leadership: LeadershipMember[] = [
 ];
 
 /** 회사 소개 페이지 대표이사 인사말 전문. 대외 PDF와 문구를 맞출 때는 이 상수만 수정하면 됩니다. */
-export const ceoStatementFull = `MSV는 인도 시장에서 활동하는 외국계 기업에게 단순한 컨설팅을 넘어, 현장에서 실행까지 책임지는 실무형 파트너가 되기 위해 설립되었습니다. 복잡한 제도와 언어·문화·행정 환경 속에서도 의사결정이 지연되지 않도록, 현장에서 직접 수행하는 것을 원칙으로 합니다.
+export const ceoStatementFull = `MSV는 인도 시장에서 활동하는 외국계 기업에게 단순한 컨설팅을 넘어, 인도 현지 실무를 직접 지원하는 파트너가 되기 위해 설립되었습니다. 복잡한 제도와 언어·문화·행정 환경 속에서도 의사결정이 지연되지 않도록, 현장에서 직접 수행하는 것을 원칙으로 합니다.
 
-호텔·제조·부동산·유통 등 다양한 산업의 수십 개 한국 기업과 함께 설립부터 정착·운영·확장까지 경험을 쌓아 왔습니다. MSV의 실무팀이 주요 업무를 직접 수행하며, 전문 자격과 별도 검토가 필요한 업무는 해당 분야 전문가와 협업하여 지원합니다. IFRS와 인도 규제를 아우르는 상근 공인회계사 체계로 투명한 재무 보고와 컴플라이언스를 뒷받침합니다.
+호텔·제조·부동산·유통 등 다양한 산업의 수십 개 한국 기업과 함께 설립부터 정착·운영·확장까지 경험을 쌓아 왔습니다. MSV의 실무팀이 주요 업무를 직접 수행하며, 전문 자격과 별도 검토가 필요한 업무는 해당 분야 전문가와 협업하여 지원합니다. Ind AS·인도 세법과 본사 보고 요건을 함께 맞추는 한·인 회계 전문가 협업으로 투명한 재무 보고와 컴플라이언스를 뒷받침합니다.
 
 앞으로도 인도에서 비즈니스를 준비하시는 분들께 검증된 현장 경험과 실행력을 바탕으로 든든한 파트너가 되겠습니다. 감사합니다.`;
 

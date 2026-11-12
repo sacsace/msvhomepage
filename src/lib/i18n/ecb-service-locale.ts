@@ -50,11 +50,11 @@ export type EcbGuideCopy = {
 };
 
 const ko: EcbGuideCopy = {
-  metaTitle: "ECB(FEMA 외화차입) 실무 안내",
-  metaDescription: `${company.shortName} · 인도 ECB(대외상업차입·FEMA) 개념·자동승인·RBI·Form ECB(Form 83 기반 등록)·LRN·ECB-2·FIRMS·협력 은행 안내`,
-  pageTitle: "ECB(FEMA 외화차입) 실무 안내",
+  metaTitle: "ECB(대외상업차입·FEMA) 실무 안내",
+  metaDescription: `${company.shortName} · 인도 ECB(External Commercial Borrowing·FEMA) 개념·자동승인·RBI·AD Category-I Bank·FIRMS·Form ECB·LRN·ECB-2 Return·FCY/INR ECB·협력 은행 안내`,
+  pageTitle: "ECB(대외상업차입·FEMA) 실무 안내",
   pageDescription:
-    "대외상업차입(ECB)은 RBI·FEMA 규정에 따라 차입 가능 주체(Borrower), 대주(Lender), 자금 용도(End-use), 만기(MAMP), 통화 및 보고 체계가 관리되는 대표적인 외화 조달 방식입니다. 아래는 실무 절차와 컴플라이언스 포인트를 정리한 참고 안내이며, 실행·신고는 최신 Master Direction·고시 및 개별 사안을 따릅니다.",
+    "대외상업차입(ECB, External Commercial Borrowing)은 RBI·FEMA 규정에 따라 차입 주체(Borrower), 대주(Lender), 자금 용도(End-use), 만기(MAMP), 통화(FCY·INR 등) 및 보고 체계가 관리되는 대표적인 대외 조달 방식입니다. 외화(FCY) ECB뿐 아니라 루피(INR) 표시 ECB도 규정 범위에서 검토됩니다. 아래는 실무 절차와 컴플라이언스 포인트를 정리한 참고 안내이며, 실행·신고는 최신 Master Direction·고시 및 개별 사안을 따릅니다.",
   bankChannel: {
     title: "은행 채널 및 전국 서비스",
     body:
@@ -63,7 +63,7 @@ const ko: EcbGuideCopy = {
   whatEcb: {
     title: "1. ECB란",
     body:
-      "ECB(External Commercial Borrowing)는 인도 거주자(법인 등)가 비거주자로부터 조달하는 상업적 외화 차입입니다. 대출, 비전환사채(NCD) 등 전통적 차입 외에도 일부 전환형 금융상품 및 외화차입 구조는 관련 규정에 따라 ECB 범위 검토 대상이 될 수 있습니다. FEMA (Borrowing and Lending in Foreign Exchange) Regulations 및 RBI Master Direction · External Commercial Borrowings, Trade Credit… 등에 따라 승인, 한도 및 보고 의무 등이 관리됩니다.",
+      "ECB(External Commercial Borrowing, 대외상업차입)는 인도 거주자(법인 등)가 비거주자로부터 조달하는 상업적 대외 차입입니다. 통화는 외화(FCY)뿐 아니라 루피(INR) 표시 ECB도 Master Direction 범위에서 별도 요건으로 관리됩니다. 대출, 비전환사채(NCD) 등 전통적 차입 외에도 일부 전환형 금융상품은 관련 규정에 따라 ECB 범위 검토 대상이 될 수 있습니다. FEMA (Borrowing and Lending in Foreign Exchange) Regulations 및 RBI Master Direction · External Commercial Borrowings, Trade Credit… 등에 따라 승인, 한도 및 보고 의무 등이 관리됩니다.",
   },
   types: {
     title: "2. ECB의 주요 유형·대주",
@@ -90,15 +90,15 @@ const ko: EcbGuideCopy = {
       "기본적으로 시설자금(Capex) 성격이 중심입니다. 일반적인 부동산 개발·토지 투자·자본시장 투자 목적은 제한되는 경우가 많으며, 허용 여부·예외는 당시 ECB Master Direction 및 관련 통지를 확인해야 합니다(완전 금지로 단정하면 안 되며, 구조·시기·트랙에 따라 예외가 존재할 수 있습니다). 운전자금(Working capital) 등은 차입 주체·구조·만기(MAMP)에 따라 제한되거나 추가 조건이 적용될 수 있습니다(해외 모회사·주주 대여금 등은 별도 트랙·만기·한도 규정).",
   },
   procedure: {
-    title: "4. ECB 실행 및 RBI 신고 절차 (AD Bank 기준)",
+    title: "4. ECB 실행 및 RBI 신고 절차 (AD Category-I Bank·FIRMS 기준)",
     steps: [
-      "AD Bank 지정 후 차주(Borrower)·대주(Lender) 간 Loan Agreement 체결",
-      "법률·회계 검토를 거쳐 ECB 등록을 위해 Form ECB(Form 83에 기반한 등록·신고 절차로 널리 이해되는 양식)를 AD Bank를 통해 RBI(FIRMS ECB 모듈 등)로 제출합니다. 관행·문헌에서는 ‘Form 83’ 표현이 병행되나, 최근에는 FIRMS 기반 ECB 모듈 중심 설명이 일반적입니다.",
-      "AD Bank가 RBI에 서류 제출 후 ECB 등록번호(LRN, Loan Registration Number) 발급 및 RBI 등록 절차를 진행합니다.",
-      "LRN 발급 후 인출(Drawdown) 가능. 이후 사후보고(ECB-2 등)를 FIRMS 등 전자 채널로 제출합니다. 제출 기한 및 보고 항목은 RBI 고시 및 등록 조건에 따라 달라질 수 있습니다.",
+      "AD Category-I Bank 지정 후 차주(Borrower)·대주(Lender) 간 Loan Agreement 체결",
+      "법률·회계 검토 후 Form ECB 1 등 사전 등록 서류를 지정 AD Category-I 은행을 통해 RBI FIRMS(ECB 모듈)로 제출합니다. (과거 문헌의 Form 83은 구 체계 참고용입니다.)",
+      "등록 완료 시 ECB 등록번호(LRN)가 부여됩니다. LRN 확보 전 인출(Drawdown) 일정을 맞춥니다.",
+      "LRN 발급 후 인출 가능. 잔액이 있으면 Form ECB 2(월별 사후보고) 등을 지정 AD 은행·FIRMS로 제출합니다. 양식·기한은 당시 RBI Master Direction·circular 및 AD Bank 안내를 확인합니다.",
     ],
     note:
-      "Loan agreement 서명일·LRN·인출(Drawdown) 일정의 정합이 중요합니다. ECB drawdown이 있거나 잔액이 있는 경우 월별 ECB-2 Return 제출 의무가 발생할 수 있으며, 실제 제출 일정은 RBI 공지·통지 및 AD Bank 운영 기준을 확인해야 합니다.",
+      "Loan agreement 서명일·LRN·인출(Drawdown) 일정의 자료 일치가 중요합니다. 잔액이 있으면 Form ECB 2 월별 보고 의무가 생길 수 있으며, 일정은 RBI 공지와 AD Bank 운영 기준을 확인하세요.",
   },
   qa: {
     title: "5. ECB 진행 Q&A",
@@ -153,7 +153,7 @@ const ko: EcbGuideCopy = {
     title: "6. 구비서류 예시 (Automatic Route 기준)",
     items: [
       "회사 요청서(Request letter)",
-      "Form ECB(Form 83 기반 등록 절차, 실무상 ‘Form 83’로도 지칭)·평균만기 산출 자료",
+      "Form ECB 1(등록)·Form ECB 2(월별 보고)·평균만기(MAMP) 산출 자료",
       "Loan Agreement · 대주·차주, 금액(FCY), 기간, 인출·상환, 금리, 이자 지급, 자금 사용 목적, 투자 지출 사유 및 사용 계획(재무자료 포함) 등",
       "차입자 정관(Memorandum of Association)",
       "차입자 최근 3개년 재무제표",
@@ -179,7 +179,7 @@ const ko: EcbGuideCopy = {
   firc: {
     title: "8. FIRC·전자신고(FIRMS)",
     paragraphs: [
-      "FIRC(Foreign Inward Remittance Certificate)는 AD Bank가 발행하는 송금 증빙으로, 자본금 납입, ECB 인출 등 외화 유입 사실을 확인하는 데 사용됩니다.",
+      "FIRC(Foreign Inward Remittance Certificate)는 AD Bank가 발행하는 송금 증빙으로, 자본금 납입, ECB 인출(FCY 등) 등 대외자금 유입 사실을 확인하는 데 사용됩니다.",
       "FIRMS는 RBI의 외국인투자·ECB·지분 보고를 아우르는 전자 포털 체계로, Entity Master 및 각 신고 모듈과 연계됩니다. ECB·FDI 관련 유입·등록·사후보고는 이 환경에서 처리되는 경우가 많습니다.",
       "전자 신고가 보편화되면서 포털 업로드·UIN 발급 절차가 사용됩니다. 양식 작성, 첨부서류 스캔 및 등록 업무는 일반적으로 전문가 검토를 거쳐 진행됩니다.",
     ],
@@ -220,7 +220,7 @@ const ko: EcbGuideCopy = {
       { label: "RBI FEMA 고시·규정(안내)", href: "https://www.rbi.org.in/Scripts/Fema.aspx" },
     ],
     disclaimer:
-      "본 페이지는 MSV 내부 자료(자금조달·ECB 개요, 2020) 및 업계 안내(ECB 주요 안내사항 등)를 바탕으로 재편집한 참고용 요약입니다. RBI Master Direction·고시·환율·세법은 수시로 개정되므로 실행·신고·원천징수(예: Form 15CA/CB) 일정은 MSV와 상담 후 확정하시기 바랍니다.",
+      "본 페이지는 MSV 실무 요약 및 공개 RBI·업계 안내를 바탕으로 한 참고용 내용입니다. RBI Master Direction·고시·환율·세법은 수시로 개정되므로 실행·신고·원천징수(예: Form 15CA/CB) 일정은 최신 FIRMS·AD Bank 안내를 확인하고 MSV와 상담 후 확정하시기 바랍니다.",
   },
   relatedPractice: {
     title: "관련 실무",
@@ -237,11 +237,11 @@ const ko: EcbGuideCopy = {
 };
 
 const en: EcbGuideCopy = {
-  metaTitle: "ECB (FEMA external borrowing) · practical guide",
-  metaDescription: `${company.shortName} · India ECB / FEMA external commercial borrowing: concepts, automatic route, RBI filings, Form ECB (legacy Form 83–style registration), LRN, ECB-2, FIRMS and banking partners.`,
+  metaTitle: "ECB (External Commercial Borrowing) · practical guide",
+  metaDescription: `${company.shortName} · India ECB / FEMA external commercial borrowing: concepts, automatic route, RBI, AD Category-I bank, FIRMS, Form ECB, LRN, ECB-2 Return, FCY/INR ECB and banking partners.`,
   pageTitle: "ECB (External Commercial Borrowing) · practical guide",
   pageDescription:
-    "External commercial borrowing (ECB) is a regulated foreign-currency funding path under RBI and FEMA where borrower category, lender eligibility, end-use, maturity (MAMP), currency and reporting are managed together. This page summarises practical steps and compliance points for reference only; execution and filings must follow the latest Master Directions, circulars and your facts.",
+    "External commercial borrowing (ECB) is a regulated cross-border funding path under RBI and FEMA where borrower category, lender eligibility, end-use, maturity (MAMP), currency (including FCY and INR-denominated ECB) and reporting are managed together. This page summarises practical steps and compliance points for reference only; execution and filings must follow the latest Master Directions, circulars and your facts.",
   bankChannel: {
     title: "Banking channels and nationwide coverage",
     body:
@@ -250,7 +250,7 @@ const en: EcbGuideCopy = {
   whatEcb: {
     title: "1. What is ECB?",
     body:
-      "ECB (External Commercial Borrowing) is commercial foreign-currency borrowing by Indian residents (e.g. companies) from non-residents. Besides traditional loans and non-convertible debentures (NCDs), certain convertible-style instruments and foreign-currency structures may fall within ECB review depending on the rules in force. Approvals, caps and reporting are governed by the FEMA (Borrowing and Lending in Foreign Exchange) Regulations and RBI Master Direction · External Commercial Borrowings, Trade Credit, etc.",
+      "ECB (External Commercial Borrowing) is commercial borrowing by Indian residents (e.g. companies) from non-residents. It is not limited to foreign-currency facilities: INR-denominated ECB is also governed under the Master Direction with distinct conditions. Besides traditional loans and non-convertible debentures (NCDs), certain convertible-style instruments may fall within ECB review depending on the rules in force. Approvals, caps and reporting are governed by the FEMA (Borrowing and Lending in Foreign Exchange) Regulations and RBI Master Direction · External Commercial Borrowings, Trade Credit, etc.",
   },
   types: {
     title: "2. Main ECB types and lenders",
@@ -277,12 +277,12 @@ const en: EcbGuideCopy = {
       "End-use is generally capex-led. Broad-brush real-estate development, land investment and capital-market purposes are often restricted or heavily conditioned, and what is permitted must be read against the ECB Master Direction and circulars in force (do not read this as a blanket “banned everywhere” rule · facts, tracks and carve-outs matter). Certain working-capital purposes may be limited or carry extra conditions depending on borrower category, structure and MAMP (foreign parent/equity-holder facilities can carry different maturity and cap rules).",
   },
   procedure: {
-    title: "4. Execution and RBI reporting (AD Bank perspective)",
+    title: "4. Execution and RBI reporting (AD Category-I bank · FIRMS)",
     steps: [
-      "Appoint an AD Bank and execute a loan agreement between borrower and lender.",
-      "After legal and accounting review, file for ECB registration through your AD Bank using the Form ECB workflow (the registration pathway commonly described in practice as rooted in legacy “Form 83” concepts), typically via RBI’s FIRMS ECB module. Many manuals still say “Form 83”; current operations are increasingly described around FIRMS-based ECB reporting.",
-      "The AD Bank files with RBI to obtain an ECB loan registration number (LRN) and complete the RBI registration steps (an LRN is not the same thing as a standalone “regulatory approval” in every sense).",
-      "After the LRN, drawdowns are permitted. Post-filing reports (e.g. ECB-2) are submitted electronically via FIRMS or other channels; deadlines and fields follow RBI circulars and registration conditions.",
+      "Appoint an AD Category-I bank and execute a loan agreement between borrower and lender.",
+      "After legal and accounting review, submit the ECB registration application (commonly referred to as Form ECB within the FIRMS ECB module) through your AD bank to RBI on FIRMS.",
+      "On successful registration, an ECB loan registration number (LRN) is issued. Align drawdown timing with LRN availability.",
+      "After the LRN, drawdowns are permitted. Submit periodic post-filing returns (e.g. ECB-2 Return) through the FIRMS ECB module; form fields and deadlines follow RBI circulars and your AD bank’s instructions.",
     ],
     note:
       "Keep signing dates, LRN timing and drawdown schedules aligned. Where there is an ECB drawdown or an outstanding balance, a monthly ECB-2 return obligation may arise; actual filing calendars must be checked against RBI notices/circulars and your AD Bank’s operating instructions.",
@@ -341,7 +341,7 @@ const en: EcbGuideCopy = {
     title: "6. Illustrative document pack (automatic route)",
     items: [
       "Borrower request letter",
-      "Form ECB (registration pathway commonly associated with legacy “Form 83” references) and MAMP working papers",
+      "Form ECB (FIRMS ECB registration) and MAMP working papers",
       "Loan agreement · parties, FCY amount, tenor, drawdown/repayment, interest, use of funds, capex rationale and plan (including financials)",
       "Borrower’s memorandum of association",
       "Borrower’s audited financial statements for the last three years",
@@ -367,7 +367,7 @@ const en: EcbGuideCopy = {
   firc: {
     title: "8. FIRC and e-filing (FIRMS)",
     paragraphs: [
-      "A FIRC (Foreign Inward Remittance Certificate) is the AD Bank’s inward-remittance evidence and supports proof of foreign-currency inflows such as capital subscriptions and ECB drawdowns.",
+      "A FIRC (Foreign Inward Remittance Certificate) is the AD Bank’s inward-remittance evidence and supports proof of cross-border inflows such as capital subscriptions and FCY ECB drawdowns.",
       "FIRMS is RBI’s electronic stack for foreign investment, ECB and equity reporting, linked to Entity Master and module-specific filings. ECB and FDI inflows, registration and post-filing work are commonly handled in that ecosystem.",
       "E-filing via FIRMS (uploads, UIN issuance) is now common; forms and scans are usually prepared with professional review.",
     ],
@@ -408,7 +408,7 @@ const en: EcbGuideCopy = {
       { label: "RBI FEMA notifications / guidance hub", href: "https://www.rbi.org.in/Scripts/Fema.aspx" },
     ],
     disclaimer:
-      "This page is a reference summary reorganised from MSV internal materials (funding/ECB overview, 2020) and industry ECB notes. RBI Master Directions, circulars, FX and tax law change frequently · confirm execution, reporting and withholding (e.g. Form 15CA/CB) timelines with MSV before relying on this content.",
+      "This page is a reference summary drawn from MSV practice notes and public RBI/industry guidance. Master Directions, circulars, FX and tax law change frequently · check current FIRMS and AD bank instructions and confirm execution, reporting and withholding (e.g. Form 15CA/CB) with MSV before relying on this content.",
   },
   relatedPractice: {
     title: "Related practice areas",
@@ -425,11 +425,11 @@ const en: EcbGuideCopy = {
 };
 
 const zh: EcbGuideCopy = {
-  metaTitle: "ECB·FEMA 对外借款实务指南",
-  metaDescription: `${company.shortName} · 印度 ECB / FEMA 对外商业借款：概念、自动路径、RBI 申报、Form ECB（与 Form 83 传统表述衔接的登记流程）、LRN、ECB-2、FIRMS 及合作银行说明。`,
-  pageTitle: "ECB·FEMA 对外借款实务指南",
+  metaTitle: "ECB（对外商业借款·FEMA）实务指南",
+  metaDescription: `${company.shortName} · 印度 ECB / FEMA 对外商业借款：概念、自动路径、RBI、AD Category-I 银行、FIRMS、Form ECB、LRN、ECB-2 Return、FCY/INR ECB 及合作银行说明。`,
+  pageTitle: "ECB（对外商业借款·FEMA）实务指南",
   pageDescription:
-    "对外商业借款（ECB）在 RBI 与 FEMA 规则下，对可借款主体、贷款人资格、资金用途（End-use）、期限（MAMP）、币种及报告体系一并管理，是常见的外币筹资路径。本文为实务与合规要点的参考摘要；实际执行与申报须遵循最新 Master Direction、通告及个案情况。",
+    "对外商业借款（ECB, External Commercial Borrowing）在 RBI 与 FEMA 规则下，对借款主体、贷款人资格、资金用途（End-use）、期限（MAMP）、币种（含 FCY 与 INR ECB）及报告体系一并管理，是常见的跨境筹资路径。本文为实务与合规要点的参考摘要；实际执行与申报须遵循最新 Master Direction、通告及个案情况。",
   bankChannel: {
     title: "银行渠道与全国服务",
     body:
@@ -438,7 +438,7 @@ const zh: EcbGuideCopy = {
   whatEcb: {
     title: "1. 何为 ECB",
     body:
-      "ECB（External Commercial Borrowing）指印度居民（如公司）向非居民筹措的商业性外币借款。除传统贷款与不可转换债券（NCD）外，部分可转换类金融工具及外币融资结构亦可能纳入 ECB 适用范围，视当时规则而定。审批、额度与报告义务受 FEMA（Borrowing and Lending in Foreign Exchange）及 RBI《Master Direction · External Commercial Borrowings, Trade Credit…》等约束。",
+      "ECB（External Commercial Borrowing，对外商业借款）指印度居民（如公司）向非居民筹措的商业性跨境借款，并不限于外币：卢比计价（INR ECB）亦在 Master Direction 下单独管理。除传统贷款与不可转换债券（NCD）外，部分可转换类金融工具亦可能纳入 ECB 适用范围，视当时规则而定。审批、额度与报告义务受 FEMA 及 RBI《Master Direction · External Commercial Borrowings, Trade Credit…》等约束。",
   },
   types: {
     title: "2. 主要 ECB 类型与贷款人",
@@ -465,12 +465,12 @@ const zh: EcbGuideCopy = {
       "原则上以资本性支出（Capex）为主。一般的房地产开发、土地投资、资本市场取向等用途往往受到限制或需满足额外条件，是否允许须以当时 ECB Master Direction 及相关通告为准（不宜一概理解为“绝对禁止”，因结构、通道与例外可能存在）。营运资金（Working capital）等用途可能因主体、结构与 MAMP 而受到限制或附加要求（母公司/股东借款路径另有期限与额度规则）。",
   },
   procedure: {
-    title: "4. ECB 执行与 RBI 申报流程（以 AD Bank 为主）",
+    title: "4. ECB 执行与 RBI 申报流程（AD Category-I 银行·FIRMS）",
     steps: [
-      "指定 AD Bank，并由借款人与贷款人签署 Loan Agreement。",
-      "经法律与会计审阅后，通过 AD Bank 向 RBI（通常经 FIRMS ECB 模块）提交 ECB 登记所需的 Form ECB（实务中常与历史上 Form 83 所指的登记/申报流程相对应）。材料与口径仍以“Form 83”并称的情况亦多见，但近年更常以 FIRMS ECB 电子化流程为中心说明。",
-      "AD Bank 向 RBI 报送材料并取得 ECB 借款登记号（LRN），并完成 RBI 侧登记流程（LRN 并不等同于所有语境下的“监管批复”本身）。",
-      "取得 LRN 后可提款（Drawdown）；其后须通过 FIRMS 等电子渠道提交事后报告（如 ECB-2 等）。提交期限与字段以 RBI 通告及登记条件为准。",
+      "指定 AD Category-I 银行，并由借款人与贷款人签署 Loan Agreement。",
+      "经法律与会计审阅后，通过 AD 银行在 RBI FIRMS 门户提交 ECB 事前登记（通常为 FIRMS ECB 模块中的 Form ECB 登记申请）。",
+      "登记完成后取得 ECB 借款登记号（LRN）。宜在取得 LRN 后再安排提款（Drawdown）时间。",
+      "取得 LRN 后可提款；须按月度或法规要求通过 FIRMS ECB 模块提交 ECB-2 Return 等事后报告。表格字段与截止日以当时 RBI Master Direction、通函及 AD 银行指引为准。",
     ],
     note:
       "建议将协议签署日、LRN 与提款（Drawdown）排期对齐。存在 ECB 提款或贷款余额时，可能产生月度 ECB-2 Return 等报送义务；具体截止日与口径须以 RBI 通告/通函及 AD Bank 操作指引为准。",
@@ -528,7 +528,7 @@ const zh: EcbGuideCopy = {
     title: "6. 资料示例（自动路径）",
     items: [
       "公司申请函（Request letter）",
-      "Form ECB（与 Form 83 传统登记流程相对应；实务亦常称 Form 83）及平均期限测算资料",
+      "Form ECB（FIRMS ECB 登记申请）及平均期限（MAMP）测算资料",
       "Loan Agreement，借贷双方、FCY 金额、期限、提款/偿还、利率、付息、资金用途、资本支出理由与计划（含财务资料）等",
       "借款人公司章程（Memorandum of Association）",
       "借款人最近三个财政年度经审计财务报表",
@@ -595,7 +595,7 @@ const zh: EcbGuideCopy = {
       { label: "RBI FEMA 通告/规则入口", href: "https://www.rbi.org.in/Scripts/Fema.aspx" },
     ],
     disclaimer:
-      "本页基于 MSV 内部资料（资金筹措·ECB 概述，2020）及行业 ECB 说明整理，仅供参考。RBI Master Direction、通告、汇率及税法随时可能修订；执行、申报及预扣税（如 Form 15CA/CB）时间安排请与 MSV 确认后再定。",
+      "本页基于 MSV 实务摘要及公开 RBI/行业说明整理，仅供参考。Master Direction、通告、汇率及税法随时可能修订；请核对最新 FIRMS 与 AD 银行指引，并与 MSV 确认执行、申报及预扣税（如 Form 15CA/CB）时间安排后再定。",
   },
   relatedPractice: {
     title: "相关实务",

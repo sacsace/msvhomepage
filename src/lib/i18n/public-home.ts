@@ -33,21 +33,21 @@ export const homeAccountingHeroEn = {
   headline:
     "Accounting and tax services for businesses in India. From bookkeeping to statutory filings, one dedicated team manages your compliance.",
   lead:
-    "Our in-house team provides integrated support for GST, TDS, corporate tax and regulatory filings related to foreign investment and FEMA compliance.\nWe also support capital remittances, equity events, ECB, DTAA, securities and Demat accounts, and day-to-day India entity operations.",
-  badge: "ACCOUNTING · TAX · COMPLIANCE",
+    "Korean CPAs and Indian CAs work together on GST, TDS, corporate tax and filings under FDI and FEMA.\nWe also support capital remittances, equity events, ECB, DTAA, Demat accounts and day-to-day India entity operations.",
+  badge: "India accounting & tax · Bangalore",
 } as const;
 
 export const accountingOperationsSpotlightEn = {
-  eyebrow: "Accounting & Tax Services in India",
+  eyebrow: "India entity accounting & tax",
   title: "Reliable Accounting Support",
   paragraphs: [
-    "Our in-house accounting team manages your bookkeeping and filings in line with applicable accounting standards and Indian regulatory requirements. We use standardized processes and checklists to coordinate statutory deadlines with your group reporting schedule.",
+    "Our team manages bookkeeping and filings under Ind AS, Indian tax law (GST, TDS, etc.) and your HQ reporting requirements—with Korean CPAs and Indian CAs working together. Standardized processes and checklists align India statutory deadlines with group reporting.",
     "Our services are tailored to your industry and transaction volume, with integrated bookkeeping, tax and advisory support on a monthly, quarterly or annual basis. Our key services are listed below.",
   ] as const,
   highlights: [
-    "Bookkeeping & Month-End Closing",
+    "Bookkeeping & monthly closing",
     "Tax Return Filing",
-    "Corporate Tax & Payment Support",
+    "Corporate tax filing & payment",
     "TDS Compliance",
     "GST Compliance",
     "Transfer Pricing",
@@ -55,7 +55,7 @@ export const accountingOperationsSpotlightEn = {
     "ESIC Compliance",
     "EPF Compliance",
     "Professional Tax Compliance",
-    "Payroll Processing & Record Maintenance",
+    "Payroll calculation & register preparation",
     "SFT Filing",
     "FLA Return Filing",
     "Consolidated Financial Statements",
@@ -64,15 +64,14 @@ export const accountingOperationsSpotlightEn = {
 
 export const investmentRemittanceSpotlightEn = {
   eyebrow: "Capital & remittance",
-  title: "Foreign investment / remittance and reporting",
+  title: "Foreign investment & cross-border remittance",
   paragraphs: [
     "Setting up and running an India subsidiary often means aligning FDI rules, equity inflows, shareholder changes and non-resident remittances with tax and FX reporting at the same time.",
     "MSV keeps company consulting, accounting and tax in one organization and executes paperwork, banks and revenue authorities from Bangalore with a single accountable team. Below is a representative list of workstreams.",
   ] as const,
   highlights: [
     "Form 41 / Form 10F, DTAA, income-tax filings",
-    "Securities account opening",
-    "Demat account opening",
+    "Demat (dematerialised securities) account opening",
     "Equity remittance & increases",
     "External commercial borrowing (ECB)",
     "Inter-shareholder stake changes",
@@ -141,21 +140,21 @@ export const homeAccountingHeroZh = {
   headline:
     "印度实体会计与税务：从记账到法定申报，由同一团队把控您的截止期限。",
   lead:
-    "围绕常驻注册会计师实践，我们将 GST、TDS、法人税、FDI 与 FEMA 申报纳入同一运营节奏。\n资本汇回、增资、ECB、DTAA、证券与 Demat 账户及印度法人日常运营所需实务，由同一团队整合支持。",
-  badge: "CPA 主导 · 班加罗尔",
+    "韩国 CPA 与印度 CA 协同处理 GST、TDS、法人税、FDI 与 FEMA 申报。\n资本汇回、增资、ECB、DTAA、Demat 账户及印度法人日常运营所需实务，由同一团队整合支持。",
+  badge: "印度实体会计与税务 · 班加罗尔",
 } as const;
 
 export const accountingOperationsSpotlightZh = {
-  eyebrow: "印度实体 · 会计与税务核心",
+  eyebrow: "印度实体会计与税务服务",
   title: "稳健的会计运营",
   paragraphs: [
-    "账簿与申报按印度规则（IFRS / Ind AS、GST、TDS 等）结构化，由常驻注册会计师团队监督，并以清单将印度法定日期与集团报告节奏对齐。",
+    "账簿与申报按 Ind AS、印度税法（GST、TDS 等）及总部报告资料要求结构化，由韩国 CPA 与印度 CA 协同运营，并以清单将印度法定日期与集团报告节奏对齐。",
     "范围随交易规模与行业灵活调整，以月度、季度、年度为单位提供整合的记账、税务与顾问服务。以下为具有代表性的工作项。",
   ] as const,
   highlights: [
     "记账 · 月结",
     "税务申报",
-    "法人税 · 缴纳",
+    "法人税申报 · 缴纳",
     "预扣税（TDS）",
     "GST",
     "转让定价",
@@ -163,7 +162,7 @@ export const accountingOperationsSpotlightZh = {
     "ESIC",
     "EPF",
     "专业税（PT）",
-    "工资与登记册",
+    "工资计算 · 工资册编制",
     "SFT",
     "FLA",
     "合并财务报表",
@@ -172,15 +171,14 @@ export const accountingOperationsSpotlightZh = {
 
 export const investmentRemittanceSpotlightZh = {
   eyebrow: "资本与汇出",
-  title: "外商投资 / 汇出与申报",
+  title: "外商投资 · 海外汇出支持",
   paragraphs: [
     "设立并运营印度子公司往往需要在同一节奏下协调 FDI 规则、股本流入、股东变更与非居民汇出，以及税务与外汇申报。",
     "MSV 在同一组织内统筹公司咨询、会计与税务，并由班加罗尔单一负责团队对接文书、银行与税务机关。以下为代表性工作项。",
   ] as const,
   highlights: [
     "Form 41 / Form 10F、DTAA、所得税申报",
-    "证券账户开立",
-    "Demat 账户开立",
+    "证券电子登记（Demat）账户开立支持",
     "股本汇回与增资",
     "对外商业借款（ECB）",
     "股东间持股比例变更",
@@ -250,8 +248,8 @@ export function homeMidServicesSection(locale: SiteLocale) {
   if (locale !== "en") {
     return {
       kicker: "Services",
-      title: "회계를 중심으로 한 실행형 서비스",
-      lead: "회계·세무·감사를 기반으로, 법인설립·HR·수출입 등 확장 업무를 동일 팀 또는 협업 조직과 연계하여 제공합니다.",
+      title: "회계·세무를 중심으로 한 통합 서비스",
+      lead: "회계·세무·감사를 기반으로 인도 현지 실무를 직접 지원하며, 법인설립·HR·수출입 등 확장 업무를 동일 팀 또는 협업 조직과 연계합니다.",
       cta: "회계·세무 서비스 보기",
     };
   }
@@ -500,7 +498,7 @@ export function contentPreviewsCopy(locale: SiteLocale) {
       calendarKicker: "Compliance",
       calendarTitle: "주요 신고·납부 일정",
       calendarLead:
-        "원천징수세·부가가치세·전문세·종업원 보험·대외상업차입·선급세·주주회의·공휴일 등 주요 신고·납부 일정을 한눈에 확인합니다.",
+        "원천징수세·부가가치세·전문세·종업원 보험·대외상업차입·선납세·주주회의·공휴일 등 주요 신고·납부 일정을 한눈에 확인합니다.",
       calendarGuideCta: "월·분기·연 체크리스트 가이드 →",
     };
   }

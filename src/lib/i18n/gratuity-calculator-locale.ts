@@ -63,7 +63,7 @@ const ko: GratuityCalculatorCopy = {
   linkHrPayroll: "인사·급여 관리 서비스",
   sectionComponents: "급여 항목",
   sectionComponentsHint:
-    "각 급여 항목의 산정 포함 여부를 선택하세요.\n포함 여부는 수당의 지급 성격과 법정 기준에 따라 판단합니다.",
+    "각 급여 항목의 산정 포함 여부를 선택하세요.\n수당 명칭만으로 판단하지 말고 실제 지급 성격에 따라 결정합니다.\n지급 자격 판단은 근속연수 입력과 별개입니다.",
   colItem: "항목",
   colAmount: "월 지급액 (₹)",
   colInclude: "포함",

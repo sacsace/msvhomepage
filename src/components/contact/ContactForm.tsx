@@ -1,17 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type { ContactFormStrings, InquiryTypeValue } from "@/lib/i18n/contact-locale";
+import { parseInquiryTypeParam } from "@/lib/contact-inquiry";
 
 type Props = {
   copy: ContactFormStrings;
+  /** 서버에서 넘긴 초기 문의 유형(쿼리 `type`과 동일) */
+  initialInquiryType?: "" | InquiryTypeValue;
 };
 
-export function ContactForm({ copy }: Props) {
+export function ContactForm({ copy, initialInquiryType = "" }: Props) {
+  const searchParams = useSearchParams();
   const [mounted, setMounted] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [inquiryType, setInquiryType] = useState<"" | InquiryTypeValue>("");
+  const [inquiryType, setInquiryType] = useState<"" | InquiryTypeValue>(initialInquiryType);
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [honeypot, setHoneypot] = useState("");
@@ -22,6 +27,11 @@ export function ContactForm({ copy }: Props) {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    const fromQuery = parseInquiryTypeParam(searchParams.get("type"));
+    if (fromQuery) setInquiryType(fromQuery);
+  }, [searchParams]);
 
   useEffect(() => {
     if (!toast) return;

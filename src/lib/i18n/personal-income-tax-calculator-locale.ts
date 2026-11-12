@@ -87,7 +87,7 @@ const ko: PersonalIncomeTaxCalculatorCopy = {
   metaDescription: `${company.shortName} · 신세제 기준 급여 예상 TDS·Section 87A 반영(FY 2025-26 / AY 2026-27)`,
   pageTitle: "인도 급여 TDS 계산기",
   pageDescription:
-    "세전 월급을 입력하면 연간 급여를 기준으로 예상 소득세와 월평균 원천징수세액(TDS)을 계산합니다. 신세제(New Tax Regime)를 기준으로 하며, 실제 원천징수액은 보너스, 기타 소득, 공제 및 기원천징수액 등에 따라 달라질 수 있습니다.",
+    "세전 월급을 입력하면 연간 급여를 기준으로 예상 소득세와 월평균 원천징수세액(TDS)을 계산합니다. 신세제(New Tax Regime)를 기준으로 하며, 실제 원천징수액은 보너스, 기타 소득, 공제 및 이미 원천징수된 세액 등에 따라 달라질 수 있습니다.",
   pageAsideTitle: "Salary TDS Calculator",
   assessmentPeriodLabel: "적용 기준",
   assessmentPeriodValue: "FY 2025-26 · AY 2026-27",
@@ -106,7 +106,7 @@ const ko: PersonalIncomeTaxCalculatorCopy = {
     "AY 2026-27 신세제에서 요건을 충족한 거주자 개인은 과세소득 ₹12 lakh 이하일 때 최대 ₹60,000 감면이 적용됩니다. 비거주자는 감면이 적용되지 않습니다.",
   asideMonthlyTdsTitle: "월평균 예상 TDS",
   asideMonthlyTdsExplain:
-    "연간 예상 세액을 12개월로 나눈 금액입니다. 실제 월별 원천징수액은 급여 변동과 기원천징수액 등에 따라 달라질 수 있습니다.",
+    "연간 예상 세액을 12개월로 나눈 금액입니다. 실제 월별 원천징수액은 급여 변동과 이미 원천징수된 세액 등에 따라 달라질 수 있습니다.",
   asideMonthlyTdsEmpty: "세전 월 급여를 입력해 주세요",
   asideNetTitle: "TDS 차감 후 월 급여",
   asideNetExplain:

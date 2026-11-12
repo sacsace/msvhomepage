@@ -2,6 +2,7 @@
  * 법인세 계산(매출·매입·비용 기반) — 제115BAA조 참고용.
  * 세무조정 전 단순 과세소득 × (22% + 추가세 10% + 보건·교육세 4%) → 적용 세율 25.168%.
  * 제115BAA조는 소득 규모와 관계없이 추가세 10%, MAT 적용 제외.
+ * 납부·환급 세액 반올림: Income-tax Act s.288B 기준 ₹10 단위(AY 2026-27).
  */
 
 export const CORPORATE_BASE_RATE = 0.22;
@@ -32,13 +33,18 @@ export type CorporateIncomeExpenseResult = {
   readonly totalTaxLiability: number;
   readonly netTaxPayable: number;
   readonly balanceBeforeRound: number;
-  readonly finalRoundedNearest100: number;
+  /** s.288B — ₹10 단위 반올림 후 추가 납부(양수) 또는 환급(음수) 예상액 */
+  readonly finalRoundedNearest10: number;
 };
 
-export function roundToNearestHundred(n: number): number {
+/** Income-tax Act section 288B — 세액은 ₹10 단위로 반올림 */
+export function roundToNearestTen(n: number): number {
   if (!Number.isFinite(n)) return 0;
-  return Math.round(n / 100) * 100;
+  return Math.round(n / 10) * 10;
 }
+
+/** @deprecated Use roundToNearestTen */
+export const roundToNearestHundred = roundToNearestTen;
 
 export function computeCorporateIncomeExpenseTax(i: CorporateIncomeExpenseInput): CorporateIncomeExpenseResult {
   const totalDirectExpenses = i.purchases + i.directExpenses;
@@ -54,7 +60,7 @@ export function computeCorporateIncomeExpenseTax(i: CorporateIncomeExpenseInput)
 
   const netTaxPayable = totalTaxLiability - i.tdsCredit26As;
   const balanceBeforeRound = netTaxPayable - i.advanceTaxAlreadyPaid;
-  const finalRoundedNearest100 = roundToNearestHundred(balanceBeforeRound);
+  const finalRoundedNearest10 = roundToNearestTen(balanceBeforeRound);
 
   return {
     totalDirectExpenses,
@@ -67,6 +73,6 @@ export function computeCorporateIncomeExpenseTax(i: CorporateIncomeExpenseInput)
     totalTaxLiability,
     netTaxPayable,
     balanceBeforeRound,
-    finalRoundedNearest100,
+    finalRoundedNearest10,
   };
 }

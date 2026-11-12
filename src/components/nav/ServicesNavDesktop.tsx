@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useBrowserPathname } from "@/components/layout/BrowserPathnameProvider";
 import { DesktopHoverDropdown } from "@/components/nav/DesktopHoverDropdown";
 import { desktopNavMegaMenuItemClass, desktopNavTopSegmentClass } from "@/components/nav/desktop-nav-top-class";
-import { servicesNavGroups } from "@/lib/services-nav-groups";
+import { isResourcesBarePath } from "@/lib/resources-nav-groups";
+import { serviceNavPaths, servicesNavGroups } from "@/lib/services-nav-groups";
 import type { SiteLocale } from "@/lib/site-locale";
 import { isNavActive, localeFromPathname, pickLocale, stripLocalePrefix, withLocalePrefix } from "@/lib/site-locale";
 
@@ -12,12 +13,24 @@ function linkClass(active: boolean) {
   return `px-3 py-1.5 text-[13px] tracking-tight transition duration-200 ease-out ${desktopNavTopSegmentClass(active)}`;
 }
 
+function isServicesSectionActive(bare: string): boolean {
+  if (bare === "/services") return true;
+  const paths = serviceNavPaths();
+  if (paths.has(bare)) return true;
+  if (!bare.startsWith("/services/")) return false;
+  if (isResourcesBarePath(bare) && !paths.has(bare)) return false;
+  for (const p of paths) {
+    if (p !== "/services" && bare.startsWith(`${p}/`)) return true;
+  }
+  return false;
+}
+
 export function ServicesNavDesktop() {
   const pathname = useBrowserPathname();
   const locale = localeFromPathname(pathname) as SiteLocale;
   const groups = servicesNavGroups(locale);
   const bare = stripLocalePrefix(pathname.split("#")[0] || pathname);
-  const active = bare === "/services" || bare.startsWith("/services/");
+  const active = isServicesSectionActive(bare);
   const topLabel = pickLocale(locale, { ko: "서비스", en: "Services", zh: "服务" });
   const ariaSub = pickLocale(locale, {
     ko: "서비스 하위 메뉴",

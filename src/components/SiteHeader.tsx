@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { MsvWordmark } from "@/components/brand/MsvWordmark";
-import { NavLink } from "@/components/layout/NavLink";
 import { AboutNavDesktop } from "@/components/nav/AboutNavDesktop";
-import { GroupNavDesktop } from "@/components/nav/GroupNavDesktop";
 import { NewsNavDesktop } from "@/components/nav/NewsNavDesktop";
+import { ResourcesNavDesktop } from "@/components/nav/ResourcesNavDesktop";
 import { ServicesNavDesktop } from "@/components/nav/ServicesNavDesktop";
 import { SoftwareNavDesktop } from "@/components/nav/SoftwareNavDesktop";
 import { HeaderLanguageSelect } from "@/components/layout/HeaderLanguageSelect";
@@ -15,6 +14,7 @@ import { withLocalePrefix } from "@/lib/site-locale";
 /** 헤더 전용: 실제 경로가 아닌 드롭다운 슬롯 식별자 */
 const ABOUT_MENU = "__msv_about__" as const;
 const NEWS_MENU = "__msv_news__" as const;
+const RESOURCES_MENU = "__msv_resources__" as const;
 
 type Props = {
   locale: SiteLocale;
@@ -23,20 +23,18 @@ type Props = {
 export function SiteHeader({ locale }: Props) {
   const shell = shellStrings(locale);
   const homeHref = withLocalePrefix("/", locale);
+  const contactHref = withLocalePrefix("/contact", locale);
 
   const links = [
-    { href: "/", label: shell.home },
     { href: ABOUT_MENU, label: shell.about },
     { href: "/services", label: shell.services },
     { href: "/software", label: shell.software },
-    { href: "/group", label: shell.group },
+    { href: RESOURCES_MENU, label: shell.resources },
     { href: NEWS_MENU, label: shell.news },
-    { href: "/contact", label: shell.contact },
   ] as const;
 
   return (
     <header className="sticky top-0 z-50 overflow-visible border-b border-msv-ink/10">
-      {/* backdrop-filter는 조상에서 overflow를 잘라 하위 드롭다운을 가리므로 별도 레이어로 둔다 */}
       <div
         className="pointer-events-none absolute inset-0 -z-10 bg-[rgb(243_243_243_/0.92)] backdrop-blur-md supports-[backdrop-filter]:bg-[rgb(243_243_243_/0.85)]"
         aria-hidden
@@ -47,13 +45,13 @@ export function SiteHeader({ locale }: Props) {
           className="flex min-w-0 shrink-0 items-center rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue"
         >
           <MsvWordmark
-              alt={shell.brandWordmarkAlt}
-              priority
-              heightClass="h-8 sm:h-9"
-              className="origin-left scale-90"
-              imageSrc="/msv-wordmark-header.png"
-              imageWidth={1024}
-              imageHeight={100}
+            alt={shell.brandWordmarkAlt}
+            priority
+            heightClass="h-8 sm:h-9"
+            className="origin-left scale-90"
+            imageSrc="/msv-wordmark-header.png"
+            imageWidth={1024}
+            imageHeight={100}
           />
         </Link>
 
@@ -63,22 +61,24 @@ export function SiteHeader({ locale }: Props) {
             aria-label={shell.navAria}
           >
             {links.map((item) =>
-              item.href === "/group" ? (
-                <GroupNavDesktop key="group" />
-              ) : item.href === ABOUT_MENU ? (
+              item.href === ABOUT_MENU ? (
                 <AboutNavDesktop key="about" />
               ) : item.href === "/services" ? (
                 <ServicesNavDesktop key="services" />
               ) : item.href === "/software" ? (
                 <SoftwareNavDesktop key="software" />
+              ) : item.href === RESOURCES_MENU ? (
+                <ResourcesNavDesktop key="resources" />
               ) : item.href === NEWS_MENU ? (
                 <NewsNavDesktop key="news" />
-              ) : (
-                <NavLink key={item.href} href={item.href}>
-                  {item.label}
-                </NavLink>
-              ),
+              ) : null,
             )}
+            <Link
+              href={contactHref}
+              className="ml-1 inline-flex items-center rounded-full bg-msv-ink px-3.5 py-1.5 text-[13px] font-semibold tracking-tight text-white transition hover:bg-msv-navy focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-msv-blue"
+            >
+              {shell.contact}
+            </Link>
           </nav>
 
           <HeaderLanguageSelect activeLocale={locale} />

@@ -55,7 +55,7 @@ export async function ClientsListView({ list, labels }: Props) {
               </div>
             ) : (
               <div className="mx-auto flex aspect-[4/3] w-full max-w-[5.75rem] shrink-0 items-center justify-center rounded-lg border border-dashed border-slate-200 bg-white px-1 text-[10px] leading-tight text-slate-400 sm:max-w-[6.5rem] sm:text-[11px]">
-                {labels.noLogoPlaceholder}
+                {labels.noLogoPlaceholder || c.name}
               </div>
             )}
             <div className="min-w-0 flex-1 text-center">

@@ -60,7 +60,7 @@ const ko: RecruitmentSupportServiceCopy = {
     {
       labelPrefix: "STEP",
       labelNumber: "04",
-      title: "사전 인터뷰 및 후보자 압축",
+      title: "사전 인터뷰 및 최종 후보자 선정",
       bullets: ["기본 인터뷰 진행", "실무 적합성 및\n커뮤니케이션 검토", "최종 후보자 리스트 정리"],
     },
     {
@@ -79,7 +79,7 @@ const ko: RecruitmentSupportServiceCopy = {
     "이력서 검토 및 후보자 선별",
     "사전 인터뷰 진행",
     "면접 일정 조율",
-    "오퍼레터 및 초기 온보딩 지원",
+    "오퍼레터 및 입사 준비 지원",
     "한국어·영어 커뮤니케이션 지원",
     "현지 채용 시장 기반 급여 범위 가이드",
   ],

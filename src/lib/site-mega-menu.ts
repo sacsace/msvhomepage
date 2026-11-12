@@ -1,4 +1,5 @@
 import { shellStrings } from "@/lib/i18n/shell";
+import { resourcesNavGroups } from "@/lib/resources-nav-groups";
 import { servicesNavGroups } from "@/lib/services-nav-groups";
 import { groupCompanies } from "@/lib/site-content";
 import type { SiteLocale } from "@/lib/site-locale";
@@ -31,20 +32,24 @@ export function buildSiteMegaMenuColumns(locale: SiteLocale): MegaMenuColumn[] {
   const aboutItems: MegaMenuLink[] = [
     {
       href: withLocalePrefix("/about", locale),
-      label: pickLocale(locale, { ko: "회사 소개", en: "Company", zh: "公司简介" }),
-    },
-    {
-      href: withLocalePrefix("/about/ci", locale),
-      label: pickLocale(locale, { ko: "CI 소개", en: "Brand & CI", zh: "CI 介绍" }),
+      label: pickLocale(locale, { ko: "MSV 소개", en: "About MSV", zh: "MSV 介绍" }),
     },
     {
       href: withLocalePrefix("/about/team", locale),
-      label: pickLocale(locale, { ko: "팀원 소개", en: "Team", zh: "团队介绍" }),
+      label: pickLocale(locale, { ko: "구성원", en: "Team", zh: "团队" }),
     },
     {
       href: withLocalePrefix("/about/clients", locale),
       label: pickLocale(locale, { ko: "고객사", en: "Clients", zh: "客户" }),
     },
+    {
+      href: withLocalePrefix("/group", locale),
+      label: pickLocale(locale, { ko: "그룹사", en: "Group companies", zh: "集团公司" }),
+    },
+    ...groupCompanies.map((g) => ({
+      href: withLocalePrefix(`/group/${g.slug}`, locale),
+      label: g.menuLabel,
+    })),
   ];
 
   const serviceGroups = servicesNavGroups(locale).map((g) => ({
@@ -85,36 +90,23 @@ export function buildSiteMegaMenuColumns(locale: SiteLocale): MegaMenuColumn[] {
     },
     {
       href: withLocalePrefix("/software/wisc", locale),
-      label: "Website Information & Security Checker",
-    },
-    {
-      href: `${withLocalePrefix("/software", locale)}#si`,
-      label: pickLocale(locale, {
-        ko: "SI · 솔루션 · SaaS · CRM",
-        en: "SI · Solution · SaaS · CRM",
-        zh: "SI · 解决方案 · SaaS · CRM",
-      }),
-    },
-    {
-      href: `${withLocalePrefix("/software", locale)}#web`,
-      label: pickLocale(locale, {
-        ko: "웹사이트 개발",
-        en: "Website development",
-        zh: "网站建设",
-      }),
+      label: "WISC",
     },
   ];
 
-  const groupItems: MegaMenuLink[] = [
-    {
-      href: withLocalePrefix("/group", locale),
-      label: pickLocale(locale, { ko: "브랜드 · 법인", en: "Brands & companies", zh: "品牌与法人" }),
-    },
-    ...groupCompanies.map((g) => ({
-      href: withLocalePrefix(`/group/${g.slug}`, locale),
-      label: g.menuLabel,
+  const resourceGroups = resourcesNavGroups(locale).map((g) => ({
+    heading: g.heading,
+    items: g.items.map((i) => ({
+      href: i.external ? i.href : withLocalePrefix(i.href, locale),
+      label: i.label,
     })),
-  ];
+  }));
+
+  const resourcesColumn: MegaMenuColumn = {
+    title: shell.resources,
+    titleHref: withLocalePrefix("/articles", locale),
+    groups: resourceGroups,
+  };
 
   const newsItems: MegaMenuLink[] = [
     {
@@ -125,29 +117,14 @@ export function buildSiteMegaMenuColumns(locale: SiteLocale): MegaMenuColumn[] {
       href: withLocalePrefix("/ongoing", locale),
       label: pickLocale(locale, { ko: "프로젝트 현황", en: "Project status", zh: "项目动态" }),
     },
-    {
-      href: withLocalePrefix("/articles", locale),
-      label: pickLocale(locale, { ko: "자료실", en: "Resources", zh: "资料库" }),
-    },
   ];
-
-  const groupColumn: MegaMenuColumn = {
-    title: shell.group,
-    titleHref: withLocalePrefix("/group", locale),
-    items: groupItems,
-    layout: "group-with-news",
-    stackedBelow: {
-      title: shell.news,
-      titleHref: withLocalePrefix("/notice", locale),
-      items: newsItems,
-    },
-  };
 
   return [
     { title: shell.about, titleHref: withLocalePrefix("/about", locale), items: aboutItems },
     servicesColumn,
     { title: shell.software, titleHref: withLocalePrefix("/software", locale), items: softwareItems },
-    groupColumn,
+    resourcesColumn,
+    { title: shell.news, titleHref: withLocalePrefix("/notice", locale), items: newsItems },
   ];
 }
 

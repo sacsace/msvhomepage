@@ -264,7 +264,13 @@ export function CorporateTaxCalculator({ locale }: { locale: SiteLocale }) {
                 <td className={cellRight}>{formatInr(result.totalExpenses)}</td>
               </tr>
               <tr className={rowHighlight}>
-                <ItemCell code="H" title={t.rowH} />
+                <td className={`${cell} align-middle`}>
+                  <p className="text-sm leading-snug">
+                    <span className="font-mono text-xs font-semibold text-sky-700">(H)</span>{" "}
+                    <span className="font-medium text-slate-800">{t.rowH}</span>
+                  </p>
+                  <p className="mt-1 text-xs font-normal leading-snug text-slate-500">{t.rowHHint}</p>
+                </td>
                 <FormulaCell formula="H = (B − G)" />
                 <td className={cellRight}>{formatInr(result.taxableIncome)}</td>
               </tr>
@@ -335,10 +341,10 @@ export function CorporateTaxCalculator({ locale }: { locale: SiteLocale }) {
               </tr>
               <tr className={rowHighlight}>
                 <ItemCell code="R" title={t.rowR} />
-                <FormulaCell formula="R = (ROUND₹100(Q))" />
+                <FormulaCell formula="R = (ROUND₹10(Q))" />
                 <td className={cellRight}>
                   <FinalPayableInrCell
-                    amount={result.finalRoundedNearest100}
+                    amount={result.finalRoundedNearest10}
                     refundLabel={t.finalRefund}
                     payableLabel={t.finalPayable}
                   />

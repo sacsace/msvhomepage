@@ -170,7 +170,7 @@ const descriptionsKo: Record<CardName, string> = {
   CLRA:
     "계약 구조·인원 기준에 따라 Principal Employer 등록과 도급업체(Contractor) 측 절차가 달리 적용될 수 있어, 해당 범위별 문서와 요건을 구분해 지원합니다.",
   "Contractor License":
-    "노무 도급(계약근로자 공급)에 필요한 도급업체 라이센스 신청과 관련 컴플라이언스 요건 점검을 지원합니다.",
+    "노무 도급(계약근로자 공급)에 필요한 도급업체 라이선스 신청과 관련 컴플라이언스 요건 점검을 지원합니다.",
   "Digital Signature (DSC)":
     "전자서명(DSC) 발급·갱신 절차와 포털 연동을 지원해 각종 온라인 신고/신청 업무를 준비합니다.",
   EPCG: "자본재 수입 관세 혜택을 위한 EPCG 신청, 의무 수출 조건 검토, 사후 관리 절차를 지원합니다.",
@@ -376,7 +376,7 @@ const modalKo: LicenseRegistrationModalLookups = {
     EPCG: [
       "EPCG는 자본재 수입 시 관세 혜택을 받는 대신 일정 기간 수출 의무를 이행하는 제도입니다. 신청 전 사업의 수출 계획과 설비 투자 계획을 함께 검토해야 합니다.",
       "승인 단계에서는 대상 설비, 사용 목적, 의무 이행 계획의 정합성이 중요하며, 승인 이후에는 의무 이행 추적과 증빙 관리가 핵심 관리 포인트가 됩니다.",
-      "즉, EPCG는 발급 자체보다 사후 의무 관리가 더 중요한 라이센스이므로, 초기부터 모니터링 체계를 포함해 설계하는 것이 좋습니다.",
+      "즉, EPCG는 발급 자체보다 사후 의무 관리가 더 중요한 라이선스이므로, 초기부터 모니터링 체계를 포함해 설계하는 것이 좋습니다.",
     ],
     MOOWR: [
       "MOOWR는 보세창고 체계 내 제조·가공 운영을 허용하는 제도로, 관세 유예 효과와 운영 효율 측면에서 활용됩니다.",
@@ -634,14 +634,14 @@ const modalZh: LicenseRegistrationModalLookups = {
 };
 
 const ko: LicenseRegistrationServiceCopy = {
-  metaTitle: "라이센스 등록 서비스",
-  metaDescription: "인도 현지 라이센스·인허가 등록 업무를 단계별로 지원합니다.",
-  pageTitle: "라이센스 등록 서비스",
+  metaTitle: "라이선스 등록 서비스",
+  metaDescription: "인도 현지 라이선스·인허가 등록 업무를 단계별로 지원합니다.",
+  pageTitle: "라이선스 등록 서비스",
   pageDescription:
     "사업 업종·운영 형태에 필요한 인허가 항목을 검토하고,\n등록·갱신·컴플라이언스 대응까지 실무 중심으로 지원합니다.",
   scopeTitle: "지원 범위",
   scopeItems: [
-    "사업 유형별 필수 라이센스 식별 및 등록 로드맵 설계",
+    "사업 유형별 필수 라이선스 식별 및 등록 로드맵 설계",
     "관할 기관 제출 서류 준비, 검토, 접수 대행",
     "갱신·변경·정부 보완 대응 및 일정 관리",
   ],
@@ -718,7 +718,7 @@ const ko: LicenseRegistrationServiceCopy = {
   ],
   cardsEyebrow: "License registration",
   cardsTitle: "등록 가능 항목",
-  cardsIntro: "주요 라이센스·등록 항목별로 준비 서류와 접수 절차를 실무 중심으로 지원합니다.",
+  cardsIntro: "주요 라이선스·등록 항목별로 준비 서류와 접수 절차를 실무 중심으로 지원합니다.",
   licenseCards: mergeCards(descriptionsKo),
   modal: modalKo,
 };

@@ -28,12 +28,12 @@ export function clientsPageCopy(locale: SiteLocale): ClientsPageCopy {
       breadcrumbAbout: "회사 소개",
       breadcrumbCurrent: "고객사",
       directoryEyebrow: "Directory",
-      directoryTitle: "등록 고객사",
+      directoryTitle: "주요 고객사",
       directorySubtitle:
         "MS Ventures와 함께하고 있는 고객사 목록입니다. 인도 법인 설립, 회계·세무, 컴플라이언스, 운영 지원 등 다양한 분야의 프로젝트를 수행한 기업들을 확인할 수 있습니다.",
       emptyListMessage: "등록된 고객사가 없습니다.",
       clientLogoAltSuffix: "로고",
-      noLogoPlaceholder: "로고 없음",
+      noLogoPlaceholder: "",
       websiteLinkLabel: "웹사이트",
     },
     en: {
@@ -44,12 +44,12 @@ export function clientsPageCopy(locale: SiteLocale): ClientsPageCopy {
       breadcrumbAbout: "About",
       breadcrumbCurrent: "Clients",
       directoryEyebrow: "Directory",
-      directoryTitle: "Registered clients",
+      directoryTitle: "Key clients",
       directorySubtitle:
         "Companies currently working with MS Ventures. Browse organisations we have supported across India incorporation, accounting, tax, compliance, operations and related projects.",
       emptyListMessage: "No client records are published yet.",
       clientLogoAltSuffix: "logo",
-      noLogoPlaceholder: "No logo",
+      noLogoPlaceholder: "",
       websiteLinkLabel: "Website",
     },
     zh: {
@@ -60,12 +60,12 @@ export function clientsPageCopy(locale: SiteLocale): ClientsPageCopy {
       breadcrumbAbout: "公司简介",
       breadcrumbCurrent: "客户",
       directoryEyebrow: "Directory",
-      directoryTitle: "已登记客户",
+      directoryTitle: "主要客户",
       directorySubtitle:
         "与 MS Ventures 合作的客户一览。可查看我们在印度公司设立、会计与税务、合规及运营支持等领域服务过的企业。",
       emptyListMessage: "暂无已发布的客户记录。",
       clientLogoAltSuffix: "标志",
-      noLogoPlaceholder: "无标志",
+      noLogoPlaceholder: "",
       websiteLinkLabel: "网站",
     },
   });

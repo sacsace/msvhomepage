@@ -9,28 +9,29 @@ import type { SiteLocale } from "@/lib/site-locale";
 import { isNavActive, localeFromPathname, pickLocale, stripLocalePrefix, withLocalePrefix } from "@/lib/site-locale";
 
 const subKo = [
-  { href: "/about", label: "회사 소개" },
-  { href: "/about/ci", label: "CI 소개" },
-  { href: "/about/team", label: "팀원 소개" },
+  { href: "/about", label: "MSV 소개" },
+  { href: "/about/team", label: "구성원" },
   { href: "/about/clients", label: "고객사" },
+  { href: "/group", label: "그룹사" },
 ] as const;
 
 const subEn = [
-  { href: "/about", label: "Company" },
-  { href: "/about/ci", label: "Brand & CI" },
+  { href: "/about", label: "About MSV" },
   { href: "/about/team", label: "Team" },
   { href: "/about/clients", label: "Clients" },
+  { href: "/group", label: "Group companies" },
 ] as const;
 
 const subZh = [
-  { href: "/about", label: "公司简介" },
-  { href: "/about/ci", label: "CI 介绍" },
-  { href: "/about/team", label: "团队介绍" },
+  { href: "/about", label: "MSV 介绍" },
+  { href: "/about/team", label: "团队" },
   { href: "/about/clients", label: "客户" },
+  { href: "/group", label: "集团公司" },
 ] as const;
 
 function isAboutSubActive(href: string, bare: string): boolean {
   if (href === "/about") return bare === "/about";
+  if (href === "/group") return bare === "/group" || bare.startsWith("/group/");
   return bare === href || bare.startsWith(`${href}/`);
 }
 
@@ -43,12 +44,12 @@ export function AboutNavDesktop() {
   const locale = localeFromPathname(pathname) as SiteLocale;
   const shell = shellStrings(locale);
   const sub = locale === "en" ? subEn : locale === "zh" ? subZh : subKo;
-  const active = isNavActive(pathname, "/about");
   const bare = stripLocalePrefix(pathname.split("#")[0] || pathname);
+  const active = isNavActive(pathname, "/about") || bare === "/group" || bare.startsWith("/group/");
   const subMenuAria = pickLocale(locale, {
-    ko: "About 하위 메뉴",
+    ko: "회사 소개 하위 메뉴",
     en: "About submenu",
-    zh: "关于子菜单",
+    zh: "公司介绍子菜单",
   });
 
   return (
@@ -59,7 +60,7 @@ export function AboutNavDesktop() {
         <Link
           href={withLocalePrefix("/about", locale)}
           className={`${linkClass(active)} block select-none`}
-          aria-current={active ? "page" : undefined}
+          aria-current={bare === "/about" ? "page" : undefined}
           aria-haspopup="true"
         >
           {shell.about}

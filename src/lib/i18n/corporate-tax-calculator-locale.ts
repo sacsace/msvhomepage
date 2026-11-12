@@ -73,6 +73,8 @@ export type CorporateTaxCalculatorCopy = {
   rowR: string;
   finalRefund: string;
   finalPayable: string;
+  /** 산출표 (h) 행 보조 설명 */
+  rowHHint: string;
 };
 
 const KO: CorporateTaxCalculatorCopy = {
@@ -137,6 +139,7 @@ const KO: CorporateTaxCalculatorCopy = {
   rowG: "총비용",
   rowGSub: "총 직접비 + 간접비",
   rowH: "예상 과세소득(세무조정 전 단순 계산)",
+  rowHHint: "매출에서 매입·비용을 뺀 금액입니다. 재고·감가상각·손금불산입 등 세무조정은 반영하지 않습니다.",
   rowI: "기본 법인세 (22%)",
   rowISub: "과세소득이 음수이면 세액은 0으로 계산합니다.",
   rowJ: "추가세 (10%)",
@@ -148,10 +151,10 @@ const KO: CorporateTaxCalculatorCopy = {
   rowO: "선납세(참고)",
   rowOSub: "TDS 차감 후 기준 선납세 계산값",
   rowP: "기납부 선납세(Advance Tax)",
-  rowQ: "최종 납부세액(반올림 전)",
-  rowR: "최종 납부세액 (₹100 단위 반올림)",
-  finalRefund: "환급",
-  finalPayable: "납부해야 할 최종 금액",
+  rowQ: "추가 납부·환급 예상액(반올림 전)",
+  rowR: "추가 납부·환급 예상액 (₹10 단위 반올림)",
+  finalRefund: "예상 환급액",
+  finalPayable: "추가 납부 예상액",
 };
 
 const EN: CorporateTaxCalculatorCopy = {
@@ -215,6 +218,7 @@ const EN: CorporateTaxCalculatorCopy = {
   rowG: "Total expenses",
   rowGSub: "Direct + indirect",
   rowH: "Estimated taxable income (before tax adjustments)",
+  rowHHint: "Sales minus purchases and expenses. Inventory, depreciation and other tax adjustments are not applied.",
   rowI: "Base tax @ 22%",
   rowISub: "If taxable income is negative, tax is zero.",
   rowJ: "Surcharge @ 10%",
@@ -226,10 +230,10 @@ const EN: CorporateTaxCalculatorCopy = {
   rowO: "Advance tax (reference)",
   rowOSub: "Same as tax after TDS in this sheet",
   rowP: "Advance tax already paid",
-  rowQ: "Final payable (before ₹100 round-off)",
-  rowR: "Final payable (nearest ₹100)",
-  finalRefund: "Refund",
-  finalPayable: "Amount payable",
+  rowQ: "Further tax / refund estimate (before ₹10 round-off)",
+  rowR: "Further tax / refund estimate (nearest ₹10)",
+  finalRefund: "Estimated refund",
+  finalPayable: "Further tax payable",
 };
 
 const ZH: CorporateTaxCalculatorCopy = {
@@ -291,6 +295,7 @@ const ZH: CorporateTaxCalculatorCopy = {
   rowG: "费用合计",
   rowGSub: "直接 + 间接",
   rowH: "预计应税所得（税务调整前简化计算）",
+  rowHHint: "销售额减去采购与费用。不反映存货、折旧及其他税务调整。",
   rowI: "基本税（22%）",
   rowISub: "应税所得为负时税额按 0 计算。",
   rowJ: "附加税（10%）",
@@ -302,10 +307,10 @@ const ZH: CorporateTaxCalculatorCopy = {
   rowO: "预缴参考额",
   rowOSub: "扣减 TDS 后的预缴测算基数",
   rowP: "已缴预缴税（Advance Tax）",
-  rowQ: "最终应（退）税额（₹100 四舍五入前）",
-  rowR: "最终应（退）税额（按 ₹100 取整）",
-  finalRefund: "退税",
-  finalPayable: "应缴总额",
+  rowQ: "补缴/退税预估（₹10 四舍五入前）",
+  rowR: "补缴/退税预估（按 ₹10 取整）",
+  finalRefund: "预计退税",
+  finalPayable: "补缴预估",
 };
 
 export function corporateTaxCalculatorCopy(locale: SiteLocale): CorporateTaxCalculatorCopy {

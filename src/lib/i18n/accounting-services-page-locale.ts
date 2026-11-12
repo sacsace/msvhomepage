@@ -105,12 +105,13 @@ const ko: AccountingServicesPageBody = {
     "인도 법인설립, 공장설립, 비즈니스 컨설팅, 법인회계, 세무감사를 현지에서 지원합니다. GST·FEMA·수출입·인허가·Payroll·FRRO까지 MSV 실무팀이 운영합니다.",
   pageTitle: "인도 진출·운영 통합 서비스",
   pageDescription:
-    "인도 법인설립, 공장설립, 비즈니스 컨설팅, 법인회계, 세무감사부터 GST·FEMA·수출입·인허가·Payroll·FRRO까지 현지 실무팀이 직접 운영 지원합니다.",
+    "인도 법인설립, 공장설립, 비즈니스 컨설팅, 법인회계, 세무감사부터 GST·FEMA·수출입·인허가·Payroll·FRRO까지 현지 실무팀이 설립부터 운영까지 지원합니다.",
   menuTitle: "서비스 메뉴",
   menuIntro: "필요한 서비스 유형을 선택해 상세 페이지에서 지원 범위를 확인하세요.",
   coreEyebrow: "Service lines",
   coreTitle: "핵심 서비스",
-  coreIntro: "법인 컨설팅·회계 사업부에서 인도 현지에서 직접 실행하는 서비스입니다.",
+  coreIntro:
+    "법인 컨설팅·회계 사업부에서 회계·세무·운영 업무를 인하우스로 관리하고, 공인 서명·감사 등 전문 영역은 CPA·CA와 협업해 지원하는 서비스입니다.",
   coreServices: services,
   detailTitle: "회계 서비스 상세 안내",
   detailIntro: "정기 회계·세무 서비스에 실제 운영 프로세스와 주요 신고 항목을 함께 반영해 안내합니다.",
@@ -244,10 +245,10 @@ const enAccountingBlocks: readonly AccountingServiceBlock[] = [
     title: "Other services",
     subtitle: "One-off issues, per-person filings and ad hoc regulatory or tax requests handled quickly.",
     items: [
-      "Director addition/removal (per person)",
+      "Director appointment, resignation and change filings (per person)",
       "Form 15CA/CB certification for non-resident remittances (per transaction)",
       "ECB, Form 41 / Form 10F and DTAA support (where applicable)",
-      "DIR-3 KYC (annual director ID refresh, per person)",
+      "DIR-3 KYC (director DIN refresh on a 3-year cycle from 2026, per person)",
       "CPA sign-off on documents (per engagement)",
     ],
   },
@@ -295,25 +296,38 @@ const enComplianceQuarterly: readonly ComplianceRow[] = [
 ];
 
 const enComplianceAnnual: readonly ComplianceRow[] = [
-  { item: "DIR-3 KYC", schedule: "By 30 September (non-compliance may deactivate DIN)" },
+  {
+    item: "DIR-3 KYC",
+    schedule:
+      "3-year cycle from 2026; due by 30 September in the filing year (non-compliance may deactivate DIN)",
+  },
   { item: "Professional tax annual return", schedule: "1–30 April (state dependent)" },
-  { item: "SFT", schedule: "1–31 May (where applicable)" },
+  { item: "SFT", schedule: "Generally by 31 May (where applicable)" },
   { item: "FLA", schedule: "Generally by 15 July each year via FLAIR (where applicable)" },
   {
     item: "Statutory audit of financial statements",
-    schedule: "Per FY and engagement (illustrative: before 30 September)",
+    schedule: "Per FY and engagement (entity-specific)",
   },
   {
-    item: "Corporate income tax return (ITR)",
-    schedule: "Varies by audit status, ITR type and year (illustrative: before 30 September; extensions may apply)",
+    item: "Corporate income tax return (ITR) — general",
+    schedule:
+      "Default due date for many companies: 31 October. Check year-specific extensions separately (e.g. AY 2026-27 for some audited cases)",
   },
   {
-    item: "ROC AOC-4 / MGT-7 (or MGT-7A)",
-    schedule: "Varies by AGM, form type and year (illustrative: before 30 October)",
+    item: "Corporate income tax return (ITR) — transfer pricing",
+    schedule: "Where TP reporting applies: commonly 30 November (confirm notices)",
+  },
+  {
+    item: "ROC AOC-4",
+    schedule: "In principle within 30 days of the AGM (check extensions/exemptions)",
+  },
+  {
+    item: "ROC MGT-7 (or MGT-7A)",
+    schedule: "In principle within 60 days of the AGM (check extensions/exemptions)",
   },
   {
     item: "TP audit report",
-    schedule: "Where international transactions apply; varies by year (illustrative: before 30 November)",
+    schedule: "Where international transactions apply; commonly before 30 November",
   },
   {
     item: "GSTR-9 (annual GST)",
@@ -506,7 +520,7 @@ const zhAccountingBlocks: readonly AccountingServiceBlock[] = [
       "董事登记/撤销（按人头）",
       "Form 15CA/CB（非居民汇款相关税务证明，按笔）",
       "ECB（对外商业借款）、海外汇款 Form 41 / Form 10F·DTAA（双重征税协定）相关支持（如适用）",
-      "DIR-3 KYC（董事识别号年度更新，按人头）",
+      "DIR-3 KYC（2026 年起 3 年周期更新董事识别号，按人头）",
       "需注册会计师签字的文件（按件）",
     ],
   },
@@ -552,22 +566,29 @@ const zhComplianceQuarterly: readonly ComplianceRow[] = [
 ];
 
 const zhComplianceAnnual: readonly ComplianceRow[] = [
-  { item: "DIR-3 KYC", schedule: "9 月 30 日前（未履行可能导致 DIN 停用）" },
+  {
+    item: "DIR-3 KYC",
+    schedule: "2026 年起 3 年一周期；应在当年 9 月 30 日前完成（未履行可能导致 DIN 停用）",
+  },
   { item: "Professional Tax 年度申报", schedule: "4 月 1–30 日（各邦不同）" },
-  { item: "SFT", schedule: "5 月 1–31 日（如适用）" },
+  { item: "SFT", schedule: "5 月 31 日前（如适用）" },
   { item: "FLA", schedule: "原则上每年 7 月 15 日前通过 FLAIR 提交（如适用）" },
   { item: "财务报表法定审计", schedule: "依会计年度与约定（参考：9 月 30 日前）" },
   {
     item: "企业所得税申报（ITR）",
-    schedule: "依审计状态、申报类型与年度公告而异（参考：9 月 30 日前，可延期或调整）",
+    schedule: "一般 10 月 31 日前；适用转让定价审计/报告时多为 11 月 30 日前（审计状态与年度公告可能调整）",
   },
   {
-    item: "ROC AOC-4 / MGT-7（或 MGT-7A）",
-    schedule: "依 AGM、表格类型与年度公告而异（参考：10 月 30 日前）",
+    item: "ROC AOC-4（财务报表）",
+    schedule: "股东周年大会（AGM）结束后 30 日内（因表格类型与公告而异）",
+  },
+  {
+    item: "ROC MGT-7 / MGT-7A（年度申报）",
+    schedule: "股东周年大会（AGM）结束后 60 日内（因表格类型与公告而异）",
   },
   {
     item: "转让定价审计报告",
-    schedule: "存在跨境交易等适用情形时；依年度而异（参考：11 月 30 日前）",
+    schedule: "存在跨境交易等适用情形时；通常与 11 月 30 日 ITR 时间线衔接（请以当年为准）",
   },
   {
     item: "GSTR-9（年度 GST）",

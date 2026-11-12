@@ -80,7 +80,7 @@ export const guideIndiaTax: GuideBundle = {
         title: "외국계 기업 세무",
         bullets: [
           "DTAA 적용 가능성, Withholding tax, Intercompany transaction, Royalty / FTS 검토",
-          "[실무] PE risk, Form 10F, TRC, Equalisation levy 가능성",
+          "[실무] PE risk, Form 41/Form 10F(적용 시기), TRC · Equalisation Levy는 폐지 이후 신규 거래와 과거 기간 정산·분쟁을 구분",
         ],
       },
     ],
@@ -123,7 +123,7 @@ export const guideIndiaTax: GuideBundle = {
     industryCol2: "검토·실무 포인트",
     industryRows: [
       { industry: "Management fee", issues: "Withholding·TP·FEMA·본사 배분 기준" },
-      { industry: "Royalty / FTS", issues: "FTS classification·원천·DTAA·Equalisation levy 가능성" },
+      { industry: "Royalty / FTS", issues: "FTS classification·원천·DTAA · Equalisation Levy는 과거 기간·분쟁만 별도 검토" },
       { industry: "Technical service fee", issues: "장소별 과세·PE·원천 공제" },
       { industry: "Import transaction", issues: "Customs valuation·GST·Transfer pricing" },
       { industry: "Share allotment", issues: "FMV·세무·RBI(FEMA) 연계" },
@@ -153,7 +153,7 @@ export const guideIndiaTax: GuideBundle = {
         ],
       },
     ],
-    relatedIntro: "같은 운영 스택에서 자주 이어집니다.",
+    relatedIntro: "관련 업무는 아래 페이지에서 확인하실 수 있습니다.",
     relatedTitle: "연결 페이지",
     relatedLinks: [
       { href: "/services/gst-practice-guide", label: "GST 실무 안내" },
@@ -241,7 +241,8 @@ export const guideIndiaTax: GuideBundle = {
         title: "Foreign-owned groups",
         bullets: [
           "DTAA positions, withholding, intercompany charges and royalty/FTS characterisation",
-          "[Field] PE risk, Form 10F/TRC packs, equalisation levy touchpoints",
+          "[Field] PE risk, Form 10F/Form 41 and TRC packs",
+          "[Field] Equalisation levy (EL): focus on legacy-period filings, settlements or disputes rather than as a default checklist item for new deals post-reform",
         ],
       },
     ],
@@ -284,7 +285,7 @@ export const guideIndiaTax: GuideBundle = {
     industryCol2: "What to pressure-test",
     industryRows: [
       { industry: "Management fees", issues: "Withholding, TP, FEMA and HQ allocation rules" },
-      { industry: "Royalties / FTS", issues: "Characterisation, DTAA, withholding and EL exposure" },
+      { industry: "Royalties / FTS", issues: "Characterisation, DTAA, withholding; EL mainly legacy-period settlement/dispute follow-up, not routine new-deal screening" },
       { industry: "Technical services", issues: "Place of supply, PE and withholding interplay" },
       { industry: "Imports", issues: "Customs valuation vs TP and GST credits" },
       { industry: "Share allotments", issues: "FMV evidence and FEMA/tax alignment" },
@@ -314,7 +315,7 @@ export const guideIndiaTax: GuideBundle = {
         ],
       },
     ],
-    relatedIntro: "Often read in the same operating stack.",
+    relatedIntro: "You can find related topics on the pages below.",
     relatedTitle: "Linked pages",
     relatedLinks: [
       { href: "/services/gst-practice-guide", label: "GST practice guide" },
@@ -402,7 +403,8 @@ export const guideIndiaTax: GuideBundle = {
         title: "外资集团税务",
         bullets: [
           "税收协定立场、预扣、公司间费用与特许权/技术服务定性",
-          "[实务] 常设机构风险、10F、TRC、均衡税等触点",
+          "[实务] 常设机构风险、Form 10F/Form 41、TRC",
+          "[实务] 均衡税(EL)：改革/废止后不宜作为新交易常规清单项，宜核对过往期间申报、结算或争议遗留",
         ],
       },
     ],
@@ -430,7 +432,7 @@ export const guideIndiaTax: GuideBundle = {
     industryCol2: "重点核对",
     industryRows: [
       { industry: "管理费", issues: "预扣、转让定价、FEMA 与集团分摊" },
-      { industry: "特许权/技术服务", issues: "定性、协定、预扣与均衡税" },
+      { industry: "特许权/技术服务", issues: "定性、协定、预扣；均衡税侧重新交易筛查，侧重过往期间结算/争议" },
       { industry: "技术服务费", issues: "供应地、常设机构与预扣" },
       { industry: "进口交易", issues: "海关估价与 GST、转让定价" },
       { industry: "股权配售", issues: "公允价值证据与 FEMA/税务衔接" },
@@ -460,7 +462,7 @@ export const guideIndiaTax: GuideBundle = {
         ],
       },
     ],
-    relatedIntro: "常与同一运营栈一并阅读。",
+    relatedIntro: "相关事项可在下列页面进一步了解。",
     relatedTitle: "关联页面",
     relatedLinks: [
       { href: "/services/gst-practice-guide", label: "GST 实务指南" },

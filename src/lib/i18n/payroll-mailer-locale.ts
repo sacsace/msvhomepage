@@ -360,7 +360,7 @@ export function payrollMailerPageCopy(locale: SiteLocale): PayrollMailerPageCopy
     ko: {
       pageTitle: "급여 명세서 이메일 발송 시스템",
       pageHeaderDescription:
-        "메일 설정 → 엑셀 업로드(3행 헤더·4행부터 데이터) → 제목·본문 템플릿 → 검증·미리보기 → 직원별 발송. 업로드 내용과 SMTP 비밀번호는 브라우저 sessionStorage·요청 시 메모리에서만 사용하며 Prisma DB에는 저장하지 않습니다.",
+        "급여 엑셀 파일을 업로드하고 내용을 확인한 뒤 직원별 급여명세서를 이메일로 발송할 수 있습니다. 메일 설정 → 엑셀 업로드(3행 헤더·4행부터 데이터) → 제목·본문 템플릿 → 검증·미리보기 → 직원별 발송 순으로 진행합니다.",
       defaultSubject: PAYROLL_MAILER_DEFAULT_SUBJECT_EN,
       defaultBody: PAYROLL_MAILER_DEFAULT_BODY_EN,
       step1Title: "엑셀 업로드",
@@ -443,7 +443,7 @@ export function payrollMailerPageCopy(locale: SiteLocale): PayrollMailerPageCopy
     en: {
       pageTitle: "Payroll payslip email system",
       pageHeaderDescription:
-        "Mail settings → upload Excel (headers on row 3, data from row 4) → subject/body templates → validation & preview → send per employee. Upload contents and SMTP passwords stay in browser sessionStorage and request memory only; nothing is persisted in Prisma/DB.",
+        "Upload a payroll Excel file, review the contents, then email payslips to each employee. Flow: mail settings → Excel upload (headers on row 3, data from row 4) → subject/body templates → validation & preview → send per employee.",
       defaultSubject: PAYROLL_MAILER_DEFAULT_SUBJECT_EN,
       defaultBody: PAYROLL_MAILER_DEFAULT_BODY_EN,
       step1Title: "Upload Excel",
@@ -528,7 +528,7 @@ export function payrollMailerPageCopy(locale: SiteLocale): PayrollMailerPageCopy
     zh: {
       pageTitle: "工资单邮件发送系统",
       pageHeaderDescription:
-        "邮件设置 → 上传 Excel（第 3 行为表头，第 4 行起为员工数据）→ 编辑主题/正文模板 → 校验与预览 → 按员工发送。上传内容与 SMTP 密码仅保存在浏览器 sessionStorage 与请求内存中，不会写入 Prisma 数据库。",
+        "上传工资 Excel、核对内容后，可按员工发送工资单邮件。流程：邮件设置 → 上传 Excel（第 3 行为表头，第 4 行起为员工数据）→ 主题/正文模板 → 校验与预览 → 按员工发送。",
       defaultSubject: PAYROLL_MAILER_DEFAULT_SUBJECT_EN,
       defaultBody: PAYROLL_MAILER_DEFAULT_BODY_EN,
       step1Title: "上传 Excel",

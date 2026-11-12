@@ -121,7 +121,7 @@ const shCorpRowTemplate = [
 const koBase = {
   rowAdd: "행 추가",
   rowRemove: "마지막 행 삭제",
-  successMessage: "신청이 접수되었습니다. 첨부하신 파일과 내용을 검토한 뒤 담당자가 연락드릴 수 있습니다.",
+  successMessage: "신청서를 제출하시면 담당자가 내용을 확인한 후 연락드립니다.",
   errSendDefault: "전송에 실패했습니다.",
   errNetwork: "네트워크 오류가 발생했습니다.",
   errAllDirectorNamesRequired:
@@ -147,7 +147,7 @@ const koBase = {
   inrPlaceholder: "예: INR 10,000,000",
   sec5Legend: "5. 지분구조",
   sec5Hint:
-    "주주별로 개인 또는 법인(회사)을 선택하고, 이름과 지분율을 적어 주세요. 개인 주주가 등기이사와 동일이면「이사와 동일」에서 이사를 고르면 5번 이름이 등기이사 성명·8.1 이름·9번 이름과 맞춰지고, 연동 중에는 5번 이름을 바꾸면 이사·8.1 이름도 같이 바뀝니다. 이사의 연락처·주소 등(이름 제외)은 8.1에서 고치면 9번에 반영됩니다. (지분율은 주주별로만 입력합니다.)",
+    "주주와 이사가 동일한 경우 해당 이사를 선택해 주세요. 입력한 정보를 불러옵니다.",
   thDivide: "구분",
   thShType: "주주 유형",
   thSameDirector: "이사와 동일",
@@ -158,7 +158,7 @@ const koBase = {
   individual: "개인",
   company: "법인(회사)",
   optNoSeparate: "아니오 (별도)",
-  sameDirectorOption: (d: number) => `예 · 이사 ${d + 1}과 동일`,
+  sameDirectorOption: (d: number) => `예 · 이사 ${d + 1}번과 동일`,
   directorTakenTitle: "이미 다른 주주 행에 지정된 이사입니다.",
   namePlaceholderCompany: "예: (주)○○",
   namePlaceholderPerson: "예: 홍길동",
@@ -175,7 +175,7 @@ const koBase = {
   directorNameAria: (i: number) => `등기이사 ${i + 1} 성명`,
   addDirector: "등기이사 추가",
   removeDirector: "마지막 등기이사 삭제",
-  sec81Title: "8.1 필요정보 (영문작성)",
+  sec81Title: "8.1 필수 정보(영문 작성)",
   sec81Hint:
     '각 등기이사별로 영문으로 기재해 주세요. 해당 없음은 "X" 등으로 표시할 수 있습니다. 5번에서 해당 이사와「동일」로 연결된 주주가 있으면, 이름(첫 행)은 5번 지분 이름과 같게 맞춰지며 이 칸은 읽기 전용입니다. 같은 이사 블록 하단에서 여권·신분 관련 서류를 첨부할 수 있습니다.',
   directorBlockLegend: (i: number) => `이사 ${i + 1}`,
@@ -188,7 +188,7 @@ const koBase = {
     { key: "pob", label: "출생지 (도시명)", ph: "City, Country", max: 120 },
     { key: "address", label: "현재 주소", ph: "Full address (English)", max: 800 },
     { key: "fatherName", label: "아버지 성함", ph: "Father's name (English)", max: 120 },
-    { key: "indiaOther", label: "인도내 회사 이사 등재 여부 및 보유 주식 수", ph: "없으면 X", max: 400 },
+    { key: "indiaOther", label: "인도 내 회사 이사 등재 여부 및 보유 주식 수", ph: "없으면 X", max: 400 },
   ],
   dirAttachLabels: ["여권 사본 첨부", "영문 주민등록등본 첨부", "증명 사진 첨부", "운전면허증 사본 첨부"],
   sec9Title: "9. 주주별 상세 정보",
@@ -198,7 +198,7 @@ const koBase = {
   syncFromDirector: "이사 입력 다시 반영",
   syncFromDirectorNote:
     "이사와 동일 연동 중이라 주주 상세 입력란은 표시하지 않습니다. 5번 이름·6번·8.1을 수정한 뒤 버튼으로 제출 데이터를 맞추세요. (서류는 8.1 이사 첨부를 이용하세요.)",
-  linkedLegendSuffix: (d: number) => `: 이사 ${d + 1}과 동일 (5번에서 연동)`,
+  linkedLegendSuffix: (d: number) => `: 이사 ${d + 1}번과 동일 (5번에서 연동)`,
   shIndRows: [...shIndRowTemplate],
   indAttachTitle: "주주가 개인인 경우 첨부되어야 할 파일",
   indAttachOl1: "여권 사본",
@@ -240,7 +240,7 @@ const en: CorporateIncorporationApplyFormCopy = {
   rowAdd: "Add row",
   rowRemove: "Remove last row",
   successMessage:
-    "Your application has been received. We may contact you after reviewing the details and attachments.",
+    "After you submit the form, our team will review your application and contact you.",
   errSendDefault: "Submission failed.",
   errNetwork: "A network error occurred.",
   errAllDirectorNamesRequired:
@@ -380,7 +380,7 @@ const zh: CorporateIncorporationApplyFormCopy = {
   ...ko,
   rowAdd: "添加行",
   rowRemove: "删除末行",
-  successMessage: "申请已收到。我们将在审阅内容与附件后与您联系。",
+  successMessage: "提交申请后，我方工作人员将审阅内容并与您联系。",
   errSendDefault: "提交失败。",
   errNetwork: "发生网络错误。",
   errAllDirectorNamesRequired:

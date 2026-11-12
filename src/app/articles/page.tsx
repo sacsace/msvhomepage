@@ -3,15 +3,15 @@ import Link from "next/link";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { sortArticlesByDate } from "@/lib/articles-store";
-import { articlesListSeo } from "@/lib/i18n/articles-pages-locale";
+import { articlesDateFormatLocale, articlesPagesCopy } from "@/lib/i18n/articles-pages-locale";
 import { getRequestLocale } from "@/lib/get-request-locale";
 import { staticPageSeoLocalized } from "@/lib/seo-metadata";
 import { getCachedArticlesList } from "@/lib/public-page-data-cache";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getRequestLocale();
-  const { title, description } = articlesListSeo(locale);
-  return staticPageSeoLocalized("/articles", { title, description }, locale);
+  const c = articlesPagesCopy(locale);
+  return staticPageSeoLocalized("/articles", { title: c.metaTitle, description: c.metaDescription }, locale);
 }
 
 export const revalidate = 60;
@@ -34,20 +34,19 @@ function ListChevron() {
 }
 
 export default async function ArticlesListPage() {
+  const locale = await getRequestLocale();
+  const c = articlesPagesCopy(locale);
+  const dateLoc = articlesDateFormatLocale(locale);
   const list = sortArticlesByDate(await getCachedArticlesList());
 
   return (
     <>
-      <PageHeader
-        title="자료실"
-        description="인도 비즈니스와 관련된 자료·안내 글을 모아 두었습니다."
-        descriptionWide
-      />
+      <PageHeader title={c.pageTitle} description={c.pageDescription} descriptionWide />
       <StandardPageBody>
         {list.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-slate-200/90 bg-white/90 px-6 py-12 text-center shadow-[0_1px_8px_rgb(15_23_42/0.04)]">
-            <p className="text-sm font-medium tracking-tight text-slate-700">등록된 글이 없습니다.</p>
-            <p className="mt-1.5 text-xs leading-relaxed text-slate-500">새 글이 등록되면 이곳에 표시됩니다.</p>
+            <p className="text-sm font-medium tracking-tight text-slate-700">{c.emptyTitle}</p>
+            <p className="mt-1.5 text-xs leading-relaxed text-slate-500">{c.emptyHint}</p>
           </div>
         ) : (
           <div className="overflow-hidden rounded-2xl border border-slate-200/85 bg-white shadow-[0_1px_10px_rgb(15_23_42/0.045)] ring-1 ring-slate-900/[0.02]">
@@ -85,7 +84,7 @@ export default async function ArticlesListPage() {
                         dateTime={a.updatedAt}
                         className="shrink-0 whitespace-nowrap text-xs tabular-nums text-slate-400 sm:text-[13px]"
                       >
-                        {new Date(a.updatedAt).toLocaleDateString("ko-KR")}
+                        {new Date(a.updatedAt).toLocaleDateString(dateLoc)}
                       </time>
                       <ListChevron />
                     </Link>

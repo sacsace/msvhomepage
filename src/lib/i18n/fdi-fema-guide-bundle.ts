@@ -121,7 +121,7 @@ export const fdiFemaGuide: GuideBundle = {
       { industry: "Intercompany funding", issues: "차입·이자·End-use·보고" },
       { industry: "Royalty", issues: "원천·TP·송금·RBI·세무" },
       { industry: "Technical service fee", issues: "FTS·세율·계약·지급" },
-      { industry: "Import payment", issues: "LRS·무역·은행 증빙" },
+      { industry: "Import payment", issues: "수입대금 송금 규정·은행 제출서류·무역 증빙" },
       { industry: "ODI structure", issues: "한도·보고·지배구조" },
       { industry: "Downstream investment", issues: "간접 외국인 투자·계산·공시" },
       { industry: "Capital reduction", issues: "회사법·채권자·FEMA·세무" },
@@ -139,7 +139,7 @@ export const fdiFemaGuide: GuideBundle = {
       "ODI 및 Downstream 구조 검토",
       "외국계 기업 투자 운영 지원",
     ],
-    relatedIntro: "같은 운영 스택에서 자주 이어집니다.",
+    relatedIntro: "관련 업무는 아래 페이지에서 확인하실 수 있습니다.",
     relatedTitle: "연결 페이지",
     relatedLinks: [
       { href: "/services/ecb", label: "ECB·FEMA 실무 안내" },
@@ -271,7 +271,7 @@ export const fdiFemaGuide: GuideBundle = {
       "ODI and downstream structuring reviews",
       "Foreign-owned investment operating support",
     ],
-    relatedIntro: "Often read in the same operating stack.",
+    relatedIntro: "Related topics are on the pages below.",
     relatedTitle: "Linked pages",
     relatedLinks: [
       { href: "/services/ecb", label: "ECB / FEMA guide" },
@@ -403,7 +403,7 @@ export const fdiFemaGuide: GuideBundle = {
       "ODI 与下游结构审阅",
       "外资投资运营支持",
     ],
-    relatedIntro: "常与同一运营栈一并阅读。",
+    relatedIntro: "相关事项请见下方页面。",
     relatedTitle: "关联页面",
     relatedLinks: [
       { href: "/services/ecb", label: "ECB·FEMA 实务指南" },

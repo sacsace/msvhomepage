@@ -7,211 +7,136 @@ type NavItemDef = { readonly path: string; readonly label: Label3 };
 
 type NavGroupDef = { readonly heading: Label3; readonly items: readonly NavItemDef[] };
 
-/** 데스크톱·모바일·회계 서비스 허브 메뉴 공통 소스 (순서 = 노출 순) */
+/** 데스크톱·모바일·서비스 허브 메뉴 공통 소스 — 의뢰 업무 기준 분류 */
 const SERVICE_NAV_GROUP_DEFS: readonly NavGroupDef[] = [
   {
     heading: {
-      ko: "법인 · 진출",
-      en: "Entity & entry",
-      zh: "法人·进入印度",
+      ko: "법인 설립·인도 진출",
+      en: "Incorporation & India entry",
+      zh: "公司设立·进入印度",
     },
     items: [
       {
-        path: "/services",
-        label: {
-          ko: "서비스 개요",
-          en: "Services overview",
-          zh: "服务总览",
-        },
-      },
-      {
         path: "/services/corporate-incorporation",
-        label: { ko: "법인 설립 서비스", en: "Corporate incorporation", zh: "公司设立服务" },
+        label: { ko: "법인 설립", en: "Corporate incorporation", zh: "公司设立" },
       },
       {
         path: "/services/india-entry-guide",
-        label: { ko: "인도 진출 가이드", en: "India entry guide", zh: "印度进入指南" },
+        label: { ko: "인도 진출 안내", en: "India entry guide", zh: "印度进入指南" },
+      },
+      {
+        path: "/services/factory-licensing",
+        label: { ko: "공장 설립·인허가", en: "Factory setup & permits", zh: "工厂设立与许可" },
       },
     ],
   },
   {
     heading: {
-      ko: "회계 · 세무",
+      ko: "회계·세무",
       en: "Accounting & tax",
       zh: "会计与税务",
     },
     items: [
       {
-        path: "/services/gst-practice-guide",
-        label: { ko: "GST 실무 안내", en: "GST practice guide", zh: "GST 实务指南" },
+        path: "/services",
+        label: { ko: "회계·세무 관리", en: "Accounting & tax services", zh: "会计与税务管理" },
       },
       {
-        path: "/services/form-41-registration",
-        label: {
-          ko: "Form 41 / Form 10F 등록·신고",
-          en: "Form 41 / Form 10F registration",
-          zh: "Form 41 / Form 10F 登记与申报",
-        },
+        path: "/services/gst-practice-guide",
+        label: { ko: "GST", en: "GST", zh: "GST" },
       },
       {
         path: "/services/guide-india-tax",
-        label: { ko: "인도 세무 가이드", en: "India tax guide", zh: "印度税务指南" },
-      },
-      {
-        path: "/services/guide-india-accounting",
-        label: { ko: "인도 회계 가이드", en: "India accounting guide", zh: "印度会计指南" },
-      },
-      {
-        path: "/services/india-accounting-glossary",
-        label: { ko: "회계·세무 지식 베이스", en: "Accounting & tax knowledge base", zh: "会计实务知识库" },
+        label: { ko: "법인세·TDS", en: "Corporate tax & TDS", zh: "法人税与 TDS" },
       },
     ],
   },
   {
     heading: {
-      ko: "구조조정",
-      en: "Restructuring",
-      zh: "重组",
-    },
-    items: [
-      {
-        path: "/services/corporate-merger",
-        label: { ko: "법인 합병 안내", en: "Corporate merger guide", zh: "公司合并指引" },
-      },
-      {
-        path: "/services/corporate-liquidation",
-        label: { ko: "법인 청산 안내", en: "Company closure guide", zh: "公司注销与休眠指引" },
-      },
-    ],
-  },
-  {
-    heading: {
-      ko: "HR · 노무",
+      ko: "인사·급여",
       en: "HR & payroll",
-      zh: "人力资源与薪酬",
+      zh: "人事与薪酬",
     },
     items: [
       {
         path: "/services/hr-payroll",
-        label: { ko: "HR·Payroll 서비스", en: "HR & payroll services", zh: "人力资源与薪酬服务" },
+        label: { ko: "인사·급여 관리", en: "HR & payroll", zh: "人事与薪酬管理" },
       },
       {
         path: "/services/recruitment-support",
-        label: { ko: "채용지원 서비스", en: "Recruitment support", zh: "招聘支持" },
-      },
-      {
-        path: "/services/guide-hr-labour",
-        label: { ko: "HR·노무 가이드", en: "HR & labour guide", zh: "人力资源与劳动指南" },
+        label: { ko: "채용 지원", en: "Recruitment support", zh: "招聘支持" },
       },
     ],
   },
   {
     heading: {
-      ko: "라이선스 · 공장",
-      en: "Licences & factory",
-      zh: "许可与工厂",
-    },
-    items: [
-      {
-        path: "/services/license-registration",
-        label: { ko: "라이선스 등록 서비스", en: "Licence registration", zh: "许可证登记服务" },
-      },
-      {
-        path: "/services/factory-licensing",
-        label: { ko: "공장·산업 인허가 안내", en: "Factory & industrial permits", zh: "工厂与工业许可" },
-      },
-    ],
-  },
-  {
-    heading: {
-      ko: "수출입 · 통관",
-      en: "Import / export",
-      zh: "进出口与通关",
-    },
-    items: [
-      {
-        path: "/services/import-export-iec",
-        label: { ko: "수출입(IEC)·통관 안내", en: "IEC & customs guide", zh: "IEC 与通关指南" },
-      },
-    ],
-  },
-  {
-    heading: {
-      ko: "FDI · FEMA",
-      en: "FDI & FEMA",
-      zh: "FDI 与 FEMA",
+      ko: "외환·투자",
+      en: "FX & investment",
+      zh: "外汇与投资",
     },
     items: [
       {
         path: "/services/fdi-fema-guide",
-        label: { ko: "FDI·FEMA 안내", en: "FDI & FEMA guide", zh: "FDI 与 FEMA 指南" },
+        label: { ko: "FDI·FEMA", en: "FDI & FEMA", zh: "FDI·FEMA" },
       },
       {
         path: "/services/ecb",
-        label: { ko: "ECB·FEMA 실무 안내", en: "ECB / FEMA guide", zh: "ECB·FEMA 实务指南" },
+        label: { ko: "ECB", en: "ECB", zh: "ECB" },
       },
       {
-        path: "/services/guide-fema-fx",
-        label: { ko: "FEMA·외환 가이드", en: "FEMA & FX guide", zh: "FEMA 与外汇指南" },
+        path: "/services/form-41-registration",
+        label: { ko: "Form 41", en: "Form 41", zh: "Form 41" },
       },
     ],
   },
   {
     heading: {
-      ko: "FRRO · 비자",
-      en: "FRRO & visas",
-      zh: "FRRO 与签证",
+      ko: "비자·체류",
+      en: "Visa & stay",
+      zh: "签证与居留",
     },
     items: [
       {
         path: "/services/frro",
-        label: { ko: "FRRO 서비스", en: "FRRO services", zh: "FRRO 服务" },
+        label: { ko: "FRRO 등록", en: "FRRO registration", zh: "FRRO 登记" },
       },
     ],
   },
   {
     heading: {
-      ko: "도구 · 일정",
-      en: "Tools & calendar",
-      zh: "工具与日程",
-    },
-    items: [
-      {
-        path: "/services/compliance-calendar",
-        label: { ko: "주요 신고·납부 일정", en: "Compliance calendar", zh: "合规日历" },
-      },
-      {
-        path: "/services/personal-income-tax-calculator",
-        label: { ko: "급여 TDS 계산기", en: "Salary TDS calculator", zh: "工资 TDS 计算器" },
-      },
-      {
-        path: "/services/corporate-tax-calculator",
-        label: { ko: "법인세 계산기", en: "Corporate tax calculator", zh: "企业所得税计算器" },
-      },
-      {
-        path: "/services/professional-tax-calculator",
-        label: { ko: "Professional Tax 계산기", en: "Professional Tax (PT) calculator", zh: "Professional Tax（PT）计算器" },
-      },
-      {
-        path: "/services/gratuity-calculator",
-        label: { ko: "퇴직금(Gratuity) 계산기", en: "Gratuity calculator", zh: "退休金（Gratuity）计算器" },
-      },
-    ],
-  },
-  {
-    heading: {
-      ko: "계약 · 거버넌스",
-      en: "Contracts & governance",
-      zh: "合同与公司治理",
+      ko: "법무·기업 변경",
+      en: "Legal & corporate change",
+      zh: "法务与公司变更",
     },
     items: [
       {
         path: "/services/contracts-legal",
-        label: { ko: "계약·법률 문서", en: "Contracts & legal templates", zh: "合同与法律文件" },
+        label: { ko: "계약 검토", en: "Contract review", zh: "合同审阅" },
       },
       {
-        path: "/services/guide-companies-act",
-        label: { ko: "회사법 가이드", en: "Companies Act guide", zh: "公司法指南" },
+        path: "/services/license-registration",
+        label: { ko: "인허가 등록", en: "Licence registration", zh: "许可登记" },
+      },
+      {
+        path: "/services/corporate-merger",
+        label: { ko: "법인 합병", en: "Corporate merger", zh: "公司合并" },
+      },
+      {
+        path: "/services/corporate-liquidation",
+        label: { ko: "법인 청산", en: "Corporate liquidation", zh: "公司清算" },
+      },
+    ],
+  },
+  {
+    heading: {
+      ko: "수출입",
+      en: "Import & export",
+      zh: "进出口",
+    },
+    items: [
+      {
+        path: "/services/import-export-iec",
+        label: { ko: "IEC 및 수출입 지원", en: "IEC & trade support", zh: "IEC 与进出口支持" },
       },
     ],
   },
@@ -230,6 +155,11 @@ export function servicesNavGroups(locale: SiteLocale): readonly ServiceNavGroup[
       label: pickLocale(locale, i.label),
     })),
   }));
+}
+
+/** 서비스 드롭다운에 올리는 경로(자료실 전용 페이지와 구분) */
+export function serviceNavPaths(): ReadonlySet<string> {
+  return new Set(SERVICE_NAV_GROUP_DEFS.flatMap((g) => g.items.map((i) => i.path)));
 }
 
 /** `/services` 허브 카드 그리드용 — 내비와 동일 순서·라벨 */

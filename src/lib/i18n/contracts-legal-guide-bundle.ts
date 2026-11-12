@@ -114,7 +114,7 @@ export const contractsLegalHub: GuideBundle = {
         ],
       },
     ],
-    industryTableTitle: "실무 자주 발생하는 문제",
+    industryTableTitle: "실무에서 자주 발생하는 문제",
     industryCol1: "항목",
     industryCol2: "자주 발생하는 문제",
     industryRows: [

@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { getRequestLocale } from "@/lib/get-request-locale";
-import { articlesDetailSeo } from "@/lib/i18n/articles-pages-locale";
+import { articlesDateFormatLocale, articlesPagesCopy } from "@/lib/i18n/articles-pages-locale";
 import { getCachedArticleBySlug } from "@/lib/public-page-data-cache";
 import { publicArticleBodyProse, publicContentCard } from "@/lib/public-page-styles";
 import { hasHtmlTag, sanitizeRichHtml, textExcerpt } from "@/lib/richtext";
@@ -17,7 +17,7 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = await getRequestLocale();
-  const seo = articlesDetailSeo(locale);
+  const seo = articlesPagesCopy(locale);
   const { slug } = await params;
   const decoded = decodeURIComponent(slug);
   const article = await getCachedArticleBySlug(decoded);
@@ -34,6 +34,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ArticleDetailPage({ params }: Props) {
   const locale = await getRequestLocale();
+  const c = articlesPagesCopy(locale);
+  const dateLoc = articlesDateFormatLocale(locale);
   const { slug } = await params;
   const article = await getCachedArticleBySlug(decodeURIComponent(slug));
   if (!article) notFound();
@@ -52,11 +54,11 @@ export default async function ArticleDetailPage({ params }: Props) {
                 href="/articles"
                 className="font-medium text-msv-blue-soft hover:text-white hover:underline"
               >
-                자료실 목록
+                {c.listNavLabel}
               </Link>
             </p>
             <time dateTime={article.createdAt} className="mt-2 block text-xs text-white/58 tabular-nums">
-              {new Date(article.createdAt).toLocaleDateString("ko-KR")}
+              {new Date(article.createdAt).toLocaleDateString(dateLoc)}
             </time>
             {article.excerpt ? (
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/82">{article.excerpt}</p>
@@ -75,7 +77,7 @@ export default async function ArticleDetailPage({ params }: Props) {
           </div>
           <p className="mt-10 border-t border-slate-100 pt-6 text-sm">
             <Link href="/articles" className="text-slate-600 underline-offset-4 hover:underline">
-              ← 목록
+              {c.backToList}
             </Link>
           </p>
         </article>

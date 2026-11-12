@@ -82,11 +82,11 @@ export async function ClientsSection(props: Props = {}) {
                     height={32}
                     className="h-8 w-auto max-w-full object-contain opacity-95 transition-opacity duration-200 group-hover:opacity-100"
                   />
-                ) : (
+                ) : noLogoPlaceholder ? (
                   <span className="text-[10px] font-medium leading-tight text-slate-400 sm:text-[11px]">
                     {noLogoPlaceholder}
                   </span>
-                )}
+                ) : null}
               </div>
               <p className="line-clamp-2 min-h-0 w-full flex-1 text-[11px] font-medium leading-snug text-slate-800 sm:text-xs sm:leading-snug">
                 {c.name}

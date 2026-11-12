@@ -10,19 +10,16 @@ import { localeFromPathname, pickLocale, stripLocalePrefix, withLocalePrefix } f
 const subKo = [
   { href: "/notice", label: "공지사항" },
   { href: "/ongoing", label: "프로젝트 현황" },
-  { href: "/articles", label: "자료실" },
 ] as const;
 
 const subEn = [
   { href: "/notice", label: "Announcements" },
   { href: "/ongoing", label: "Project status" },
-  { href: "/articles", label: "Resources" },
 ] as const;
 
 const subZh = [
   { href: "/notice", label: "公告" },
   { href: "/ongoing", label: "项目动态" },
-  { href: "/articles", label: "资料库" },
 ] as const;
 
 function linkClass(active: boolean) {
@@ -32,7 +29,6 @@ function linkClass(active: boolean) {
 function isNewsSection(bare: string): boolean {
   if (bare === "/notice" || bare.startsWith("/notice/")) return true;
   if (bare === "/ongoing" || bare.startsWith("/ongoing/")) return true;
-  if (bare === "/articles" || bare.startsWith("/articles/")) return true;
   return false;
 }
 
@@ -67,8 +63,7 @@ export function NewsNavDesktop() {
         const subActive =
           bare === item.href ||
           (item.href === "/notice" && bare.startsWith("/notice/")) ||
-          (item.href === "/ongoing" && bare.startsWith("/ongoing/")) ||
-          (item.href === "/articles" && bare.startsWith("/articles/"));
+          (item.href === "/ongoing" && bare.startsWith("/ongoing/"));
         return (
           <Link
             key={item.href}

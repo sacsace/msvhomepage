@@ -13,7 +13,7 @@ export const hrPayroll: GuideBundle = {
       "Offer·Employment Agreement·Payroll·PF·ESI·PT(주별)·TDS·Shops & Establishments·Gratuity·Attendance·Final settlement·Expat payroll·FRRO · 인도 HR을 운영 시스템 관점으로 정리한 MSV 서비스 허브.",
     pageTitle: "HR·Payroll 서비스",
     pageDescription:
-      "인도 현지 채용·급여·법정효과는 주(邦) 법과 연방 규칙이 섞입니다. 채용부터 퇴직 정산까지 문서·등록·납부·근태·승인을 하나의 운영 흐름으로 연결하여 관리할 수 있도록 정리합니다.",
+      "인도의 인사·급여 업무에는 중앙정부 법령과 주별 노동 규정이 함께 적용됩니다. 채용부터 퇴직 정산까지 문서·등록·납부·근태·승인을 하나의 운영 흐름으로 연결하여 관리할 수 있도록 정리합니다.",
     disclaimer:
       "노동·휴가·Shops & Establishments 등록·컴플라이언스·Professional Tax(주별 적용·일부 주 면제·과표 slab 등 상이)·최저임금 등은 주(State)별 기준 차이가 존재할 수 있습니다. 실제 적용은 업종·직원 수·근무 형태·사업장 위치·본사 HR 정책에 따라 달라질 수 있으며, 본 페이지는 참고용 개요입니다.",
     introParagraphs: [
@@ -140,7 +140,7 @@ export const hrPayroll: GuideBundle = {
       "Expat payroll 및 FRRO 연계",
       "본사 HR 보고 체계 지원",
     ],
-    relatedIntro: "같은 운영 스택에서 자주 이어집니다.",
+    relatedIntro: "관련 업무는 아래 페이지에서 확인하실 수 있습니다.",
     relatedTitle: "연결 페이지",
     relatedLinks: [
       { href: "/services/frro", label: "FRRO 서비스" },
@@ -274,7 +274,7 @@ export const hrPayroll: GuideBundle = {
       "Expat payroll with FRRO coordination",
       "HQ HR reporting packs and calendars",
     ],
-    relatedIntro: "Often read in the same operating stack.",
+    relatedIntro: "Related topics are on the pages below.",
     relatedTitle: "Linked pages",
     relatedLinks: [
       { href: "/services/frro", label: "FRRO services" },
@@ -408,7 +408,7 @@ export const hrPayroll: GuideBundle = {
       "外籍薪酬与 FRRO 衔接",
       "总部 HR 报告体系与日历",
     ],
-    relatedIntro: "常与同一运营栈一并阅读。",
+    relatedIntro: "相关事项请见下方页面。",
     relatedTitle: "关联页面",
     relatedLinks: [
       { href: "/services/frro", label: "FRRO 服务" },

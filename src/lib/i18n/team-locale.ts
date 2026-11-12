@@ -31,8 +31,8 @@ export type AboutTeamPageCopy = {
 /** 정적 리더 3인 — 긴 인사말 대신 영·중에서는 요약 본문 사용 */
 const leadershipShortBio: Record<string, { en: string; zh: string }> = {
   "lee@msventures.in": {
-    en: "As an execution-led partner accountable from strategy through delivery in India’s complex regulatory environment, he leads an integrated model covering incorporation, accounting, tax, trade, visas, hospitality and HR—delivered in-house without outsourcing core work.",
-    zh: "在印度复杂的制度与行政环境中，从战略到落地全程负责的执行型伙伴，主导涵盖设立、会计、税务、贸易、签证、酒店与人力等环节、由内部团队直接交付的一体化方案。",
+    en: "In India’s complex regulatory environment, he leads an integrated support model—from strategy through on-the-ground delivery—covering incorporation, accounting, tax, trade, visas, hospitality and HR, with core work handled in-house and specialist review where required.",
+    zh: "在印度复杂的制度与行政环境中，从战略到落地提供一体化支持，涵盖设立、会计、税务、贸易、签证、酒店与人力等环节，核心工作由内部团队直接承担，专业审查事项与专家协同完成。",
   },
   "heon@msventures.in": {
     en: "A CPA and finance leader overseeing Korea–India strategic collaboration and client communications at MSV. He brings experience across large corporates, accounting firms, strategy consulting and investors, including co-investment mandates with international DFIs in India, Southeast Asia and China.",

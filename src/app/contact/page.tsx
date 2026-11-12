@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { StandardPageBody } from "@/components/layout/StandardPageBody";
 import { SectionTitle } from "@/components/SectionTitle";
+import { parseInquiryTypeParam } from "@/lib/contact-inquiry";
 import { contactFormStrings } from "@/lib/i18n/contact-locale";
 import { getRequestLocale } from "@/lib/get-request-locale";
 import { staticPageSeoLocalized } from "@/lib/seo-metadata";
@@ -10,15 +12,22 @@ import { company } from "@/lib/site-content";
 
 const mapEmbedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(company.address)}&z=14&output=embed`;
 
+type Props = {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getRequestLocale();
   const c = contactFormStrings(locale);
   return staticPageSeoLocalized("/contact", { title: c.metaTitle, description: c.metaDescription }, locale);
 }
 
-export default async function ContactPage() {
+export default async function ContactPage({ searchParams }: Props) {
   const locale = await getRequestLocale();
   const c = contactFormStrings(locale);
+  const sp = searchParams ? await searchParams : {};
+  const rawType = typeof sp.type === "string" ? sp.type : Array.isArray(sp.type) ? sp.type[0] : "";
+  const initialInquiryType = parseInquiryTypeParam(rawType);
 
   return (
     <>
@@ -26,7 +35,15 @@ export default async function ContactPage() {
       <StandardPageBody>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:items-stretch lg:gap-8">
           <div className="flex min-h-0 min-w-0 flex-col lg:col-span-3">
-            <ContactForm copy={c} />
+            <Suspense
+              fallback={
+                <div className="flex min-h-[28rem] items-center justify-center rounded-2xl border border-slate-200 bg-white text-sm text-slate-400">
+                  …
+                </div>
+              }
+            >
+              <ContactForm copy={c} initialInquiryType={initialInquiryType} />
+            </Suspense>
           </div>
 
           <aside className="flex min-h-0 min-w-0 flex-col lg:col-span-2">
@@ -67,7 +84,7 @@ export default async function ContactPage() {
 
               <div className="my-6 shrink-0 border-t border-slate-200 sm:my-7" aria-hidden />
 
-              <section aria-labelledby="contact-email-heading" className="min-w-0">
+              <section aria-labelledby="contact-email-heading" className="min-h-0 min-w-0">
                 <SectionTitle
                   id="contact-email-heading"
                   eyebrow={c.contactEyebrow}

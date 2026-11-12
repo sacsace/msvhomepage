@@ -45,17 +45,17 @@ export type ContactFormStrings = {
 };
 
 const ko: ContactFormStrings = {
-  metaTitle: "문의",
-  metaDescription: `${company.legalName} 문의 양식·본사 위치·연락처`,
-  pageTitle: "문의",
-  pageDescription: "아래 양식을 작성해 주시면 검토 후 담당자가 순차적으로 회신드립니다.",
+  metaTitle: "상담 문의",
+  metaDescription: `${company.legalName} 상담 문의 양식·본사 위치·연락처`,
+  pageTitle: "상담 문의",
+  pageDescription: "문의 내용을 남겨 주시면 담당자가 확인 후 연락드립니다.",
   cardTagline: "인도 비즈니스 자문 · 회계 · 세무 · 컴플라이언스",
   locationEyebrow: "Location",
   locationTitle: "본사 · 오시는 길",
   mapIframeTitle: "본사 위치 (Google Maps)",
   googleMaps: "Google 지도에서 크게 보기 →",
   contactEyebrow: "Contact",
-  contactTitle: "연락",
+  contactTitle: "연락처",
   formSr: "문의 양식",
   success: "문의가 접수되었습니다. 담당자가 확인 후 회신드리겠습니다.",
   errNetwork: "네트워크 오류가 발생했습니다.",
@@ -84,9 +84,9 @@ const ko: ContactFormStrings = {
 };
 
 const en: ContactFormStrings = {
-  metaTitle: "Contact",
+  metaTitle: "Contact us",
   metaDescription: `${company.legalName} — contact form, office location and email.`,
-  pageTitle: "Contact",
+  pageTitle: "Contact us",
   pageDescription: "Please complete the form below; our team will review and respond in order.",
   cardTagline: "India Business Consulting · Accounting · Tax · Compliance",
   locationEyebrow: "Location",
@@ -123,9 +123,9 @@ const en: ContactFormStrings = {
 };
 
 const zh: ContactFormStrings = {
-  metaTitle: "联系",
-  metaDescription: `${company.legalName} — 联系表单、总部地址与邮箱。`,
-  pageTitle: "联系",
+  metaTitle: "咨询联系",
+  metaDescription: `${company.legalName} — 咨询表单、总部地址与邮箱。`,
+  pageTitle: "咨询联系",
   pageDescription: "请填写下方表单，我们将审阅后按顺序由专人回复。",
   cardTagline: "印度商务咨询 · 会计 · 税务 · 合规",
   locationEyebrow: "地址",

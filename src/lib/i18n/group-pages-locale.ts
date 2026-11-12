@@ -35,7 +35,7 @@ const groupIndexKo: GroupIndexPageCopy = {
   metaTitle: "그룹사",
   metaDescription: `${company.shortName} 인도 현지 그룹사 법인·브랜드`,
   pageTitle: "그룹사",
-  pageDescription: `${company.shortName}가 인도 현지에서 역량을 보완하는 그룹사 법인·브랜드입니다.`,
+  pageDescription: "MSV와 함께 인도에서 사업을 운영하는 그룹사와 브랜드를 소개합니다.",
   sectionPartnersEyebrow: "Partners",
   sectionPartnersTitle: "브랜드 · 법인",
   sectionPartnersSubtitle: "각 법인을 선택하면 상세 소개·웹사이트·소개 자료를 확인할 수 있습니다.",
@@ -114,7 +114,7 @@ const chromeKo: GroupCompanyPageChrome = {
   galleryEyebrow: "Gallery",
   galleryTitle: "사진",
   majorCustomersEyebrow: "Major customers",
-  majorCustomersTitle: "주요 고객사",
+  majorCustomersTitle: "주요 서비스 대상",
   locationEyebrow: "Location",
   locationTitle: "위치",
   openInGoogleMaps: "Google 지도에서 크게 보기 →",
@@ -135,7 +135,7 @@ const chromeEn: GroupCompanyPageChrome = {
   galleryEyebrow: "Gallery",
   galleryTitle: "Photos",
   majorCustomersEyebrow: "Major customers",
-  majorCustomersTitle: "Key customers",
+  majorCustomersTitle: "Key service segments",
   locationEyebrow: "Location",
   locationTitle: "Office location",
   openInGoogleMaps: "Open in Google Maps →",
@@ -156,7 +156,7 @@ const chromeZh: GroupCompanyPageChrome = {
   galleryEyebrow: "Gallery",
   galleryTitle: "图片",
   majorCustomersEyebrow: "Major customers",
-  majorCustomersTitle: "主要客户",
+  majorCustomersTitle: "主要服务对象",
   locationEyebrow: "Location",
   locationTitle: "位置",
   openInGoogleMaps: "在 Google 地图中放大查看 →",
@@ -271,7 +271,7 @@ Visit www.neocle.in for product details and the inquiry form.`,
       metaDescription:
         "Seda Engineering India Private Limited — 산업용 장비·압축기 엔지니어링, 플랜트·공장 설비 도입 및 유지보수.",
       role: "엔지니어링 회사",
-      intro: `Seda Engineering India Private Limited는 산업용 장비·압축기 등 엔지니어링 분야에서 제조·플랜트 현장의 설비 도입·유지보수와 관련된 기술·공급 체계를 바탕으로, 인도 내 공장·설비 프로젝트에 실질적인 엔지니어링 파트너로 기여합니다.`,
+      intro: `SEDA는 인도 제조업체와 플랜트를 대상으로 산업용 장비·압축기 공급, 설비 도입 및 유지보수를 지원합니다.`,
       highlights: ["산업용 장비·압축기 엔지니어링", "플랜트·공장 설비 도입 및 유지보수"],
       logoAlt: "Seda Engineering India 로고",
       majorCustomers: [
@@ -284,7 +284,7 @@ Visit www.neocle.in for product details and the inquiry form.`,
       metaDescription:
         "Seda Engineering India Private Limited — industrial equipment and compressor engineering; plant and factory installation and maintenance.",
       role: "Engineering",
-      intro: `Seda Engineering India Private Limited contributes as an engineering partner to factory and plant projects in India, drawing on technical and supply capabilities for industrial equipment and compressors—including installation and maintenance at manufacturing and plant sites.`,
+      intro: `SEDA supplies industrial equipment and compressors and supports installation and maintenance for manufacturers and plants in India.`,
       highlights: ["Industrial equipment & compressor engineering", "Plant/factory installation and maintenance"],
       logoAlt: "Seda Engineering India logo",
       majorCustomers: [
@@ -297,7 +297,7 @@ Visit www.neocle.in for product details and the inquiry form.`,
       metaDescription:
         "Seda Engineering India Private Limited — 工业设备与压缩机工程，工厂与产线设备安装及维护。",
       role: "工程公司",
-      intro: `Seda Engineering India Private Limited 依托工业设备、压缩机等工程领域的技术与供应体系，在印度工厂与设施项目中承担设备导入与维护相关工作，作为工程侧合作伙伴提供支持。`,
+      intro: `SEDA 面向印度制造商与工厂，提供工业设备与压缩机供应，并支持设备导入与维护保养。`,
       highlights: ["工业设备与压缩机工程", "工厂与产线设备安装及维护"],
       logoAlt: "Seda Engineering India 标志",
       majorCustomers: [
@@ -314,7 +314,7 @@ Visit www.neocle.in for product details and the inquiry form.`,
       role: "한국형 호텔 · 숙박",
       intro: `Lotus Korean Hotel은 방갈로르에서 비즈니스·장기 체류에 맞춘 한국형 호텔·숙박 서비스를 제공합니다.
 
-MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등을 함께 지원하며, 현지 업무와 연계된 숙박 옵션을 제공합니다.`,
+기업 출장자와 장기 체류 고객을 위한 숙박 서비스를 제공하며, MSV 고객사와 협력해 프로젝트 기간 체류 등도 함께 지원합니다.`,
       highlights: ["비즈니스·장기 숙박", "온라인: hotellotus.in"],
       logoAlt: "Lotus Korean Hotel 로고",
       majorCustomers: [
@@ -329,7 +329,7 @@ MSV 고객사와 방문 인력의 거점 숙박, 프로젝트 기간 체류 등�
       role: "Korean-style hotel & lodging",
       intro: `Lotus Korean Hotel offers Korean-style hotel and accommodation in Bangalore tailored to business and longer stays.
 
-Together with MSV we support base lodging for client teams and visitors, project-duration stays and options linked to local operations.`,
+We offer lodging for business travellers and extended-stay guests, and work with MSV client teams on project-duration stays and locally connected options.`,
       highlights: ["Business & extended stays", "Online: hotellotus.in"],
       logoAlt: "Lotus Korean Hotel logo",
       majorCustomers: [
@@ -344,7 +344,7 @@ Together with MSV we support base lodging for client teams and visitors, project
       role: "韩式酒店 · 住宿",
       intro: `Lotus Korean Hotel 在班加罗尔提供面向商务与长住的韩式酒店与住宿服务。
 
-与 MSV 协同支持客户与来访人员的驻地住宿、项目期停留及与当地业务衔接的住宿方案。`,
+面向企业出差与长住宾客提供住宿服务，并与 MSV 客户团队协同支持项目期停留及当地业务衔接的住宿方案。`,
       highlights: ["商务与长住", "线上：hotellotus.in"],
       logoAlt: "Lotus Korean Hotel 标志",
       majorCustomers: [
