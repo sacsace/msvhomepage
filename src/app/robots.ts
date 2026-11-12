@@ -1,7 +1,10 @@
 import type { MetadataRoute } from "next";
 import { siteUrl } from "@/lib/site-content";
 
-/** 레거시·비공개 경로 — ko 및 /en·/zh 접두 모두 차단 */
+/**
+ * 레거시·비공개만 차단. 공개 페이지(/about/team 등)는 막지 않습니다.
+ * Google robots.txt는 prefix 매칭이므로 `/team`은 `/team`·`/team/...`만 해당합니다.
+ */
 const LEGACY_DISALLOW = [
   "/api/",
   "/admin",
@@ -19,8 +22,11 @@ const LEGACY_DISALLOW = [
   "/en/msv-intro",
   "/zh/msv-intro",
   "/team",
+  "/team/",
   "/en/team",
+  "/en/team/",
   "/zh/team",
+  "/zh/team/",
 ] as const;
 
 export default function robots(): MetadataRoute.Robots {
@@ -31,8 +37,12 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         disallow: [...LEGACY_DISALLOW],
       },
+      {
+        userAgent: "Googlebot",
+        allow: "/",
+        disallow: [...LEGACY_DISALLOW],
+      },
     ],
     sitemap: `${siteUrl}/sitemap.xml`,
-    host: siteUrl.replace(/^https?:\/\//, ""),
   };
 }

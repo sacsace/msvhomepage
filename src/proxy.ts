@@ -24,8 +24,18 @@ function withSecurityHeaders(response: NextResponse): NextResponse {
   return response;
 }
 
-/** Next.js 16+ `proxy` 파일 규약 — 로케일 prefix rewrite + 보안 헤더 */
+/** Next.js 16+ `proxy` 파일 규약 — www 정규화 + 로케일 rewrite + 보안 헤더 */
 export function proxy(request: NextRequest) {
+  const host = (request.headers.get("host") || "").split(":")[0]?.toLowerCase() ?? "";
+  /** apex가 Railway에 연결되면 https://www 로 301 — 잘못된 http://www 포워딩을 앱단에서 바로잡음 */
+  if (host === "msventures.in") {
+    const dest = request.nextUrl.clone();
+    dest.protocol = "https:";
+    dest.hostname = "www.msventures.in";
+    dest.port = "";
+    return withSecurityHeaders(NextResponse.redirect(dest, 301));
+  }
+
   const pathname = request.nextUrl.pathname;
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-msv-browser-path", pathname);

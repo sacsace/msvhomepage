@@ -28,7 +28,8 @@ import { company, siteUrl } from "@/lib/site-content";
 /** 모던 지오메트릭 산세리프 — 제목·본문 단일 패밀리 */
 const gothic = Gothic_A1({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  /** 가중치가 많으면 Link preload 헤더가 비대해져 크롤러 응답이 불필요하게 커집니다. */
+  weight: ["400", "500", "600", "700"],
   variable: "--font-gothic",
   display: "swap",
 });

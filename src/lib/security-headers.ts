@@ -38,7 +38,11 @@ export function buildSecurityHeaders(isProduction: boolean): SecurityHeader[] {
     { key: "X-Frame-Options", value: "SAMEORIGIN" },
     { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
     { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-    { key: "Cross-Origin-Resource-Policy", value: "same-site" },
+    /**
+     * 공개 마케팅 사이트는 `same-site`보다 `cross-origin`이 안전합니다.
+     * Googlebot 렌더·Search Console URL 검사에서 CORP 과다 제한이 간헐적 fetch 실패로 이어질 수 있습니다.
+     */
+    { key: "Cross-Origin-Resource-Policy", value: "cross-origin" },
     {
       key: "Permissions-Policy",
       value: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()",
