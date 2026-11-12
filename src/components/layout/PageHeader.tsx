@@ -11,6 +11,8 @@ type Props = {
   title: string;
   /** 히어로 제목 위 소형 라벨(서비스 랜딩 등, 선택) */
   eyebrow?: string;
+  /** split 패턴 우측 패널 큰 제목(기본 Practice) */
+  asideTitle?: string;
   description?: string;
   /** true면 설명을 줄바꿈 없이 한 줄로 표시하고, 넘치면 가로 스크롤합니다. */
   descriptionSingleLine?: boolean;
@@ -50,6 +52,7 @@ function HomeCrumb({ onDark }: { onDark: boolean }) {
 export async function PageHeader({
   title,
   eyebrow,
+  asideTitle = "Practice",
   description,
   descriptionSingleLine,
   descriptionWide,
@@ -169,7 +172,7 @@ export async function PageHeader({
                 {meta.label}
               </p>
               <p className="mt-3 font-sans text-3xl font-semibold tracking-[-0.035em] text-white">
-                Practice
+                {asideTitle}
               </p>
             </div>
           </div>

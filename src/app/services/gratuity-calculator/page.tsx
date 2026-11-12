@@ -25,13 +25,18 @@ export default async function GratuityCalculatorPage() {
 
   return (
     <>
-      <PageHeader title={c.pageHeaderTitle} description={c.pageHeaderDescription} descriptionWide />
+      <PageHeader
+        title={c.pageHeaderTitle}
+        description={c.pageHeaderDescription}
+        descriptionWide
+        asideTitle={c.pageAsideTitle}
+      />
       <StandardPageBody>
         <div className="space-y-8">
           <GratuityCalculator locale={locale} />
 
           <footer className="border-t border-slate-200 pt-6">
-            <p className="max-w-3xl text-sm leading-relaxed text-slate-500">{c.disclaimer}</p>
+            <p className="max-w-4xl text-sm leading-relaxed text-slate-500">{c.disclaimer}</p>
             <div className="mt-5 flex flex-wrap gap-2.5">
               <Link
                 href={L("/services/hr-payroll")}

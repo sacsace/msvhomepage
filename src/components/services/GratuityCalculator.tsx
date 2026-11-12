@@ -86,11 +86,8 @@ export function GratuityCalculator({ locale }: { locale: SiteLocale }) {
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(16rem,20rem)] lg:items-start lg:gap-10">
       <div className="min-w-0 space-y-8">
         <section>
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <h3 className="text-base font-bold tracking-tight text-msv-navy">{t.sectionComponents}</h3>
-              <p className="mt-1 max-w-xl text-sm leading-relaxed text-slate-500">{t.sectionComponentsHint}</p>
-            </div>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h3 className="text-base font-bold tracking-tight text-msv-navy">{t.sectionComponents}</h3>
             <button
               type="button"
               onClick={addRow}
@@ -99,6 +96,9 @@ export function GratuityCalculator({ locale }: { locale: SiteLocale }) {
               {t.addRow}
             </button>
           </div>
+          <p className="mt-1 whitespace-pre-line text-sm leading-relaxed text-slate-500">
+            {t.sectionComponentsHint}
+          </p>
 
           <ul className="mt-4 divide-y divide-slate-100 overflow-hidden rounded-2xl border border-slate-200 bg-white">
             <li className="hidden grid-cols-[minmax(0,1.2fr)_7.5rem_5.5rem_2.75rem] gap-2 bg-slate-50 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500 sm:grid sm:px-4">
@@ -178,7 +178,7 @@ export function GratuityCalculator({ locale }: { locale: SiteLocale }) {
                 className={`${fieldInput} tabular-nums`}
               />
             </label>
-            <p className="mt-1.5 whitespace-nowrap text-xs leading-relaxed text-slate-500">
+            <p className="mt-1.5 whitespace-pre-line text-xs leading-relaxed text-slate-500">
               {t.yearsHint}
             </p>
           </div>
