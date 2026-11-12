@@ -1,3 +1,4 @@
+import { isServiceGuideSlug, serviceGuideCopy } from "@/lib/i18n/service-guides-locale";
 import { groupCompanies } from "@/lib/site-content";
 import { absoluteSiteUrl } from "@/lib/seo-metadata";
 import type { SiteLocale } from "@/lib/site-locale";
@@ -21,7 +22,6 @@ const STATIC_LABELS: Record<string, { ko: string; en: string; zh: string }> = {
   "/notice": { ko: "공지사항", en: "Announcements", zh: "公告" },
   "/ongoing": { ko: "프로젝트 현황", en: "Project status", zh: "项目动态" },
   "/articles": { ko: "자료실", en: "Resources", zh: "资料库" },
-  "/team": { ko: "팀", en: "Team", zh: "团队" },
   "/services/compliance-calendar": { ko: "준수 달력", en: "Compliance calendar", zh: "合规日历" },
   "/services/corporate-incorporation": { ko: "법인 설립", en: "Incorporation", zh: "公司设立" },
   "/services/corporate-incorporation/apply": { ko: "설립 신청", en: "Apply", zh: "设立申请" },
@@ -50,6 +50,9 @@ function labelForPath(path: string, locale: SiteLocale): string {
 
   if (path.startsWith("/services/")) {
     const slug = path.slice("/services/".length);
+    if (isServiceGuideSlug(slug)) {
+      return serviceGuideCopy(slug, locale).pageTitle;
+    }
     return slug.replace(/-/g, " ");
   }
   if (path.startsWith("/notice/")) {

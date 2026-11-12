@@ -33,6 +33,15 @@ const fieldInput =
 const compactInput =
   "w-full rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-sm text-slate-900 outline-none transition focus:border-msv-blue focus:ring-2 focus:ring-msv-blue/20";
 
+/** 비밀번호 관리자 등이 주입하는 data-* 속성으로 인한 hydration 경고 완화 */
+const antiExtensionInputProps = {
+  autoComplete: "off" as const,
+  "data-1p-ignore": true,
+  "data-lpignore": "true",
+  "data-form-type": "other",
+  suppressHydrationWarning: true,
+};
+
 export function GratuityCalculator({ locale }: { locale: SiteLocale }) {
   const t = gratuityCalculatorCopy(locale);
   const [components, setComponents] = useState<GratuitySalaryComponent[]>(() => {
@@ -120,6 +129,7 @@ export function GratuityCalculator({ locale }: { locale: SiteLocale }) {
                     onChange={(e) => updateComponent(row.id, { label: e.target.value })}
                     className={compactInput}
                     aria-label={t.colItem}
+                    {...antiExtensionInputProps}
                   />
                 </label>
                 <label className="block sm:contents">
@@ -131,6 +141,7 @@ export function GratuityCalculator({ locale }: { locale: SiteLocale }) {
                     onChange={(e) => updateComponent(row.id, { amount: parseAmount(e.target.value) })}
                     className={`${compactInput} text-right tabular-nums`}
                     aria-label={t.colAmount}
+                    {...antiExtensionInputProps}
                   />
                 </label>
                 <label className="block sm:contents">
@@ -176,6 +187,7 @@ export function GratuityCalculator({ locale }: { locale: SiteLocale }) {
                 value={yearsStr}
                 onChange={(e) => setYearsStr(e.target.value)}
                 className={`${fieldInput} tabular-nums`}
+                {...antiExtensionInputProps}
               />
             </label>
             <p className="mt-1.5 whitespace-pre-line text-xs leading-relaxed text-slate-500">
@@ -196,6 +208,7 @@ export function GratuityCalculator({ locale }: { locale: SiteLocale }) {
                 value={statutoryDaysStr}
                 onChange={(e) => setStatutoryDaysStr(e.target.value)}
                 className={`${compactInput} mt-1.5 tabular-nums`}
+                {...antiExtensionInputProps}
               />
             </label>
             <label className="block">
@@ -206,6 +219,7 @@ export function GratuityCalculator({ locale }: { locale: SiteLocale }) {
                 value={daysPerYearStr}
                 onChange={(e) => setDaysPerYearStr(e.target.value)}
                 className={`${compactInput} mt-1.5 tabular-nums`}
+                {...antiExtensionInputProps}
               />
             </label>
             <label className="block">
@@ -216,6 +230,7 @@ export function GratuityCalculator({ locale }: { locale: SiteLocale }) {
                 value={excludedCapPctStr}
                 onChange={(e) => setExcludedCapPctStr(e.target.value)}
                 className={`${compactInput} mt-1.5 tabular-nums`}
+                {...antiExtensionInputProps}
               />
             </label>
             <label className="block">
@@ -226,6 +241,7 @@ export function GratuityCalculator({ locale }: { locale: SiteLocale }) {
                 value={ceilingStr}
                 onChange={(e) => setCeilingStr(e.target.value)}
                 className={`${compactInput} mt-1.5 tabular-nums`}
+                {...antiExtensionInputProps}
               />
             </label>
           </div>

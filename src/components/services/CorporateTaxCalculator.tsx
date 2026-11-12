@@ -77,6 +77,11 @@ function Field({
         id={id}
         type="text"
         inputMode="decimal"
+        autoComplete="off"
+        data-1p-ignore
+        data-lpignore="true"
+        data-form-type="other"
+        suppressHydrationWarning
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="0"
@@ -150,45 +155,32 @@ export function CorporateTaxCalculator({ locale }: { locale: SiteLocale }) {
 
   return (
     <div className="w-full space-y-6">
+      <p className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 sm:px-4">
+        <span className="font-medium text-slate-500">{t.assessmentPeriodLabel}</span>
+        <span className="mx-2 text-slate-300" aria-hidden>
+          ·
+        </span>
+        <span className="font-semibold tabular-nums text-msv-navy">{t.assessmentPeriodValue}</span>
+      </p>
+
       <div className="space-y-4">
         <div className="rounded-xl border border-msv-blue/25 bg-msv-blue-soft/50 px-4 py-3 sm:px-5 sm:py-4">
           <p className="text-sm font-semibold text-msv-navy">{t.section1Title}</p>
-          <p className="mt-2 text-sm leading-relaxed text-slate-700">
-            {t.section1LeadBeforeRows}
-            <strong className="text-msv-navy">{t.section1LeadRowsStrong}</strong>
-            {t.section1LeadAfterRows}
-            <strong className="text-msv-navy">{t.section1LeadActStrong}</strong>
-            {t.section1LeadTail}
-          </p>
-          <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-sm leading-relaxed text-slate-700">
+          <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-slate-700">
+            <li className="leading-snug">{t.section1LiI}</li>
             <li className="leading-snug">
-              <strong className="text-msv-navy">{t.section1LiIStrong}</strong>
-              {t.section1LiIRest}
+              {t.section1LiJ}
+              <span className="mt-1 block text-xs leading-snug text-slate-600">{t.section1LiJNote}</span>
             </li>
-            <li className="leading-snug">
-              <strong className="text-msv-navy">{t.section1LiJStrong}</strong> = (i) × <strong className="tabular-nums">10%</strong>
-              <span className="text-slate-600">{t.section1LiJNote}</span>
-            </li>
-            <li className="leading-snug">
-              <strong className="text-msv-navy">(k)</strong> {t.section1LiK.replace(/^\(k\)\s*/, "")}
-            </li>
-            <li className="leading-snug">
-              {t.section1LiLBeforeRate}
-              <strong className="tabular-nums text-msv-navy">{t.section1LiLRate(effectivePct)}</strong>
-              <span className="text-slate-600">{t.section1LiLNote}</span>
-            </li>
-          </ol>
+            <li className="leading-snug">{t.section1LiK}</li>
+            <li className="leading-snug font-medium text-msv-navy">{t.section1LiL(effectivePct)}</li>
+          </ul>
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-slate-50/90 px-4 py-3 sm:px-5 sm:py-4">
           <p className="text-sm font-semibold text-msv-navy">{t.section2Title}</p>
-          <p className="mt-2 text-sm leading-relaxed text-slate-700">
-            {t.section2P1Before}
-            <strong className="text-msv-navy">{t.section2P1Strong}</strong>
-            {t.section2P1After}
-            <strong className="text-msv-navy">{t.section2P1Msv}</strong>
-            {t.section2P1End}
-          </p>
+          <p className="mt-2 text-sm leading-relaxed text-slate-700">{t.section2Lead}</p>
+          <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{t.section2Example}</p>
           <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-slate-700">
             <li className="leading-snug">
               <strong className="text-msv-navy">{t.section2Ul1Strong}</strong>
@@ -201,8 +193,7 @@ export function CorporateTaxCalculator({ locale }: { locale: SiteLocale }) {
             <li className="leading-snug">{t.section2Ul3}</li>
             <li className="leading-snug">{t.section2Ul4}</li>
           </ul>
-          <p className="mt-3 text-xs leading-relaxed text-slate-600">{t.section2Foot1}</p>
-          <p className="mt-3 text-sm leading-relaxed text-slate-600">{t.section2Foot2}</p>
+          <p className="mt-3 text-xs leading-relaxed text-slate-600">{t.section2Foot}</p>
         </div>
       </div>
 
@@ -220,13 +211,7 @@ export function CorporateTaxCalculator({ locale }: { locale: SiteLocale }) {
 
       <div>
         <h3 className="text-sm font-semibold text-msv-navy">{t.workingHeading}</h3>
-        <p className="mt-2 text-sm leading-relaxed text-red-700">
-          {t.workingLeadBeforeL}
-          <strong className="font-semibold">{t.workingLeadLStrong}</strong>
-          {t.workingLeadAfterL}
-          <strong className="font-semibold">{t.workingLeadGrossStrong}</strong>
-          {t.workingLeadEnd}
-        </p>
+        <p className="mt-2 text-sm leading-relaxed text-red-700">{t.workingLeadNote}</p>
         <div className="mt-3 overflow-x-auto rounded-lg border border-slate-200 bg-white">
           <table className="w-full min-w-[58rem] border-collapse text-left text-sm">
             <thead>
@@ -362,7 +347,6 @@ export function CorporateTaxCalculator({ locale }: { locale: SiteLocale }) {
             </tbody>
           </table>
         </div>
-        <p className="mt-3 text-xs leading-relaxed text-slate-600">{t.tableBelowNote}</p>
       </div>
     </div>
   );

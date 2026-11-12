@@ -1,12 +1,16 @@
 import type { SiteLocale } from "@/lib/site-locale";
 import { pickLocale } from "@/lib/site-locale";
 
-export function legacyRedirectSeo(locale: SiteLocale, kind: "qna" | "clients" | "mvs-intro" | "msv-intro") {
+export function legacyRedirectSeo(
+  locale: SiteLocale,
+  kind: "qna" | "clients" | "mvs-intro" | "msv-intro" | "team",
+) {
   const titles = {
     qna: pickLocale(locale, { ko: "문의", en: "Contact", zh: "联系" }),
     clients: pickLocale(locale, { ko: "고객사", en: "Clients", zh: "客户" }),
     "mvs-intro": pickLocale(locale, { ko: "MVS 소개", en: "MVS overview", zh: "MVS 介绍" }),
     "msv-intro": pickLocale(locale, { ko: "MVS 소개", en: "MVS overview", zh: "MVS 介绍" }),
+    team: pickLocale(locale, { ko: "팀", en: "Team", zh: "团队" }),
   } as const;
   return {
     title: titles[kind],

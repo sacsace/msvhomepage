@@ -19,14 +19,14 @@ export const professionalTaxStates: readonly ProfessionalTaxStateMeta[] = [
     labelKo: "카르나타카(Karnataka)",
     labelEn: "Karnataka",
     assumptionKo:
-      "급여소득자(직원) 월별 납부 구간 — Karnataka Tax on Professions, Trades and Callings Act 기준의 일반적인 3단계 요약입니다.",
+      "급여소득자(직원) 기준 — Karnataka Tax on Professions, Trades and Callings Act. ₹25,000 미만 면제, 이상이면 월 ₹200(2월 ₹300).",
   },
   {
     code: "MH",
     labelKo: "마하라슈트라(Maharashtra)",
     labelEn: "Maharashtra",
     assumptionKo:
-      "급여소득자 월별 납부 구간 — Maharashtra State Tax on Professions, Trades, Callings and Employments Act 기준의 일반적인 구간입니다. 성별에 따라 슬래브가 다르므로 계산기에서 Male/Female을 선택하세요.",
+      "급여소득자 월별 납부 구간 — Maharashtra State Tax on Professions, Trades, Callings and Employments Act. 성별에 따라 구간이 다르므로 계산기에서 성별을 선택하세요.",
   },
   {
     code: "AP",
@@ -44,12 +44,12 @@ export const professionalTaxStates: readonly ProfessionalTaxStateMeta[] = [
   },
 ];
 
-/** 마하라슈트라만 월(2월 요율)이 월 세액에 영향을 줍니다. */
+/** 카르나타카·마하라슈트라는 2월 세액이 월 납부액에 영향을 줍니다. */
 export function professionalTaxMonthAffectsMonthlyAmount(state: ProfessionalTaxStateCode): boolean {
-  return state === "MH";
+  return state === "KA" || state === "MH";
 }
 
-/** 마하라슈트라만 성별에 따라 슬래브가 달라집니다. */
+/** 마하라슈트라만 성별에 따라 급여 구간이 달라집니다. */
 export function professionalTaxGenderAffectsSlabs(state: ProfessionalTaxStateCode): boolean {
   return state === "MH";
 }
@@ -61,7 +61,7 @@ export function professionalTaxPaymentBasis(state: ProfessionalTaxStateCode): "m
 
 /**
  * 현재 급여가 구간 표에서 몇 번째 행에 해당하는지(0 기반). NaN/음수면 -1.
- * UI의「적용 slab」표시와 계산 로직을 동일 출처로 맞춤.
+ * UI의「적용 급여 구간」표시와 계산 로직을 동일 출처로 맞춤.
  */
 export function professionalTaxSlabRowIndex(
   state: ProfessionalTaxStateCode,
@@ -71,9 +71,8 @@ export function professionalTaxSlabRowIndex(
   if (!Number.isFinite(monthlySalary) || monthlySalary < 0) return -1;
 
   if (state === "KA") {
-    if (monthlySalary <= 15_000) return 0;
-    if (monthlySalary <= 25_000) return 1;
-    return 2;
+    if (monthlySalary < 25_000) return 0;
+    return 1;
   }
 
   if (state === "AP") {
@@ -104,7 +103,10 @@ export function professionalTaxSlabRowIndex(
   return -1;
 }
 
-/** `month` — 1(1월) ~ 12(12월). 마하라슈트라 일부 구간은 2월에만 월 300 INR이 적용되는 경우가 많습니다. */
+/**
+ * `month` — 1(1월) ~ 12(12월).
+ * 카르나타카·마하라슈트라 과세 대상자는 2월 세액이 다른 달과 다를 수 있습니다.
+ */
 export function computeProfessionalTaxMonthly(
   state: ProfessionalTaxStateCode,
   monthlySalary: number,
@@ -114,9 +116,10 @@ export function computeProfessionalTaxMonthly(
   if (!Number.isFinite(monthlySalary) || monthlySalary < 0) return 0;
   const m = month >= 1 && month <= 12 ? month : 1;
 
+  /* KA — 일반 급여소득자: ₹25,000 미만 면제, 이상 월 ₹200(2월 ₹300). 별도 면제 대상은 제외. */
   if (state === "KA") {
-    if (monthlySalary <= 15_000) return 0;
-    if (monthlySalary <= 25_000) return 150;
+    if (monthlySalary < 25_000) return 0;
+    if (m === 2) return 300;
     return 200;
   }
 
@@ -148,6 +151,7 @@ export function computeProfessionalTaxMonthly(
   return 200;
 }
 
+/** 동일 월 급여로 1~12월을 각각 산정해 합산(2월 차등 반영). 단순 ×12가 아님. */
 export function sumProfessionalTaxYearSameSalary(
   state: ProfessionalTaxStateCode,
   monthlySalary: number,

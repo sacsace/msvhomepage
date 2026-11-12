@@ -15,11 +15,12 @@ export type ProfessionalTaxCalculatorCopy = {
   linkServices: string;
   linkContact: string;
   fieldState: string;
+  fieldStateHint: string;
   fieldSalary: string;
   salaryPlaceholder: string;
   salaryHint: string;
   fieldBaseMonth: string;
-  hintMonthMH: string;
+  hintMonthFebDiff: string;
   hintMonthOther: string;
   fieldGender: string;
   genderMale: string;
@@ -47,31 +48,30 @@ export type ProfessionalTaxCalculatorCopy = {
   tableColTax: string;
   months: readonly string[];
   stateOptions: Record<ProfessionalTaxStateCode, string>;
-  assumptions: Record<ProfessionalTaxStateCode, string>;
   slabs: Record<ProfessionalTaxStateCode, readonly PtSlabRow[]>;
 };
 
 const SLABS_MH_FEMALE_KO: readonly PtSlabRow[] = [
   { range: "월 급여 ₹25,000 이하", amount: "면제 (₹0)" },
   {
-    range: "예시 slab 기준 · 월 급여 ₹25,001 초과",
-    amount: "₹200 / 월 (일부 구간은 2월 ₹300 적용 사례)",
+    range: "월 급여 ₹25,001 초과",
+    amount: "월 ₹200 · 2월 ₹300",
   },
 ];
 
 const SLABS_MH_FEMALE_EN: readonly PtSlabRow[] = [
   { range: "Monthly salary ≤ ₹25,000", amount: "Exempt (₹0)" },
   {
-    range: "Illustrative slab · monthly salary > ₹25,000",
-    amount: "₹200 / month (some bands may see ₹300 in February)",
+    range: "Monthly salary > ₹25,000",
+    amount: "₹200 / month · ₹300 in February",
   },
 ];
 
 const SLABS_MH_FEMALE_ZH: readonly PtSlabRow[] = [
   { range: "月工资 ≤ ₹25,000", amount: "免税 (₹0)" },
   {
-    range: "示例分档 · 月工资 > ₹25,000",
-    amount: "₹200 / 月（部分情形 2 月适用 ₹300）",
+    range: "月工资 > ₹25,000",
+    amount: "月 ₹200 · 2月 ₹300",
   },
 ];
 
@@ -81,16 +81,15 @@ const MONTHS_ZH = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月
 
 const SLABS_KO: Record<ProfessionalTaxStateCode, readonly PtSlabRow[]> = {
   KA: [
-    { range: "월 급여 ₹15,000 이하", amount: "면제 (₹0)" },
-    { range: "월 급여 ₹15,001 ~ ₹25,000", amount: "₹150 / 월" },
-    { range: "월 급여 ₹25,001 초과", amount: "₹200 / 월" },
+    { range: "월 급여 ₹25,000 미만", amount: "면제" },
+    { range: "월 급여 ₹25,000 이상", amount: "월 ₹200 · 2월 ₹300" },
   ],
   MH: [
     { range: "월 급여 ₹7,500 이하", amount: "면제 (₹0)" },
     { range: "월 급여 ₹7,501 ~ ₹10,000", amount: "₹175 / 월" },
     {
-      range: "예시 slab 기준 · 월 급여 ₹10,001 초과",
-      amount: "₹200 / 월 (일부 구간은 2월 ₹300 적용 사례)",
+      range: "월 급여 ₹10,001 초과",
+      amount: "월 ₹200 · 2월 ₹300",
     },
   ],
   AP: [
@@ -110,16 +109,15 @@ const SLABS_KO: Record<ProfessionalTaxStateCode, readonly PtSlabRow[]> = {
 
 const SLABS_EN: Record<ProfessionalTaxStateCode, readonly PtSlabRow[]> = {
   KA: [
-    { range: "Monthly salary ≤ ₹15,000", amount: "Exempt (₹0)" },
-    { range: "Monthly salary ₹15,001–₹25,000", amount: "₹150 / month" },
-    { range: "Monthly salary > ₹25,000", amount: "₹200 / month" },
+    { range: "Monthly salary < ₹25,000", amount: "Exempt" },
+    { range: "Monthly salary ≥ ₹25,000", amount: "₹200 / month · ₹300 in February" },
   ],
   MH: [
     { range: "Monthly salary ≤ ₹7,500", amount: "Exempt (₹0)" },
     { range: "Monthly salary ₹7,501–₹10,000", amount: "₹175 / month" },
     {
-      range: "Illustrative slab · monthly salary > ₹10,001",
-      amount: "₹200 / month (some bands may see ₹300 in February)",
+      range: "Monthly salary > ₹10,000",
+      amount: "₹200 / month · ₹300 in February",
     },
   ],
   AP: [
@@ -139,16 +137,15 @@ const SLABS_EN: Record<ProfessionalTaxStateCode, readonly PtSlabRow[]> = {
 
 const SLABS_ZH: Record<ProfessionalTaxStateCode, readonly PtSlabRow[]> = {
   KA: [
-    { range: "月工资 ≤ ₹15,000", amount: "免税 (₹0)" },
-    { range: "月工资 ₹15,001–₹25,000", amount: "₹150 / 月" },
-    { range: "月工资 > ₹25,000", amount: "₹200 / 月" },
+    { range: "月工资 < ₹25,000", amount: "免税" },
+    { range: "月工资 ≥ ₹25,000", amount: "月 ₹200 · 2月 ₹300" },
   ],
   MH: [
     { range: "月工资 ≤ ₹7,500", amount: "免税 (₹0)" },
     { range: "月工资 ₹7,501–₹10,000", amount: "₹175 / 月" },
     {
-      range: "示例分档 · 月工资 > ₹10,001",
-      amount: "₹200 / 月（部分情形 2 月适用 ₹300）",
+      range: "月工资 > ₹10,000",
+      amount: "月 ₹200 · 2月 ₹300",
     },
   ],
   AP: [
@@ -168,58 +165,59 @@ const SLABS_ZH: Record<ProfessionalTaxStateCode, readonly PtSlabRow[]> = {
 
 const KO: ProfessionalTaxCalculatorCopy = {
   metaTitle: "Professional Tax (PT) 계산기",
-  metaDescription: `${company.shortName} · 인도 주(State)별 직원 PT(Professional Tax) 월 납부액·연간 환산(12개월 기준) 참고(카르나타카·마하라슈트라·안드라프라데시·타밀나두)`,
+  metaDescription: `${company.shortName} · 인도 근무지 주별 Professional Tax 예상 세액(카르나타카·마하라슈트라·안드라프라데시·타밀나두)`,
   pageHeaderTitle: "Professional Tax (PT) 계산기",
   pageHeaderDescription:
-    "본 계산기는 일반적인 급여 기준 Professional Tax(PT) 구조를 참고용으로 단순화한 예시입니다. 인도에서는 주(State)마다 직원·사업자에게 부과되는 PT의 요율 및 과세 기준이 다릅니다. 카르나타카, 마하라슈트라, 안드라프라데시, 타밀나두에서 흔히 인용되는 월 급여 구간 예시를 바탕으로 월 납부액 및 연간 환산 금액(12개월 기준)을 안내합니다. 여성·시니어 시티즌·주별 면제·반기 납부 등 예외가 많아, 마하라슈트라 등은 성별·연령에 따라 구간이 달라질 수 있으며, 타밀나두는 행정상 반기 납부인 경우가 많습니다. 실제 납부 기준 및 적용 여부는 주(State)별 최신 규정과 회사 정책에 따라 달라질 수 있으므로, MSV와 별도 검토하시기 바랍니다.",
-  sectionRefCalc: "참고 계산",
+    "근무 지역과 월 급여를 기준으로 Professional Tax(PT) 예상 세액을 계산합니다. 카르나타카, 마하라슈트라, 안드라프라데시, 타밀나두의 급여소득자를 대상으로 월별 세액과 연간 예상액을 안내합니다.\n\n과세 기준과 면제 요건은 지역에 따라 다르며, 개인사업자 등의 등록·납부 세액은 본 계산에 포함되지 않습니다. 계산 결과는 참고용이며, 정확한 적용 기준은 MSV에 문의해 주세요.",
+  sectionRefCalc: "Professional Tax 예상 세액 계산",
   disclaimer:
-    "Professional Tax 규정은 주(State)별 개정·고시·급여 구조·성별·사업장 등록 유형 등에 따라 달라질 수 있습니다. 본 도구는 참고용이며 법적·세무 자문을 대체하지 않습니다. 면제·반기 납부·등록 유형별 규정 등은 모두 반영되지 않을 수 있으므로, 확정 납부는 MSV와 상담해 주세요.",
+    "본 계산 결과는 참고용입니다. 실제 세액은 근무지, 과세 대상 급여, 면제 요건 및 적용 시점의 규정에 따라 달라질 수 있습니다. 정확한 원천징수·납부 금액은 MSV에 문의해 주세요.",
   linkServices: "회계 서비스로 돌아가기",
   linkContact: "문의하기",
-  fieldState: "주(State) 선택",
-  fieldSalary: "월 급여·보수 총액 (INR, 세전 기준)",
+  fieldState: "근무지 주(State) 선택",
+  fieldStateHint: "선택한 근무지의 급여소득자 Professional Tax 기준을 적용합니다.",
+  fieldSalary: "월 세전 급여 (INR)",
   salaryPlaceholder: "예: 85000",
-  salaryHint:
-    "주(State)별로 과세 대상 급여의 범위와 기준이 다를 수 있습니다. 실제 원천징수 및 납부 기준은 각 주 정부의 규정 및 고시에 따라 달라질 수 있습니다.",
-  fieldBaseMonth: "기준 월 (마하라슈트라 일부 구간의 2월 차등 요율 반영용)",
-  hintMonthMH:
-    "실제 Maharashtra PT는 성별·슬래브·2월 차등·고용 형태 등이 얽혀 복잡할 수 있습니다. 본 계산은 예시이며, 일부 구간에서는 2월에만 월 ₹300이 적용되는 사례가 있습니다.",
-  hintMonthOther: "일부 주(State)는 기준 월과 무관하며, 해당 선택값은 표시 목적에만 사용됩니다.",
-  fieldGender: "성별 (Gender)",
-  genderMale: "Male",
-  genderFemale: "Female",
-  genderHintMh: "마하라슈트라는 성별에 따라 면제 한도·슬라브가 다릅니다. 위에서 Male/Female을 선택하세요.",
+  salaryHint: "공제 전 월 급여를 입력하세요. 과세 대상 급여의 범위와 면제 요건은 주별로 다를 수 있습니다.",
+  fieldBaseMonth: "급여 귀속월",
+  hintMonthFebDiff:
+    "카르나타카와 마하라슈트라는 과세 대상자의 2월 세액이 다른 달과 다르므로, 해당 월을 선택해 주세요.",
+  hintMonthOther: "이 주에서는 급여 귀속월이 월 세액에 영향을 주지 않습니다. 표시용으로만 사용됩니다.",
+  fieldGender: "성별",
+  genderMale: "남성",
+  genderFemale: "여성",
+  genderHintMh: "마하라슈트라는 성별에 따라 면제 한도와 급여 구간이 다릅니다.",
   slabsMhFemale: SLABS_MH_FEMALE_KO,
   stateGuidesHeading: "주(State)별 안내",
   stateGuideTagline: {
-    KA: "월 정액형 PT 구조",
-    MH: "슬라브 + 2월 차등",
-    AP: "월 정액형 슬라브",
-    TN: "반기(Half-year) 체계",
+    KA: "면제 한도 이상 월 정액 · 2월 세액 별도",
+    MH: "급여 구간별 과세 · 2월 세액 별도 적용",
+    AP: "급여 구간별 월 정액 과세",
+    TN: "반기별 과세",
   },
   stateGuideBody: {
-    KA: "고정 월 납부·3단계 급여 구간이 흔히 인용됩니다. 카르나타카는 일반 급여 기준으로 성별에 따른 별도 슬래브 없이 이해하는 경우가 많습니다.",
-    MH: "급여 구간별 월액에 더해 2월에만 요율이 달라지는(예: 일부 구간 ₹300) 사례가 많습니다. 성별에 따라 면제 한도·구간이 다릅니다.",
-    AP: "일반적인 3단계 월 납부 구조를 예시로 보여줍니다.",
-    TN: "예: Tamil Nadu는 반기(Half-year) 기준 PT 체계를 사용하는 사례가 많습니다. 예를 들어 4월–9월·10월–3월 등으로 나누어 납부하고, 본 화면의 월액은 동일 급여를 가정한 참고용 월 환산입니다.",
+    KA: "일반 급여소득자 기준 ₹25,000 미만은 면제, 이상이면 월 ₹200(2월 ₹300)입니다.\n별도 면제 대상은 이 계산에 포함하지 않습니다.",
+    MH: "급여 구간별 월액에 더해, 과세 대상자는 2월 세액이 달라질 수 있습니다.\n성별에 따라 면제 한도와 구간이 다릅니다.",
+    AP: "일반적인 3단계 월 정액 구조를 예시로 보여 줍니다.",
+    TN: "반기(예: 4–9월, 10–3월) 납부가 흔합니다.\n화면의 월액은 동일 급여를 가정한 참고용입니다.",
   },
-  asideSummaryHeading: "적용 요약",
-  asideLabelState: "적용 State",
-  asideLabelPaymentBasis: "납부 기준",
-  asideLabelSlab: "적용 slab",
-  asideValueSlabEmpty: "월 급여 입력 후 표시",
-  paymentBasisMonthly: "월 기준(표시 월액)",
-  paymentBasisHalfYearly: "반기 납부 관행 흔함(월액은 참고 환산)",
-  asideMonthlyTitle: "해당 월 Professional Tax",
-  asideMonthlyEmpty: "월 급여를 숫자로 입력하면 표시됩니다.",
-  asideAnnualTitle: "연간 환산 금액(12개월 기준)",
-  asideAnnualNote: "매월 급여가 같다고 가정한 단순 합계입니다. 승진·휴직 등으로 달라지면 실제와 다릅니다.",
+  asideSummaryHeading: "계산 결과",
+  asideLabelState: "적용 주",
+  asideLabelPaymentBasis: "과세 기준",
+  asideLabelSlab: "적용 급여 구간",
+  asideValueSlabEmpty: "월 급여를 입력해 주세요",
+  paymentBasisMonthly: "월 기준",
+  paymentBasisHalfYearly: "반기 납부 관행(월액은 참고)",
+  asideMonthlyTitle: "해당 월 예상 세액",
+  asideMonthlyEmpty: "월 급여를 입력해 주세요",
+  asideAnnualTitle: "연간 예상 세액",
+  asideAnnualNote:
+    "동일한 월 급여로 12개월 근무한다고 가정한 예상액입니다. 월별 세액 차이를 반영하며, 급여 변동이나 입·퇴사 등에 따라 실제 세액은 달라질 수 있습니다.",
   tableTitlePrefix: "Professional Tax 구간 요약",
-  tableTitleGenderMale: " · Male",
-  tableTitleGenderFemale: " · Female",
-  tableColRange: "월 급여 구간",
-  tableColTax: "세액(요약)",
+  tableTitleGenderMale: " · 남성",
+  tableTitleGenderFemale: " · 여성",
+  tableColRange: "월 급여",
+  tableColTax: "적용 세액",
   months: MONTHS_KO,
   stateOptions: {
     KA: "카르나타카(Karnataka)",
@@ -227,71 +225,64 @@ const KO: ProfessionalTaxCalculatorCopy = {
     AP: "안드라프라데시(Andhra Pradesh)",
     TN: "타밀나두(Tamil Nadu)",
   },
-  assumptions: {
-    KA: "급여소득자(직원) 월별 납부 구간 · Karnataka Tax on Professions, Trades and Callings Act 기준의 일반 급여 예시 3단계 요약입니다.",
-    MH: "급여소득자 월별 납부 구간 Maharashtra State Tax on Professions, Trades, Callings and Employments Act 기준의\n일반적으로 인용되는 예시입니다. 성별에 따라 슬래브가 다르므로 Male/Female을 선택하세요.",
-    AP: "급여소득자(직원) 월별 납부 구간 · Andhra Pradesh Tax on Profession, Trades, Callings and Employments Act 등에 따른 일반적인 3단계 요약입니다.",
-    TN: "급여소득자(직원) 월 급여 기준 구간 · Tamil Nadu Tax on Professions, Trades, Callings and Employments Act에 따른 일반적인 누진 요율입니다. 예: Tamil Nadu는 반기(Half-year) 기준 PT 체계를 사용하는 사례가 많아, 실제 납부 시기·금액은 월액 표시와 다를 수 있습니다.",
-  },
   slabs: SLABS_KO,
 };
 
 const EN: ProfessionalTaxCalculatorCopy = {
   metaTitle: "Professional Tax (PT) calculator",
-  metaDescription: `${company.shortName} · India state-wise employee PT (Professional Tax): monthly liability and annualised 12-month estimate (Karnataka, Maharashtra, Andhra Pradesh, Tamil Nadu)`,
+  metaDescription: `${company.shortName} · Estimated employee Professional Tax by Indian work state (Karnataka, Maharashtra, Andhra Pradesh, Tamil Nadu)`,
   pageHeaderTitle: "Professional Tax (PT) calculator",
   pageHeaderDescription:
-    "This calculator is a simplified, illustrative view of typical salaried Professional Tax (PT) structures for reference only. In India, PT rates and taxable-pay rules differ by state for employees and businesses. The examples use commonly cited monthly salary bands for Karnataka, Maharashtra, Andhra Pradesh and Tamil Nadu. Many exceptions apply · e.g. women, senior citizens, state-specific exemptions and half-yearly collection · so slabs (especially in Maharashtra) can vary by gender and age, and Tamil Nadu is often remitted half-yearly in practice. Confirm timing, mode and your actual liability with MSV or your adviser.",
-  sectionRefCalc: "Illustrative calculation",
+    "Estimate Professional Tax (PT) from your work state and monthly salary. For salaried employees in Karnataka, Maharashtra, Andhra Pradesh and Tamil Nadu, we show monthly tax and an annual estimate.\n\nTaxable rules and exemptions differ by state. Registration and remittance amounts for sole proprietors and similar cases are not included. Results are for reference only — confirm the correct basis with MSV.",
+  sectionRefCalc: "Estimated Professional Tax",
   disclaimer:
-    "Professional Tax rules can differ by state, statutory amendments and notifications, payroll structure, gender, establishment registration type, and more. This tool is for reference only and does not replace legal or tax advice. Exemptions, half-yearly patterns and entity-specific rules may not be fully modelled · please consult MSV before final payment.",
+    "Results are for reference only. Actual tax depends on work state, taxable salary, exemptions and the rules in force. For exact withholding and remittance amounts, contact MSV.",
   linkServices: "Back to accounting services",
   linkContact: "Contact us",
-  fieldState: "State",
-  fieldSalary: "Monthly salary & remuneration (INR, pre-tax)",
+  fieldState: "Work state",
+  fieldStateHint: "Applies the salaried Professional Tax rules for the selected work state.",
+  fieldSalary: "Monthly pre-tax salary (INR)",
   salaryPlaceholder: "e.g. 85000",
-  salaryHint:
-    "The salary band that is subject to PT can vary by state. Actual withholding and payment follow each state’s statutes and official notifications.",
-  fieldBaseMonth: "Reference month (for Maharashtra February differential on some slabs)",
-  hintMonthMH:
-    "Maharashtra PT in practice depends on gender, slab, February rules and employee type. This page is illustrative; some bands often see ₹300 in February only.",
-  hintMonthOther:
-    "For some states the month choice does not change the monthly amount; the selection is for display only.",
+  salaryHint: "Enter monthly salary before deductions. Taxable pay and exemptions can differ by state.",
+  fieldBaseMonth: "Salary month",
+  hintMonthFebDiff:
+    "In Karnataka and Maharashtra, February tax for taxable employees differs from other months — select the relevant month.",
+  hintMonthOther: "For this state, salary month does not change the monthly amount; selection is for display only.",
   fieldGender: "Gender",
   genderMale: "Male",
   genderFemale: "Female",
-  genderHintMh: "Maharashtra uses different slabs by gender · select Male or Female above.",
+  genderHintMh: "Maharashtra uses different exemption thresholds and salary bands by gender.",
   slabsMhFemale: SLABS_MH_FEMALE_EN,
-  stateGuidesHeading: "State highlights",
+  stateGuidesHeading: "State notes",
   stateGuideTagline: {
-    KA: "Fixed monthly PT structure",
-    MH: "Slabs + February variation",
-    AP: "Fixed monthly slabs",
-    TN: "Half-year system",
+    KA: "Fixed monthly amount above threshold · February separate",
+    MH: "Salary-band tax · February amount separate",
+    AP: "Fixed monthly amount by salary band",
+    TN: "Half-yearly assessment",
   },
   stateGuideBody: {
-    KA: "Common three-step monthly bands. Karnataka is often illustrated without a gender split for general salaried employees.",
-    MH: "Monthly bands plus a February top-up on some slabs (e.g. ₹300 in February). Exemption thresholds and bands differ by gender.",
-    AP: "Illustrative three-step monthly withholding pattern.",
-    TN: "For example, Tamil Nadu often operates on a half-year PT cycle (e.g. Apr–Sep / Oct–Mar). The monthly figure here is a same-salary reference conversion, not your remittance schedule.",
+    KA: "For general salaried employees: under ₹25,000 exempt; ₹25,000+ is ₹200/month (₹300 in February).\nSpecial exemption categories are not included here.",
+    MH: "Monthly bands plus a different February amount for taxable employees.\nExemption thresholds and bands differ by gender.",
+    AP: "Illustrative three-step monthly fixed amounts.",
+    TN: "Half-yearly remittance is common (e.g. Apr–Sep / Oct–Mar).\nThe monthly figure here is a same-salary reference only.",
   },
-  asideSummaryHeading: "Applied context",
-  asideLabelState: "State",
-  asideLabelPaymentBasis: "Payment basis",
-  asideLabelSlab: "Applied slab",
-  asideValueSlabEmpty: "Shown after you enter salary",
-  paymentBasisMonthly: "Monthly (amount shown)",
+  asideSummaryHeading: "Result",
+  asideLabelState: "Applied state",
+  asideLabelPaymentBasis: "Assessment basis",
+  asideLabelSlab: "Applied salary band",
+  asideValueSlabEmpty: "Enter monthly salary",
+  paymentBasisMonthly: "Monthly",
   paymentBasisHalfYearly: "Half-yearly common (monthly is illustrative)",
-  asideMonthlyTitle: "Professional Tax (selected month)",
-  asideMonthlyEmpty: "Enter a monthly salary figure to see the amount.",
-  asideAnnualTitle: "Annualised amount (12 months)",
+  asideMonthlyTitle: "Estimated tax for selected month",
+  asideMonthlyEmpty: "Enter monthly salary",
+  asideAnnualTitle: "Estimated annual tax",
   asideAnnualNote:
-    "Simple sum assuming the same salary every month. Promotions, leave without pay, etc. will differ from real life.",
-  tableTitlePrefix: "Professional Tax slab summary",
+    "Assumes the same monthly salary for 12 months and reflects month-to-month differences. Actual tax may differ with pay changes or join/leave dates.",
+  tableTitlePrefix: "Professional Tax band summary",
   tableTitleGenderMale: " · Male",
   tableTitleGenderFemale: " · Female",
-  tableColRange: "Monthly salary band",
-  tableColTax: "Tax (summary)",
+  tableColRange: "Monthly salary",
+  tableColTax: "Tax amount",
   months: MONTHS_EN,
   stateOptions: {
     KA: "Karnataka",
@@ -299,81 +290,69 @@ const EN: ProfessionalTaxCalculatorCopy = {
     AP: "Andhra Pradesh",
     TN: "Tamil Nadu",
   },
-  assumptions: {
-    KA: "Salaried employee monthly slabs · a common three-step summary under the Karnataka Tax on Professions, Trades and Callings Act (general salaried illustration).",
-    MH: "Salaried employee monthly slabs under the Maharashtra State Tax on Professions, Trades, Callings and Employments Act · commonly cited amounts. Slabs differ by gender; pick Male or Female.",
-    AP: "Salaried employee monthly slabs · a common three-step summary under the Andhra Pradesh Tax on Profession, Trades, Callings and Employments Act, etc.",
-    TN: "Salaried employee monthly salary bands · a common graduated table under the Tamil Nadu Tax on Professions, Trades, Callings and Employments Act. For example, Tamil Nadu often uses a half-year PT cycle, so remittance timing may differ from the monthly figure shown.",
-  },
   slabs: SLABS_EN,
 };
 
 const ZH: ProfessionalTaxCalculatorCopy = {
   metaTitle: "Professional Tax（PT，职业税）计算器",
-  metaDescription: `${company.shortName} · 印度各邦员工 PT（Professional Tax）：月度税额与按相同月薪推算的年度金额（卡纳塔克、马哈拉施特拉、安得拉邦、泰米尔纳德）`,
+  metaDescription: `${company.shortName} · 按印度工作地邦估算员工 Professional Tax（卡纳塔克、马哈拉施特拉、安得拉邦、泰米尔纳德）`,
   pageHeaderTitle: "Professional Tax（PT）计算器",
   pageHeaderDescription:
-    "本计算器是对常见受薪场景下 Professional Tax（PT）结构的参考性、简化示例。在印度，各邦对员工与经营者征收的 PT 税率及计税口径不同。以下以卡纳塔克、马哈拉施特拉、安得拉邦、泰米尔纳德中较常引用的月工资分档为例，展示月度应缴税额及按相同月薪推算的年度金额（12 个月）。女性、老年人、各邦减免、半年度缴纳等例外较多；马哈拉施特拉等邦的档位可能因性别、年龄而异，泰米尔纳德实务上多为半年度缴纳。实际时点与金额请咨询 MSV 等专业人士核实。",
-  sectionRefCalc: "参考计算",
+    "根据工作地区与月工资估算 Professional Tax（PT）。面向卡纳塔克、马哈拉施特拉、安得拉邦、泰米尔纳德的受薪员工，提供月度税额与全年预估。\n\n征税口径与减免条件因地区而异；个体经营者等的登记与缴纳金额不在本计算范围内。结果仅供参考，准确适用标准请咨询 MSV。",
+  sectionRefCalc: "Professional Tax 预计税额",
   disclaimer:
-    "Professional Tax 规则会因各邦修法、政府公告、薪酬结构、性别、经营场所登记类型等而不同。本工具仅供参考，不构成法律或税务意见。减免、半年度缴纳及主体类型等情形可能未完全体现，最终缴纳请咨询 MSV。",
+    "计算结果仅供参考。实际税额取决于工作地、应税工资、减免条件及当时有效规定。准确的预扣与缴纳金额请咨询 MSV。",
   linkServices: "返回会计服务",
   linkContact: "联系我们",
-  fieldState: "邦 / 州（State）",
-  fieldSalary: "月工资及报酬总额（INR，税前）",
+  fieldState: "工作地邦（State）",
+  fieldStateHint: "按所选工作地适用受薪员工 Professional Tax 规则。",
+  fieldSalary: "月税前工资（INR）",
   salaryPlaceholder: "例：85000",
-  salaryHint:
-    "各邦对应税工资的范围与口径可能不同。实际预扣与缴纳以各邦法规及政府公告为准。",
-  fieldBaseMonth: "基准月份（用于马哈拉施特拉部分区间 2 月差额税率）",
-  hintMonthMH:
-    "马哈拉施特拉 PT 实务中受性别、分档、2 月规则及雇员类型等影响，结构较复杂。本页为示例；部分分档常见仅在 2 月按每月 ₹300 计缴。",
-  hintMonthOther: "部分邦的月度税额与基准月份无关，此项仅作界面展示。",
-  fieldGender: "性别 (Gender)",
-  genderMale: "Male",
-  genderFemale: "Female",
-  genderHintMh: "马哈拉施特拉按性别适用不同区间，请在上方选择男性或女性。",
+  salaryHint: "请输入扣款前的月工资。应税工资范围与减免条件可能因邦而异。",
+  fieldBaseMonth: "工资所属月",
+  hintMonthFebDiff: "卡纳塔克与马哈拉施特拉对纳税人的 2 月税额与其他月份不同，请选择对应月份。",
+  hintMonthOther: "该邦的工资所属月不影响月税额，仅作界面展示。",
+  fieldGender: "性别",
+  genderMale: "男",
+  genderFemale: "女",
+  genderHintMh: "马哈拉施特拉按性别适用不同的免征额与工资分档。",
   slabsMhFemale: SLABS_MH_FEMALE_ZH,
   stateGuidesHeading: "各邦要点",
   stateGuideTagline: {
-    KA: "按月定额型 PT",
-    MH: "分档 + 2 月差额",
-    AP: "按月分档",
-    TN: "半年度体系",
+    KA: "超免征额按月定额 · 2 月单独",
+    MH: "按工资分档征税 · 2 月税额单独适用",
+    AP: "按工资分档月定额征税",
+    TN: "半年度征税",
   },
   stateGuideBody: {
-    KA: "常见三档月工资结构。卡纳塔克在一般受薪场景下常不按性别拆分示例。",
-    MH: "除分档月额外，部分区间仅在 2 月按更高月额（如 ₹300）计缴；男女适用不同的免征额与分档。",
-    AP: "以常见三档月缴结构作示例。",
-    TN: "例如，泰米尔纳德实务上多采用半年度（Half-year）PT 安排（如 4–9 月、10–次年 3 月等）。本页月税额为相同月薪下的参考换算，不等于实际汇缴时点与金额。",
+    KA: "一般受薪员工：月工资低于 ₹25,000 免税；达到及以上为每月 ₹200（2 月 ₹300）。\n特殊减免对象未纳入本计算。",
+    MH: "按工资分档计月税额，纳税人 2 月税额可不同。\n男女免征额与分档不同。",
+    AP: "以常见三档月定额结构作示例。",
+    TN: "多见半年度缴纳（如 4–9 月、10–3 月）。\n本页月税额为相同月薪下的参考值。",
   },
-  asideSummaryHeading: "适用摘要",
-  asideLabelState: "适用 State",
-  asideLabelPaymentBasis: "缴纳口径",
-  asideLabelSlab: "适用分档",
-  asideValueSlabEmpty: "输入月工资后显示",
-  paymentBasisMonthly: "按月（所示月税额）",
-  paymentBasisHalfYearly: "多见半年度缴纳（月额为参考换算）",
-  asideMonthlyTitle: "当月 Professional Tax",
-  asideMonthlyEmpty: "请输入月工资数字后显示。",
-  asideAnnualTitle: "年度折算金额（12 个月）",
-  asideAnnualNote: "假设每月工资相同的简单加总；晋升、停薪留职等会导致与实际情况不同。",
+  asideSummaryHeading: "计算结果",
+  asideLabelState: "适用邦",
+  asideLabelPaymentBasis: "征税口径",
+  asideLabelSlab: "适用工资区间",
+  asideValueSlabEmpty: "请输入月工资",
+  paymentBasisMonthly: "按月",
+  paymentBasisHalfYearly: "多见半年度缴纳（月额为参考）",
+  asideMonthlyTitle: "当月预计税额",
+  asideMonthlyEmpty: "请输入月工资",
+  asideAnnualTitle: "全年预计税额",
+  asideAnnualNote:
+    "假设以相同月工资工作 12 个月，并反映月份间税额差异。工资变动或入离职等会使实际税额不同。",
   tableTitlePrefix: "Professional Tax 区间摘要",
-  tableTitleGenderMale: " · Male",
-  tableTitleGenderFemale: " · Female",
-  tableColRange: "月工资区间",
-  tableColTax: "税额（摘要）",
+  tableTitleGenderMale: " · 男",
+  tableTitleGenderFemale: " · 女",
+  tableColRange: "月工资",
+  tableColTax: "适用税额",
   months: MONTHS_ZH,
   stateOptions: {
     KA: "卡纳塔克邦 (Karnataka)",
     MH: "马哈拉施特拉邦 (Maharashtra)",
     AP: "安得拉邦 (Andhra Pradesh)",
     TN: "泰米尔纳德邦 (Tamil Nadu)",
-  },
-  assumptions: {
-    KA: "受薪雇员按月缴纳区间，依据《卡纳塔克职业、行业与执业税法》的常见三档摘要（一般受薪示例）。",
-    MH: "受薪雇员按月缴纳区间，依据《马哈拉施特拉邦职业、行业、执业与雇佣税法》的常见引用示例；男女分档不同，请选择男性或女性。",
-    AP: "受薪雇员按月缴纳区间，依据《安得拉邦职业、行业、执业与雇佣税法》等的常见三档摘要。",
-    TN: "受薪雇员按月工资分档，依据《泰米尔纳德职业、行业与执业税法》的常见累进税率。例如泰米尔纳德多见半年度（Half-year）PT 体系，实际汇缴时点可能与按月展示金额不一致。",
   },
   slabs: SLABS_ZH,
 };

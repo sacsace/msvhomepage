@@ -45,7 +45,9 @@ export function ProfessionalTaxCalculator({ locale }: { locale: SiteLocale }) {
   const [month, setMonth] = useState(() => new Date().getMonth() + 1);
 
   const monthlySalary = useMemo(() => {
-    const n = Number(String(monthlyStr).replace(/[, ]/g, ""));
+    const raw = String(monthlyStr).replace(/[, ]/g, "").trim();
+    if (!raw) return NaN;
+    const n = Number(raw);
     return Number.isFinite(n) && n >= 0 ? n : NaN;
   }, [monthlyStr]);
 
@@ -99,7 +101,7 @@ export function ProfessionalTaxCalculator({ locale }: { locale: SiteLocale }) {
                 </option>
               ))}
             </select>
-            <FieldHint>{t.assumptions[state]}</FieldHint>
+            <FieldHint>{t.fieldStateHint}</FieldHint>
           </label>
 
           {professionalTaxGenderAffectsSlabs(state) ? (
@@ -113,6 +115,7 @@ export function ProfessionalTaxCalculator({ locale }: { locale: SiteLocale }) {
                     checked={gender === "male"}
                     onChange={() => setGender("male")}
                     className={radioClass}
+                    suppressHydrationWarning
                   />
                   {t.genderMale}
                 </label>
@@ -123,6 +126,7 @@ export function ProfessionalTaxCalculator({ locale }: { locale: SiteLocale }) {
                     checked={gender === "female"}
                     onChange={() => setGender("female")}
                     className={radioClass}
+                    suppressHydrationWarning
                   />
                   {t.genderFemale}
                 </label>
@@ -136,6 +140,11 @@ export function ProfessionalTaxCalculator({ locale }: { locale: SiteLocale }) {
             <input
               type="text"
               inputMode="decimal"
+              autoComplete="off"
+              data-1p-ignore
+              data-lpignore="true"
+              data-form-type="other"
+              suppressHydrationWarning
               value={monthlyStr}
               onChange={(e) => setMonthlyStr(e.target.value)}
               placeholder={t.salaryPlaceholder}
@@ -158,7 +167,7 @@ export function ProfessionalTaxCalculator({ locale }: { locale: SiteLocale }) {
               ))}
             </select>
             <FieldHint>
-              {professionalTaxMonthAffectsMonthlyAmount(state) ? t.hintMonthMH : t.hintMonthOther}
+              {professionalTaxMonthAffectsMonthlyAmount(state) ? t.hintMonthFebDiff : t.hintMonthOther}
             </FieldHint>
           </label>
         </div>
@@ -223,7 +232,9 @@ export function ProfessionalTaxCalculator({ locale }: { locale: SiteLocale }) {
             >
               <p className="text-xs font-semibold text-msv-blue">{t.stateOptions[s.code]}</p>
               <p className="mt-1.5 text-sm font-semibold text-msv-navy">{t.stateGuideTagline[s.code]}</p>
-              <p className="mt-2 text-xs leading-relaxed text-slate-600">{t.stateGuideBody[s.code]}</p>
+              <p className="mt-2 whitespace-pre-line text-xs leading-relaxed text-slate-600">
+                {t.stateGuideBody[s.code]}
+              </p>
             </div>
           ))}
         </div>

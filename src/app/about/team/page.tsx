@@ -38,24 +38,21 @@ const bodyText = "text-sm leading-relaxed text-slate-600 break-keep";
 function footerNavCopy(locale: SiteLocale) {
   if (locale === "ko") {
     return {
-      lead: "회사 소개·리더십·문의 페이지로 이동할 수 있습니다.",
+      lead: "회사 소개나 문의 페이지로 이동할 수 있습니다.",
       about: "회사 소개",
-      leadership: "리더십",
       contact: "문의하기",
     };
   }
   if (locale === "zh") {
     return {
-      lead: "可前往公司简介、领导层或联系页面。",
+      lead: "可前往公司简介或联系页面。",
       about: "公司简介",
-      leadership: "领导层",
       contact: "联系",
     };
   }
   return {
-    lead: "Continue to company information, leadership, or contact.",
+    lead: "Continue to company information or contact.",
     about: "About",
-    leadership: "Leadership",
     contact: "Contact",
   };
 }
@@ -188,12 +185,6 @@ export default async function AboutTeamPage() {
               className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:border-msv-blue/35 hover:text-msv-blue"
             >
               {footerNav.about}
-            </Link>
-            <Link
-              href={L("/team")}
-              className="rounded-lg border border-msv-navy/40 bg-white px-4 py-2 text-sm font-semibold text-msv-navy transition hover:bg-msv-navy/5"
-            >
-              {footerNav.leadership}
             </Link>
             <Link
               href={L("/contact")}

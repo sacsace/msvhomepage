@@ -1,27 +1,12 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { Fragment, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { computeIndiaEmployeeTds } from "@/lib/india-employee-tds";
 import { personalIncomeTaxCalculatorCopy } from "@/lib/i18n/personal-income-tax-calculator-locale";
 import type { SiteLocale } from "@/lib/site-locale";
 
-function Hint({ children }: { children: ReactNode }) {
+function Hint({ children }: { children: React.ReactNode }) {
   return <p className="mt-1 text-xs font-normal leading-snug text-slate-500">{children}</p>;
-}
-
-function EmptyAsideText({ text, className }: { text: string; className: string }) {
-  const parts = text.split("\n");
-  return (
-    <p className={className}>
-      {parts.map((line, i) => (
-        <Fragment key={i}>
-          {i > 0 ? <br className="hidden sm:inline" /> : null}
-          {line}
-        </Fragment>
-      ))}
-    </p>
-  );
 }
 
 function formatInr(n: number): string {
@@ -32,7 +17,6 @@ function formatRatePct(n: number): string {
   return n.toLocaleString("en-IN", { minimumFractionDigits: 3, maximumFractionDigits: 3 });
 }
 
-/** 표 셀 — 서비스/회계 페이지와 동일한 slate 테두리 톤 */
 const cellBase = "border border-slate-200 px-3 py-2.5 text-sm align-top sm:px-3.5";
 const cell = `${cellBase} text-slate-800`;
 const cellRight = `${cellBase} text-right tabular-nums text-slate-900`;
@@ -43,14 +27,15 @@ export function PersonalIncomeTaxCalculator({ locale }: { locale: SiteLocale }) 
   const c = personalIncomeTaxCalculatorCopy(locale);
   const [monthlyIncomeStr, setMonthlyIncomeStr] = useState("");
   const [applyStd, setApplyStd] = useState(true);
+  const [isResident, setIsResident] = useState(true);
 
-  /** 세전 월급(INR) */
   const monthlySalary = useMemo(() => {
-    const n = Number(String(monthlyIncomeStr).replace(/[, ]/g, ""));
+    const raw = String(monthlyIncomeStr).replace(/[, ]/g, "").trim();
+    if (!raw) return NaN;
+    const n = Number(raw);
     return Number.isFinite(n) && n >= 0 ? n : NaN;
   }, [monthlyIncomeStr]);
 
-  /** 표 (i) Gross Income/Salary — 월급 × 12개월 */
   const grossAnnual = useMemo(() => {
     if (!Number.isFinite(monthlySalary)) return NaN;
     return Math.round(monthlySalary * 12);
@@ -58,26 +43,37 @@ export function PersonalIncomeTaxCalculator({ locale }: { locale: SiteLocale }) 
 
   const result = useMemo(() => {
     if (!Number.isFinite(grossAnnual)) return null;
-    return computeIndiaEmployeeTds(grossAnnual, applyStd);
-  }, [grossAnnual, applyStd]);
+    return computeIndiaEmployeeTds(grossAnnual, applyStd, isResident);
+  }, [grossAnnual, applyStd, isResident]);
 
-  /** 세전 월급 − 월 TDS (추정 실수령, 다른 공제 없음 가정) */
   const netMonthlyInr = useMemo(() => {
     if (!result || !Number.isFinite(monthlySalary)) return NaN;
     return Math.max(0, Math.round(monthlySalary - result.monthlyTds));
   }, [result, monthlySalary]);
 
-  /** 카드 셸·그림자는 상위 페이지(`section`)에서 통일합니다. */
   return (
     <div className="w-full">
+      <p className="mb-5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 sm:mb-6 sm:px-4">
+        <span className="font-medium text-slate-500">{c.assessmentPeriodLabel}</span>
+        <span className="mx-2 text-slate-300" aria-hidden>
+          ·
+        </span>
+        <span className="font-semibold tabular-nums text-msv-navy">{c.assessmentPeriodValue}</span>
+      </p>
+
       <div className="border-b border-slate-100 pb-5 sm:pb-6">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-stretch sm:justify-between sm:gap-8">
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 space-y-4">
             <label className="block text-sm font-semibold text-msv-navy">
               {c.labelMonthlySalary}
               <input
                 type="text"
                 inputMode="decimal"
+                autoComplete="off"
+                data-1p-ignore
+                data-lpignore="true"
+                data-form-type="other"
+                suppressHydrationWarning
                 value={monthlyIncomeStr}
                 onChange={(e) => setMonthlyIncomeStr(e.target.value)}
                 placeholder={c.placeholderMonthly}
@@ -85,16 +81,30 @@ export function PersonalIncomeTaxCalculator({ locale }: { locale: SiteLocale }) 
               />
               <Hint>{c.hintMonthlySalary}</Hint>
             </label>
-            <label className="mt-4 flex cursor-pointer items-start gap-2.5 text-sm text-slate-700">
+            <label className="flex cursor-pointer items-start gap-2.5 text-sm text-slate-700">
               <input
                 type="checkbox"
                 checked={applyStd}
                 onChange={(e) => setApplyStd(e.target.checked)}
                 className="mt-0.5 size-4 shrink-0 rounded border-slate-300 text-msv-blue focus:ring-msv-blue"
+                suppressHydrationWarning
               />
               <span>
                 {c.labelStdDeduction}
                 <Hint>{c.hintStdDeduction}</Hint>
+              </span>
+            </label>
+            <label className="flex cursor-pointer items-start gap-2.5 text-sm text-slate-700">
+              <input
+                type="checkbox"
+                checked={isResident}
+                onChange={(e) => setIsResident(e.target.checked)}
+                className="mt-0.5 size-4 shrink-0 rounded border-slate-300 text-msv-blue focus:ring-msv-blue"
+                suppressHydrationWarning
+              />
+              <span>
+                {c.labelResident}
+                <Hint>{c.hintResident}</Hint>
               </span>
             </label>
           </div>
@@ -113,10 +123,7 @@ export function PersonalIncomeTaxCalculator({ locale }: { locale: SiteLocale }) 
                   </p>
                 </>
               ) : (
-                <EmptyAsideText
-                  text={c.asideMonthlyTdsEmpty}
-                  className="mt-2 text-left text-sm leading-relaxed text-slate-500 sm:text-right"
-                />
+                <p className="mt-2 text-2xl font-bold tabular-nums text-slate-400 sm:text-3xl">{c.emptyDash}</p>
               )}
             </div>
             <div className="flex-1 border-t border-msv-blue/20 pt-4 sm:border-t-0 sm:pl-5 sm:pt-0 sm:text-right">
@@ -129,18 +136,11 @@ export function PersonalIncomeTaxCalculator({ locale }: { locale: SiteLocale }) 
                     ₹ {formatInr(netMonthlyInr)}
                   </p>
                   <p className="mt-2 text-xs leading-snug text-slate-600 sm:ml-auto sm:max-w-[14rem]">
-                    {c.asideNetExplainBefore}
-                    {formatInr(Math.round(monthlySalary))}
-                    {c.asideNetExplainBetween}
-                    {formatInr(result.monthlyTds)}
-                    {c.asideNetExplainAfter}
+                    {c.asideNetExplain}
                   </p>
                 </>
               ) : (
-                <EmptyAsideText
-                  text={c.asideNetEmpty}
-                  className="mt-2 text-left text-sm leading-relaxed text-slate-500 sm:text-right"
-                />
+                <p className="mt-2 text-2xl font-bold tabular-nums text-slate-400 sm:text-3xl">{c.emptyDash}</p>
               )}
             </div>
           </aside>
@@ -164,7 +164,6 @@ export function PersonalIncomeTaxCalculator({ locale }: { locale: SiteLocale }) 
                 <td className={cell}>(i)</td>
                 <td className={cell}>
                   <span className="font-medium">{c.rowGrossTitle}</span>
-                  <Hint>{c.rowGrossHint}</Hint>
                 </td>
                 <td className={cellRight}>{formatInr(result.grossAnnual)}</td>
               </tr>
@@ -172,24 +171,17 @@ export function PersonalIncomeTaxCalculator({ locale }: { locale: SiteLocale }) 
                 <td className={cell}>(ii)</td>
                 <td className={cell}>
                   <span className="font-medium">{c.rowStdTitle}</span>
-                  <Hint>{c.rowStdHint}</Hint>
                 </td>
                 <td className={cellRight}>{formatInr(result.standardDeduction)}</td>
               </tr>
               <tr className="bg-msv-blue-soft/90">
                 <td className={cell}>(iii)</td>
-                <td className={`${cell} font-medium text-msv-navy`}>
-                  <span>{c.rowNetTaxableTitle}</span>
-                  <Hint>{c.rowNetTaxableHint}</Hint>
-                </td>
+                <td className={`${cell} font-medium text-msv-navy`}>{c.rowNetTaxableTitle}</td>
                 <td className={cellRightRed}>{formatInr(result.netTaxableIncome)}</td>
               </tr>
               <tr>
                 <td className={cell}>(iv)</td>
-                <td className={`${cell} font-medium text-msv-navy`}>
-                  <span>{c.rowIncomeTaxTitle}</span>
-                  <Hint>{c.rowIncomeTaxHint}</Hint>
-                </td>
+                <td className={`${cell} font-medium text-msv-navy`}>{c.rowIncomeTaxTitle}</td>
                 <td className={cellRight} />
               </tr>
               {result.slabLines.map((row, idx) => (
@@ -209,6 +201,19 @@ export function PersonalIncomeTaxCalculator({ locale }: { locale: SiteLocale }) 
               <tr className="bg-orange-50/90">
                 <td className={cell} />
                 <td className={cell}>
+                  <span className="font-medium">{c.rebate87ATitle}</span>
+                  <Hint>{c.rebate87AHint}</Hint>
+                </td>
+                <td className={cellRight}>− {formatInr(result.rebate87A)}</td>
+              </tr>
+              <tr className="bg-orange-50/90">
+                <td className={cell} />
+                <td className={`${cell} font-medium`}>{c.taxAfterRebateTitle}</td>
+                <td className={cellRight}>{formatInr(result.taxAfterRebate)}</td>
+              </tr>
+              <tr className="bg-orange-50/90">
+                <td className={cell} />
+                <td className={cell}>
                   <span className="font-medium">{c.surchargeTitle}</span>
                   <Hint>{c.surchargeHint}</Hint>
                 </td>
@@ -224,34 +229,28 @@ export function PersonalIncomeTaxCalculator({ locale }: { locale: SiteLocale }) 
               </tr>
               <tr>
                 <td className={cell}>(v)</td>
-                <td className={`${cell} font-medium text-msv-navy`}>
-                  <span>{c.rowNetYearlyTitle}</span>
-                  <Hint>{c.rowNetYearlyHint}</Hint>
+                <td className={`${cell} font-medium text-msv-navy`}>{c.rowNetYearlyTitle}</td>
+                <td className={`${cellRight} font-semibold text-msv-navy`}>
+                  {formatInr(result.netTaxYearly)}
                 </td>
-                <td className={`${cellRight} font-semibold text-msv-navy`}>{formatInr(result.netTaxYearly)}</td>
               </tr>
               <tr>
                 <td className={cell}>(vi)</td>
                 <td className={cell}>
                   <span className="font-medium">{c.rowMonthlyTdsTitle}</span>
-                  <Hint>{c.rowMonthlyTdsHint}</Hint>
                 </td>
                 <td className={cellRight}>{formatInr(result.monthlyTds)}</td>
               </tr>
               <tr className="bg-emerald-50/90">
                 <td className={cell}>(vii)</td>
-                <td className={`${cell} font-medium text-emerald-900`}>
-                  <span>{c.rowNetMonthlyTitle}</span>
-                  <Hint>{c.rowNetMonthlyHint}</Hint>
+                <td className={`${cell} font-medium text-emerald-900`}>{c.rowNetMonthlyTitle}</td>
+                <td className={`${cellRight} font-bold text-emerald-900`}>
+                  {formatInr(netMonthlyInr)}
                 </td>
-                <td className={`${cellRight} font-bold text-emerald-900`}>{formatInr(netMonthlyInr)}</td>
               </tr>
               <tr className="bg-slate-50/90">
                 <td className={cell} />
-                <td className={cell}>
-                  <span className="font-bold text-msv-navy">{c.effectiveTdsTitle}</span>
-                  <Hint>{c.effectiveTdsHint}</Hint>
-                </td>
+                <td className={`${cell} font-bold text-msv-navy`}>{c.effectiveTdsTitle}</td>
                 <td className={cellRightRed}>{formatRatePct(result.effectiveTdsRatePct)}%</td>
               </tr>
             </tbody>

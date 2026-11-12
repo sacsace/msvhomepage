@@ -1,20 +1,21 @@
 /**
- * 인도 거주 직원 급여 TDS 계산용 간이 계산 (스프레드시트 구조와 동일한 구간·공식).
- * 과세소득 E5 = 연간 총소득 − 표준공제(₹75,000 선택 시).
+ * 인도 거주 직원 급여 TDS — 신세제(New Tax Regime) 참고 계산.
+ * 적용 기준: FY 2025-26 · AY 2026-27
  *
  * 누진 구간(과세소득 기준):
- * - 4,00,001~8,00,000 @ 5% (구간당 최대 ₹20,000)
- * - 8,00,001~12,00,000 @ 10% (최대 ₹40,000)
- * - 12,00,001~16,00,000 @ 15%
- * - 16,00,001~20,00,000 @ 20% — =IF(E5>1600000, MIN(E5-1600000,400000)*20%, 0)
- * - 20,00,001~24,00,000 @ 25% — =IF(E5>2000000, MIN(E5-2000000,400000)*25%, 0)
- * - 24,00,001 초과 @ 30% — =IF(E5>2400000, (E5-2400000)*30%, 0)
+ * - ₹4,00,001~8,00,000 @ 5%
+ * - ₹8,00,001~12,00,000 @ 10%
+ * - ₹12,00,001~16,00,000 @ 15%
+ * - ₹16,00,001~20,00,000 @ 20%
+ * - ₹20,00,001~24,00,000 @ 25%
+ * - ₹24,00,000 초과 @ 30%
  *
- * 서차지 — E5 = Net Taxable Income, E14 = Total Tax(누진 합):
- * =IF(E5>20000000, E14*25%, IF(E5>10000000, E14*15%, IF(E5>5000000, E14*10%, 0)))
- * (INR: 2천만 초과 25%, 1천만 초과 15%, 5백만 초과 10% — 각각 2크로어·1크로어·50라크)
+ * Section 87A (거주자 개인, 신세제):
+ * - 과세소득 ≤ ₹12 lakh → 세액감면 최대 ₹60,000
+ * - 과세소득이 ₹12 lakh를 약간 넘는 경우 한계감면(marginal relief) 적용
  *
- * 교육세(cess) 4%: (소득세 누진 합계 + 서차지) × 4%
+ * 추가세(Surcharge): 과세소득 50 lakh / 1 cr / 2 cr 초과 시 세액의 10% / 15% / 25%
+ * 보건·교육세 4%: (감면 후 소득세 + 추가세) × 4%
  */
 
 export type SlabLine = { label: string; amount: number };
@@ -24,16 +25,22 @@ export type IndiaEmployeeTdsResult = {
   standardDeduction: number;
   netTaxableIncome: number;
   slabLines: SlabLine[];
-  /** (iv) 누진 소득세 합계 — 서차지·cess 제외 */
+  /** 누진 소득세 합계 — 87A·추가세·cess 제외 */
   slabTaxTotal: number;
+  /** Section 87A 세액감면(한계감면 반영 후 차감액) */
+  rebate87A: number;
+  /** 87A·한계감면 반영 후 소득세 */
+  taxAfterRebate: number;
   surcharge: number;
-  /** 교육 cess 4% */
   educationCess: number;
   netTaxYearly: number;
   monthlyTds: number;
-  /** 연 총소득 대비 유효 TDS율 (%) */
   effectiveTdsRatePct: number;
 };
+
+export const NEW_REGIME_STANDARD_DEDUCTION = 75_000;
+export const SECTION_87A_INCOME_LIMIT = 12_00_000;
+export const SECTION_87A_MAX_REBATE = 60_000;
 
 const L = 100_000;
 
@@ -73,35 +80,73 @@ export function computeSlabBreakdown(netTaxable: number): { lines: SlabLine[]; t
     },
   ];
   const total = lines.reduce((s, r) => s + r.amount, 0);
-  return { lines, total: total };
+  return { lines, total };
 }
 
-/** 서차지: Excel 중첩 IF와 동일. E5 = Net Taxable Income, E14 = Total Tax. */
 const SURCHARGE_TWO_CRORE = 20_000_000;
 const SURCHARGE_ONE_CRORE = 10_000_000;
 const SURCHARGE_FIFTY_LAKH = 5_000_000;
 
-export function computeSurcharge(netTaxableE5: number, slabTaxE14: number): number {
+export function computeSurcharge(netTaxableE5: number, taxAfterRebate: number): number {
   const E5 = netTaxableE5;
-  const E14 = slabTaxE14;
-  if (E5 > SURCHARGE_TWO_CRORE) return Math.round(E14 * 0.25);
-  if (E5 > SURCHARGE_ONE_CRORE) return Math.round(E14 * 0.15);
-  if (E5 > SURCHARGE_FIFTY_LAKH) return Math.round(E14 * 0.1);
+  const tax = taxAfterRebate;
+  if (E5 > SURCHARGE_TWO_CRORE) return Math.round(tax * 0.25);
+  if (E5 > SURCHARGE_ONE_CRORE) return Math.round(tax * 0.15);
+  if (E5 > SURCHARGE_FIFTY_LAKH) return Math.round(tax * 0.1);
   return 0;
+}
+
+/**
+ * Section 87A + 한계감면.
+ * 거주자·신세제: TI ≤ 12L → 최대 6만 감면; TI > 12L → 세액이 (TI−12L)을 넘지 않도록 한계감면.
+ */
+export function applySection87ARebate(
+  netTaxable: number,
+  slabTax: number,
+  isResidentIndividual: boolean,
+): { rebate: number; taxAfterRebate: number } {
+  if (!isResidentIndividual || slabTax <= 0) {
+    return { rebate: 0, taxAfterRebate: Math.max(0, slabTax) };
+  }
+
+  const TI = Math.max(0, netTaxable);
+  let taxAfter = slabTax;
+
+  if (TI <= SECTION_87A_INCOME_LIMIT) {
+    const rebate = Math.min(slabTax, SECTION_87A_MAX_REBATE);
+    taxAfter = Math.max(0, slabTax - rebate);
+    return { rebate, taxAfterRebate: taxAfter };
+  }
+
+  const marginalCeiling = TI - SECTION_87A_INCOME_LIMIT;
+  if (slabTax > marginalCeiling) {
+    taxAfter = Math.max(0, marginalCeiling);
+    return { rebate: slabTax - taxAfter, taxAfterRebate: taxAfter };
+  }
+
+  return { rebate: 0, taxAfterRebate: slabTax };
 }
 
 export function computeIndiaEmployeeTds(
   grossAnnualInr: number,
   applyStandardDeduction: boolean,
+  isResidentIndividual = true,
 ): IndiaEmployeeTdsResult {
   const gross = Math.max(0, grossAnnualInr);
-  const standardDeduction = applyStandardDeduction ? 75_000 : 0;
+  const standardDeduction = applyStandardDeduction
+    ? Math.min(NEW_REGIME_STANDARD_DEDUCTION, gross)
+    : 0;
   const netTaxableIncome = Math.max(0, gross - standardDeduction);
 
   const { lines: slabLines, total: slabTaxTotal } = computeSlabBreakdown(netTaxableIncome);
-  const surcharge = computeSurcharge(netTaxableIncome, slabTaxTotal);
-  const educationCess = Math.round((slabTaxTotal + surcharge) * 0.04);
-  const netTaxYearly = slabTaxTotal + surcharge + educationCess;
+  const { rebate: rebate87A, taxAfterRebate } = applySection87ARebate(
+    netTaxableIncome,
+    slabTaxTotal,
+    isResidentIndividual,
+  );
+  const surcharge = computeSurcharge(netTaxableIncome, taxAfterRebate);
+  const educationCess = Math.round((taxAfterRebate + surcharge) * 0.04);
+  const netTaxYearly = taxAfterRebate + surcharge + educationCess;
   const monthlyTds = Math.round(netTaxYearly / 12);
   const effectiveTdsRatePct = gross > 0 ? (netTaxYearly / gross) * 100 : 0;
 
@@ -111,6 +156,8 @@ export function computeIndiaEmployeeTds(
     netTaxableIncome,
     slabLines,
     slabTaxTotal,
+    rebate87A,
+    taxAfterRebate,
     surcharge,
     educationCess,
     netTaxYearly,

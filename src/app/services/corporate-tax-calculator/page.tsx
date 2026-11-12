@@ -25,7 +25,12 @@ export default async function CorporateTaxCalculatorPage() {
 
   return (
     <>
-      <PageHeader title={c.pageHeaderTitle} description={c.pageHeaderDescription} descriptionWide />
+      <PageHeader
+        title={c.pageHeaderTitle}
+        description={c.pageHeaderDescription}
+        asideTitle={c.pageAsideTitle}
+        descriptionWide
+      />
       <StandardPageBody>
         <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
           <h2 className="text-lg font-bold text-msv-navy">{c.sectionRefCalc}</h2>
