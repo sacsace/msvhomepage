@@ -41,7 +41,7 @@ export function ServicesNavDesktop() {
   return (
     <DesktopHoverDropdown
       ariaLabel={ariaSub}
-      panelWidthClass="w-[min(44rem,calc(100vw-2rem))]"
+      panelWidthClass="w-[min(52rem,calc(100vw-2rem))]"
       align="center"
       trigger={
         <Link
@@ -54,21 +54,21 @@ export function ServicesNavDesktop() {
         </Link>
       }
     >
-      <div className="max-h-[min(70vh,32rem)] overflow-y-auto py-1">
-        <div className="grid grid-cols-1 gap-x-6 gap-y-0 px-2 sm:grid-cols-2">
+      <div className="py-1.5">
+        <div className="grid grid-cols-1 gap-x-5 gap-y-1 px-2 sm:grid-cols-2 lg:grid-cols-3">
           {groups.map((g) => (
-            <div key={g.heading} className="min-w-0 pb-2 pt-1">
-              <p className="px-2 pb-1.5 pt-1 text-[10px] font-bold uppercase tracking-[0.12em] text-red-600">
+            <div key={g.heading} className="min-w-0 pb-1.5 pt-0.5">
+              <p className="px-2 pb-1 pt-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-red-600">
                 {g.heading}
               </p>
-              <div className="space-y-0.5">
+              <div className="space-y-0">
                 {g.items.map((item) => {
                   const subActive = isNavActive(pathname, item.href);
                   return (
                     <Link
                       key={item.href}
                       href={withLocalePrefix(item.href, locale)}
-                      className={`block rounded-md px-2 py-1.5 text-[13px] transition ${desktopNavMegaMenuItemClass(subActive)}`}
+                      className={`block rounded-md px-2 py-1 text-[13px] leading-snug transition ${desktopNavMegaMenuItemClass(subActive)}`}
                       aria-current={subActive ? "page" : undefined}
                     >
                       {item.label}
