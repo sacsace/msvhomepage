@@ -192,6 +192,10 @@ const SERVICE_NAV_GROUP_DEFS: readonly NavGroupDef[] = [
         path: "/services/professional-tax-calculator",
         label: { ko: "Professional Tax 계산기", en: "Professional Tax (PT) calculator", zh: "Professional Tax（PT）计算器" },
       },
+      {
+        path: "/services/gratuity-calculator",
+        label: { ko: "퇴직금(Gratuity) 계산기", en: "Gratuity calculator", zh: "退休金（Gratuity）计算器" },
+      },
     ],
   },
   {

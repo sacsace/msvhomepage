@@ -10,14 +10,15 @@ export const complianceCalendar: GuideBundle = {
   ko: {
     metaTitle: "주요 신고·납부 일정 | 인도 컴플라이언스 캘린더",
     metaDescription:
-      "인도 법인 신고·준수 허브 · 월간 운영 달력, FDI/FEMA 거래형 일정, 세무·외환 운영 팁.",
+      "인도 법인 세무·법정 신고·납부 일정과 FDI·FEMA 관련 안내를 월별 달력과 법정 일정표로 확인하세요.",
     pageEyebrow: "컴플라이언스 캘린더",
     pageTitle: "주요 신고·납부 일정",
     pageDescription:
-      "‘언제 무엇을 제출하는지’가 고객 신뢰와 운영 효율에 직결됩니다. 본 페이지는 홈과 동일한 운영 달력과 FDI/FEMA 이벤트 축·운영 팁을 한곳에 묶었습니다.",
+      "인도 법인 운영에 필요한 주요 세무·법정 신고와 납부 일정을 한눈에 확인하세요. 외국인직접투자(FDI)·외환관리법(FEMA) 관련 신고 일정과 실무 안내도 함께 제공합니다.",
     calendarWidgetKicker: "Live",
-    calendarWidgetTitle: "운영 일정 달력",
-    calendarWidgetLead: "등록된 마감(TDS·GST·ECB 등)은 홈과 동일 데이터이며 월간으로 확인하고 아래 법정 일정 표와 병행하면 됩니다.",
+    calendarWidgetTitle: "월별 신고·납부 일정",
+    calendarWidgetLead:
+      "TDS·GST·ECB 등 주요 신고·납부 기한을 월별 달력에서 확인하세요. 항목별 세부 일정은 아래 법정 일정표에서 볼 수 있습니다.",
     disclaimer:
       "연도·법 개정·연장 공고·업종·등록 유형·매출 규모·주(邦)법에 따라 마감이 달라질 수 있습니다. 최종 일정은 공식 공지·거주 세무사(CPA) 등 전문 자문으로 확정하세요.",
     introParagraphs: [

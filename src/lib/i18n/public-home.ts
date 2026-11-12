@@ -574,7 +574,7 @@ export function complianceCalendarUi(locale: SiteLocale) {
     weekKicker: "Week",
     weekSub: en ? "Key dates this week (Mon–Sun)" : "이번 주 주요 일정 (월~일)",
     monthKicker: en ? "Month" : "월간",
-    monthSub: en ? "Key dates this calendar month" : "이번 달 주요 일정 (월~일 달력)",
+    monthSub: en ? "Key dates this calendar month" : "이번 달 주요 일정",
     monthButton: en ? "View Full Calendar" : "한 달 일정 보기",
     prevMonth: en ? "Previous month" : "이전 달",
     nextMonth: en ? "Next month" : "다음 달",

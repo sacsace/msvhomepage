@@ -35,6 +35,7 @@ const STATIC_LABELS: Record<string, { ko: string; en: string; zh: string }> = {
   "/services/personal-income-tax-calculator": { ko: "개인소득세 계산기", en: "Personal tax calculator", zh: "个税计算器" },
   "/services/corporate-tax-calculator": { ko: "법인세 계산기", en: "Corporate tax calculator", zh: "企业所得税计算器" },
   "/services/professional-tax-calculator": { ko: "프로페셔널 세 계산기", en: "Professional tax calculator", zh: "职业税计算器" },
+  "/services/gratuity-calculator": { ko: "퇴직금 계산기", en: "Gratuity calculator", zh: "退休金计算器" },
   "/services/india-accounting-glossary": { ko: "회계 용어집", en: "Accounting glossary", zh: "会计术语" },
 };
 

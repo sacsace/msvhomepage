@@ -61,6 +61,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/services/personal-income-tax-calculator", changeFrequency: "monthly", priority: 0.72 },
     { path: "/services/corporate-tax-calculator", changeFrequency: "monthly", priority: 0.72 },
     { path: "/services/professional-tax-calculator", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/services/gratuity-calculator", changeFrequency: "monthly", priority: 0.7 },
     { path: "/services/india-accounting-glossary", changeFrequency: "monthly", priority: 0.72 },
     ...SERVICE_GUIDE_SLUGS.map((slug) => ({
       path: `/services/${slug}`,
