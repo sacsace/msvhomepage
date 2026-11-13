@@ -9,6 +9,7 @@ import {
   DEFAULT_GRATUITY_EXCLUDED_CAP_RATIO,
   DEFAULT_GRATUITY_STATUTORY_DAYS,
   roundGratuityInr,
+  yearsOfServiceFromIsoDates,
   type GratuitySalaryComponent,
 } from "@/lib/india-gratuity";
 import {
@@ -51,7 +52,10 @@ export function GratuityCalculator({ locale }: { locale: SiteLocale }) {
       label: defaultComponentLabel(locale, c.id),
     }));
   });
-  const [yearsStr, setYearsStr] = useState("1");
+  const [joinDate, setJoinDate] = useState("");
+  const [exitDate, setExitDate] = useState("");
+  const [manualYears, setManualYears] = useState(false);
+  const [yearsStr, setYearsStr] = useState("");
   const [statutoryDaysStr, setStatutoryDaysStr] = useState(String(DEFAULT_GRATUITY_STATUTORY_DAYS));
   const [daysPerYearStr, setDaysPerYearStr] = useState(String(DEFAULT_GRATUITY_DAYS_PER_YEAR));
   const [ceilingStr, setCeilingStr] = useState(String(DEFAULT_GRATUITY_CEILING_INR));
@@ -59,10 +63,18 @@ export function GratuityCalculator({ locale }: { locale: SiteLocale }) {
     String(DEFAULT_GRATUITY_EXCLUDED_CAP_RATIO * 100),
   );
 
+  const yearsFromDates = useMemo(
+    () => yearsOfServiceFromIsoDates(joinDate, exitDate),
+    [joinDate, exitDate],
+  );
+
   const years = useMemo(() => {
+    if (!manualYears) {
+      return yearsFromDates != null ? yearsFromDates : NaN;
+    }
     const n = Number(String(yearsStr).replace(/[, ]/g, ""));
     return Number.isFinite(n) && n >= 0 ? n : NaN;
-  }, [yearsStr]);
+  }, [manualYears, yearsFromDates, yearsStr]);
 
   const result = useMemo(() => {
     if (!Number.isFinite(years)) return null;
@@ -178,22 +190,65 @@ export function GratuityCalculator({ locale }: { locale: SiteLocale }) {
 
         <section className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4 sm:p-5">
           <h3 className="text-base font-bold tracking-tight text-msv-navy">{t.sectionService}</h3>
-          <div className="mt-3">
-            <label className="block max-w-[12rem]">
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <label className="block">
+              <span className="text-sm font-medium text-slate-700">{t.fieldJoinDate}</span>
+              <input
+                type="date"
+                value={joinDate}
+                onChange={(e) => setJoinDate(e.target.value)}
+                className={fieldInput}
+                {...antiExtensionInputProps}
+              />
+            </label>
+            <label className="block">
+              <span className="text-sm font-medium text-slate-700">{t.fieldExitDate}</span>
+              <input
+                type="date"
+                value={exitDate}
+                min={joinDate || undefined}
+                onChange={(e) => setExitDate(e.target.value)}
+                className={fieldInput}
+                {...antiExtensionInputProps}
+              />
+            </label>
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-end gap-4">
+            <label className="block min-w-[10rem] max-w-[14rem]">
               <span className="text-sm font-medium text-slate-700">{t.fieldYears}</span>
               <input
                 type="text"
                 inputMode="decimal"
-                value={yearsStr}
-                onChange={(e) => setYearsStr(e.target.value)}
-                className={`${fieldInput} tabular-nums`}
+                value={manualYears ? yearsStr : yearsFromDates != null ? String(yearsFromDates) : ""}
+                onChange={(e) => {
+                  if (!manualYears) return;
+                  setYearsStr(e.target.value);
+                }}
+                readOnly={!manualYears}
+                className={`${fieldInput} tabular-nums ${manualYears ? "" : "bg-slate-100 text-slate-700"}`}
                 {...antiExtensionInputProps}
               />
+              {!manualYears && yearsFromDates != null ? (
+                <span className="mt-1 block text-[11px] text-slate-500">{t.yearsFromDatesLabel}</span>
+              ) : null}
             </label>
-            <p className="mt-1.5 whitespace-pre-line text-xs leading-relaxed text-slate-500">
-              {t.yearsHint}
-            </p>
+            <label className="inline-flex cursor-pointer items-center gap-2 pb-2 text-sm text-slate-700">
+              <input
+                type="checkbox"
+                checked={manualYears}
+                onChange={(e) => {
+                  const on = e.target.checked;
+                  setManualYears(on);
+                  if (on && yearsFromDates != null) setYearsStr(String(yearsFromDates));
+                }}
+                className="h-4 w-4 rounded border-slate-300 text-msv-navy focus:ring-msv-blue/30"
+              />
+              {t.manualYearsToggle}
+            </label>
           </div>
+
+          <p className="mt-2 whitespace-pre-line text-xs leading-relaxed text-slate-500">{t.yearsHint}</p>
         </section>
 
         <section>

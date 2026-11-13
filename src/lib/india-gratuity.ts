@@ -96,3 +96,48 @@ export function roundGratuityInr(n: number): number {
   if (!Number.isFinite(n) || n <= 0) return 0;
   return Math.round(n);
 }
+
+/** `YYYY-MM-DD` → 로컬 자정 Date (유효하지 않으면 null) */
+export function parseIsoDateLocal(iso: string): Date | null {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso.trim());
+  if (!m) return null;
+  const y = Number(m[1]);
+  const mo = Number(m[2]);
+  const d = Number(m[3]);
+  const dt = new Date(y, mo - 1, d);
+  if (dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return null;
+  return dt;
+}
+
+/**
+ * 입사일·퇴사일(또는 산정기준일)로 적용 근속연수 산출.
+ * 완성 연수 후 잔여기간이 6개월을 초과하면 1년을 가산합니다.
+ */
+export function yearsOfServiceFromDates(joinDate: Date, exitDate: Date): number {
+  if (exitDate.getTime() < joinDate.getTime()) return 0;
+
+  let years = exitDate.getFullYear() - joinDate.getFullYear();
+  let months = exitDate.getMonth() - joinDate.getMonth();
+  let days = exitDate.getDate() - joinDate.getDate();
+
+  if (days < 0) months -= 1;
+  if (months < 0) {
+    years -= 1;
+    months += 12;
+  }
+
+  // 잔여가 6개월을 초과하면 +1년 (정확히 6개월이면 가산하지 않음)
+  if (months > 6 || (months === 6 && days > 0)) {
+    years += 1;
+  }
+
+  return Math.max(0, years);
+}
+
+/** ISO 날짜 문자열로 근속연수 산출 (실패 시 null) */
+export function yearsOfServiceFromIsoDates(joinIso: string, exitIso: string): number | null {
+  const join = parseIsoDateLocal(joinIso);
+  const exit = parseIsoDateLocal(exitIso);
+  if (!join || !exit) return null;
+  return yearsOfServiceFromDates(join, exit);
+}

@@ -26,8 +26,12 @@ export type GratuityCalculatorCopy = {
   labelHra: string;
   labelOther: string;
   sectionService: string;
+  fieldJoinDate: string;
+  fieldExitDate: string;
   fieldYears: string;
   yearsHint: string;
+  yearsFromDatesLabel: string;
+  manualYearsToggle: string;
   sectionRules: string;
   fieldStatutoryDays: string;
   fieldDaysPerYear: string;
@@ -75,9 +79,13 @@ const ko: GratuityCalculatorCopy = {
   labelHra: "HRA",
   labelOther: "Other",
   sectionService: "근속연수",
+  fieldJoinDate: "입사일",
+  fieldExitDate: "퇴사일",
   fieldYears: "적용 근속연수",
   yearsHint:
-    "일반 직원은 완성된 근속연수에 잔여기간이 6개월을 초과하면 1년을 더합니다.\n기간제 직원(FTE) 등 비례 계산 대상은 실제 근속기간에 해당하는 연수를 입력하세요.",
+    "입사일과 퇴사일을 입력하면 근속연수를 자동으로 산출합니다.\n완성된 근속연수에 잔여기간이 6개월을 초과하면 1년을 더합니다.\n기간제 직원(FTE) 등 비례 계산이 필요하면 「직접 입력」을 선택하세요.\n지급 자격 판단은 근속연수 산출과 별개입니다.",
+  yearsFromDatesLabel: "날짜 기준 산출",
+  manualYearsToggle: "직접 입력",
   sectionRules: "산정 기준",
   fieldStatutoryDays: "환산일수",
   fieldDaysPerYear: "근속 1년당 지급일수",
@@ -95,7 +103,7 @@ const ko: GratuityCalculatorCopy = {
   labelPayable: "예상 퇴직금",
   formulaNote: "퇴직금 산정 기준 월급여 ÷ 환산일수 × 근속 1년당 지급일수 × 근속연수",
   ceilingApplied: "법정 상한 적용",
-  emptyHint: "급여와 근속연수를 입력하세요.",
+  emptyHint: "급여와 입사일·퇴사일(또는 근속연수)을 입력하세요.",
 };
 
 const en: GratuityCalculatorCopy = {
@@ -126,9 +134,13 @@ const en: GratuityCalculatorCopy = {
   labelHra: "HRA",
   labelOther: "Other",
   sectionService: "Years of service",
+  fieldJoinDate: "Date of joining",
+  fieldExitDate: "Date of resignation / exit",
   fieldYears: "Years of service applied",
   yearsHint:
-    "For regular employees, add one year when the remaining period after completed years exceeds six months.\nFor fixed-term employees (FTE) and other pro-rata cases, enter the years corresponding to actual service.",
+    "Enter joining and exit dates to calculate years of service automatically.\nAdd one year when the remaining period after completed years exceeds six months.\nFor fixed-term (FTE) or pro-rata cases, choose Manual entry.\nEligibility is assessed separately from this year count.",
+  yearsFromDatesLabel: "Calculated from dates",
+  manualYearsToggle: "Manual entry",
   sectionRules: "Assumptions",
   fieldStatutoryDays: "Divisor days",
   fieldDaysPerYear: "Days per year of service",
@@ -146,7 +158,7 @@ const en: GratuityCalculatorCopy = {
   labelPayable: "Estimated gratuity",
   formulaNote: "Monthly wages for gratuity ÷ divisor × days per year × years of service",
   ceilingApplied: "Statutory ceiling applied",
-  emptyHint: "Enter pay and years of service.",
+  emptyHint: "Enter pay and joining/exit dates (or years of service).",
 };
 
 const zh: GratuityCalculatorCopy = {
@@ -175,9 +187,13 @@ const zh: GratuityCalculatorCopy = {
   labelHra: "HRA",
   labelOther: "Other",
   sectionService: "服务年限",
+  fieldJoinDate: "入职日",
+  fieldExitDate: "离职日",
   fieldYears: "适用服务年限",
   yearsHint:
-    "一般员工在已完成的服务年限之外，剩余期间超过六个月时再加一年。\n固定期限员工（FTE）等按比例计算的对象，请输入与实际服务期间对应的年数。",
+    "输入入职日与离职日后将自动计算服务年限。\n已完成年限之外的剩余期间超过六个月时再加一年。\n固定期限（FTE）等需按比例计算时，请选择「手动输入」。\n领取资格与年限计算分开判断。",
+  yearsFromDatesLabel: "按日期计算",
+  manualYearsToggle: "手动输入",
   sectionRules: "算定基准",
   fieldStatutoryDays: "换算日数",
   fieldDaysPerYear: "每服务年支付日数",
@@ -194,7 +210,7 @@ const zh: GratuityCalculatorCopy = {
   labelPayable: "预计退休金",
   formulaNote: "退休金算定基准月薪 ÷ 换算日数 × 每服务年支付日数 × 服务年限",
   ceilingApplied: "已适用法定上限",
-  emptyHint: "请输入工资与服务年限。",
+  emptyHint: "请输入工资与入职/离职日（或服务年限）。",
 };
 
 export function gratuityCalculatorCopy(locale: SiteLocale): GratuityCalculatorCopy {
