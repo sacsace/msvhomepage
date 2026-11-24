@@ -89,6 +89,10 @@ export function buildSiteMegaMenuColumns(locale: SiteLocale): MegaMenuColumn[] {
       }),
     },
     {
+      href: withLocalePrefix("/software/ics", locale),
+      label: "India Company Search (ICS)",
+    },
+    {
       href: withLocalePrefix("/software/wisc", locale),
       label: "WISC",
     },

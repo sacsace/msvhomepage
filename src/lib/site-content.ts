@@ -266,6 +266,7 @@ export const teamGreetingLead =
 
 /** Website Information & Security Checker (WISC) */
 export const WISC_PRODUCT_SITE_URL = "https://wisc.mvsystem.in" as const;
+export const ICS_PRODUCT_SITE_URL = "https://ics.mvsystem.in" as const;
 
 /** Software 상위 페이지 (`/software`) */
 /** @deprecated 본문·메타는 `softwareLandingCopy` (`@/lib/i18n/software-landing-locale`) 사용 */

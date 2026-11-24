@@ -16,6 +16,7 @@ const subKo = [
   { href: "/software/mvs", label: "업무 통합 시스템 (MVS)" },
   { href: "/software/herenow", label: "출퇴근 기록 시스템 (HeresNow)" },
   { href: "/software/payroll-mailer", label: "급여 명세서 이메일 발송 시스템" },
+  { href: "/software/ics", label: "India Company Search (ICS)" },
   { href: "/software/wisc", label: "Website Information & Security Checker" },
 ] as const;
 
@@ -23,6 +24,7 @@ const subEn = [
   { href: "/software/mvs", label: "Integrated Business System (MVS)" },
   { href: "/software/herenow", label: "Attendance (HeresNow)" },
   { href: "/software/payroll-mailer", label: "Payroll payslip email" },
+  { href: "/software/ics", label: "India Company Search (ICS)" },
   { href: "/software/wisc", label: "Website Information & Security Checker" },
 ] as const;
 
@@ -30,6 +32,7 @@ const subZh = [
   { href: "/software/mvs", label: "业务集成系统（MVS）" },
   { href: "/software/herenow", label: "考勤系统（HeresNow）" },
   { href: "/software/payroll-mailer", label: "工资单邮件发送" },
+  { href: "/software/ics", label: "India Company Search (ICS)" },
   { href: "/software/wisc", label: "Website Information & Security Checker" },
 ] as const;
 

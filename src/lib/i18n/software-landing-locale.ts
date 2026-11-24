@@ -67,13 +67,13 @@ const webSitesZh: readonly SoftwareWebSite[] = [
 
 const ko: SoftwareLandingCopy = {
   metaTitle: "소프트웨어",
-  metaDescription: `${company.shortName} 소프트웨어 — MVS·HeresNow·급여 메일·WISC, SI(솔루션·SaaS·CRM), 웹사이트 개발`,
+  metaDescription: `${company.shortName} 소프트웨어 — MVS·HeresNow·급여 메일·ICS·WISC, SI(솔루션·SaaS·CRM), 웹사이트 개발`,
   pageTitle: "소프트웨어",
   pageDescription:
-    "회계·세무·현장 실행을 뒷받침하는 업무 관리 시스템과 실무 지원 도구, SI·웹사이트 개발을 소개합니다. 업무 통합 시스템(MVS), 출퇴근 기록(HeresNow), 급여 명세서 이메일, WISC, 맞춤 SI(솔루션·SaaS·CRM), 웹사이트 구축 사례를 확인하세요.",
+    "회계·세무·현장 실행을 뒷받침하는 업무 관리 시스템과 실무 지원 도구, SI·웹사이트 개발을 소개합니다. 업무 통합 시스템(MVS), 출퇴근 기록(HeresNow), 급여 명세서 이메일, India Company Search(ICS), WISC, 맞춤 SI(솔루션·SaaS·CRM), 웹사이트 구축 사례를 확인하세요.",
   productsEyebrow: "Products",
   productsTitle: "운영 소프트웨어",
-  productsLead: "법인 운영·근태·급여·보안 점검을 위한 제품·도구입니다.",
+  productsLead: "법인 운영·근태·급여·법인 검색·보안 점검을 위한 제품·도구입니다.",
   cards: [
     {
       href: "/software/mvs",
@@ -89,6 +89,11 @@ const ko: SoftwareLandingCopy = {
       href: "/software/payroll-mailer",
       title: "급여 명세서 이메일 발송 시스템",
       desc: "엑셀 급여표를 업로드해 직원별 HTML 메일과 PDF 명세를 발송합니다. 발송 처리 과정에서 사이트 DB에는 급여 원본을 저장하지 않습니다.",
+    },
+    {
+      href: "/software/ics",
+      title: "India Company Search (ICS)",
+      desc: "인도 회사명 또는 CIN으로 법인을 검색하고, 매칭 목록·요약 보고서·댓글·평가를 확인합니다. ics.mvsystem.in",
     },
     {
       href: "/software/wisc",
@@ -126,13 +131,13 @@ const ko: SoftwareLandingCopy = {
 
 const en: SoftwareLandingCopy = {
   metaTitle: "Software",
-  metaDescription: `${company.shortName} software — MVS, HeresNow, payroll mailer, WISC, SI (solution / SaaS / CRM), and website development.`,
+  metaDescription: `${company.shortName} software — MVS, HeresNow, payroll mailer, ICS, WISC, SI (solution / SaaS / CRM), and website development.`,
   pageTitle: "Software",
   pageDescription:
-    "Software lines and SI / website work that support accounting, tax and on-the-ground execution — MVS, HeresNow, payroll mailer, WISC, custom SI (solution, SaaS, CRM), and selected websites.",
+    "Software lines and SI / website work that support accounting, tax and on-the-ground execution — MVS, HeresNow, payroll mailer, India Company Search (ICS), WISC, custom SI (solution, SaaS, CRM), and selected websites.",
   productsEyebrow: "Products",
   productsTitle: "Operations software",
-  productsLead: "Products and tools for entity operations, attendance, payroll and site security checks.",
+  productsLead: "Products and tools for entity operations, attendance, payroll, company search and site security checks.",
   cards: [
     {
       href: "/software/mvs",
@@ -148,6 +153,11 @@ const en: SoftwareLandingCopy = {
       href: "/software/payroll-mailer",
       title: "Payroll payslip email",
       desc: "Upload an Excel payroll sheet to send HTML email and PDF payslips per employee. Processed in browser/request memory only — not stored in the site database.",
+    },
+    {
+      href: "/software/ics",
+      title: "India Company Search (ICS)",
+      desc: "Search Indian companies by name or CIN, then review matching results, summary reports, comments and ratings. ics.mvsystem.in",
     },
     {
       href: "/software/wisc",
@@ -185,13 +195,13 @@ const en: SoftwareLandingCopy = {
 
 const zh: SoftwareLandingCopy = {
   metaTitle: "软件",
-  metaDescription: `${company.shortName} 软件 — MVS、HeresNow、工资单邮件、WISC、SI（解决方案 / SaaS / CRM）与网站建设。`,
+  metaDescription: `${company.shortName} 软件 — MVS、HeresNow、工资单邮件、ICS、WISC、SI（解决方案 / SaaS / CRM）与网站建设。`,
   pageTitle: "软件",
   pageDescription:
-    "介绍支撑会计、税务与现场执行的软件线及 SI、网站建设 — MVS、HeresNow、工资单邮件、WISC、定制 SI（解决方案、SaaS、CRM）与精选网站案例。",
+    "介绍支撑会计、税务与现场执行的软件线及 SI、网站建设 — MVS、HeresNow、工资单邮件、India Company Search（ICS）、WISC、定制 SI（解决方案、SaaS、CRM）与精选网站案例。",
   productsEyebrow: "Products",
   productsTitle: "运营软件",
-  productsLead: "面向法人运营、考勤、薪酬与站点安全检测的产品与工具。",
+  productsLead: "面向法人运营、考勤、薪酬、公司检索与站点安全检测的产品与工具。",
   cards: [
     {
       href: "/software/mvs",
@@ -207,6 +217,11 @@ const zh: SoftwareLandingCopy = {
       href: "/software/payroll-mailer",
       title: "工资单邮件发送",
       desc: "上传 Excel 工资表，按员工发送 HTML 邮件与 PDF 工资单。仅在浏览器/请求内存处理，不写入站点数据库。",
+    },
+    {
+      href: "/software/ics",
+      title: "India Company Search (ICS)",
+      desc: "按印度公司名称或 CIN 检索法人，并查看匹配列表、摘要报告、评论与评价。ics.mvsystem.in",
     },
     {
       href: "/software/wisc",
